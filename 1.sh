@@ -3,7 +3,7 @@
 #-------samba----------
 #
 #
-#bash <(curl -L christitus.com/archtitus)
+bash <(curl -L christitus.com/archtitus)
 #
 #
 #
