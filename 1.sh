@@ -18,7 +18,7 @@ for drive in /dev/sr*; do
         done
         sudo umount -f "$drive"
         echo "Ejecting $drive..."
-        echo "test 5"
+        echo "test 6"
         eject -f "$drive"
     fi
 done
