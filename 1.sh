@@ -12,7 +12,7 @@
 #for drive in /dev/sr*; do
  #   if [ -b "$drive" ]; then
   #      echo "Ejecting $drive..."
-        echo test
+        echo "test"
     #    eject -f "$drive"
     #fi
 #done
