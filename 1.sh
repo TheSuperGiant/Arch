@@ -16,6 +16,7 @@ for drive in /dev/sr*; do
         mount | grep "$drive" | awk '{print $3}' | while read mount_point; do
             sudo umount "$mount_point"
         done
+        sudo umount -f "$drive"
         echo "Ejecting $drive..."
         echo "test 5"
         eject -f "$drive"
