@@ -11,8 +11,9 @@
 #
 for drive in /dev/sr*; do
     if [ -b "$drive" ]; then
+        sudo umount "$drive"
         echo "Ejecting $drive..."
-        echo "test"
+        echo "test 2"
         eject -f "$drive"
     fi
 done
