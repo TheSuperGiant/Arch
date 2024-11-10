@@ -11,9 +11,10 @@
 #
 for drive in /dev/sr*; do
     if [ -b "$drive" ]; then
+        sudo fuser -km "$drive"
         sudo umount "$drive"
         echo "Ejecting $drive..."
-        echo "test 2"
+        echo "test 3"
         eject -f "$drive"
     fi
 done
