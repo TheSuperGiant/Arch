@@ -1,7 +1,3 @@
-echo "test 1"
-
-curl -fsSL https://christitus.com/linux | sh
-
 sudo mkdir /mnt/Data
 sudo mkdir /mnt/Games
 mkdir -p ~/.config/autostart
@@ -107,3 +103,10 @@ gsettings set org.cinnamon.desktop.wm.preferences titlebar-font "$font"
 
 
 gsettings set org.cinnamon.desktop.interface cursor-size 36
+
+
+
+curl -fsSL https://christitus.com/linux | sh
+
+
+echo "test 2"
