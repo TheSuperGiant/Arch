@@ -111,4 +111,4 @@ gsettings set org.cinnamon.desktop.interface cursor-size 36
 
 
 
-echo "test 4"
+echo "test 5"
