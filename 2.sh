@@ -1,6 +1,3 @@
-curl -fsSL https://christitus.com/linux | sh
-
-
 #sudo mkdir /mnt/Data
 #sudo mkdir /mnt/Games
 #sudo mkdir $HOME/Scripts
@@ -120,4 +117,7 @@ sudo pacman -S --noconfirm wine
 paru -S notepad++ --noconfirm
 
 
-echo "test 6"
+curl -fsSL https://christitus.com/linux | sh
+
+
+echo "test 7"
