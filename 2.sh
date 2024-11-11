@@ -117,7 +117,4 @@ sudo pacman -S --noconfirm wine
 paru -S notepad++ --noconfirm
 
 
-curl -fsSL https://christitus.com/linux | sh
-
-
-echo "test 7"
+echo "test 8"
