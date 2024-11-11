@@ -1,3 +1,6 @@
+curl -fsSL https://christitus.com/linux | sh
+
+
 #sudo mkdir /mnt/Data
 #sudo mkdir /mnt/Games
 #sudo mkdir $HOME/Scripts
@@ -12,10 +15,7 @@ sudo chown $USER:$USER $HOME/Scripts
 
 startup_script_file_location="$HOME/Scripts/startup_script.sh"
 
-echo -e "for LABEL in Data Games; do
-\t	UUID=$(blkid -o value -s UUID /dev/disk/by-label/$LABEL)
-\t	mount UUID="$UUID" "/mnt/$LABEL"
-done" > $startup_script_file_location
+echo -e "" > $startup_script_file_location
 
 echo "[Desktop Entry]
 Type=Application
@@ -29,6 +29,11 @@ Comment=Runs my startup script at login" > ~/.config/autostart/startup_script.de
 echo "$USER ALL=(ALL) NOPASSWD: $HOME/Scripts/*" | sudo tee -a /etc/sudoers
 
 chmod +x $startup_script_file_location
+
+for LABEL in Data Games; do
+	sudo bash -c "echo \"LABEL=$LABEL /mnt/$LABEL ext4 defaults,nofail 0 2\" >> /etc/fstab"
+done
+
 
 echo yes | sudo pacman -S gnome-terminal
 
@@ -117,4 +122,4 @@ sudo pacman -S --noconfirm wine
 paru -S notepad++ --noconfirm
 
 
-echo "test 8"
+echo "test 10"
