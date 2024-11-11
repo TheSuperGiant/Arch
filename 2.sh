@@ -1,9 +1,12 @@
 curl -fsSL https://christitus.com/linux | sh
 
 
-sudo mkdir /mnt/Data
-sudo mkdir /mnt/Games
-sudo mkdir $HOME/Scripts
+#sudo mkdir /mnt/Data
+#sudo mkdir /mnt/Games
+#sudo mkdir $HOME/Scripts
+sudo mkdir -p /mnt/Data
+sudo mkdir -p /mnt/Games
+sudo mkdir -p $HOME/Scripts
 mkdir -p ~/.config/autostart
 
 sudo chown $USER:$USER /mnt/Data
@@ -11,6 +14,11 @@ sudo chown $USER:$USER /mnt/Data
 sudo chown $USER:$USER $HOME/Scripts
 
 startup_script_file_location="$HOME/Scripts/startup_script.sh"
+
+echo -e "for LABEL in Data Games; do
+\t	UUID=$(blkid -o value -s UUID /dev/disk/by-label/$LABEL)
+\t	mount UUID="$UUID" "/mnt/$LABEL"
+done" > $startup_script_file_location
 
 echo "[Desktop Entry]
 Type=Application
@@ -25,6 +33,7 @@ echo "$USER ALL=(ALL) NOPASSWD: $HOME/Scripts/*" | sudo tee -a /etc/sudoers
 
 chmod +x $startup_script_file_location
 
+echo yes | sudo pacman -S gnome-terminal
 
 #themes
 theme='Windows-10-Dark'
@@ -33,17 +42,12 @@ git clone https://github.com/B00merang-Project/"$theme".git
 sudo mkdir -p /usr/share/themes/
 sudo cp -r "$theme" /usr/share/themes/
 
-#these settings maby later in script
 #Applications
 gsettings set org.cinnamon.desktop.interface gtk-theme "$theme"
 #Desktop
 dconf write /org/cinnamon/theme/name "'$theme'"
 #mouse pointer
 gsettings set org.cinnamon.desktop.interface cursor-theme 'Adwaita'
-
-#maby needed if it doenst take it direclty
-#sudo reboot
-
 
 #clock
 dconf write /org/cinnamon/desktop/interface/clock-show-date false
@@ -109,6 +113,11 @@ gsettings set org.cinnamon.desktop.wm.preferences titlebar-font "$font"
 
 gsettings set org.cinnamon.desktop.interface cursor-size 36
 
+sudo pacman -Syu
+#paru -S yay --noconfirm
+paru -S notepadqq --noconfirm
+sudo pacman -S --noconfirm wine
+paru -S notepad++ --noconfirm
 
 
-echo "test 5"
+echo "test 6"
