@@ -1,9 +1,14 @@
+curl -fsSL https://christitus.com/linux | sh
+
+
 sudo mkdir /mnt/Data
 sudo mkdir /mnt/Games
+sudo mkdir $HOME/Scripts
 mkdir -p ~/.config/autostart
 
 sudo chown $USER:$USER /mnt/Data
-sudo chown $USER:$USER /mnt/Games
+sudo chown $USER:$USER /mnt/Data
+sudo chown $USER:$USER $HOME/Scripts
 
 startup_script_file_location="$HOME/Scripts/startup_script.sh"
 
@@ -106,7 +111,4 @@ gsettings set org.cinnamon.desktop.interface cursor-size 36
 
 
 
-curl -fsSL https://christitus.com/linux | sh
-
-
-echo "test 2"
+echo "test 4"
