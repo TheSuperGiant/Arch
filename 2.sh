@@ -152,6 +152,6 @@ done
 teamviewer --daemon start
 
 
-echo "test 12"
+echo "test 12-2"
 
-reboot
+#reboot
