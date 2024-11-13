@@ -1,9 +1,6 @@
 curl -fsSL https://christitus.com/linux | sh
 
 
-#sudo mkdir /mnt/Data
-#sudo mkdir /mnt/Games
-#sudo mkdir $HOME/Scripts
 sudo mkdir -p /mnt/Data
 sudo mkdir -p /mnt/Games
 sudo mkdir -p $HOME/Scripts
@@ -46,6 +43,7 @@ sudo cp -r "$theme" /usr/share/themes/
 
 #Applications
 gsettings set org.cinnamon.desktop.interface gtk-theme "$theme"
+sudo pacman -S --noconfirm adwaita-icon-theme
 #Desktop
 dconf write /org/cinnamon/theme/name "'$theme'"
 #mouse pointer
@@ -115,11 +113,43 @@ gsettings set org.cinnamon.desktop.wm.preferences titlebar-font "$font"
 
 gsettings set org.cinnamon.desktop.interface cursor-size 36
 
-sudo pacman -Syu
+sudo pacman -Syu --noconfirm
 #paru -S yay --noconfirm
-paru -S notepadqq --noconfirm
-sudo pacman -S --noconfirm wine
-paru -S notepad++ --noconfirm
+#paru -S notepadqq --noconfirm
+#sudo pacman -S --noconfirm wine
+#paru -S notepad++ --noconfirm
+#librewolf wire
+
+#programs
+#mega
+wget https://mega.nz/linux/repo/Arch_Extra/x86_64/megasync-x86_64.pkg.tar.zst && sudo pacman -U --noconfirm "$PWD/megasync-x86_64.pkg.tar.zst"
+
+#games
+#?wine-mono?
+#echo 1 | paru -S --noconfirm minecraft-launcher
+#heroic-games-launcher-bin #epicgames launcher unofficial
+#paradox-launcher
+
+#browsers
+#brave
+#firefox
+#google-chrome
+#librewolf-bin
+#opera
+
+#testing by hand
+#paru -S --noconfirm nvidia
 
 
-echo "test 10"
+for PROGRAM in wine firefox obs-studio steam; do
+	sudo pacman -S --noconfirm $PROGRAM
+done
+
+for PROGRAM in 7-zip-full anydesk-bin audacity biglybt bleachbit brave calibre discord dropbox filezilla gimp google-chrome handbrake heroic-games-launcher-bin jitsi-meet-desktop-bin keepass libreoffice librewolf-bin notepadqq notepad++ opera paradox-launcher pcloud-drive peazip pidgin scrcpy session-desktop-bin signal-desktop teamviewer vlc wire-desktop; do
+	paru -S $PROGRAM --noconfirm
+done
+
+teamviewer --daemon start
+
+
+echo "test 11"
