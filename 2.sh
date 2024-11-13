@@ -126,7 +126,7 @@ wget https://mega.nz/linux/repo/Arch_Extra/x86_64/megasync-x86_64.pkg.tar.zst &&
 
 #games
 #?wine-mono?
-#echo 1 | paru -S --noconfirm minecraft-launcher
+echo 1 | paru -S --noconfirm minecraft-launcher
 #heroic-games-launcher-bin #epicgames launcher unofficial
 #paradox-launcher
 
@@ -152,4 +152,6 @@ done
 teamviewer --daemon start
 
 
-echo "test 11"
+echo "test 12"
+
+reboot
