@@ -1,14 +1,85 @@
 curl -fsSL https://christitus.com/linux | sh
 
+LIGHTDM_CONF="/etc/lightdm/lightdm.conf"
 
-sudo mkdir -p /mnt/Data
-sudo mkdir -p /mnt/Games
-sudo mkdir -p $HOME/Scripts
-mkdir -p ~/.config/autostart
+add_alias() {
+    alias_name=$1
+    alias_command=$2
+	if ! grep -q "^alias $alias_name" ~/.bashrc; then
+		echo "alias $alias_name=\"$alias_command\"" >> ~/.bashrc
+		alias "$alias_name=$alias_command"
+		echo "Alias '$alias_name' added and saved to ~/.bashrc."
+	fi
+}
+add_device_label() {
+	if ! sudo grep -q "LABEL=$1" /etc/fstab; then
+		sudo bash -c "echo \"LABEL=$1 /mnt/$1 ext4 defaults,nofail 0 2\" >> /etc/fstab"
+	fi
+}
+add_function() {
+    func_name=$1
+    func_body=$2
+	if ! grep -q "^function $func_name" ~/.bashrc; then
+		echo -e "function $func_name {\n\t$func_body\n}" >> ~/.bashrc
+		eval "$func_name() {
+			$func_body
+		}"
+		echo "Function '$func_name' added and is now available."
+	fi
+}
+add_lightdm() {
+	if [[ -n "$2" && -z "$3" ]]; then
+		local third="$2"
+	else
+		local third="$3"
+	fi
+	if [ "$1" == "e" ]; then
+		if ! grep -q "^$third" "$LIGHTDM_CONF"; then
+			echo -e "\n$2" | sudo tee -a "$LIGHTDM_CONF"
+		fi
+	else
+		if ! grep -q "^$1" "$LIGHTDM_CONF"; then
+			sudo sed -i "$2 $1" "$LIGHTDM_CONF"
+		fi
+	fi
+}
+add_sudo() {
+	if ! sudo grep -q "$1" /etc/sudoers; then
+		echo "$1" | sudo tee -a /etc/sudoers
+	fi
+}
 
-sudo chown $USER:$USER /mnt/Data
-sudo chown $USER:$USER /mnt/Data
-sudo chown $USER:$USER $HOME/Scripts
+
+add_alias md "mkdir -p \$1"
+add_alias mds "sudo mkdir -p \$1"
+add_function mdr "sudo mkdir -p \$1
+	sudo chown \$USER:\$USER \$1"
+#add_function mdg "sudo mkdir -p \$1
+	#sudo chown \$USER:\$USER \$1"
+#add_function mdsg "sudo mkdir -p \$1
+	#sudo chown \$USER:\$USER \$1"
+#add_function mdrg "sudo mkdir -p \$1
+	#sudo chown \$USER:\$USER \$1"
+
+
+sudo pacman -Syu --noconfirm
+
+ 
+add_sudo "$USER ALL=(ALL) NOPASSWD: /usr/bin/reboot, /usr/bin/shutdown, /usr/bin/poweroff"
+
+mdr /mnt/Data
+mdr /mnt/Games
+mdr $HOME/Scripts
+mdr ~/.config/autostart
+
+#sudo mkdir -p /mnt/Data
+#sudo mkdir -p /mnt/Games
+#sudo mkdir -p $HOME/Scripts
+#mkdir -p ~/.config/autostart
+
+#sudo chown $USER:$USER /mnt/Data
+#sudo chown $USER:$USER /mnt/Data
+#sudo chown $USER:$USER $HOME/Scripts
 
 startup_script_file_location="$HOME/Scripts/startup_script.sh"
 
@@ -23,27 +94,30 @@ X-GNOME-Autostart-enabled=true
 Name=My Startup Script
 Comment=Runs my startup script at login" > ~/.config/autostart/startup_script.desktop
 
-echo "$USER ALL=(ALL) NOPASSWD: $HOME/Scripts/*" | sudo tee -a /etc/sudoers
+add_sudo "$USER ALL=(ALL) NOPASSWD: $HOME/Scripts/*"
 
 chmod +x $startup_script_file_location
 
-for LABEL in Data Games; do
-	sudo bash -c "echo \"LABEL=$LABEL /mnt/$LABEL ext4 defaults,nofail 0 2\" >> /etc/fstab"
+add_device_label Data
+add_device_label Games
+
+for PROGRAM in wine wine-mono 7-zip-full adwaita-icon-theme anydesk-bin audacity biglybt bleachbit brave calibre discord dropbox filezilla firefox git gimp gnome-terminal google-chrome handbrake heroic-games-launcher-bin jitsi-meet-desktop-bin keepass libreoffice librewolf-bin notepadqq notepad++ numlockx obs-studio opera paradox-launcher pcloud-drive peazip pidgin scrcpy session-desktop-bin signal-desktop steam teamviewer thorium-browser-bin torbrowser-launcher thunderbird tigervnc torbrowser-launcher ttf-dejavu virtualbox visual-studio-code-bin vlc vuze waterfox-bin wire-desktop; do
+	paru -S $PROGRAM --noconfirm
 done
 
-
-echo yes | sudo pacman -S gnome-terminal
+#echo yes | sudo pacman -S gnome-terminal
 
 #themes
 theme='Windows-10-Dark'
-echo yes | sudo pacman -S git
+#echo yes | sudo pacman -S git
 git clone https://github.com/B00merang-Project/"$theme".git
-sudo mkdir -p /usr/share/themes/
+#sudo mkdir -p /usr/share/themes/
+mds /usr/share/themes/
 sudo cp -r "$theme" /usr/share/themes/
 
 #Applications
 gsettings set org.cinnamon.desktop.interface gtk-theme "$theme"
-sudo pacman -S --noconfirm adwaita-icon-theme
+#sudo pacman -S --noconfirm adwaita-icon-theme
 #Desktop
 dconf write /org/cinnamon/theme/name "'$theme'"
 #mouse pointer
@@ -100,9 +174,13 @@ gsettings set org.cinnamon.settings-daemon.plugins.power sleep-display-battery 6
 #mouse
 gsettings set org.cinnamon.desktop.interface locate-pointer true
 
+#Screensaver
+#digit in seconds
+dconf write /org/cinnamon/desktop/session/idle-delay "uint32 0"
+
 #font
 font='DejaVu Sans Mono Book 13'
-echo yes | sudo pacman -S ttf-dejavu
+#echo yes | sudo pacman -S ttf-dejavu
 gsettings set org.cinnamon.desktop.interface font-name "$font"
 dconf write /org/nemo/desktop/font "'$font'"
 gsettings set org.gnome.desktop.interface document-font-name "$font"
@@ -113,7 +191,6 @@ gsettings set org.cinnamon.desktop.wm.preferences titlebar-font "$font"
 
 gsettings set org.cinnamon.desktop.interface cursor-size 36
 
-sudo pacman -Syu --noconfirm
 #paru -S yay --noconfirm
 #paru -S notepadqq --noconfirm
 #sudo pacman -S --noconfirm wine
@@ -124,34 +201,67 @@ sudo pacman -Syu --noconfirm
 #mega
 wget https://mega.nz/linux/repo/Arch_Extra/x86_64/megasync-x86_64.pkg.tar.zst && sudo pacman -U --noconfirm "$PWD/megasync-x86_64.pkg.tar.zst"
 
+
+
+#------------------
+#numlockx #numlock on/off at startup
+
+#terminals
+	#gnome-terminal
+
 #games
-#?wine-mono?
-echo 1 | paru -S --noconfirm minecraft-launcher
-#heroic-games-launcher-bin #epicgames launcher unofficial
-#paradox-launcher
+	#indipendesies
+		#wine-mono
+		#dotnet-sdk
+		#gnutls
+		#lib32-gnutls
+		#winetricks
+		#winetricks corefonts vcrun2015
+		#winetricks vcrun2019
+		#winetricks dotnet48
+		#WINEPREFIX=~/.wine64 WINEARCH=win64 winecfg
+		#WINEPREFIX=~/.wine64 wine setup_vcredist_x64.exe
+		#winecfg
+		#?wine setup_vcredist_x64.exe?
+	#Launchers
+	echo 1 | paru -S --noconfirm minecraft-launcher
+	#heroic-games-launcher-bin #epicgames launcher unofficial
+	#paradox-launcher
 
 #browsers
-#brave
-#firefox
-#google-chrome
-#librewolf-bin
-#opera
+	#brave
+	#firefox
+	#google-chrome
+	#librewolf-bin
+	#opera
+	#thorium-browser-bin
+	#torbrowser-launcher
+	#waterfox-bin
+
+#Themes
+	#adwaita-icon-theme
+	#Windows-10-Dark
 
 #testing by hand
-#paru -S --noconfirm nvidia
+	#paru -S --noconfirm nvidia
+
+#later
+	#qemu
+
+#for PROGRAM in wine firefox obs-studio steam thunderbird tigervnc torbrowser-launcher; do
+	#sudo pacman -S --noconfirm $PROGRAM
+#done
 
 
-for PROGRAM in wine firefox obs-studio steam; do
-	sudo pacman -S --noconfirm $PROGRAM
-done
 
-for PROGRAM in 7-zip-full anydesk-bin audacity biglybt bleachbit brave calibre discord dropbox filezilla gimp google-chrome handbrake heroic-games-launcher-bin jitsi-meet-desktop-bin keepass libreoffice librewolf-bin notepadqq notepad++ opera paradox-launcher pcloud-drive peazip pidgin scrcpy session-desktop-bin signal-desktop teamviewer vlc wire-desktop; do
-	paru -S $PROGRAM --noconfirm
-done
+add_lightdm e "[Seat:*]" "\[Seat:\*\]"
 
-teamviewer --daemon start
+#numlock on at startup
+#numlockx
+add_lightdm "greeter-setup-script=/usr/bin/numlockx on" "/^\[Seat:\*\]/a"
+echo "NumLock on configuration added to [Seat:*] section."
+#numlock on at startup
 
+echo "test 13"
 
-echo "test 12-2"
-
-#reboot
+#sudo reboot
