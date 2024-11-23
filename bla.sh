@@ -13,7 +13,10 @@ for app in "${App_Install__[@]}"; do
 	key="${app%%:*}"
 	if [ "$(eval echo \$App_Install__$key)" == "1" ]; then
 		value=$(echo "${app##*:}" | tr -d '[:space:]')
-		if [[ "$value" == *";"* ]]; then
+		if [[ "$app" == *";"* ]]; then
+			#echo 1 | paru -S --noconfirm minecraft-launcher
+			#split ;
+			#echo $..| paru -S --noconfirm $value
 			echo "have ;"
 		else
 			echo "not ;"
