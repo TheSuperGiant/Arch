@@ -313,4 +313,6 @@ echo "NumLock on configuration added to [Seat:*] section."
 
 echo "test 14"
 
+echo $App_Install__wine
+
 #sudo reboot
