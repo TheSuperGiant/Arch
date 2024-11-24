@@ -128,7 +128,7 @@ declare -a App_Install__=(
 	"librewolf:				librewolf-bin"
 	"minecraft_launcher:	minecraft-launcher;1"
 	"notepadqq:				notepadqq"
-	"notepad++:				notepad++"
+	"notepadPlusPlus:				notepad++"
 	"numlockx:				numlockx"
 	"obs_studio:			obs-studio"
 	"opera:					opera"
