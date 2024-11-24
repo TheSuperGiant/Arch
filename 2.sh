@@ -1,4 +1,9 @@
+echo $App_Install__wine
+
 curl -fsSL https://christitus.com/linux | sh
+
+echo $App_Install__wine
+
 
 LIGHTDM_CONF="/etc/lightdm/lightdm.conf"
 
@@ -312,7 +317,5 @@ echo "NumLock on configuration added to [Seat:*] section."
 #numlock on at startup
 
 echo "test 14"
-
-echo $App_Install__wine
 
 #sudo reboot
