@@ -6,7 +6,7 @@ add_alias() {
     alias_name=$1
     alias_command=$2
 	if ! grep -q "^alias $alias_name" ~/.bashrc; then
-		echo "alias $alias_name=\"$alias_command\"" >> ~/.bashrc
+		echo "alias $alias_name=\"$aliåas_command\"" >> ~/.bashrc
 		alias "$alias_name=$alias_command"
 		echo "Alias '$alias_name' added and saved to ~/.bashrc."
 	fi
@@ -64,22 +64,21 @@ add_function mdr "sudo mkdir -p \$1
 
 sudo pacman -Syu --noconfirm
 
+Script_configfile_folder=$HOME/Scripts/config
+#Script_configfile_name=config.sh
+#Script_configfile_location=$Script_configfile_folder/$Script_configfile_name
+md $Script_configfile_folder
+#chmod +x $Script_configfile_name
+#./$Script_configfile_location
+
+#
  
 add_sudo "$USER ALL=(ALL) NOPASSWD: /usr/bin/reboot, /usr/bin/shutdown, /usr/bin/poweroff"
 
 mdr /mnt/Data
 mdr /mnt/Games
-mdr $HOME/Scripts
-mdr ~/.config/autostart
-
-#sudo mkdir -p /mnt/Data
-#sudo mkdir -p /mnt/Games
-#sudo mkdir -p $HOME/Scripts
-#mkdir -p ~/.config/autostart
-
-#sudo chown $USER:$USER /mnt/Data
-#sudo chown $USER:$USER /mnt/Data
-#sudo chown $USER:$USER $HOME/Scripts
+#mdr $HOME/Scripts
+md ~/.config/autostart
 
 startup_script_file_location="$HOME/Scripts/startup_script.sh"
 
@@ -101,23 +100,84 @@ chmod +x $startup_script_file_location
 add_device_label Data
 add_device_label Games
 
-for PROGRAM in wine wine-mono 7-zip-full adwaita-icon-theme anydesk-bin audacity biglybt bleachbit brave calibre discord dropbox filezilla firefox git gimp gnome-terminal google-chrome handbrake heroic-games-launcher-bin jitsi-meet-desktop-bin keepass libreoffice librewolf-bin notepadqq notepad++ numlockx obs-studio opera paradox-launcher pcloud-drive peazip pidgin scrcpy session-desktop-bin signal-desktop steam teamviewer thorium-browser-bin torbrowser-launcher thunderbird tigervnc torbrowser-launcher ttf-dejavu virtualbox visual-studio-code-bin vlc vuze waterfox-bin wire-desktop; do
-	paru -S $PROGRAM --noconfirm
-done
+declare -a App_Install__=(
+	"wine:					wine"
+	"wine_mono:				wine-mono"
+	"7_zip:					7-zip-full"
+	"adwaita_theme:			adwaita-icon-theme"
+	"anydesk:				anydesk-bin"
+	"audacity:				audacity"
+	"biglybt:				biglybt"
+	"bleachbit:				bleachbit"
+	"brave:					brave"
+	"calibre:				calibre"
+	"discord:				discord"
+	"dropbox:				dropbox"
+	"filezilla:				filezilla"
+	"firefox:				firefox"
+	"font_dejavu:			ttf-dejavu"
+	"git:					git"
+	"gimp:					gimp"
+	"gnome_terminal:		gnome-terminal"
+	"google_chrome:			google-chrome"
+	"handbrake:				handbrake"
+	"heroic_launcher:		heroic-games-launcher-bin"
+	"jitsi_meet:			jitsi-meet-desktop-bin"
+	"keepass:				keepass"
+	"libreoffice:			libreoffice"
+	"librewolf:				librewolf-bin"
+	"minecraft_launcher:	minecraft-launcher;1"
+	"notepadqq:				notepadqq"
+	"notepad++:				notepad++"
+	"numlockx:				numlockx"
+	"obs_studio:			obs-studio"
+	"opera:					opera"
+	"paradox_launcher:		paradox-launcher"
+	"pcloud:				pcloud-drive"
+	"peazip:				peazip"
+	"pidgin:				pidgin"
+	"scrcpy:				scrcpy"
+	"session:				session-desktop-bin"
+	"signal:				signal-desktop-desktop-bin"
+	"steam:					steam"
+	"teamviewer:			teamviewer"
+	"thorium:				thorium-browser-bin"
+	"torbrowser:			torbrowser-launcher"
+	"thunderbird:			thunderbird"
+	"tigervnc:				tigervnc"
+	"virtualbox:			virtualbox"
+	"visual_studio_code:	visual-studio-code-bin"
+	"vlc:					vlc"
+	"vuze:					vuze"
+	"waterfox:				waterfox-bin"
+	"wire:					wire-desktop"
+)
 
-#echo yes | sudo pacman -S gnome-terminal
+for app in "${App_Install__[@]}"; do
+	key="${app%%:*}"
+	#value maby a row down in the if statemant later to do with echo writing
+	value=$(echo "${app##*:}" | tr -d '[:space:]')
+	if [ "$(eval echo \$App_Install__$key)" == "1" ]; then
+		if [[ "$app" == *";"* ]]; then
+			value=$(echo "${value%%;*}" | tr -d '[:space:]')
+			number=$(echo "${app##*;}")
+			echo $number | paru -S --noconfirm $value
+		else
+			paru -S --noconfirm $value
+		fi
+	fi
+    echo "$key"
+    echo "$value"
+done
 
 #themes
 theme='Windows-10-Dark'
-#echo yes | sudo pacman -S git
 git clone https://github.com/B00merang-Project/"$theme".git
-#sudo mkdir -p /usr/share/themes/
 mds /usr/share/themes/
 sudo cp -r "$theme" /usr/share/themes/
 
 #Applications
 gsettings set org.cinnamon.desktop.interface gtk-theme "$theme"
-#sudo pacman -S --noconfirm adwaita-icon-theme
 #Desktop
 dconf write /org/cinnamon/theme/name "'$theme'"
 #mouse pointer
@@ -180,7 +240,6 @@ dconf write /org/cinnamon/desktop/session/idle-delay "uint32 0"
 
 #font
 font='DejaVu Sans Mono Book 13'
-#echo yes | sudo pacman -S ttf-dejavu
 gsettings set org.cinnamon.desktop.interface font-name "$font"
 dconf write /org/nemo/desktop/font "'$font'"
 gsettings set org.gnome.desktop.interface document-font-name "$font"
@@ -190,12 +249,6 @@ gsettings set org.cinnamon.desktop.wm.preferences titlebar-font "$font"
 
 
 gsettings set org.cinnamon.desktop.interface cursor-size 36
-
-#paru -S yay --noconfirm
-#paru -S notepadqq --noconfirm
-#sudo pacman -S --noconfirm wine
-#paru -S notepad++ --noconfirm
-#librewolf wire
 
 #programs
 #mega
@@ -224,7 +277,7 @@ wget https://mega.nz/linux/repo/Arch_Extra/x86_64/megasync-x86_64.pkg.tar.zst &&
 		#winecfg
 		#?wine setup_vcredist_x64.exe?
 	#Launchers
-	echo 1 | paru -S --noconfirm minecraft-launcher
+	#echo 1 | paru -S --noconfirm minecraft-launcher
 	#heroic-games-launcher-bin #epicgames launcher unofficial
 	#paradox-launcher
 
@@ -238,7 +291,7 @@ wget https://mega.nz/linux/repo/Arch_Extra/x86_64/megasync-x86_64.pkg.tar.zst &&
 	#torbrowser-launcher
 	#waterfox-bin
 
-#Themes
+#themes
 	#adwaita-icon-theme
 	#Windows-10-Dark
 
@@ -247,10 +300,6 @@ wget https://mega.nz/linux/repo/Arch_Extra/x86_64/megasync-x86_64.pkg.tar.zst &&
 
 #later
 	#qemu
-
-#for PROGRAM in wine firefox obs-studio steam thunderbird tigervnc torbrowser-launcher; do
-	#sudo pacman -S --noconfirm $PROGRAM
-#done
 
 
 
