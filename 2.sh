@@ -1,8 +1,8 @@
-echo $App_Install__wine
+echo "test1 $App_Install__wine"
 
 curl -fsSL https://christitus.com/linux | sh
 
-echo $App_Install__wine
+echo "test2 $App_Install__wine"
 
 
 LIGHTDM_CONF="/etc/lightdm/lightdm.conf"
