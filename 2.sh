@@ -1,6 +1,7 @@
-#echo "test1 $App_Install__wine"
-
 $1
+
+echo "velue $App_Install__wine"
+
 #echo "First argument: $1"
 echo "Script paused. Press Enter to continue..."
 read
