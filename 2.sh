@@ -4,7 +4,7 @@ else
 	source $1
 fi
 
-curl -fsSL https://christitus.com/linux | sh
+#curl -fsSL https://christitus.com/linux | sh
 
 LIGHTDM_CONF="/etc/lightdm/lightdm.conf"
 
