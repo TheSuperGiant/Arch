@@ -7,10 +7,11 @@ echo "
 
 
 "
-source <(curl -L $1)
+#source <(curl -L $1)
+$1
 
 echo "velue $App_Install__wine"
-echo 3
+echo 4
 #echo "First argument: $1"
 echo "Script paused. Press Enter to continue..."
 read
