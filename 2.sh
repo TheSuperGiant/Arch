@@ -1,8 +1,13 @@
-echo "test1 $App_Install__wine"
+#echo "test1 $App_Install__wine"
+
+echo "First argument: $1"
+#echo "Script paused. Press Enter to continue..."
+read
 
 curl -fsSL https://christitus.com/linux | sh
 
-echo "test2 $App_Install__wine"
+#echo "test2 $App_Install__wine"
+
 
 
 LIGHTDM_CONF="/etc/lightdm/lightdm.conf"
