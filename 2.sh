@@ -1,3 +1,4 @@
+echo $1
 bash <(curl -L $1)
 
 echo "velue $App_Install__wine"
