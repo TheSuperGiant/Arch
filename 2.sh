@@ -73,7 +73,7 @@ md
 mds
 mdr
 
-echo 2
+echo 3
 
 echo "Script paused. Press Enter to continue..."
 read
