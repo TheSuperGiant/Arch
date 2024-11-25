@@ -1,28 +1,10 @@
-echo "
-
-
-
-
-
-
-
-"
 if [[ "$1" == *"http"* ]]; then
 	source <(curl -L $1)
 else
 	source $1
 fi
 
-echo "velue $App_Install__wine"
-echo cat8
-echo "Script paused. Press Enter to continue..."
-read
-
 curl -fsSL https://christitus.com/linux | sh
-
-#echo "test2 $App_Install__wine"
-
-
 
 LIGHTDM_CONF="/etc/lightdm/lightdm.conf"
 
@@ -335,6 +317,6 @@ add_lightdm "greeter-setup-script=/usr/bin/numlockx on" "/^\[Seat:\*\]/a"
 echo "NumLock on configuration added to [Seat:*] section."
 #numlock on at startup
 
-echo "test 14"
+echo "test 15"
 
 #sudo reboot
