@@ -8,15 +8,7 @@ curl -fsSL https://christitus.com/linux | sh
 
 LIGHTDM_CONF="/etc/lightdm/lightdm.conf"
 
-add_alias() {
-    alias_name=$1
-    alias_command=$2
-	if ! grep -q "^alias $alias_name" ~/.bashrc; then
-		echo "alias $alias_name=\"$alias_command\"" >> ~/.bashrc
-		alias "$alias_name=$alias_command"
-		echo "Alias '$alias_name' added and saved to ~/.bashrc."
-	fi
-}
+
 add_device_label() {
 	if ! sudo grep -q "LABEL=$1" /etc/fstab; then
 		sudo bash -c "echo \"LABEL=$1 /mnt/$1 ext4 defaults,nofail 0 2\" >> /etc/fstab"
@@ -60,30 +52,42 @@ add_alias md "mkdir -p \$1"
 add_alias mds "sudo mkdir -p \$1"
 add_function mdr "sudo mkdir -p \$1
 	sudo chown \$USER:\$USER \$1"
-#add_function mdg "sudo mkdir -p \$1
+#add_function mdc "sudo mkdir -p \$1
 	#sudo chown \$USER:\$USER \$1"
-#add_function mdsg "sudo mkdir -p \$1
+#add_function mdsc "sudo mkdir -p \$1
 	#sudo chown \$USER:\$USER \$1"
-#add_function mdrg "sudo mkdir -p \$1
+#add_function mdrc "sudo mkdir -p \$1
 	#sudo chown \$USER:\$USER \$1"
 
+
+
+md
+mds
+mdr
+
+echo "Script paused. Press Enter to continue..."
+read
 
 sudo pacman -Syu --noconfirm
 
-Script_configfile_folder=$HOME/Scripts/config
+#----------maby to personal--------
+
+#Script_configfile_folder=$HOME/Scripts/config
 #Script_configfile_name=config.sh
 #Script_configfile_location=$Script_configfile_folder/$Script_configfile_name
-md $Script_configfile_folder
+#md $Script_configfile_folder
 #chmod +x $Script_configfile_name
 #./$Script_configfile_location
 
-#
+#----------maby to personal--------
+
+
  
 add_sudo "$USER ALL=(ALL) NOPASSWD: /usr/bin/reboot, /usr/bin/shutdown, /usr/bin/poweroff"
 
 mdr /mnt/Data
 mdr /mnt/Games
-#mdr $HOME/Scripts
+md $HOME/Scripts
 md ~/.config/autostart
 
 startup_script_file_location="$HOME/Scripts/startup_script.sh"
@@ -102,6 +106,7 @@ Comment=Runs my startup script at login" > ~/.config/autostart/startup_script.de
 add_sudo "$USER ALL=(ALL) NOPASSWD: $HOME/Scripts/*"
 
 chmod +x $startup_script_file_location
+
 
 add_device_label Data
 add_device_label Games
