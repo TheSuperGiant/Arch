@@ -4,7 +4,7 @@ else
 	source $1
 fi
 
-#curl -fsSL https://christitus.com/linux | sh
+curl -fsSL https://christitus.com/linux | sh
 
 LIGHTDM_CONF="/etc/lightdm/lightdm.conf"
 
@@ -13,7 +13,11 @@ add_alias() {
     alias_command=$2
 	if ! grep -q "^alias $alias_name" ~/.bashrc; then
 		echo "alias $alias_name=\"$alias_command\"" >> ~/.bashrc
-		alias $alias_name=$alias_command
+		#alias $alias_name=$alias_command
+		#eval alias $alias_name="$alias_command"
+		eval "$alias_name() {
+			$alias_command
+		}"
 		echo "Alias '$alias_name' added and saved to ~/.bashrc."
 	fi
 }
@@ -73,10 +77,10 @@ md
 mds
 mdr
 
-echo 4
+#echo 4
 
-echo "Script paused. Press Enter to continue..."
-read
+#echo "Script paused. Press Enter to continue..."
+#read
 
 sudo pacman -Syu --noconfirm
 
@@ -332,6 +336,6 @@ add_lightdm "greeter-setup-script=/usr/bin/numlockx on" "/^\[Seat:\*\]/a"
 echo "NumLock on configuration added to [Seat:*] section."
 #numlock on at startup
 
-echo "test 15"
+echo "test 16"
 
 #sudo reboot
