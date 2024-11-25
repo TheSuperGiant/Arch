@@ -1,7 +1,7 @@
-$1
+bash <(curl -L $1)
 
 echo "velue $App_Install__wine"
-
+echo 2
 #echo "First argument: $1"
 echo "Script paused. Press Enter to continue..."
 read
