@@ -9,13 +9,12 @@ echo "
 "
 if [[ "$1" == *"http"* ]]; then
 	source <(curl -L $1)
-#else
-	
+else
+	source $1
 fi
 
 echo "velue $App_Install__wine"
-echo 7
-#echo "First argument: $1"
+echo 8
 echo "Script paused. Press Enter to continue..."
 read
 
