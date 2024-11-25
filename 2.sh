@@ -8,7 +8,15 @@ fi
 
 LIGHTDM_CONF="/etc/lightdm/lightdm.conf"
 
-
+add_alias() {
+    alias_name=$1
+    alias_command=$2
+	if ! grep -q "^alias $alias_name" ~/.bashrc; then
+		echo "alias $alias_name=\"$alias_command\"" >> ~/.bashrc
+		alias "$alias_name=$alias_command"
+		echo "Alias '$alias_name' added and saved to ~/.bashrc."
+	fi
+}
 add_device_label() {
 	if ! sudo grep -q "LABEL=$1" /etc/fstab; then
 		sudo bash -c "echo \"LABEL=$1 /mnt/$1 ext4 defaults,nofail 0 2\" >> /etc/fstab"
@@ -64,6 +72,8 @@ add_function mdr "sudo mkdir -p \$1
 md
 mds
 mdr
+
+echo 2
 
 echo "Script paused. Press Enter to continue..."
 read
