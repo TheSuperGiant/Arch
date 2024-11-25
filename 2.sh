@@ -1,8 +1,16 @@
-echo $1
-bash <(curl -L $1)
+echo "
+
+
+
+
+
+
+
+"
+source <(curl -L $1)
 
 echo "velue $App_Install__wine"
-echo 2
+echo 3
 #echo "First argument: $1"
 echo "Script paused. Press Enter to continue..."
 read
