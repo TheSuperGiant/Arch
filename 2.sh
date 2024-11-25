@@ -8,7 +8,7 @@ echo "
 
 "
 #source <(curl -L $1)
-$1
+#$1
 
 echo "velue $App_Install__wine"
 echo 4
