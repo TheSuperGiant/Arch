@@ -14,7 +14,7 @@ else
 fi
 
 echo "velue $App_Install__wine"
-echo 8
+echo cat8
 echo "Script paused. Press Enter to continue..."
 read
 
