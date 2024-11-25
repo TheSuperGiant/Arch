@@ -9,7 +9,7 @@ echo "
 "
 if [[ "$1" == *"http"* ]]; then
 	source <(curl -L $1)
-else
+#else
 	
 fi
 
