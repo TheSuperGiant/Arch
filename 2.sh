@@ -21,7 +21,7 @@ fi
 #if
 	#All credits to christitus.com for creating linutil.
 	#https://github.com/ChrisTitusTech/linutil
-	curl -fsSL https://christitus.com/linux | sh
+	#curl -fsSL https://christitus.com/linux | sh
 #fi
 
 LIGHTDM_CONF="/etc/lightdm/lightdm.conf"
