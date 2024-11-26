@@ -142,7 +142,7 @@ chmod +x $startup_script_file_location
 if [ -n "$add_device_labels" ]; then
 	for label in "${add_device_labels[@]}"; do
 		echo "3 $label"
-		add_device_label label
+		add_device_label $label
 	done
 fi
 
