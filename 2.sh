@@ -135,8 +135,11 @@ chmod +x $startup_script_file_location
 
 #add_device_label Data
 #add_device_label Games
+echo "1:$add_device_labels"
 if [ -n "$add_device_labels" ]; then
+	echo "2:$add_device_labels"
 	for label in "${add_device_labels[@]}"; do
+		echo "3:$add_device_labels"
 		add_device_label label
 	done
 fi
@@ -338,6 +341,6 @@ add_lightdm "greeter-setup-script=/usr/bin/numlockx on" "/^\[Seat:\*\]/a"
 echo "NumLock on configuration added to [Seat:*] section."
 #numlock on at startup
 
-echo "test 19"
+echo "test 20"
 
 #sudo reboot
