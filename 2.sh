@@ -133,7 +133,7 @@ chmod +x $startup_script_file_location
 #add_device_label Games
 if [ -n "$add_device_labels" ]; then
 	for label in "${add_device_labels[@]}"; do
-		add_device_label $1
+		add_device_label label
 	done
 fi
 	
@@ -204,18 +204,15 @@ for app in "${App_Install__[@]}"; do
 			paru -S --noconfirm $value
 		fi
 	fi
-    echo "$key"
     echo "$value"
 done
 
 if [ "$App_Install__mega" == "1" ]; then
-#if [ "$(eval echo \$App_Install__mega)" == "1" ]; then
 	wget https://mega.nz/linux/repo/Arch_Extra/x86_64/megasync-x86_64.pkg.tar.zst && sudo pacman -U --noconfirm "$PWD/megasync-x86_64.pkg.tar.zst"
 fi
 
 #themes
 if [ "$theme__pack__Windows_10_Dark" == "1" ]; then
-#if [ "$(eval echo \$theme__pack__Windows_10_Dark)" == "1" ]; then
 	theme='Windows-10-Dark'
 	git clone https://github.com/B00merang-Project/"$theme".git
 	mds /usr/share/themes/
