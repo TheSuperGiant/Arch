@@ -11,6 +11,7 @@ while true; do
     sleep 60
 done &
 
+source ~/.bashrc
 
 if [[ "$1" == *"http"* ]]; then
 	source <(curl -L $1)
@@ -115,6 +116,9 @@ mdr /mnt/Data
 mdr /mnt/Games
 md $HOME/Scripts
 md ~/.config/autostart
+
+echo "Script paused. Press Enter to continue..."
+read
 
 startup_script_file_location="$HOME/Scripts/startup_script.sh"
 
