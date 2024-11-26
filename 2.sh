@@ -202,6 +202,10 @@ for app in "${App_Install__[@]}"; do
     echo "$value"
 done
 
+if [ "$(eval echo \$App_Install__mega)" == "1" ]; then
+	wget https://mega.nz/linux/repo/Arch_Extra/x86_64/megasync-x86_64.pkg.tar.zst && sudo pacman -U --noconfirm "$PWD/megasync-x86_64.pkg.tar.zst"
+fi
+
 #themes
 theme='Windows-10-Dark'
 git clone https://github.com/B00merang-Project/"$theme".git
@@ -282,17 +286,8 @@ gsettings set org.cinnamon.desktop.wm.preferences titlebar-font "$font"
 
 gsettings set org.cinnamon.desktop.interface cursor-size 36
 
-#programs
-#mega
-wget https://mega.nz/linux/repo/Arch_Extra/x86_64/megasync-x86_64.pkg.tar.zst && sudo pacman -U --noconfirm "$PWD/megasync-x86_64.pkg.tar.zst"
-
-
-
 #------------------
 #numlockx #numlock on/off at startup
-
-#terminals
-	#gnome-terminal
 
 #games
 	#indipendesies
@@ -308,24 +303,7 @@ wget https://mega.nz/linux/repo/Arch_Extra/x86_64/megasync-x86_64.pkg.tar.zst &&
 		#WINEPREFIX=~/.wine64 wine setup_vcredist_x64.exe
 		#winecfg
 		#?wine setup_vcredist_x64.exe?
-	#Launchers
-	#echo 1 | paru -S --noconfirm minecraft-launcher
-	#heroic-games-launcher-bin #epicgames launcher unofficial
-	#paradox-launcher
 
-#browsers
-	#brave
-	#firefox
-	#google-chrome
-	#librewolf-bin
-	#opera
-	#thorium-browser-bin
-	#torbrowser-launcher
-	#waterfox-bin
-
-#themes
-	#adwaita-icon-theme
-	#Windows-10-Dark
 
 #testing by hand
 	#paru -S --noconfirm nvidia
@@ -343,6 +321,6 @@ add_lightdm "greeter-setup-script=/usr/bin/numlockx on" "/^\[Seat:\*\]/a"
 echo "NumLock on configuration added to [Seat:*] section."
 #numlock on at startup
 
-echo "test 16"
+echo "test 17"
 
 #sudo reboot
