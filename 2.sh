@@ -135,7 +135,7 @@ chmod +x $startup_script_file_location
 
 #add_device_label Data
 #add_device_label Games
-echo "1 $add_device_labels"
+echo "1 $add_device_labels[@]"
 if [ -n "$add_device_labels" ]; then
 	echo "2 $add_device_labels"
 	for label in "${add_device_labels[@]}"; do
