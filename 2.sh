@@ -18,11 +18,12 @@ else
 	source $1
 fi
 
-#if
+
+if [ "$linutil__christitus" == "1" ]; then
 	#All credits to christitus.com for creating linutil.
 	#https://github.com/ChrisTitusTech/linutil
-	#curl -fsSL https://christitus.com/linux | sh
-#fi
+	curl -fsSL https://christitus.com/linux | sh
+fi
 
 LIGHTDM_CONF="/etc/lightdm/lightdm.conf"
 
@@ -128,9 +129,14 @@ add_sudo "$USER ALL=(ALL) NOPASSWD: $HOME/Scripts/*"
 
 chmod +x $startup_script_file_location
 
-
-add_device_label Data
-add_device_label Games
+#add_device_label Data
+#add_device_label Games
+if [ -n "$add_device_labels" ]; then
+	for label in "${add_device_labels[@]}"; do
+		add_device_label $1
+	done
+fi
+	
 
 declare -a App_Install__=(
 	"wine:					wine"
@@ -202,12 +208,14 @@ for app in "${App_Install__[@]}"; do
     echo "$value"
 done
 
-if [ "$(eval echo \$App_Install__mega)" == "1" ]; then
+if [ "$App_Install__mega" == "1" ]; then
+#if [ "$(eval echo \$App_Install__mega)" == "1" ]; then
 	wget https://mega.nz/linux/repo/Arch_Extra/x86_64/megasync-x86_64.pkg.tar.zst && sudo pacman -U --noconfirm "$PWD/megasync-x86_64.pkg.tar.zst"
 fi
 
 #themes
-if [ "$(eval echo \$theme__pack__Windows_10_Dark)" == "1" ]; then
+if [ "$theme__pack__Windows_10_Dark" == "1" ]; then
+#if [ "$(eval echo \$theme__pack__Windows_10_Dark)" == "1" ]; then
 	theme='Windows-10-Dark'
 	git clone https://github.com/B00merang-Project/"$theme".git
 	mds /usr/share/themes/
