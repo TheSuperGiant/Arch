@@ -1,3 +1,10 @@
+sudo -v
+while true; do
+    sudo -n true
+    sleep 60
+done &
+
+
 if [[ "$1" == *"http"* ]]; then
 	source <(curl -L $1)
 else
@@ -72,15 +79,6 @@ add_function mdr "sudo mkdir -p \$1
 	#sudo chown \$USER:\$USER \$1"
 
 
-
-md
-mds
-mdr
-
-#echo 4
-
-#echo "Script paused. Press Enter to continue..."
-#read
 
 sudo pacman -Syu --noconfirm
 
