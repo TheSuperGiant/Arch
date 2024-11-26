@@ -143,7 +143,11 @@ if [ -n "$add_device_labels" ]; then
 		add_device_label label
 	done
 fi
-	
+
+#!/bin/bash
+echo "Script paused. Press Enter to continue..."
+read
+
 
 declare -a App_Install__=(
 	"wine:					wine"
