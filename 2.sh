@@ -39,10 +39,14 @@ add_alias() {
 	fi
 }
 add_device_label() {
+	echo "4 $1"
 	if ! sudo grep -q "LABEL=$1" /etc/fstab; then
+		echo "5 $1"
 		fs_type=$(lsblk -o NAME,LABEL,FSTYPE | grep -w $1 | awk '{print $3}')
 		#sudo bash -c "echo \"LABEL=$1 /mnt/$1 ext4 defaults,nofail 0 2\" >> /etc/fstab"
+		echo "11 $fs_type"
 		if [ -n "$fs_type" ]; then
+			echo "6 $1"
 			sudo bash -c "echo \"LABEL=$1 /mnt/$1 $fs_type defaults,nofail 0 2\" >> /etc/fstab"
 		fi
 	fi
@@ -135,11 +139,9 @@ chmod +x $startup_script_file_location
 
 #add_device_label Data
 #add_device_label Games
-echo "1 $add_device_labels[@]"
 if [ -n "$add_device_labels" ]; then
-	echo "2 $add_device_labels"
 	for label in "${add_device_labels[@]}"; do
-		echo "3 $add_device_labels"
+		echo "3 $label"
 		add_device_label label
 	done
 fi
