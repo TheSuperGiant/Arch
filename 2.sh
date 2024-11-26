@@ -207,17 +207,25 @@ if [ "$(eval echo \$App_Install__mega)" == "1" ]; then
 fi
 
 #themes
-theme='Windows-10-Dark'
-git clone https://github.com/B00merang-Project/"$theme".git
-mds /usr/share/themes/
-sudo cp -r "$theme" /usr/share/themes/
+if [ "$(eval echo \$theme__pack__Windows_10_Dark)" == "1" ]; then
+	theme='Windows-10-Dark'
+	git clone https://github.com/B00merang-Project/"$theme".git
+	mds /usr/share/themes/
+	sudo cp -r "$theme" /usr/share/themes/
+fi
 
 #Applications
-gsettings set org.cinnamon.desktop.interface gtk-theme "$theme"
+if [ -n "$theme__setting__applications" ]; then
+	gsettings set org.cinnamon.desktop.interface gtk-theme "$theme__setting__applications"
+fi
 #Desktop
-dconf write /org/cinnamon/theme/name "'$theme'"
+if [ -n "$theme__setting__dekstop" ]; then
+	dconf write /org/cinnamon/theme/name "'$theme__setting__dekstop'"
+fi
 #mouse pointer
-gsettings set org.cinnamon.desktop.interface cursor-theme 'Adwaita'
+if [ -n "$theme__setting__dekstop" ]; then
+	gsettings set org.cinnamon.desktop.interface cursor-theme "'$theme__setting__mouse'"
+fi
 
 #clock
 dconf write /org/cinnamon/desktop/interface/clock-show-date false
