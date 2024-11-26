@@ -40,7 +40,9 @@ add_alias() {
 }
 add_device_label() {
 	if ! sudo grep -q "LABEL=$1" /etc/fstab; then
-		sudo bash -c "echo \"LABEL=$1 /mnt/$1 ext4 defaults,nofail 0 2\" >> /etc/fstab"
+		fs_type=$(lsblk -o NAME,LABEL,FSTYPE | grep $1 | awk '{print $3}')
+		#sudo bash -c "echo \"LABEL=$1 /mnt/$1 ext4 defaults,nofail 0 2\" >> /etc/fstab"
+		sudo bash -c "echo \"LABEL=$1 /mnt/$1 $fs_type defaults,nofail 0 2\" >> /etc/fstab"
 	fi
 }
 add_function() {
@@ -334,6 +336,6 @@ add_lightdm "greeter-setup-script=/usr/bin/numlockx on" "/^\[Seat:\*\]/a"
 echo "NumLock on configuration added to [Seat:*] section."
 #numlock on at startup
 
-echo "test 17"
+echo "test 18"
 
 #sudo reboot
