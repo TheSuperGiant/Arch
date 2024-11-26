@@ -341,6 +341,6 @@ add_lightdm "greeter-setup-script=/usr/bin/numlockx on" "/^\[Seat:\*\]/a"
 echo "NumLock on configuration added to [Seat:*] section."
 #numlock on at startup
 
-echo "test 21"
+echo "test 22"
 
 #sudo reboot
