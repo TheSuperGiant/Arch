@@ -18,7 +18,11 @@ else
 	source $1
 fi
 
-curl -fsSL https://christitus.com/linux | sh
+#if
+	#All credits to christitus.com for creating linutil.
+	#https://github.com/ChrisTitusTech/linutil
+	curl -fsSL https://christitus.com/linux | sh
+#fi
 
 LIGHTDM_CONF="/etc/lightdm/lightdm.conf"
 
@@ -27,8 +31,6 @@ add_alias() {
     alias_command=$2
 	if ! grep -q "^alias $alias_name" ~/.bashrc; then
 		echo "alias $alias_name=\"$alias_command\"" >> ~/.bashrc
-		#alias $alias_name=$alias_command
-		#eval alias $alias_name="$alias_command"
 		eval "$alias_name() {
 			$alias_command
 		}"
