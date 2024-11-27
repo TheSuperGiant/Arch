@@ -32,11 +32,7 @@ fi
 . "$HOME/.bashrc"
 while IFS= read -r line; do
     if [[ $line == alias* ]]; then
-        alias_name=$(echo "$line" | cut -d'=' -f1 | sed 's/alias //')
-        alias_command=$(echo "$line" | cut -d'=' -f2-)
-        eval "$alias_name() {
-			\"$alias_command\"
-		}"
+       eval "$line"
     fi
 done < ~/.bashrc
 
@@ -359,6 +355,6 @@ gsettings set org.cinnamon.desktop.interface cursor-size 36
 
 http_check $2
 
-echo "test 41"
+echo "test 42"
 
 #sudo reboot
