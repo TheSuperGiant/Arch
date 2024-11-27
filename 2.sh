@@ -29,12 +29,12 @@ fi
 
 
 
-. "$HOME/.bashrc"
-while IFS= read -r line; do
-    if [[ $line == alias* ]]; then
-       eval "$line"
-    fi
-done < ~/.bashrc
+#. "$HOME/.bashrc"
+#while IFS= read -r line; do
+    #if [[ $line == alias* ]]; then
+      # eval "$line"
+    #fi
+#done < ~/.bashrc
 
 
 LIGHTDM_CONF="/etc/lightdm/lightdm.conf"
