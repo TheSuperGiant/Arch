@@ -31,6 +31,8 @@ fi
 #source ~/.bashrc
 #bash ~/.bashrc
 
+. "$HOME/.bashrc"
+
 LIGHTDM_CONF="/etc/lightdm/lightdm.conf"
 
 add_alias() {
@@ -113,7 +115,7 @@ sudo pacman -Syu --noconfirm
 #----------maby to personal--------
 
 
- 
+
 add_sudo "$USER ALL=(ALL) NOPASSWD: /usr/bin/reboot, /usr/bin/shutdown, /usr/bin/poweroff"
 
 mdr /mnt/Data
@@ -121,7 +123,7 @@ mdr /mnt/Games
 md $HOME/Scripts
 md ~/.config/autostart
 
-echo 5
+echo 6
 
 echo "Script paused. Press Enter to continue..."
 read
