@@ -128,18 +128,23 @@ mdr /mnt/Games
 if [ -n "$StartScript" ]; then
 	md $HOME/Scripts
 	md ~/.config/autostart
+	
 	startup_script_file_location="$HOME/Scripts/startup_script.sh"
-
-	echo -e "$StartScript" > $startup_script_file_location
-
-	echo "[Desktop Entry]
-	Type=Application
-	Exec=sudo $startup_script_file_location
-	Hidden=false
-	NoDisplay=false
-	X-GNOME-Autostart-enabled=true
-	Name=My Startup Script
-	Comment=Runs my startup script at login" > ~/.config/autostart/startup_script.desktop
+	
+	if [ ! -f "$startup_script_file_location" ] || ! echo "$StartScript" | diff -q - "$startup_script_file_location" > /dev/null; then
+		echo -e "$StartScript" > $startup_script_file_location
+	fi
+	
+	if [ ! -f ~/.config/autostart/startup_script.desktop ]; then
+		echo "[Desktop Entry]
+		Type=Application
+		Exec=sudo $startup_script_file_location
+		Hidden=false
+		NoDisplay=false
+		X-GNOME-Autostart-enabled=true
+		Name=My Startup Script
+		Comment=Runs my startup script at login" > ~/.config/autostart/startup_script.desktop
+	fi
 
 	add_sudo "$USER ALL=(ALL) NOPASSWD: $HOME/Scripts/*"
 
