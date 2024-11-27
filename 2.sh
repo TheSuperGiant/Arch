@@ -134,8 +134,8 @@ if [ -n "$StartScript" ]; then
 	if [ ! -f "$startup_location" ] || ! echo "$StartScript" | diff -q - "$startup_location" > /dev/null; then
 		echo -e "$StartScript" > $startup_location
 	fi
-	autostart_location="~/.config/autostart/startup_script.desktop"
-	if [ ! -f $autostart_location ]; then
+	#autostart_location="~/.config/autostart/startup_script.desktop"
+	if [ ! -f ~/.config/autostart/startup_script.desktop ]; then
 		echo "[Desktop Entry]
 		Type=Application
 		Exec=sudo $startup_script_file_location
@@ -143,7 +143,7 @@ if [ -n "$StartScript" ]; then
 		NoDisplay=false
 		X-GNOME-Autostart-enabled=true
 		Name=My Startup Script
-		Comment=Runs my startup script at login" > $autostart_location
+		Comment=Runs my startup script at login" > ~/.config/autostart/startup_script.desktop
 	fi
 
 	add_sudo "$USER ALL=(ALL) NOPASSWD: $HOME/Scripts/*"
@@ -354,6 +354,6 @@ add_lightdm "greeter-setup-script=/usr/bin/numlockx on" "/^\[Seat:\*\]/a"
 echo "NumLock on configuration added to [Seat:*] section."
 #numlock on at startup
 
-echo "test 27"
+echo "test 28"
 
 #sudo reboot
