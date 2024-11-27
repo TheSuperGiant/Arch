@@ -24,10 +24,10 @@ if [ "$linutil__christitus" == "1" ]; then
 	#https://github.com/ChrisTitusTech/linutil
 	curl -fsSL https://christitus.com/linux | sh
 fi
-if [ -f ~/.bashrc ]; then
-	echo "hello"
-    . ~/.bashrc
-fi
+#if [ -f ~/.bashrc ]; then
+	#echo "hello"
+    #. ~/.bashrc
+#fi
 #source ~/.bashrc
 
 LIGHTDM_CONF="/etc/lightdm/lightdm.conf"
@@ -46,7 +46,6 @@ add_alias() {
 add_device_label() {
 	if ! sudo grep -q "LABEL=$1" /etc/fstab; then
 		fs_type=$(lsblk -o NAME,LABEL,FSTYPE | grep -w $1 | awk '{print $3}')
-		echo "11 $fs_type"
 		if [ -n "$fs_type" ]; then
 			sudo bash -c "echo \"LABEL=$1 /mnt/$1 $fs_type defaults,nofail 0 2\" >> /etc/fstab"
 		fi
@@ -86,10 +85,10 @@ add_sudo() {
 }
 
 
-add_alias md "mkdir -p \$1"
-add_alias mds "sudo mkdir -p \$1"
-add_function mdr "sudo mkdir -p \$1
-	sudo chown \$USER:\$USER \$1"
+#add_alias md "mkdir -p \$1"
+#add_alias mds "sudo mkdir -p \$1"
+#add_function mdr "sudo mkdir -p \$1
+	#sudo chown \$USER:\$USER \$1"
 #add_function mdc "sudo mkdir -p \$1
 	#sudo chown \$USER:\$USER \$1"
 #add_function mdsc "sudo mkdir -p \$1
@@ -121,7 +120,7 @@ mdr /mnt/Games
 md $HOME/Scripts
 md ~/.config/autostart
 
-echo 3
+echo 4
 
 echo "Script paused. Press Enter to continue..."
 read
