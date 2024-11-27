@@ -263,6 +263,17 @@ fi
 #clock
 dconf write /org/cinnamon/desktop/interface/clock-show-date false
 
+#Explorer
+#show hidden files
+if [ "$explorer_show_hiden_files" == "0" || "$explorer_show_hiden_files" == "1" ]; then
+	if [ "$explorer_show_hiden_files" == "1" ]; then
+		bool=true
+	else
+		bool=false
+	fi
+	dconf write /org/nemo/preferences/show-hidden-files $bool
+fi
+
 # Sound settings.
 #starting
 dconf write /org/cinnamon/sounds/login-enabled false
@@ -356,6 +367,6 @@ gsettings set org.cinnamon.desktop.interface cursor-size 36
 
 http_check $2
 
-echo "test 44"
+echo "test 45"
 
 #sudo reboot
