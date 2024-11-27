@@ -19,6 +19,8 @@ http_check() {
 	fi
 }
 
+http_check $1
+
 if [ "$linutil__christitus" == "1" ]; then
 	#All credits to christitus.com for creating linutil.
 	#https://github.com/ChrisTitusTech/linutil
@@ -351,6 +353,6 @@ gsettings set org.cinnamon.desktop.interface cursor-size 36
 
 
 
-echo "test 31"
+echo "test 32"
 
 #sudo reboot
