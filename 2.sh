@@ -19,12 +19,6 @@ http_check() {
 	fi
 }
 
-echo $1
-http_check $1
-
-echo "Script paused. Press Enter to continue..."
-read
-
 if [ "$linutil__christitus" == "1" ]; then
 	#All credits to christitus.com for creating linutil.
 	#https://github.com/ChrisTitusTech/linutil
@@ -357,6 +351,6 @@ gsettings set org.cinnamon.desktop.interface cursor-size 36
 
 
 
-echo "test 30"
+echo "test 31"
 
 #sudo reboot
