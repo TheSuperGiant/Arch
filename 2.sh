@@ -44,11 +44,8 @@ add_alias() {
 }
 add_device_label() {
 	if ! sudo grep -q "LABEL=$1" /etc/fstab; then
-		echo "1 $1"
 		fs_type=$(lsblk -o NAME,LABEL,FSTYPE | grep -w $1 | awk '{print $3}')
-		echo "3 $fs_type"
 		if [ -n "$fs_type" ]; then
-			echo "2 $1"
 			mountpoint="/mnt/$1"
 			#sudo bash -c "echo \"LABEL=$1 /mnt/$1 $fs_type defaults,nofail 0 2\" >> /etc/fstab"
 			sudo bash -c "echo \"LABEL=$1 $mountpoint $fs_type defaults,nofail 0 2\" >> /etc/fstab"
@@ -89,6 +86,7 @@ add_sudo() {
 	fi
 }
 
+/etc/fstab
 
 add_alias md "mkdir -p \$1"
 add_alias mds "sudo mkdir -p \$1"
@@ -101,7 +99,16 @@ add_function mdr "sudo mkdir -p \$1
 #add_function mdrc "sudo mkdir -p \$1
 	#sudo chown \$USER:\$USER \$1"
 
-
+. "$HOME/.bashrc"
+while IFS= read -r line; do
+    if [[ $line == alias* ]]; then
+        alias_name=$(echo "$line" | cut -d'=' -f1 | sed 's/alias //')
+        alias_command=$(echo "$line" | cut -d'=' -f2-)
+        eval "$alias_name() {
+			\"$alias_command\"
+		}"
+    fi
+done < ~/.bashrc
 
 sudo pacman -Syu --noconfirm
 
@@ -154,13 +161,6 @@ if [ -n "$add_device_labels" ]; then
 		add_device_label $label
 	done
 fi
-
-echo "103"
-
-#!/bin/bash
-echo "Script paused. Press Enter to continue..."
-read
-
 
 add_lightdm e "[Seat:*]" "\[Seat:\*\]"
 
