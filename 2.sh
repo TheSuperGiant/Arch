@@ -121,7 +121,7 @@ mdr /mnt/Games
 md $HOME/Scripts
 md ~/.config/autostart
 
-echo 2
+echo 3
 
 echo "Script paused. Press Enter to continue..."
 read
