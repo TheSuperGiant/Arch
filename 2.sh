@@ -11,13 +11,19 @@ while true; do
     sleep 60
 done &
 
+http_check() {
+	if [[ "$1" == *"http"* ]]; then
+		source <(curl -L $1)
+	else
+		source $1
+	fi
+}
 
-if [[ "$1" == *"http"* ]]; then
-	source <(curl -L $1)
-else
-	source $1
-fi
+echo $1
+http_check $1
 
+echo "Script paused. Press Enter to continue..."
+read
 
 if [ "$linutil__christitus" == "1" ]; then
 	#All credits to christitus.com for creating linutil.
@@ -122,9 +128,6 @@ if [ "$sudo_reboot" == "1" ]; then
 	add_sudo "$USER ALL=(ALL) NOPASSWD: /usr/bin/reboot, /usr/bin/shutdown, /usr/bin/poweroff"
 fi
 
-mdr /mnt/Data
-mdr /mnt/Games
-
 if [ -n "$StartScript" ]; then
 	md $HOME/Scripts
 	md ~/.config/autostart
@@ -157,6 +160,13 @@ if [ -n "$add_device_labels" ]; then
 	done
 fi
 
+add_lightdm e "[Seat:*]" "\[Seat:\*\]"
+
+#numlock on at startup
+#numlockx
+add_lightdm "greeter-setup-script=/usr/bin/numlockx on" "/^\[Seat:\*\]/a"
+echo "NumLock on configuration added to [Seat:*] section."
+#numlock on at startup
 
 declare -a App_Install__=(
 	"wine:					wine"
@@ -346,14 +356,7 @@ gsettings set org.cinnamon.desktop.interface cursor-size 36
 
 
 
-add_lightdm e "[Seat:*]" "\[Seat:\*\]"
 
-#numlock on at startup
-#numlockx
-add_lightdm "greeter-setup-script=/usr/bin/numlockx on" "/^\[Seat:\*\]/a"
-echo "NumLock on configuration added to [Seat:*] section."
-#numlock on at startup
-
-echo "test 29"
+echo "test 30"
 
 #sudo reboot
