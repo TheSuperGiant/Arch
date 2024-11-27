@@ -5,11 +5,11 @@
 # I am not responsible for any damage, data loss, or other issues that may result from the use of this script.
 
 
-#sudo -v
-#while true; do
-   # sudo -n true
-    #sleep 60
-#done &
+sudo -v
+while true; do
+    sudo -n true
+    sleep 60
+done &
 
 http_check() {
 	if [[ "$1" == *"http"* ]]; then
@@ -356,6 +356,6 @@ gsettings set org.cinnamon.desktop.interface cursor-size 36
 
 http_check $2
 
-echo "test 43"
+echo "test 44"
 
 #sudo reboot
