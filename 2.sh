@@ -130,7 +130,7 @@ if [ -n "$StartScript" ]; then
 	md ~/.config/autostart
 	startup_script_file_location="$HOME/Scripts/startup_script.sh"
 
-	echo -e "StartScript" > $startup_script_file_location
+	echo -e "$StartScript" > $startup_script_file_location
 
 	echo "[Desktop Entry]
 	Type=Application
@@ -349,6 +349,6 @@ add_lightdm "greeter-setup-script=/usr/bin/numlockx on" "/^\[Seat:\*\]/a"
 echo "NumLock on configuration added to [Seat:*] section."
 #numlock on at startup
 
-echo "test 25"
+echo "test 26"
 
 #sudo reboot
