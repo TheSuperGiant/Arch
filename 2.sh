@@ -29,6 +29,7 @@ fi
     #. ~/.bashrc
 #fi
 #source ~/.bashrc
+#bash ~/.bashrc
 
 LIGHTDM_CONF="/etc/lightdm/lightdm.conf"
 
@@ -85,10 +86,10 @@ add_sudo() {
 }
 
 
-#add_alias md "mkdir -p \$1"
-#add_alias mds "sudo mkdir -p \$1"
-#add_function mdr "sudo mkdir -p \$1
-	#sudo chown \$USER:\$USER \$1"
+add_alias md "mkdir -p \$1"
+add_alias mds "sudo mkdir -p \$1"
+add_function mdr "sudo mkdir -p \$1
+	sudo chown \$USER:\$USER \$1"
 #add_function mdc "sudo mkdir -p \$1
 	#sudo chown \$USER:\$USER \$1"
 #add_function mdsc "sudo mkdir -p \$1
@@ -120,7 +121,7 @@ mdr /mnt/Games
 md $HOME/Scripts
 md ~/.config/autostart
 
-echo 4
+echo 5
 
 echo "Script paused. Press Enter to continue..."
 read
