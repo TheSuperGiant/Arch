@@ -11,7 +11,6 @@ while true; do
     sleep 60
 done &
 
-source ~/.bashrc
 
 if [[ "$1" == *"http"* ]]; then
 	source <(curl -L $1)
@@ -25,6 +24,8 @@ if [ "$linutil__christitus" == "1" ]; then
 	#https://github.com/ChrisTitusTech/linutil
 	curl -fsSL https://christitus.com/linux | sh
 fi
+
+source ~/.bashrc
 
 LIGHTDM_CONF="/etc/lightdm/lightdm.conf"
 
