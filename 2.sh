@@ -44,17 +44,15 @@ done < ~/.bashrc
 LIGHTDM_CONF="/etc/lightdm/lightdm.conf"
 
 add_alias() {
-    (
-		alias_name=$1
-		alias_command=$2
-		if ! grep -q "^alias $alias_name" ~/.bashrc; then
-			echo "alias $alias_name=\"$alias_command\"" >> ~/.bashrc
-			eval "$alias_name() {
-				$alias_command
-			}"
-			echo "Alias '$alias_name' added and saved to ~/.bashrc."
-		fi
-	)
+	alias_name=$1
+	alias_command=$2
+	if ! grep -q "^alias $alias_name" ~/.bashrc; then
+		echo "alias $alias_name=\"$alias_command\"" >> ~/.bashrc
+		eval "$alias_name() {
+			$alias_command
+		}"
+		echo "Alias '$alias_name' added and saved to ~/.bashrc."
+	fi
 }
 add_device_label() {
 	if ! sudo grep -q "LABEL=$1" /etc/fstab; then
@@ -361,6 +359,6 @@ gsettings set org.cinnamon.desktop.interface cursor-size 36
 
 http_check $2
 
-echo "test 40"
+echo "test 41"
 
 #sudo reboot
