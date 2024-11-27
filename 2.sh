@@ -265,7 +265,7 @@ dconf write /org/cinnamon/desktop/interface/clock-show-date false
 
 #Explorer
 #show hidden files
-if [ "$explorer_show_hiden_files" == "0" || "$explorer_show_hiden_files" == "1" ]; then
+if [[ "$explorer_show_hiden_files" == "0" || "$explorer_show_hiden_files" == "1" ]]; then
 	if [ "$explorer_show_hiden_files" == "1" ]; then
 		bool=true
 	else
@@ -367,6 +367,6 @@ gsettings set org.cinnamon.desktop.interface cursor-size 36
 
 http_check $2
 
-echo "test 45"
+echo "test 46"
 
 #sudo reboot
