@@ -31,8 +31,8 @@ while IFS= read -r line; do
         alias_name=$(echo "$line" | cut -d'=' -f1 | sed 's/alias //')
         alias_command=$(echo "$line" | cut -d'=' -f2-)
         eval "$alias_name() {
-				$alias_command
-			}"
+			$alias_command
+		}"
         echo "Alias Name: $alias_name"
         echo "Alias Command: $alias_command"
     fi
@@ -130,7 +130,7 @@ mdr /mnt/Games
 md $HOME/Scripts
 md ~/.config/autostart
 
-echo 2
+echo 3
 echo "Script paused. Press Enter to continue..."
 read
 
