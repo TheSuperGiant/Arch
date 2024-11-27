@@ -125,25 +125,26 @@ fi
 mdr /mnt/Data
 mdr /mnt/Games
 md $HOME/Scripts
-md ~/.config/autostart
 
+#if [ "$StartScript" == "1" ]; then
+	md ~/.config/autostart
+	startup_script_file_location="$HOME/Scripts/startup_script.sh"
 
-startup_script_file_location="$HOME/Scripts/startup_script.sh"
+	echo -e "" > $startup_script_file_location
 
-echo -e "" > $startup_script_file_location
+	echo "[Desktop Entry]
+	Type=Application
+	Exec=sudo $startup_script_file_location
+	Hidden=false
+	NoDisplay=false
+	X-GNOME-Autostart-enabled=true
+	Name=My Startup Script
+	Comment=Runs my startup script at login" > ~/.config/autostart/startup_script.desktop
 
-echo "[Desktop Entry]
-Type=Application
-Exec=sudo $startup_script_file_location
-Hidden=false
-NoDisplay=false
-X-GNOME-Autostart-enabled=true
-Name=My Startup Script
-Comment=Runs my startup script at login" > ~/.config/autostart/startup_script.desktop
+	add_sudo "$USER ALL=(ALL) NOPASSWD: $HOME/Scripts/*"
 
-add_sudo "$USER ALL=(ALL) NOPASSWD: $HOME/Scripts/*"
-
-chmod +x $startup_script_file_location
+	chmod +x $startup_script_file_location
+#fi
 
 if [ -n "$add_device_labels" ]; then
 	for label in "${add_device_labels[@]}"; do
@@ -348,6 +349,6 @@ add_lightdm "greeter-setup-script=/usr/bin/numlockx on" "/^\[Seat:\*\]/a"
 echo "NumLock on configuration added to [Seat:*] section."
 #numlock on at startup
 
-echo "test 23"
+echo "test 24"
 
 #sudo reboot
