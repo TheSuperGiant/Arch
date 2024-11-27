@@ -124,11 +124,7 @@ add_sudo "$USER ALL=(ALL) NOPASSWD: /usr/bin/reboot, /usr/bin/shutdown, /usr/bin
 mdr /mnt/Data
 mdr /mnt/Games
 md $HOME/Scripts
-md ~/.config/autostart
-
-echo 6
-echo "Script paused. Press Enter to continue..."
-read
+md ~/.config/autostart~
 
 
 startup_script_file_location="$HOME/Scripts/startup_script.sh"
@@ -351,6 +347,6 @@ add_lightdm "greeter-setup-script=/usr/bin/numlockx on" "/^\[Seat:\*\]/a"
 echo "NumLock on configuration added to [Seat:*] section."
 #numlock on at startup
 
-echo "test 22"
+echo "test 23"
 
 #sudo reboot
