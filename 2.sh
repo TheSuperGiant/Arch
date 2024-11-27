@@ -53,8 +53,10 @@ add_alias() {
 }
 add_device_label() {
 	if ! sudo grep -q "LABEL=$1" /etc/fstab; then
+		echo "1 $1"
 		fs_type=$(lsblk -o NAME,LABEL,FSTYPE | grep -w $1 | awk '{print $3}')
 		if [ -n "$fs_type" ]; then
+			echo "2 $1"
 			mountpoint="/mnt/$1"
 			#sudo bash -c "echo \"LABEL=$1 /mnt/$1 $fs_type defaults,nofail 0 2\" >> /etc/fstab"
 			sudo bash -c "echo \"LABEL=$1 $mountpoint $fs_type defaults,nofail 0 2\" >> /etc/fstab"
@@ -357,6 +359,6 @@ gsettings set org.cinnamon.desktop.interface cursor-size 36
 
 http_check $2
 
-echo "test 33"
+echo "test 34"
 
 #sudo reboot
