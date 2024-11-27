@@ -29,6 +29,8 @@ fi
 
 
 
+. "$HOME/.bashrc"
+
 LIGHTDM_CONF="/etc/lightdm/lightdm.conf"
 
 add_alias() {
@@ -98,17 +100,6 @@ add_function mdr "sudo mkdir -p \$1
 	#sudo chown \$USER:\$USER \$1"
 #add_function mdrc "sudo mkdir -p \$1
 	#sudo chown \$USER:\$USER \$1"
-
-. "$HOME/.bashrc"
-while IFS= read -r line; do
-    if [[ $line == alias* ]]; then
-        alias_name=$(echo "$line" | cut -d'=' -f1 | sed 's/alias //')
-        alias_command=$(echo "$line" | cut -d'=' -f2-)
-        eval "$alias_name() {
-			\"$alias_command\"
-		}"
-    fi
-done < ~/.bashrc
 
 sudo pacman -Syu --noconfirm
 
@@ -360,6 +351,6 @@ gsettings set org.cinnamon.desktop.interface cursor-size 36
 
 http_check $2
 
-echo "test 35"
+echo "test 36"
 
 #sudo reboot
