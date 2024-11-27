@@ -156,10 +156,17 @@ Comment=Runs my startup script at login" > $autostart_location
 fi
 
 if [ -n "$add_device_labels" ]; then
+	echo "11 $add_device_labels"
 	for label in "${add_device_labels[@]}"; do
+		echo "12 $label"
 		add_device_label $label
 	done
 fi
+
+#!/bin/bash
+echo "Script paused. Press Enter to continue..."
+read
+
 
 add_lightdm e "[Seat:*]" "\[Seat:\*\]"
 
@@ -359,6 +366,6 @@ gsettings set org.cinnamon.desktop.interface cursor-size 36
 
 http_check $2
 
-echo "test 34"
+echo "test 35"
 
 #sudo reboot
