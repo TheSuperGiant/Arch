@@ -124,7 +124,7 @@ add_sudo "$USER ALL=(ALL) NOPASSWD: /usr/bin/reboot, /usr/bin/shutdown, /usr/bin
 mdr /mnt/Data
 mdr /mnt/Games
 md $HOME/Scripts
-md ~/.config/autostart~
+md ~/.config/autostart
 
 
 startup_script_file_location="$HOME/Scripts/startup_script.sh"
