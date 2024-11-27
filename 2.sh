@@ -118,8 +118,9 @@ sudo pacman -Syu --noconfirm
 #----------maby to personal--------
 
 
-
-add_sudo "$USER ALL=(ALL) NOPASSWD: /usr/bin/reboot, /usr/bin/shutdown, /usr/bin/poweroff"
+if [ "$sudo_reboot" == "1" ]; then
+	add_sudo "$USER ALL=(ALL) NOPASSWD: /usr/bin/reboot, /usr/bin/shutdown, /usr/bin/poweroff"
+fi
 
 mdr /mnt/Data
 mdr /mnt/Games
