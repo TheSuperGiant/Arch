@@ -356,6 +356,6 @@ gsettings set org.cinnamon.desktop.interface cursor-size 36
 
 http_check $2
 
-echo "test 42"
+echo "test 43"
 
 #sudo reboot
