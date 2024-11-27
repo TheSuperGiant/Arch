@@ -24,9 +24,10 @@ if [ "$linutil__christitus" == "1" ]; then
 	#https://github.com/ChrisTitusTech/linutil
 	curl -fsSL https://christitus.com/linux | sh
 fi
-
-. ~/.bashrc
-
+if [ -f ~/.bashrc ]; then
+	echo "hello"
+    . ~/.bashrc
+fi
 #source ~/.bashrc
 
 LIGHTDM_CONF="/etc/lightdm/lightdm.conf"
