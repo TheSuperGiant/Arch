@@ -126,11 +126,11 @@ mdr /mnt/Data
 mdr /mnt/Games
 md $HOME/Scripts
 
-#if [ "$StartScript" == "1" ]; then
+#if [ -n "$StartScript" ]; then
 	md ~/.config/autostart
 	startup_script_file_location="$HOME/Scripts/startup_script.sh"
 
-	echo -e "" > $startup_script_file_location
+	echo -e "StartScript" > $startup_script_file_location
 
 	echo "[Desktop Entry]
 	Type=Application
