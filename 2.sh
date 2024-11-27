@@ -164,6 +164,8 @@ if [ -n "$add_device_labels" ]; then
 	done
 fi
 
+echo "101"
+
 #!/bin/bash
 echo "Script paused. Press Enter to continue..."
 read
