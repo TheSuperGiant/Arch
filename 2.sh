@@ -43,11 +43,9 @@ add_alias() {
     alias_command=$2
 	if ! grep -q "^alias $alias_name" ~/.bashrc; then
 		echo "alias $alias_name=\"$alias_command\"" >> ~/.bashrc
-		if ! command -v my_function &>/dev/null; then
-			eval "$alias_name() {
-				$alias_command
-			}"
-		fi
+		eval "$alias_name() {
+			$alias_command
+		}"
 		echo "Alias '$alias_name' added and saved to ~/.bashrc."
 	fi
 }
@@ -127,6 +125,10 @@ mdr /mnt/Data
 mdr /mnt/Games
 md $HOME/Scripts
 md ~/.config/autostart
+
+echo 6
+echo "Script paused. Press Enter to continue..."
+read
 
 
 startup_script_file_location="$HOME/Scripts/startup_script.sh"
