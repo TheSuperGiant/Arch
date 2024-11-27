@@ -156,13 +156,15 @@ if [ -n "$add_device_labels" ]; then
 	done
 fi
 
-add_lightdm e "[Seat:*]" "\[Seat:\*\]"
+if [[ "$numlock_startup" == "on" || "$numlock_startup" == "off" ]]; then
+	add_lightdm e "[Seat:*]" "\[Seat:\*\]"
+fi
 
-#numlock on at startup
-#numlockx
-add_lightdm "greeter-setup-script=/usr/bin/numlockx on" "/^\[Seat:\*\]/a"
-echo "NumLock on configuration added to [Seat:*] section."
-#numlock on at startup
+if [[ "$numlock_startup" == "on" || "$numlock_startup" == "off" ]]; then
+	App_Install__numlockx=1
+	add_lightdm "greeter-setup-script=/usr/bin/numlockx $numlock_startup" "/^\[Seat:\*\]/a"
+	echo "NumLock $numlock_startup configuration added to [Seat:*] section."
+fi
 
 declare -a App_Install__=(
 	"wine:					wine"
