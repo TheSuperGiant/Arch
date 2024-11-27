@@ -25,7 +25,9 @@ if [ "$linutil__christitus" == "1" ]; then
 	curl -fsSL https://christitus.com/linux | sh
 fi
 
-source ~/.bashrc
+. ~/.bashrc
+
+#source ~/.bashrc
 
 LIGHTDM_CONF="/etc/lightdm/lightdm.conf"
 
@@ -117,6 +119,8 @@ mdr /mnt/Data
 mdr /mnt/Games
 md $HOME/Scripts
 md ~/.config/autostart
+
+echo 2
 
 echo "Script paused. Press Enter to continue..."
 read
