@@ -33,8 +33,6 @@ while IFS= read -r line; do
         eval "$alias_name() {
 			\"$alias_command\"
 		}"
-        echo "Alias Name: $alias_name"
-        echo "Alias Command: $alias_command"
     fi
 done < ~/.bashrc
 
@@ -129,10 +127,6 @@ mdr /mnt/Data
 mdr /mnt/Games
 md $HOME/Scripts
 md ~/.config/autostart
-
-echo 5
-echo "Script paused. Press Enter to continue..."
-read
 
 
 startup_script_file_location="$HOME/Scripts/startup_script.sh"
