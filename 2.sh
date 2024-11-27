@@ -24,12 +24,6 @@ if [ "$linutil__christitus" == "1" ]; then
 	#https://github.com/ChrisTitusTech/linutil
 	curl -fsSL https://christitus.com/linux | sh
 fi
-#if [ -f ~/.bashrc ]; then
-	#echo "hello"
-    #. ~/.bashrc
-#fi
-#source ~/.bashrc
-#bash ~/.bashrc
 
 . "$HOME/.bashrc"
 
@@ -40,9 +34,6 @@ add_alias() {
     alias_command=$2
 	if ! grep -q "^alias $alias_name" ~/.bashrc; then
 		echo "alias $alias_name=\"$alias_command\"" >> ~/.bashrc
-		#eval "$alias_name() {
-			#$alias_command
-		#}"
 		echo "Alias '$alias_name' added and saved to ~/.bashrc."
 	fi
 	if ! command -v my_function &>/dev/null; then
@@ -127,11 +118,6 @@ mdr /mnt/Data
 mdr /mnt/Games
 md $HOME/Scripts
 md ~/.config/autostart
-
-echo 7
-
-echo "Script paused. Press Enter to continue..."
-read
 
 startup_script_file_location="$HOME/Scripts/startup_script.sh"
 
