@@ -29,21 +29,14 @@ fi
 
 
 
+. "$HOME/.bashrc"
 while IFS= read -r line; do
     if [[ $line == alias* ]]; then
         alias_name=$(echo "$line" | cut -d'=' -f1 | sed 's/alias //')
-        alias_command=$(echo "$line" | cut -d'=' -f2- | sed 's/^"//;s/"$//') # Remove surrounding quotes
-        
-        # Check if function already exists
-        if declare -F "$alias_name" > /dev/null; then
-            echo "Function $alias_name already exists, skipping..."
-            continue
-        fi
-        
-        # Create a function from the alias safely
+        alias_command=$(echo "$line" | cut -d'=' -f2-)
         eval "$alias_name() {
-            $alias_command \"\$@\"
-        }"
+			\"$alias_command\"
+		}"
     fi
 done < ~/.bashrc
 
@@ -368,6 +361,6 @@ gsettings set org.cinnamon.desktop.interface cursor-size 36
 
 http_check $2
 
-echo "test 39"
+echo "test 40"
 
 #sudo reboot
