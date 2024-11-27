@@ -29,7 +29,24 @@ fi
 
 
 
-. "$HOME/.bashrc"
+while IFS= read -r line; do
+    if [[ $line == alias* ]]; then
+        alias_name=$(echo "$line" | cut -d'=' -f1 | sed 's/alias //')
+        alias_command=$(echo "$line" | cut -d'=' -f2- | sed 's/^"//;s/"$//') # Remove surrounding quotes
+        
+        # Check if function already exists
+        if declare -F "$alias_name" > /dev/null; then
+            echo "Function $alias_name already exists, skipping..."
+            continue
+        fi
+        
+        # Create a function from the alias safely
+        eval "$alias_name() {
+            $alias_command \"\$@\"
+        }"
+    fi
+done < ~/.bashrc
+
 
 LIGHTDM_CONF="/etc/lightdm/lightdm.conf"
 
@@ -349,6 +366,6 @@ gsettings set org.cinnamon.desktop.interface cursor-size 36
 
 http_check $2
 
-echo "test 37"
+echo "test 38"
 
 #sudo reboot
