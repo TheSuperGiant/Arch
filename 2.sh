@@ -27,16 +27,7 @@ if [ "$linutil__christitus" == "1" ]; then
 	curl -fsSL https://christitus.com/linux | sh
 fi
 
-. "$HOME/.bashrc"
-while IFS= read -r line; do
-    if [[ $line == alias* ]]; then
-        alias_name=$(echo "$line" | cut -d'=' -f1 | sed 's/alias //')
-        alias_command=$(echo "$line" | cut -d'=' -f2-)
-        eval "$alias_name() {
-			\"$alias_command\"
-		}"
-    fi
-done < ~/.bashrc
+
 
 LIGHTDM_CONF="/etc/lightdm/lightdm.conf"
 
@@ -54,7 +45,7 @@ add_alias() {
 add_device_label() {
 	if ! sudo grep -q "LABEL=$1" /etc/fstab; then
 		echo "1 $1"
-		fs_type=$(lsblk -o NAME,LABEL,FSTYPE | grep $1 | awk '{print $3}')
+		fs_type=$(lsblk -o NAME,LABEL,FSTYPE | grep -w $1 | awk '{print $3}')
 		echo "3 $fs_type"
 		if [ -n "$fs_type" ]; then
 			echo "2 $1"
@@ -164,7 +155,7 @@ if [ -n "$add_device_labels" ]; then
 	done
 fi
 
-echo "102"
+echo "103"
 
 #!/bin/bash
 echo "Script paused. Press Enter to continue..."
