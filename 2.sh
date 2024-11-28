@@ -94,6 +94,13 @@ add_sudo() {
 		echo "$1" | sudo tee -a /etc/sudoers
 	fi
 }
+bool() {
+	if [ "$1" == "1" ]; then
+		bool=true
+	else
+		bool=false
+	fi
+}
 
 add_alias md "mkdir -p \$1"
 add_alias mds "sudo mkdir -p \$1"
@@ -266,11 +273,7 @@ dconf write /org/cinnamon/desktop/interface/clock-show-date false
 #Explorer
 #show hidden files
 if [[ "$explorer_show_hiden_files" == "0" || "$explorer_show_hiden_files" == "1" ]]; then
-	if [ "$explorer_show_hiden_files" == "1" ]; then
-		bool=true
-	else
-		bool=false
-	fi
+	bool $explorer_show_hiden_files
 	dconf write /org/nemo/preferences/show-hidden-files $bool
 fi
 
@@ -367,6 +370,6 @@ gsettings set org.cinnamon.desktop.interface cursor-size 36
 
 http_check $2
 
-echo "test 46"
+echo "test 47"
 
 #sudo reboot
