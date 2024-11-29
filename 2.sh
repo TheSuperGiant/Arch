@@ -273,9 +273,7 @@ dconf write /org/cinnamon/desktop/interface/clock-show-date false
 #Explorer
 #show hidden files
 if [[ "$explorer_show_hiden_files" == "0" || "$explorer_show_hiden_files" == "1" ]]; then
-	#bool $explorer_show_hiden_files
 	dconf write /org/nemo/preferences/show-hidden-files $(bool $explorer_show_hiden_files)
-	echo "dconf write /org/nemo/preferences/show-hidden-files $(bool $explorer_show_hiden_files)"
 fi
 
 # Sound settings.
