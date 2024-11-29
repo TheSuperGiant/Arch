@@ -96,9 +96,9 @@ add_sudo() {
 }
 bool() {
 	if [ "$1" == "1" ]; then
-		bool=true
+		echo "true"
 	else
-		bool=false
+		echo "false"
 	fi
 }
 
@@ -371,6 +371,6 @@ gsettings set org.cinnamon.desktop.interface cursor-size 36
 
 http_check $2
 
-echo "test 49"
+echo "test 50"
 
 #sudo reboot
