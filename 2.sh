@@ -256,7 +256,7 @@ fi
 
 declare -a Setting__=(
 	"explorer_show_hiden_files:	/org/nemo/preferences/show-hidden-files;b"
-	"theme__mouse:	org/gnome/desktop/interface/cursor-theme;'"
+	"theme__mouse:	/org/gnome/desktop/interface/cursor-theme;'"
 )
 	
 for Setting in "${Setting__[@]}"; do
@@ -272,8 +272,9 @@ for Setting in "${Setting__[@]}"; do
 			echo "dconf write $value $(bool "$(eval echo \${Setting__$key})")"
 		#elif [[ "$type" == "u" ]]; then
 			
-		#elif [[ "$type" == "'" ]]; then
-			#dconf write /org/nemo/preferences/show-hidden-files $(bool "$(eval echo \${Setting__$key})")
+		elif [[ "$type" == "'" ]]; then
+			dconf write $value $(eval echo \${'Setting__$key'})
+			echo "dconf write $value $(eval echo \${'Setting__$key'})"
 		#else
 			
 		fi
@@ -389,6 +390,6 @@ gsettings set org.cinnamon.desktop.interface cursor-size 36
 
 http_check $2
 
-echo "test 52"
+echo "test 53"
 
 #sudo reboot
