@@ -276,7 +276,7 @@ for Setting in "${Setting__[@]}"; do
 			#dconf write /org/nemo/preferences/show-hidden-files $(bool "$(eval echo \${Setting__$key})")
 		#else
 			
-		#fi
+		fi
 	fi
 done
 
