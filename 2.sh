@@ -256,6 +256,7 @@ fi
 
 declare -a Setting__=(
 	"explorer__show_hiden_files:	/org/nemo/preferences/show-hidden-files;b"
+	"screensaver:	/org/cinnamon/desktop/session/idle-delay;u"
 	"theme__mouse:	/org/cinnamon/desktop/interface/cursor-theme;'"
 	"theme__mouse:	/org/gnome/desktop/interface/cursor-theme;'"
 )
@@ -272,8 +273,8 @@ for Setting in "${Setting__[@]}"; do
 			dconf write $value $(bool "$(eval echo \${Setting__$key})")
 			echo "dconf write $value $(bool "$(eval echo \${Setting__$key})")"
 		fi
-	#elif [[ "$type" == "u" ]]; then
-			
+	elif [[ "$type" == "u" ]]; then
+		dconf write $value "uint32 $(eval echo \${Setting__$key})"
 	elif [[ "$type" == "'" ]]; then
 		dconf write $value "'$(eval echo \${Setting__$key})'"
 		#echo "dconf write $value "'$(eval echo \${Setting__$key})'""
@@ -288,10 +289,6 @@ fi
 #Desktop
 if [ -n "$theme__setting__dekstop" ]; then
 	dconf write /org/cinnamon/theme/name "'$theme__setting__dekstop'"
-fi
-#mouse pointer
-if [ -n "$theme__setting__dekstop" ]; then
-	gsettings set org.cinnamon.desktop.interface cursor-theme "'$theme__setting__mouse'"
 fi
 
 #clock
@@ -347,7 +344,7 @@ gsettings set org.cinnamon.desktop.interface locate-pointer true
 
 #Screensaver
 #digit in seconds
-dconf write /org/cinnamon/desktop/session/idle-delay "uint32 0"
+#dconf write /org/cinnamon/desktop/session/idle-delay "uint32 0"
 
 #font
 font='DejaVu Sans Mono Book 13'
@@ -390,6 +387,6 @@ gsettings set org.cinnamon.desktop.interface cursor-size 36
 
 http_check $2
 
-echo "test 58"
+echo "test 59"
 
 #sudo reboot
