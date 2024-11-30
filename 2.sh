@@ -254,6 +254,32 @@ if [ "$theme__pack__Windows_10_Dark" == "1" ]; then
 	sudo cp -r "$theme" /usr/share/themes/
 fi
 
+declare -a Setting__=(
+	"explorer_show_hiden_files:	/org/nemo/preferences/show-hidden-files;b"
+)
+	
+for Setting in "${Setting__[@]}"; do
+	key="${Setting%%:*}"
+	value=$(echo "${Setting##*:}" | cut -d';' -f1 | tr -d '[:space:]')
+	type=$(echo "${Setting##*;}")
+	echo $value
+	if [[ "$(eval echo \$Setting__$key)" == "0" || "$(eval echo \$Setting__$key)" == "1" ]]; then
+		echo $key
+		echo $type
+		if [[ "$type" == "b" ]]; then
+			dconf write /org/nemo/preferences/show-hidden-files $(bool "$(eval echo \${Setting__$key})")
+			echo "dconf write /org/nemo/preferences/show-hidden-files $(bool "$(eval echo \${Setting__$key})")"
+		#elif [[ "$type" == "i" ]]; then
+			
+		#elif [[ "$type" == "'" ]]; then
+			
+		#else
+			
+		fi
+		
+	fi
+done
+
 #Applications
 if [ -n "$theme__setting__applications" ]; then
 	gsettings set org.cinnamon.desktop.interface gtk-theme "$theme__setting__applications"
@@ -272,9 +298,9 @@ dconf write /org/cinnamon/desktop/interface/clock-show-date false
 
 #Explorer
 #show hidden files
-if [[ "$explorer_show_hiden_files" == "0" || "$explorer_show_hiden_files" == "1" ]]; then
-	dconf write /org/nemo/preferences/show-hidden-files $(bool $explorer_show_hiden_files)
-fi
+#if [[ "$explorer_show_hiden_files" == "0" || "$explorer_show_hiden_files" == "1" ]]; then
+	#dconf write /org/nemo/preferences/show-hidden-files $(bool $explorer_show_hiden_files)
+#fi
 
 # Sound settings.
 #starting
