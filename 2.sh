@@ -256,6 +256,7 @@ fi
 
 declare -a Setting__=(
 	"explorer_show_hiden_files:	/org/nemo/preferences/show-hidden-files;b"
+	"theme__mouse:	org/gnome/desktop/interface/cursor-theme;'"
 )
 	
 for Setting in "${Setting__[@]}"; do
@@ -267,16 +268,17 @@ for Setting in "${Setting__[@]}"; do
 		echo $key
 		echo $type
 		if [[ "$type" == "b" ]]; then
-			dconf write /org/nemo/preferences/show-hidden-files $(bool "$(eval echo \${Setting__$key})")
-			echo "dconf write /org/nemo/preferences/show-hidden-files $(bool "$(eval echo \${Setting__$key})")"
-		#elif [[ "$type" == "i" ]]; then
+			dconf write $value $(bool "$(eval echo \${Setting__$key})")
+			#echo "dconf write /org/nemo/preferences/show-hidden-files $(bool "$(eval echo \${Setting__$key})")"
+		#elif [[ "$type" == "u" ]]; then
 			
-		#elif [[ "$type" == "'" ]]; then
-			
+		elif [[ "$type" == "'" ]]; then
+			#dconf write /org/nemo/preferences/show-hidden-files $(bool "$(eval echo \${Setting__$key})")
+			#echo "dconf write /org/nemo/preferences/show-hidden-files $(bool "$(eval echo \${Setting__$key})")"
 		#else
 			
 		fi
-		
+	echo "dconf write /org/nemo/preferences/show-hidden-files $(bool "$(eval echo \${Setting__$key})")"
 	fi
 done
 
@@ -295,12 +297,6 @@ fi
 
 #clock
 dconf write /org/cinnamon/desktop/interface/clock-show-date false
-
-#Explorer
-#show hidden files
-#if [[ "$explorer_show_hiden_files" == "0" || "$explorer_show_hiden_files" == "1" ]]; then
-	#dconf write /org/nemo/preferences/show-hidden-files $(bool $explorer_show_hiden_files)
-#fi
 
 # Sound settings.
 #starting
@@ -395,6 +391,6 @@ gsettings set org.cinnamon.desktop.interface cursor-size 36
 
 http_check $2
 
-echo "test 50"
+echo "test 51"
 
 #sudo reboot
