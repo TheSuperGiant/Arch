@@ -269,16 +269,14 @@ for Setting in "${Setting__[@]}"; do
 		echo $type
 		if [[ "$type" == "b" ]]; then
 			dconf write $value $(bool "$(eval echo \${Setting__$key})")
-			#echo "dconf write /org/nemo/preferences/show-hidden-files $(bool "$(eval echo \${Setting__$key})")"
+			echo "dconf write $value $(bool "$(eval echo \${Setting__$key})")"
 		#elif [[ "$type" == "u" ]]; then
 			
-		elif [[ "$type" == "'" ]]; then
+		#elif [[ "$type" == "'" ]]; then
 			#dconf write /org/nemo/preferences/show-hidden-files $(bool "$(eval echo \${Setting__$key})")
-			#echo "dconf write /org/nemo/preferences/show-hidden-files $(bool "$(eval echo \${Setting__$key})")"
 		#else
 			
-		fi
-	echo "dconf write /org/nemo/preferences/show-hidden-files $(bool "$(eval echo \${Setting__$key})")"
+		#fi
 	fi
 done
 
@@ -391,6 +389,6 @@ gsettings set org.cinnamon.desktop.interface cursor-size 36
 
 http_check $2
 
-echo "test 51"
+echo "test 52"
 
 #sudo reboot
