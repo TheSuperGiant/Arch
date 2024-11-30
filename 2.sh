@@ -276,15 +276,31 @@ for Setting in "${Setting__[@]}"; do
 			echo "des $desired_value"
 			if [ "$current_value" != "$desired_value" ]; then
 				dconf write $value $desired_value
+				echo "zak met zuurtjes"
 				#echo "dconf write $value $(bool "$(eval echo \${Setting__$key})")"
 			fi
 		fi
-	elif [[ "$type" == "u" ]]; then
-		dconf write $value "uint32 $(eval echo \${Setting__$key})"
-	elif [[ "$type" == "'" ]]; then
-		dconf write $value "'$(eval echo \${Setting__$key})'"
-		#echo "dconf write $value "'$(eval echo \${Setting__$key})'""
-	#else
+	elif [ -n "$(eval echo \${Setting__$key})" ]; then
+		if [[ "$type" == "u" ]]; then
+			desired_value="uint32 $(eval echo \${Setting__$key})"
+			echo "des $desired_value"
+			if [ "$current_value" != "$desired_value" ]; then
+				dconf write $value "$desired_value"
+				#dconf write $value "uint32 $(eval echo \${Setting__$key})"
+				echo ballon
+				echo "dconf write $value $desired_value"
+			fi
+		elif [[ "$type" == "'" ]]; then
+			desired_value="'$(eval echo \${Setting__$key})'"
+			echo "des $desired_value"
+			if [ "$current_value" != "$desired_value" ]; then
+				dconf write $value "$desired_value"
+				#dconf write $value "'$(eval echo \${Setting__$key})'"
+				#echo "dconf write $value "'$(eval echo \${Setting__$key})'""
+				echo klaas
+			fi
+		#else
+		fi
 	fi
 done
 
@@ -389,6 +405,6 @@ gsettings set org.cinnamon.desktop.interface cursor-size 36
 
 http_check $2
 
-echo "test 60"
+echo "test 61"
 
 #sudo reboot
