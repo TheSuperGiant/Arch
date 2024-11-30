@@ -256,6 +256,7 @@ fi
 
 declare -a Setting__=(
 	"explorer__show_hiden_files:	/org/nemo/preferences/show-hidden-files;b"
+	"theme__mouse:	/org/cinnamon/desktop/interface/cursor-theme;'"
 	"theme__mouse:	/org/gnome/desktop/interface/cursor-theme;'"
 )
 	
@@ -265,15 +266,17 @@ for Setting in "${Setting__[@]}"; do
 	type=$(echo "${Setting##*;}")
 	echo $value
 	echo $key
+	echo $type
 	if [[ "$type" == "b" ]]; then
-		echo $type
-		dconf write $value $(bool "$(eval echo \${Setting__$key})")
-		echo "dconf write $value $(bool "$(eval echo \${Setting__$key})")"
+		if [[ "$(eval echo \$Setting__$key)" == "0" || "$(eval echo \$Setting__$key)" == "1" ]]; then
+			dconf write $value $(bool "$(eval echo \${Setting__$key})")
+			echo "dconf write $value $(bool "$(eval echo \${Setting__$key})")"
+		fi
 	#elif [[ "$type" == "u" ]]; then
 			
 	elif [[ "$type" == "'" ]]; then
-			dconf write $value $(eval echo \${'Setting__$key'})
-			echo "dconf write $value $(eval echo \${'Setting__$key'})"
+		dconf write $value "'$(eval echo \${Setting__$key})'"
+		#echo "dconf write $value "'$(eval echo \${Setting__$key})'""
 	#else
 	fi
 done
@@ -387,6 +390,6 @@ gsettings set org.cinnamon.desktop.interface cursor-size 36
 
 http_check $2
 
-echo "test 55"
+echo "test 56"
 
 #sudo reboot
