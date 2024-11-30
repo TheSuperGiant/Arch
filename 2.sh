@@ -264,20 +264,17 @@ for Setting in "${Setting__[@]}"; do
 	value=$(echo "${Setting##*:}" | cut -d';' -f1 | tr -d '[:space:]')
 	type=$(echo "${Setting##*;}")
 	echo $value
-	if [[ "$(eval echo \$Setting__$key)" == "0" || "$(eval echo \$Setting__$key)" == "1" ]]; then
-		echo $key
+	echo $key
+	if [[ "$type" == "b" ]]; then
 		echo $type
-		if [[ "$type" == "b" ]]; then
-			dconf write $value $(bool "$(eval echo \${Setting__$key})")
-			echo "dconf write $value $(bool "$(eval echo \${Setting__$key})")"
-		#elif [[ "$type" == "u" ]]; then
+		dconf write $value $(bool "$(eval echo \${Setting__$key})")
+		echo "dconf write $value $(bool "$(eval echo \${Setting__$key})")"
+	#elif [[ "$type" == "u" ]]; then
 			
-		elif [[ "$type" == "'" ]]; then
+	elif [[ "$type" == "'" ]]; then
 			dconf write $value $(eval echo \${'Setting__$key'})
 			echo "dconf write $value $(eval echo \${'Setting__$key'})"
-		#else
-			
-		fi
+	#else
 	fi
 done
 
@@ -390,6 +387,6 @@ gsettings set org.cinnamon.desktop.interface cursor-size 36
 
 http_check $2
 
-echo "test 54"
+echo "test 55"
 
 #sudo reboot
