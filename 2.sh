@@ -265,13 +265,19 @@ for Setting in "${Setting__[@]}"; do
 	key="${Setting%%:*}"
 	value=$(echo "${Setting##*:}" | cut -d';' -f1 | tr -d '[:space:]')
 	type=$(echo "${Setting##*;}")
+	current_value=$(dconf read $value)
 	echo $value
 	echo $key
 	echo $type
+	echo "cur $current_value"
 	if [[ "$type" == "b" ]]; then
 		if [[ "$(eval echo \$Setting__$key)" == "0" || "$(eval echo \$Setting__$key)" == "1" ]]; then
-			dconf write $value $(bool "$(eval echo \${Setting__$key})")
-			echo "dconf write $value $(bool "$(eval echo \${Setting__$key})")"
+			desired_value=$(bool "$(eval echo \${Setting__$key})")
+			echo "des $desired_value"
+			if [ "$current_value" != "$desired_value" ]; then
+				dconf write $value $desired_value
+				#echo "dconf write $value $(bool "$(eval echo \${Setting__$key})")"
+			fi
 		fi
 	elif [[ "$type" == "u" ]]; then
 		dconf write $value "uint32 $(eval echo \${Setting__$key})"
@@ -342,10 +348,6 @@ gsettings set org.cinnamon.settings-daemon.plugins.power sleep-display-battery 6
 #mouse
 gsettings set org.cinnamon.desktop.interface locate-pointer true
 
-#Screensaver
-#digit in seconds
-#dconf write /org/cinnamon/desktop/session/idle-delay "uint32 0"
-
 #font
 font='DejaVu Sans Mono Book 13'
 gsettings set org.cinnamon.desktop.interface font-name "$font"
@@ -387,6 +389,6 @@ gsettings set org.cinnamon.desktop.interface cursor-size 36
 
 http_check $2
 
-echo "test 59"
+echo "test 60"
 
 #sudo reboot
