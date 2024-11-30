@@ -257,7 +257,7 @@ fi
 declare -a Setting__=(
 	"explorer__show_hiden_files:	/org/nemo/preferences/show-hidden-files;b"
 	"theme__mouse:	/org/cinnamon/desktop/interface/cursor-theme;'"
-	"theme__mouse:	/org/gnome/desktop/interface/cursor-theme;'"
+	"theme__mouse:	/org/gnome/desktop/interface/cursor-theme;'"
 )
 	
 for Setting in "${Setting__[@]}"; do
@@ -390,6 +390,6 @@ gsettings set org.cinnamon.desktop.interface cursor-size 36
 
 http_check $2
 
-echo "test 56"
+echo "test 58"
 
 #sudo reboot
