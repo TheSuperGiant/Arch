@@ -256,6 +256,8 @@ fi
 
 declare -a Setting__=(
 	"explorer__show_hiden_files:	/org/nemo/preferences/show-hidden-files;b"
+	"power__display_sleep_ac:	/org/cinnamon/settings-daemon/plugins/power/sleep-display-ac"
+	"power__display_sleep_battery:	/org/cinnamon/settings-daemon/plugins/power/sleep-display-battery"
 	"screensaver:	/org/cinnamon/desktop/session/idle-delay;u"
 	"theme__mouse:	/org/cinnamon/desktop/interface/cursor-theme;'"
 	"theme__mouse:	/org/gnome/desktop/interface/cursor-theme;'"
@@ -273,7 +275,6 @@ for Setting in "${Setting__[@]}"; do
 	if [[ "$type" == "b" ]]; then
 		if [[ "$(eval echo \$Setting__$key)" == "0" || "$(eval echo \$Setting__$key)" == "1" ]]; then
 			desired_value=$(bool "$(eval echo \${Setting__$key})")
-			echo "des $desired_value"
 			if [ "$current_value" != "$desired_value" ]; then
 				dconf write $value $desired_value
 				#echo "dconf write $value $desired_value"
@@ -282,19 +283,24 @@ for Setting in "${Setting__[@]}"; do
 	elif [ -n "$(eval echo \${Setting__$key})" ]; then
 		if [[ "$type" == "u" ]]; then
 			desired_value="uint32 $(eval echo \${Setting__$key})"
-			echo "des $desired_value"
 			if [ "$current_value" != "$desired_value" ]; then
 				dconf write $value "$desired_value"
 				#echo "dconf write $value $desired_value"
 			fi
 		elif [[ "$type" == "'" ]]; then
 			desired_value="'$(eval echo \${Setting__$key})'"
-			echo "des $desired_value"
 			if [ "$current_value" != "$desired_value" ]; then
 				dconf write $value "$desired_value"
 				#echo "dconf write $value $desired_value"
 			fi
-		#else
+		else
+			desired_value="$(eval echo \${Setting__$key})"
+			echo "des $desired_value"
+			if [ "$current_value" != "$desired_value" ]; then
+				dconf write $value "$desired_value"
+				echo "dconf write $value $desired_value"
+				echo happpy
+			fi
 		fi
 	fi
 done
@@ -400,6 +406,6 @@ gsettings set org.cinnamon.desktop.interface cursor-size 36
 
 http_check $2
 
-echo "test 62"
+echo "test 63"
 
 #sudo reboot
