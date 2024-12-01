@@ -1,4 +1,4 @@
- #!/bin/bash
+#!/bin/bash
 # Disclaimer:
 # This script is provided as-is, without any warranty or guarantee.
 # By using this script, you acknowledge that you do so at your own risk.
