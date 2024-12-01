@@ -359,8 +359,8 @@ dconf write /org/gnome/desktop/sound/input-feedback-sounds false
 gsettings set org.cinnamon.desktop.privacy remember-recent-files false
 
 #Power Management
-gsettings set org.cinnamon.settings-daemon.plugins.power sleep-display-ac 600
-gsettings set org.cinnamon.settings-daemon.plugins.power sleep-display-battery 600
+#gsettings set org.cinnamon.settings-daemon.plugins.power sleep-display-ac 600
+#gsettings set org.cinnamon.settings-daemon.plugins.power sleep-display-battery 600
 
 #mouse
 gsettings set org.cinnamon.desktop.interface locate-pointer true
@@ -406,6 +406,6 @@ gsettings set org.cinnamon.desktop.interface cursor-size 36
 
 http_check $2
 
-echo "test 63"
+echo "test 64"
 
 #sudo reboot
