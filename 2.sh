@@ -268,10 +268,6 @@ for Setting in "${Setting__[@]}"; do
 	value=$(echo "${Setting##*:}" | cut -d';' -f1 | tr -d '[:space:]')
 	type=$(echo "${Setting##*;}")
 	current_value=$(dconf read $value)
-	echo $value
-	echo $key
-	echo $type
-	echo "cur $current_value"
 	if [[ "$type" == "b" ]]; then
 		if [[ "$(eval echo \$Setting__$key)" == "0" || "$(eval echo \$Setting__$key)" == "1" ]]; then
 			desired_value=$(bool "$(eval echo \${Setting__$key})")
@@ -298,8 +294,7 @@ for Setting in "${Setting__[@]}"; do
 			echo "des $desired_value"
 			if [ "$current_value" != "$desired_value" ]; then
 				dconf write $value "$desired_value"
-				echo "dconf write $value $desired_value"
-				echo happpy
+				#echo "dconf write $value $desired_value"
 			fi
 		fi
 	fi
@@ -358,10 +353,6 @@ dconf write /org/gnome/desktop/sound/input-feedback-sounds false
 #privicy
 gsettings set org.cinnamon.desktop.privacy remember-recent-files false
 
-#Power Management
-#gsettings set org.cinnamon.settings-daemon.plugins.power sleep-display-ac 600
-#gsettings set org.cinnamon.settings-daemon.plugins.power sleep-display-battery 600
-
 #mouse
 gsettings set org.cinnamon.desktop.interface locate-pointer true
 
@@ -378,8 +369,6 @@ gsettings set org.cinnamon.desktop.wm.preferences titlebar-font "$font"
 gsettings set org.cinnamon.desktop.interface cursor-size 36
 
 #------------------
-#numlockx #numlock on/off at startup
-
 #games
 	#indipendesies
 		#wine-mono
