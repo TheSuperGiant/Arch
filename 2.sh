@@ -1,4 +1,4 @@
-#!/bin/bash
+ #!/bin/bash
 # Disclaimer:
 # This script is provided as-is, without any warranty or guarantee.
 # By using this script, you acknowledge that you do so at your own risk.
@@ -27,14 +27,6 @@ if [ "$linutil__christitus" == "1" ]; then
 	curl -fsSL https://christitus.com/linux | sh
 fi
 
-
-
-#. "$HOME/.bashrc"
-#while IFS= read -r line; do
-    #if [[ $line == alias* ]]; then
-      # eval "$line"
-    #fi
-#done < ~/.bashrc
 
 
 LIGHTDM_CONF="/etc/lightdm/lightdm.conf"
