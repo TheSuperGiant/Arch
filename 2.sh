@@ -250,6 +250,9 @@ declare -a Setting__=(
 	"power__display_sleep_ac:	/org/cinnamon/settings-daemon/plugins/power/sleep-display-ac"
 	"power__display_sleep_battery:	/org/cinnamon/settings-daemon/plugins/power/sleep-display-battery"
 	"screensaver:	/org/cinnamon/desktop/session/idle-delay;u"
+	"theme__applications:	/org/cinnamon/desktop/interface/gtk-theme;'"
+	"theme__applications:	/org/gnome/desktop/interface/gtk-theme;'"
+	"theme__dekstop:	/org/cinnamon/theme/name;'"
 	"theme__mouse:	/org/cinnamon/desktop/interface/cursor-theme;'"
 	"theme__mouse:	/org/gnome/desktop/interface/cursor-theme;'"
 )
@@ -292,13 +295,13 @@ for Setting in "${Setting__[@]}"; do
 done
 
 #Applications
-if [ -n "$theme__setting__applications" ]; then
-	gsettings set org.cinnamon.desktop.interface gtk-theme "$theme__setting__applications"
-fi
+#if [ -n "$theme__setting__applications" ]; then
+	#gsettings set org.cinnamon.desktop.interface gtk-theme "$theme__setting__applications"
+#fi
 #Desktop
-if [ -n "$theme__setting__dekstop" ]; then
-	dconf write /org/cinnamon/theme/name "'$theme__setting__dekstop'"
-fi
+#if [ -n "$theme__setting__dekstop" ]; then
+	#dconf write /org/cinnamon/theme/name "'$theme__setting__dekstop'"
+#fi
 
 #clock
 dconf write /org/cinnamon/desktop/interface/clock-show-date false
@@ -386,6 +389,6 @@ gsettings set org.cinnamon.desktop.interface cursor-size 36
 
 http_check $2
 
-echo "test 65"
+echo "test 66"
 
 #sudo reboot
