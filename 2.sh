@@ -244,7 +244,7 @@ if [ "$theme__pack__Windows_10_Dark" == "1" ]; then
 fi
 
 declare -a Setting__=(
-	"Setting__clock__show_date:	/org/cinnamon/desktop/interface/clock-show-date;b"
+	"clock__show_date:	/org/cinnamon/desktop/interface/clock-show-date;b"
 	"explorer__show_hiden_files:	/org/nemo/preferences/show-hidden-files;b"
 	"power__display_sleep_ac:	/org/cinnamon/settings-daemon/plugins/power/sleep-display-ac"
 	"power__display_sleep_battery:	/org/cinnamon/settings-daemon/plugins/power/sleep-display-battery"
