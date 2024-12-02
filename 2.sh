@@ -245,6 +245,7 @@ fi
 
 declare -a Setting__=(
 	"clock__show_date:	/org/cinnamon/desktop/interface/clock-show-date;b"
+	"clock__show_date:	/org/gnome/desktop/interface/clock-show-date;b"
 	"explorer__show_hiden_files:	/org/nemo/preferences/show-hidden-files;b"
 	"power__display_sleep_ac:	/org/cinnamon/settings-daemon/plugins/power/sleep-display-ac"
 	"power__display_sleep_battery:	/org/cinnamon/settings-daemon/plugins/power/sleep-display-battery"
@@ -292,9 +293,6 @@ for Setting in "${Setting__[@]}"; do
 		fi
 	fi
 done
-
-#clock
-#dconf write /org/cinnamon/desktop/interface/clock-show-date false
 
 # Sound settings.
 #starting
@@ -379,6 +377,6 @@ gsettings set org.cinnamon.desktop.interface cursor-size 36
 
 http_check $2
 
-echo "test 68"
+echo "test 69"
 
 #sudo reboot
