@@ -249,6 +249,21 @@ declare -a Setting__=(
 	"explorer__show_hiden_files:	/org/nemo/preferences/show-hidden-files;b"
 	"power__display_sleep_ac:	/org/cinnamon/settings-daemon/plugins/power/sleep-display-ac"
 	"power__display_sleep_battery:	/org/cinnamon/settings-daemon/plugins/power/sleep-display-battery"
+	"sounds__event:	/org/gnome/desktop/sound/event-sounds"
+	"sounds__feedback:	/org/gnome/desktop/sound/input-feedback-sounds"
+	"sounds__login:	/org/cinnamon/sounds/login-enabled"
+	"sounds__logout:	/org/cinnamon/sounds/logout-enabled"
+	"sounds__inserting:	/org/cinnamon/sounds/plug-enabled"
+	"sounds__notification:	/org/cinnamon/sounds/notification-enabled"
+	"sounds__removing:	/org/cinnamon/sounds/unplug-enabled"
+	"sounds__switch_workspace:	/org/cinnamon/sounds/switch-enabled"
+	"sounds__volume_sound:	/org/cinnamon/desktop/sound/volume-sound-enabled"
+	"sounds__window_close:	/org/cinnamon/sounds/close-enabled"
+	"sounds__window_maximize:	/org/cinnamon/sounds/maximize-enabled"
+	"sounds__window_minimize:	/org/cinnamon/sounds/minimize-enabled"
+	"sounds__window_new:	/org/cinnamon/sounds/map-enabled"
+	"sounds__window_tile_snap:	/org/cinnamon/sounds/tile-enabled"
+	"sounds__window_unmaximize:	/org/cinnamon/sounds/unmaximize-enabled"
 	"screensaver:	/org/cinnamon/desktop/session/idle-delay;u"
 	"theme__applications:	/org/cinnamon/desktop/interface/gtk-theme;'"
 	"theme__applications:	/org/gnome/desktop/interface/gtk-theme;'"
@@ -296,36 +311,35 @@ done
 
 # Sound settings.
 #starting
-dconf write /org/cinnamon/sounds/login-enabled false
+#dconf write /org/cinnamon/sounds/login-enabled false
 #leaving
-dconf write /org/cinnamon/sounds/logout-enabled false
+#dconf write /org/cinnamon/sounds/logout-enabled false
 #Switching worksapce
-dconf write /org/cinnamon/sounds/switch-enabled false
+#dconf write /org/cinnamon/sounds/switch-enabled false
 #Opening new windows
-dconf write /org/cinnamon/sounds/map-enabled false
+#dconf write /org/cinnamon/sounds/map-enabled false
 #closing windows
-dconf write /org/cinnamon/sounds/close-enabled false
+#dconf write /org/cinnamon/sounds/close-enabled false
 #Minimizing windows
-dconf write /org/cinnamon/sounds/minimize-enabled false
+#dconf write /org/cinnamon/sounds/minimize-enabled false
 #Maximizing windows
-dconf write /org/cinnamon/sounds/maximize-enabled false
+#dconf write /org/cinnamon/sounds/maximize-enabled false
 #Unmaxizizing windows
-dconf write /org/cinnamon/sounds/unmaximize-enabled false
+#dconf write /org/cinnamon/sounds/unmaximize-enabled false
 #tiling and snapping windows
-dconf write /org/cinnamon/sounds/tile-enabled false
+#dconf write /org/cinnamon/sounds/tile-enabled false
 #inserting device
-dconf write /org/cinnamon/sounds/plug-enabled false
+#dconf write /org/cinnamon/sounds/plug-enabled false
 #Removing device
-dconf write /org/cinnamon/sounds/unplug-enabled false
+#dconf write /org/cinnamon/sounds/unplug-enabled false
 #Show Notifications
-dconf write /org/cinnamon/sounds/notification-enabled false
+#dconf write /org/cinnamon/sounds/notification-enabled false
 #Changing the sound volume
-dconf write /org/cinnamon/desktop/sound/volume-sound-enabled false
+#dconf write /org/cinnamon/desktop/sound/volume-sound-enabled false
 #Event sound
-dconf write /org/cinnamon/desktop/sound/event-sounds false
-dconf write /org/gnome/desktop/sound/event-sounds false
+#dconf write /org/gnome/desktop/sound/event-sounds true
 #Input Feedback sound
-dconf write /org/gnome/desktop/sound/input-feedback-sounds false
+#dconf write /org/gnome/desktop/sound/input-feedback-sounds true
 
 
 
@@ -377,6 +391,6 @@ gsettings set org.cinnamon.desktop.interface cursor-size 36
 
 http_check $2
 
-echo "test 69"
+echo "test 70"
 
 #sudo reboot
