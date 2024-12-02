@@ -219,9 +219,8 @@ declare -a App_Install__=(
 
 for app in "${App_Install__[@]}"; do
 	key="${app%%:*}"
-	#value maby a row down in the if statemant later to do with echo writing
-	value=$(echo "${app##*:}" | tr -d '[:space:]')
 	if [ "$(eval echo \$App_Install__$key)" == "1" ]; then
+		value=$(echo "${app##*:}" | tr -d '[:space:]')
 		if [[ "$app" == *";"* ]]; then
 			value=$(echo "${value%%;*}" | tr -d '[:space:]')
 			number=$(echo "${app##*;}")
@@ -230,7 +229,6 @@ for app in "${App_Install__[@]}"; do
 			paru -S --noconfirm $value
 		fi
 	fi
-    echo "$value"
 done
 
 if [ "$App_Install__mega" == "1" ]; then
@@ -293,15 +291,6 @@ for Setting in "${Setting__[@]}"; do
 		fi
 	fi
 done
-
-#Applications
-#if [ -n "$theme__setting__applications" ]; then
-	#gsettings set org.cinnamon.desktop.interface gtk-theme "$theme__setting__applications"
-#fi
-#Desktop
-#if [ -n "$theme__setting__dekstop" ]; then
-	#dconf write /org/cinnamon/theme/name "'$theme__setting__dekstop'"
-#fi
 
 #clock
 dconf write /org/cinnamon/desktop/interface/clock-show-date false
@@ -389,6 +378,6 @@ gsettings set org.cinnamon.desktop.interface cursor-size 36
 
 http_check $2
 
-echo "test 66"
+echo "test 67"
 
 #sudo reboot
