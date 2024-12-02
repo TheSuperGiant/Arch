@@ -28,7 +28,6 @@ if [ "$linutil__christitus" == "1" ]; then
 fi
 
 
-
 LIGHTDM_CONF="/etc/lightdm/lightdm.conf"
 
 add_alias() {
@@ -387,6 +386,6 @@ gsettings set org.cinnamon.desktop.interface cursor-size 36
 
 http_check $2
 
-echo "test 64"
+echo "test 65"
 
 #sudo reboot
