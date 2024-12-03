@@ -249,6 +249,7 @@ declare -a Setting__=(
 	"explorer__show_hiden_files:	/org/nemo/preferences/show-hidden-files;b"
 	"power__display_sleep_ac:	/org/cinnamon/settings-daemon/plugins/power/sleep-display-ac"
 	"power__display_sleep_battery:	/org/cinnamon/settings-daemon/plugins/power/sleep-display-battery;b"
+	"privicy__recent_files:	/org/cinnamon/desktop/privacy/remember-recent-files;b"
 	"sounds__event:	/org/gnome/desktop/sound/event-sounds;b"
 	"sounds__feedback:	/org/gnome/desktop/sound/input-feedback-sounds;b"
 	"sounds__login:	/org/cinnamon/sounds/login-enabled;b"
@@ -306,48 +307,13 @@ for Setting in "${Setting__[@]}"; do
 				#echo "dconf write $value $desired_value"
 			fi
 		fi
+	#echo "dconf write $value $desired_value"
 	fi
 done
 
-# Sound settings.
-#starting
-#dconf write /org/cinnamon/sounds/login-enabled false
-#leaving
-#dconf write /org/cinnamon/sounds/logout-enabled false
-#Switching worksapce
-#dconf write /org/cinnamon/sounds/switch-enabled false
-#Opening new windows
-#dconf write /org/cinnamon/sounds/map-enabled false
-#closing windows
-#dconf write /org/cinnamon/sounds/close-enabled false
-#Minimizing windows
-#dconf write /org/cinnamon/sounds/minimize-enabled false
-#Maximizing windows
-#dconf write /org/cinnamon/sounds/maximize-enabled false
-#Unmaxizizing windows
-#dconf write /org/cinnamon/sounds/unmaximize-enabled false
-#tiling and snapping windows
-#dconf write /org/cinnamon/sounds/tile-enabled false
-#inserting device
-#dconf write /org/cinnamon/sounds/plug-enabled false
-#Removing device
-#dconf write /org/cinnamon/sounds/unplug-enabled false
-#Show Notifications
-#dconf write /org/cinnamon/sounds/notification-enabled false
-#Changing the sound volume
-#dconf write /org/cinnamon/desktop/sound/volume-sound-enabled false
-#Event sound
-#dconf write /org/gnome/desktop/sound/event-sounds true
-#Input Feedback sound
-#dconf write /org/gnome/desktop/sound/input-feedback-sounds true
-
-
-
-
-
 
 #privicy
-gsettings set org.cinnamon.desktop.privacy remember-recent-files false
+#gsettings set org.cinnamon.desktop.privacy remember-recent-files false
 
 #mouse
 gsettings set org.cinnamon.desktop.interface locate-pointer true
