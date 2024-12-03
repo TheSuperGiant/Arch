@@ -215,6 +215,7 @@ declare -a App_Install__=(
 	"vuze:					vuze"
 	"waterfox:				waterfox-bin"
 	"wire:					wire-desktop"
+	"xed:					xed"
 )
 
 for app in "${App_Install__[@]}"; do
@@ -243,15 +244,13 @@ if [ "$theme__pack__Windows_10_Dark" == "1" ]; then
 	sudo cp -r "$theme" /usr/share/themes/
 fi
 
-Setting__mouse__locate_pointer=0
-
 declare -a Setting__=(
 	"clock__show_date:	/org/cinnamon/desktop/interface/clock-show-date;b"
 	"clock__show_date:	/org/gnome/desktop/interface/clock-show-date;b"
 	"explorer__show_hiden_files:	/org/nemo/preferences/show-hidden-files;b"
 	"mouse__locate_pointer:	/org/cinnamon/desktop/peripherals/mouse/locate-pointer;b"
 	"power__display_sleep_ac:	/org/cinnamon/settings-daemon/plugins/power/sleep-display-ac"
-	"power__display_sleep_battery:	/org/cinnamon/settings-daemon/plugins/power/sleep-display-battery;b"
+	"power__display_sleep_battery:	/org/cinnamon/settings-daemon/plugins/power/sleep-display-battery"
 	"privicy__recent_files:	/org/cinnamon/desktop/privacy/remember-recent-files;b"
 	"sounds__event:	/org/gnome/desktop/sound/event-sounds;b"
 	"sounds__feedback:	/org/gnome/desktop/sound/input-feedback-sounds;b"
@@ -357,6 +356,6 @@ gsettings set org.cinnamon.desktop.interface cursor-size 36
 
 http_check $2
 
-echo "test 76"
+echo "test 77"
 
 #sudo reboot
