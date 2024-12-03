@@ -258,6 +258,9 @@ declare -a Setting__=(
 	"font__titlebar:	/org/cinnamon/desktop/wm/preferences/titlebar-font;'"
 	"font__titlebar:	/org/gnome/desktop/wm/preferences/titlebar-font;'"
 	"mouse__locate_pointer:	/org/cinnamon/desktop/peripherals/mouse/locate-pointer;b"
+	"mouse__size:	/org/cinnamon/desktop/interface/cursor-size"
+	"mouse__size:	/org/gnome/desktop/interface/cursor-size"
+	"mouse__size:	/org/cinnamon/desktop/interface/cursor-size;b"
 	"power__display_sleep_ac:	/org/cinnamon/settings-daemon/plugins/power/sleep-display-ac"
 	"power__display_sleep_battery:	/org/cinnamon/settings-daemon/plugins/power/sleep-display-battery"
 	"privicy__recent_files:	/org/cinnamon/desktop/privacy/remember-recent-files;b"
@@ -323,17 +326,8 @@ for Setting in "${Setting__[@]}"; do
 done
 
 
-#font
-#font='DejaVu Sans Mono Book 13'
-#gsettings set org.cinnamon.desktop.interface font-name "$font"
-#dconf write /org/nemo/desktop/font "'$font'"
-#gsettings set org.gnome.desktop.interface document-font-name "$font"
-#gsettings set org.gnome.desktop.interface monospace-font-name "$font"
-#gsettings set org.cinnamon.desktop.wm.preferences titlebar-font "$font"
 
-
-
-gsettings set org.cinnamon.desktop.interface cursor-size 36
+#gsettings set org.cinnamon.desktop.interface cursor-size 36
 
 #------------------
 #games
@@ -362,6 +356,6 @@ gsettings set org.cinnamon.desktop.interface cursor-size 36
 
 http_check $2
 
-echo "test 80"
+echo "test 81"
 
 #sudo reboot
