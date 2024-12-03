@@ -249,7 +249,7 @@ declare -a Setting__=(
 	"clock__show_date:	/org/cinnamon/desktop/interface/clock-show-date;b"
 	"clock__show_date:	/org/gnome/desktop/interface/clock-show-date;b"
 	"explorer__show_hiden_files:	/org/nemo/preferences/show-hidden-files;b"
-	"mouse__locate_pointer:	/org/cinnamon/desktop/peripherals/mouse/locate-pointer"
+	"mouse__locate_pointer:	/org/cinnamon/desktop/peripherals/mouse/locate-pointer;b"
 	"power__display_sleep_ac:	/org/cinnamon/settings-daemon/plugins/power/sleep-display-ac"
 	"power__display_sleep_battery:	/org/cinnamon/settings-daemon/plugins/power/sleep-display-battery;b"
 	"privicy__recent_files:	/org/cinnamon/desktop/privacy/remember-recent-files;b"
@@ -357,6 +357,6 @@ gsettings set org.cinnamon.desktop.interface cursor-size 36
 
 http_check $2
 
-echo "test 75"
+echo "test 76"
 
 #sudo reboot
