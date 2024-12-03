@@ -314,7 +314,7 @@ done
 
 
 #mouse
-gsettings set org.cinnamon.desktop.interface locate-pointer true
+#gsettings set org.cinnamon.desktop.interface locate-pointer true
 
 #font
 font='DejaVu Sans Mono Book 13'
@@ -355,6 +355,6 @@ gsettings set org.cinnamon.desktop.interface cursor-size 36
 
 http_check $2
 
-echo "test 73"
+echo "test 74"
 
 #sudo reboot
