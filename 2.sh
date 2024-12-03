@@ -227,9 +227,11 @@ for app in "${App_Install__[@]}"; do
 		if [[ "$app" == *";"* ]]; then
 			value=$(echo "${value%%;*}" | tr -d '[:space:]')
 			number=$(echo "${app##*;}")
-			echo $number | paru -S --noconfirm $value
+			#echo $number | paru -S --noconfirm $value
+			echo $number | paru -S --needed --noconfirm $value
 		else
-			paru -S --noconfirm $value
+			paru -S --needed --noconfirm $value
+			#paru -S --noconfirm $value
 		fi
 	fi
 done
@@ -314,7 +316,6 @@ for Setting in "${Setting__[@]}"; do
 			fi
 		else
 			desired_value="$(eval echo \${Setting__$key})"
-			echo "des $desired_value"
 			if [ "$current_value" != "$desired_value" ]; then
 				dconf write $value "$desired_value"
 				#echo "dconf write $value $desired_value"
@@ -325,8 +326,6 @@ for Setting in "${Setting__[@]}"; do
 done
 
 
-
-#gsettings set org.cinnamon.desktop.interface cursor-size 36
 
 #------------------
 #games
@@ -355,6 +354,6 @@ done
 
 http_check $2
 
-echo "test 82"
+echo "test 83"
 
 #sudo reboot
