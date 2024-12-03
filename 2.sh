@@ -188,8 +188,10 @@ declare -a App_Install__=(
 	"heroic_launcher:		heroic-games-launcher-bin"
 	"jitsi_meet:			jitsi-meet-desktop-bin"
 	"keepass:				keepass"
+	"leafpad:				leafpad"
 	"libreoffice:			libreoffice"
 	"librewolf:				librewolf-bin"
+	"mousepad:				mousepad"
 	"minecraft_launcher:	minecraft-launcher;1"
 	"notepadqq:				notepadqq"
 	"notepadPlusPlus:				notepad++"
@@ -314,9 +316,6 @@ for Setting in "${Setting__[@]}"; do
 done
 
 
-#mouse
-#gsettings set org.cinnamon.desktop.interface locate-pointer true
-
 #font
 font='DejaVu Sans Mono Book 13'
 gsettings set org.cinnamon.desktop.interface font-name "$font"
@@ -356,6 +355,6 @@ gsettings set org.cinnamon.desktop.interface cursor-size 36
 
 http_check $2
 
-echo "test 77"
+echo "test 78"
 
 #sudo reboot
