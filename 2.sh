@@ -260,7 +260,6 @@ declare -a Setting__=(
 	"mouse__locate_pointer:	/org/cinnamon/desktop/peripherals/mouse/locate-pointer;b"
 	"mouse__size:	/org/cinnamon/desktop/interface/cursor-size"
 	"mouse__size:	/org/gnome/desktop/interface/cursor-size"
-	"mouse__size:	/org/cinnamon/desktop/interface/cursor-size;b"
 	"power__display_sleep_ac:	/org/cinnamon/settings-daemon/plugins/power/sleep-display-ac"
 	"power__display_sleep_battery:	/org/cinnamon/settings-daemon/plugins/power/sleep-display-battery"
 	"privicy__recent_files:	/org/cinnamon/desktop/privacy/remember-recent-files;b"
@@ -356,6 +355,6 @@ done
 
 http_check $2
 
-echo "test 81"
+echo "test 82"
 
 #sudo reboot
