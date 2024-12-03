@@ -243,6 +243,8 @@ if [ "$theme__pack__Windows_10_Dark" == "1" ]; then
 	sudo cp -r "$theme" /usr/share/themes/
 fi
 
+Setting__mouse__locate_pointer=0
+
 declare -a Setting__=(
 	"clock__show_date:	/org/cinnamon/desktop/interface/clock-show-date;b"
 	"clock__show_date:	/org/gnome/desktop/interface/clock-show-date;b"
@@ -355,6 +357,6 @@ gsettings set org.cinnamon.desktop.interface cursor-size 36
 
 http_check $2
 
-echo "test 74"
+echo "test 75"
 
 #sudo reboot
