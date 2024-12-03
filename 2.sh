@@ -250,6 +250,11 @@ declare -a Setting__=(
 	"clock__show_date:	/org/cinnamon/desktop/interface/clock-show-date;b"
 	"clock__show_date:	/org/gnome/desktop/interface/clock-show-date;b"
 	"explorer__show_hiden_files:	/org/nemo/preferences/show-hidden-files;b"
+	"font__default:	/org/gnome/desktop/interface/font-name;'"
+	"font__document:	/org/gnome/desktop/interface/document-font-name;'"
+	"font__explorer:	/org/nemo/desktop/font;'"
+	"font__monospace:	/org/gnome/desktop/interface/monospace-font-name;'"
+	"font__titlebar:	/org/gnome/desktop/wm/preferences/titlebar-font;'"
 	"mouse__locate_pointer:	/org/cinnamon/desktop/peripherals/mouse/locate-pointer;b"
 	"power__display_sleep_ac:	/org/cinnamon/settings-daemon/plugins/power/sleep-display-ac"
 	"power__display_sleep_battery:	/org/cinnamon/settings-daemon/plugins/power/sleep-display-battery"
@@ -317,12 +322,12 @@ done
 
 
 #font
-font='DejaVu Sans Mono Book 13'
-gsettings set org.cinnamon.desktop.interface font-name "$font"
-dconf write /org/nemo/desktop/font "'$font'"
-gsettings set org.gnome.desktop.interface document-font-name "$font"
-gsettings set org.gnome.desktop.interface monospace-font-name "$font"
-gsettings set org.cinnamon.desktop.wm.preferences titlebar-font "$font"
+#font='DejaVu Sans Mono Book 13'
+#gsettings set org.cinnamon.desktop.interface font-name "$font"
+#dconf write /org/nemo/desktop/font "'$font'"
+#gsettings set org.gnome.desktop.interface document-font-name "$font"
+#gsettings set org.gnome.desktop.interface monospace-font-name "$font"
+#gsettings set org.cinnamon.desktop.wm.preferences titlebar-font "$font"
 
 
 
@@ -355,6 +360,6 @@ gsettings set org.cinnamon.desktop.interface cursor-size 36
 
 http_check $2
 
-echo "test 78"
+echo "test 79"
 
 #sudo reboot
