@@ -247,6 +247,7 @@ declare -a Setting__=(
 	"clock__show_date:	/org/cinnamon/desktop/interface/clock-show-date;b"
 	"clock__show_date:	/org/gnome/desktop/interface/clock-show-date;b"
 	"explorer__show_hiden_files:	/org/nemo/preferences/show-hidden-files;b"
+	"mouse__locate_pointer:	/org/cinnamon/desktop/peripherals/mouse/locate-pointer"
 	"power__display_sleep_ac:	/org/cinnamon/settings-daemon/plugins/power/sleep-display-ac"
 	"power__display_sleep_battery:	/org/cinnamon/settings-daemon/plugins/power/sleep-display-battery;b"
 	"privicy__recent_files:	/org/cinnamon/desktop/privacy/remember-recent-files;b"
@@ -306,14 +307,11 @@ for Setting in "${Setting__[@]}"; do
 				dconf write $value "$desired_value"
 				#echo "dconf write $value $desired_value"
 			fi
+		#echo "dconf write $value $desired_value"
 		fi
-	#echo "dconf write $value $desired_value"
 	fi
 done
 
-
-#privicy
-#gsettings set org.cinnamon.desktop.privacy remember-recent-files false
 
 #mouse
 gsettings set org.cinnamon.desktop.interface locate-pointer true
@@ -357,6 +355,6 @@ gsettings set org.cinnamon.desktop.interface cursor-size 36
 
 http_check $2
 
-echo "test 72"
+echo "test 73"
 
 #sudo reboot
