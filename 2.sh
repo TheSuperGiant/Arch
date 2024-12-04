@@ -227,11 +227,9 @@ for app in "${App_Install__[@]}"; do
 		if [[ "$app" == *";"* ]]; then
 			value=$(echo "${value%%;*}" | tr -d '[:space:]')
 			number=$(echo "${app##*;}")
-			#echo $number | paru -S --noconfirm $value
 			echo $number | paru -S --needed --noconfirm $value
 		else
 			paru -S --needed --noconfirm $value
-			#paru -S --noconfirm $value
 		fi
 	fi
 done
@@ -248,6 +246,8 @@ if [ "$theme__pack__Windows_10_Dark" == "1" ]; then
 	sudo cp -r "$theme" /usr/share/themes/
 fi
 
+
+Setting__privicy__old_age_files=100
 declare -a Setting__=(
 	"clock__show_date:	/org/cinnamon/desktop/interface/clock-show-date;b"
 	"clock__show_date:	/org/gnome/desktop/interface/clock-show-date;b"
@@ -264,6 +264,9 @@ declare -a Setting__=(
 	"mouse__size:	/org/gnome/desktop/interface/cursor-size"
 	"power__display_sleep_ac:	/org/cinnamon/settings-daemon/plugins/power/sleep-display-ac"
 	"power__display_sleep_battery:	/org/cinnamon/settings-daemon/plugins/power/sleep-display-battery"
+	"privicy__old_age_files:	/org/cinnamon/desktop/privacy/old-files-age;u"
+	"privicy__old_temp_files:	/org/cinnamon/desktop/privacy/remove-old-temp-files;b"
+	"privicy__old_trash_files:	/org/cinnamon/desktop/privacy/remove-old-trash-files;b"
 	"privicy__recent_files:	/org/cinnamon/desktop/privacy/remember-recent-files;b"
 	"sounds__event:	/org/gnome/desktop/sound/event-sounds;b"
 	"sounds__feedback:	/org/gnome/desktop/sound/input-feedback-sounds;b"
@@ -354,6 +357,6 @@ done
 
 http_check $2
 
-echo "test 83"
+echo "test 84"
 
 #sudo reboot
