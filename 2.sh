@@ -246,8 +246,6 @@ if [ "$theme__pack__Windows_10_Dark" == "1" ]; then
 	sudo cp -r "$theme" /usr/share/themes/
 fi
 
-Setting__privicy__dis_mic=1
-Setting__privicy__dis_sound=1
 declare -a Setting__=(
 	"clock__show_date:	/org/cinnamon/desktop/interface/clock-show-date;b"
 	"clock__show_date:	/org/gnome/desktop/interface/clock-show-date;b"
@@ -271,6 +269,7 @@ declare -a Setting__=(
 	"privicy__old_temp_files:	/org/cinnamon/desktop/privacy/remove-old-temp-files;b"
 	"privicy__old_trash_files:	/org/cinnamon/desktop/privacy/remove-old-trash-files;b"
 	"privicy__recent_files:	/org/cinnamon/desktop/privacy/remember-recent-files;b"
+	"privicy__recent_files_age:	/org/cinnamon/desktop/privacy/recent-files-max-age"
 	"sounds__event:	/org/gnome/desktop/sound/event-sounds;b"
 	"sounds__feedback:	/org/gnome/desktop/sound/input-feedback-sounds;b"
 	"sounds__login:	/org/cinnamon/sounds/login-enabled;b"
@@ -360,6 +359,6 @@ done
 
 http_check $2
 
-echo "test 85"
+echo "test 86"
 
 #sudo reboot
