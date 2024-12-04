@@ -292,10 +292,10 @@ done
 	#qemu
 
 
-echo bool
+bool
 
 http_check $2
 
-echo "test 87"
+echo "test 88"
 
 #sudo reboot
