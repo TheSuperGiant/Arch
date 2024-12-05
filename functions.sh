@@ -5,16 +5,17 @@
 # I am not responsible for any damage, data loss, or other issues that may result from the use of this script.
 
 
-LIGHTDM_CONF="/etc/lightdm/lightdm.conf"
+#LIGHTDM_CONF="/etc/lightdm/lightdm.conf"
 
 add_alias() {
 	alias_name=$1
 	alias_command=$2
 	if ! grep -q "^alias $alias_name" ~/.bashrc; then
 		echo "alias $alias_name=\"$alias_command\"" >> ~/.bashrc
-		eval "$alias_name() {
-			$alias_command
-		}"
+		eval "alias $alias_name=\"$alias_command\""
+		#eval "$alias_name() {
+		#	$alias_command
+		#}"
 		echo "Alias '$alias_name' added and saved to ~/.bashrc."
 	fi
 }
@@ -47,12 +48,12 @@ add_lightdm() {
 		local third="$3"
 	fi
 	if [ "$1" == "e" ]; then
-		if ! grep -q "^$third" "$LIGHTDM_CONF"; then
-			echo -e "\n$2" | sudo tee -a "$LIGHTDM_CONF"
+		if ! grep -q "^$third" "/etc/lightdm/lightdm.conf"; then
+			echo -e "\n$2" | sudo tee -a "/etc/lightdm/lightdm.conf"
 		fi
 	else
-		if ! grep -q "^$1" "$LIGHTDM_CONF"; then
-			sudo sed -i "$2 $1" "$LIGHTDM_CONF"
+		if ! grep -q "^$1" "/etc/lightdm/lightdm.conf"; then
+			sudo sed -i "$2 $1" "/etc/lightdm/lightdm.conf"
 		fi
 	fi
 }
