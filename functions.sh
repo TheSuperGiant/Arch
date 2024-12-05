@@ -26,7 +26,6 @@ add_device_label() {
 			sudo bash -c "echo \"LABEL=$1 $mountpoint $fs_type defaults,nofail 0 2\" >> /etc/fstab"
 			sudo mkdir -p $mountpoint
 			sudo chown $USER:$USER $mountpoint
-			#mdr $mountpoint
 		fi
 	fi
 }
