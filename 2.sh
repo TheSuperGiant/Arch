@@ -35,29 +35,18 @@ source <(curl -L $function_sh)
 #md
 #mdr
 
-for function in $(curl -L https://raw.githubusercontent.com/TheSuperGiant/Arch/refs/heads/Arch/functions.sh | grep -oP '^\s*\K\w+(?=\()'); do
-#for function in $(curl -s $function_sh | grep -oP '^\s*\K\w+(?=\()'); do
+#for function in $(curl -L https://raw.githubusercontent.com/TheSuperGiant/Arch/refs/heads/Arch/functions.sh | grep -oP '^\s*\K\w+(?=\()'); do
+for function in $(curl -s $function_sh | grep -oP '^\s*\K\w+(?=\()'); do
 	#if [ "$(eval echo \${function__$function})" == "1" ]; then
-	echo "1. $function"
 	if [ "$(eval echo \${function__$function})" == "1" ]; then
 		echo "2. $function"
-		#$(curl -L $function_sh | sed -n "/^$function ()/,/^}/p")
-		#$(curl -sL "$function_sh" | sed -n "/^$function ()/,/^}/p" | sed 's/$/\\n/' | tr -d '\n')
-		#"$(sed -n "/^$function ()/,/^}/p" )"
-		#curl -L $function_sh | awk "/^$function \\(\\)/ {f=1} f; /^}/ {f=0}"
-		#if [[ "$(type $function | sed '1d')" != "$(sed -n "/^$function ()/,/^}/p" ~/.bashrc)" ]]; then
-		#if [[ "$(curl -L $function_sh | awk "/^$function \\(\\)/ {f=1} f; /^}/ {f=0}")" != "$(sed -n "/^$function ()/,/^}/p" ~/.bashrc)" ]]; then
-		#if [[ "$(curl -L "$function_sh" | awk "/^$function \\(\\)/ {f=1} f; /^}/ {f=0}")" != "$(sed -n "/^$function ()/,/^}/p" ~/.bashrc)" ]]; then
 		if [[ "$(curl -L "$function_sh" | awk "/^$function\\(\\)/ {f=1} f; /^}/ {f=0}")" != "$(sed -n "/^$function()/,/^}/p" ~/.bashrc)" ]]; then
 
 			echo "Updating .bashrc with the latest $function function code."
 			#if [[ "$(sed -n "/^$function ()/,/^}/p" ~/.bashrc)" != "" ]]; then
 				#sed -i "/^$function ()/,/^}/d" ~/.bashrc
 			#fi
-			#$(curl -L $function_sh | sed -n "/^$function ()/,/^}/p" )>> ~/.bashrc
-			#$(curl -L $function_sh | sed -n "/^$function ()/,/^}/p")>> ~/.bashrc
-			#declare -f $function >> ~/.bashrc
-			curl -L "$function_sh" | awk "/^$function\\(\\)/ {f=1} f; /^}/ {f=0}" >> ~/.bashrc
+			curl -L $function_sh | awk "/^$function\\(\\)/ {f=1} f; /^}/ {f=0}" >> ~/.bashrc
 		else
 			echo "$function function is already up to date in .bashrc."
 		fi
