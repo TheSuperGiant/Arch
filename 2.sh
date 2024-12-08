@@ -32,9 +32,14 @@ function_sh="https://raw.githubusercontent.com/TheSuperGiant/Arch/refs/heads/Arc
 #source <(curl -L https://raw.githubusercontent.com/TheSuperGiant/Arch/refs/heads/Arch/functions.sh)
 source <(curl -L $function_sh)
 
+md
+mdr
+
 for function in $(curl -s $function_sh | grep -oP '^\s*\K\w+(?=\()'); do
 	#if [ "$(eval echo \${function__$function})" == "1" ]; then
+	echo "1. $function"
 	if [ "$(eval echo \${function__$function})" == "1" ]; then
+		echo "2. $function"
 		#$(curl -L $function_sh | sed -n "/^$function ()/,/^}/p")
 		#$(curl -sL "$function_sh" | sed -n "/^$function ()/,/^}/p" | sed 's/$/\\n/' | tr -d '\n')
 		#"$(sed -n "/^$function ()/,/^}/p" )"
@@ -332,6 +337,6 @@ done
 
 http_check $2
 
-echo "test 90"
+echo "test 91"
 
 #sudo reboot
