@@ -27,12 +27,28 @@ if [ "$linutil__christitus" == "1" ]; then
 	curl -fsSL https://christitus.com/linux | sh
 fi
 
-source <(curl -L https://raw.githubusercontent.com/TheSuperGiant/Arch/refs/heads/Arch/functions.sh)
+function_sh="https://raw.githubusercontent.com/TheSuperGiant/Arch/refs/heads/Arch/functions.sh"
 
-add_alias md "mkdir -p \$1"
-add_alias mds "sudo mkdir -p \$1"
-add_function mdr "sudo mkdir -p \$1
-	sudo chown \$USER:\$USER \$1"
+#source <(curl -L https://raw.githubusercontent.com/TheSuperGiant/Arch/refs/heads/Arch/functions.sh)
+source <(curl -L $function_sh)
+
+#for function in $(curl -s https://raw.githubusercontent.com/TheSuperGiant/Arch/refs/heads/Arch/functions.sh | grep -oP '^\s*\K\w+(?=\()'); do
+for function in $(curl -s $function_sh | grep -oP '^\s*\K\w+(?=\()'); do
+	if [ "$(eval echo \${function__$function})" == "1" ]; then
+		declare -f $function >> ~/.bashrc
+	fi
+done
+
+#alias_names=$(curl -s https://raw.githubusercontent.com/TheSuperGiant/Arch/refs/heads/Arch/functions.sh | grep -oP '^\s*alias\s+\K\w+')
+#alias_names=$(curl -s $function_sh | grep -oP '^\s*alias\s+\K\w+')
+#alias md >> ~/.bashrc
+#alias $alias >> ~/.bashrc
+
+
+#add_alias md "mkdir -p \$1"
+#add_alias mds "sudo mkdir -p \$1"
+#add_function mdr "sudo mkdir -p \$1
+	#sudo chown \$USER:\$USER \$1"
 #add_function mdc "sudo mkdir -p \$1
 	#sudo chown \$USER:\$USER \$1"
 #add_function mdsc "sudo mkdir -p \$1
@@ -99,6 +115,10 @@ if [[ "$numlock_startup" == "on" || "$numlock_startup" == "off" ]]; then
 	add_lightdm "greeter-setup-script=/usr/bin/numlockx $numlock_startup" "/^\[Seat:\*\]/a"
 	echo "NumLock $numlock_startup configuration added to [Seat:*] section."
 fi
+
+if [ "$App_Install__notepadPlusPlus" == "1" ]; then
+	App_Install__wine=1
+fi 
 
 declare -a App_Install__=(
 	"wine:					wine"
@@ -292,10 +312,8 @@ done
 	#qemu
 
 
-bool
-
 http_check $2
 
-echo "test 88"
+echo "test 89"
 
 #sudo reboot
