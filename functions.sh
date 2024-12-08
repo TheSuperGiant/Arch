@@ -63,7 +63,7 @@ add_sudo() {
 	fi
 }
 bool() {
-	if [ "$1" == "2" ]; then
+	if [ "$1" == "1" ]; then
 		echo "true"
 	else
 		echo "false"
