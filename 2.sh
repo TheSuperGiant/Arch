@@ -37,22 +37,18 @@ mdr
 
 for function in $(curl -s $function_sh | grep -oP '^\s*\K\w+(?=\()'); do
 	#if [ "$(eval echo \${function__$function})" == "1" ]; then
-	if [ "$(eval echo \${function__$function})" == "1" ]; then
-		echo "2. $function"
-		if [[ "$(curl -L "$function_sh" | awk "/^$function\\(\\)/ {f=1} f; /^}/ {f=0}")" != "$(sed -n "/^$function()/,/^}/p" ~/.bashrc)" ]]; then
+	if [ "$(eval echo \${function__$function})" == "1" ] && [[ "$(curl -L "$function_sh" | awk "/^$function\\(\\)/ {f=1} f; /^}/ {f=0}")" != "$(sed -n "/^$function()/,/^}/p" ~/.bashrc)" ]]; then
+		#if [[ "$(curl -L "$function_sh" | awk "/^$function\\(\\)/ {f=1} f; /^}/ {f=0}")" != "$(sed -n "/^$function()/,/^}/p" ~/.bashrc)" ]]; then
 
 			echo "Updating .bashrc with the latest $function function code."
-			#if [[ "$(sed -n "/^$function ()/,/^}/p" ~/.bashrc)" != "" ]]; then
 			if [[ "$(sed -n "/^$function()/,/^}/p" ~/.bashrc)" != "" ]]; then
-				echo "1: init"
-				#sed -i "/^$function ()/,/^}/d" ~/.bashrc
 				sed -i "/^$function()/,/^}/d" ~/.bashrc
 			fi
 			curl -L $function_sh | awk "/^$function\\(\\)/ {f=1} f; /^}/ {f=0}" >> ~/.bashrc
 		else
 			echo "$function function is already up to date in .bashrc."
 		fi
-	fi
+	#fi
 done
 
 #alias_names=$(curl -s https://raw.githubusercontent.com/TheSuperGiant/Arch/refs/heads/Arch/functions.sh | grep -oP '^\s*alias\s+\K\w+')
