@@ -32,10 +32,11 @@ function_sh="https://raw.githubusercontent.com/TheSuperGiant/Arch/refs/heads/Arc
 #source <(curl -L https://raw.githubusercontent.com/TheSuperGiant/Arch/refs/heads/Arch/functions.sh)
 source <(curl -L $function_sh)
 
-md
-mdr
+#md
+#mdr
 
-for function in $(curl -s $function_sh | grep -oP '^\s*\K\w+(?=\()'); do
+for function in $(curl -L https://raw.githubusercontent.com/TheSuperGiant/Arch/refs/heads/Arch/functions.sh | grep -oP '^\s*\K\w+(?=\()'); do
+#for function in $(curl -s $function_sh | grep -oP '^\s*\K\w+(?=\()'); do
 	#if [ "$(eval echo \${function__$function})" == "1" ]; then
 	echo "1. $function"
 	if [ "$(eval echo \${function__$function})" == "1" ]; then
@@ -46,7 +47,8 @@ for function in $(curl -s $function_sh | grep -oP '^\s*\K\w+(?=\()'); do
 		#curl -L $function_sh | awk "/^$function \\(\\)/ {f=1} f; /^}/ {f=0}"
 		#if [[ "$(type $function | sed '1d')" != "$(sed -n "/^$function ()/,/^}/p" ~/.bashrc)" ]]; then
 		#if [[ "$(curl -L $function_sh | awk "/^$function \\(\\)/ {f=1} f; /^}/ {f=0}")" != "$(sed -n "/^$function ()/,/^}/p" ~/.bashrc)" ]]; then
-		if [[ "$(curl -L "$function_sh" | awk "/^$function \\(\\)/ {f=1} f; /^}/ {f=0}")" != "$(sed -n "/^$function ()/,/^}/p" ~/.bashrc)" ]]; then
+		#if [[ "$(curl -L "$function_sh" | awk "/^$function \\(\\)/ {f=1} f; /^}/ {f=0}")" != "$(sed -n "/^$function ()/,/^}/p" ~/.bashrc)" ]]; then
+		if [[ "$(curl -L "$function_sh" | awk "/^$function\\(\\)/ {f=1} f; /^}/ {f=0}")" != "$(sed -n "/^$function()/,/^}/p" ~/.bashrc)" ]]; then
 
 			echo "Updating .bashrc with the latest $function function code."
 			#if [[ "$(sed -n "/^$function ()/,/^}/p" ~/.bashrc)" != "" ]]; then
