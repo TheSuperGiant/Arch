@@ -7,7 +7,7 @@
 
 #LIGHTDM_CONF="/etc/lightdm/lightdm.conf"
 
-add_alias() {
+add_alias () {
 	alias_name=$1
 	alias_command=$2
 	if ! grep -q "^alias $alias_name" ~/.bashrc; then
@@ -19,7 +19,7 @@ add_alias() {
 		echo "Alias '$alias_name' added and saved to ~/.bashrc."
 	fi
 }
-add_device_label() {
+add_device_label () {
 	if ! sudo grep -q "LABEL=$1" /etc/fstab; then
 		fs_type=$(lsblk -o NAME,LABEL,FSTYPE | grep -w $1 | awk '{print $3}')
 		if [ -n "$fs_type" ]; then
@@ -30,7 +30,7 @@ add_device_label() {
 		fi
 	fi
 }
-add_function() {
+add_function () {
     func_name=$1
     func_body=$2
 	if ! grep -q "^function $func_name" ~/.bashrc; then
@@ -41,7 +41,7 @@ add_function() {
 		echo "Function '$func_name' added and is now available."
 	fi
 }
-add_lightdm() {
+add_lightdm () {
 	if [[ -n "$2" && -z "$3" ]]; then
 		local third="$2"
 	else
@@ -57,12 +57,12 @@ add_lightdm() {
 		fi
 	fi
 }
-add_sudo() {
+add_sudo () {
 	if ! sudo grep -q "$1" /etc/sudoers; then
 		echo "$1" | sudo tee -a /etc/sudoers
 	fi
 }
-bool() {
+bool () {
 	if [ "$1" == "1" ]; then
 		echo "true"
 	else
@@ -73,7 +73,7 @@ bool() {
 
 alias md="mkdir -p $1"
 alias mds="sudo mkdir -p $1"
-mdr() {
+mdr () {
 	sudo mkdir -p $1
 	sudo chown $USER:$USER $1
 }
