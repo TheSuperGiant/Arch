@@ -29,26 +29,19 @@ fi
 
 function_sh="https://raw.githubusercontent.com/TheSuperGiant/Arch/refs/heads/Arch/functions.sh"
 
-#source <(curl -L https://raw.githubusercontent.com/TheSuperGiant/Arch/refs/heads/Arch/functions.sh)
 source <(curl -L $function_sh)
 
 md
 mdr
 
 for function in $(curl -s $function_sh | grep -oP '^\s*\K\w+(?=\()'); do
-	#if [ "$(eval echo \${function__$function})" == "1" ]; then
-	if [ "$(eval echo \${function__$function})" == "1" ] && [[ "$(curl -L "$function_sh" | awk "/^$function\\(\\)/ {f=1} f; /^}/ {f=0}")" != "$(sed -n "/^$function()/,/^}/p" ~/.bashrc)" ]]; then
-		#if [[ "$(curl -L "$function_sh" | awk "/^$function\\(\\)/ {f=1} f; /^}/ {f=0}")" != "$(sed -n "/^$function()/,/^}/p" ~/.bashrc)" ]]; then
-
-			echo "Updating .bashrc with the latest $function function code."
-			if [[ "$(sed -n "/^$function()/,/^}/p" ~/.bashrc)" != "" ]]; then
-				sed -i "/^$function()/,/^}/d" ~/.bashrc
-			fi
-			curl -L $function_sh | awk "/^$function\\(\\)/ {f=1} f; /^}/ {f=0}" >> ~/.bashrc
-		else
-			echo "$function function is already up to date in .bashrc."
+	if [ "$(eval echo \${function__$function})" == "1" ] && [[ "$(curl -s -L "$function_sh" | awk "/^$function\\(\\)/ {f=1} f; /^}/ {f=0}")" != "$(sed -n "/^$function()/,/^}/p" ~/.bashrc)" ]]; then
+		echo "Updating .bashrc with the latest $function function code."
+		if [[ "$(sed -n "/^$function()/,/^}/p" ~/.bashrc)" != "" ]]; then
+			sed -i "/^$function()/,/^}/d" ~/.bashrc
 		fi
-	#fi
+		curl -s -L $function_sh | awk "/^$function\\(\\)/ {f=1} f; /^}/ {f=0}" >> ~/.bashrc
+		fi
 done
 
 #alias_names=$(curl -s https://raw.githubusercontent.com/TheSuperGiant/Arch/refs/heads/Arch/functions.sh | grep -oP '^\s*alias\s+\K\w+')
