@@ -57,7 +57,7 @@ for function in $(curl -L https://raw.githubusercontent.com/TheSuperGiant/Arch/r
 			#$(curl -L $function_sh | sed -n "/^$function ()/,/^}/p" )>> ~/.bashrc
 			#$(curl -L $function_sh | sed -n "/^$function ()/,/^}/p")>> ~/.bashrc
 			#declare -f $function >> ~/.bashrc
-			curl -L $function_sh | awk "/^$function \\(\\)/ {f=1} f; /^}/ {f=0}" >> ~/.bashrc
+			curl -L "$function_sh" | awk "/^$function\\(\\)/ {f=1} f; /^}/ {f=0}" >> ~/.bashrc
 		else
 			echo "$function function is already up to date in .bashrc."
 		fi
