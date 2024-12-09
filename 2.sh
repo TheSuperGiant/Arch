@@ -43,7 +43,7 @@ for function in $(curl -s $function_sh | grep -oP '^\s*\K\w+(?=\()'); do
 		curl -s -L $function_sh | awk "/^$function\\(\\)/ {f=1} f; /^}/ {f=0}" >> ~/.bashrc
 	fi
 done
-function__mds=0
+
 for alias in $(curl -s $function_sh | grep -oP '^\s*alias\s+\K\w+'); do
 	if [ "$(eval echo \${function__$alias})" == "1" ] && [[ "$(curl -s -L $function_sh | awk "/^alias $alias=/ {f=1} f; /^[^\\\\]*$/ {f=0}")" != "$(sed -n "/^alias $alias=/p" ~/.bashrc)" ]]; then
 		echo "Updating .bashrc with the latest $alias alias code."
@@ -319,7 +319,5 @@ done
 
 
 http_check $2
-
-echo "test 92"
 
 #sudo reboot
