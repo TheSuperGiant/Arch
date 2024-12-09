@@ -44,24 +44,17 @@ for function in $(curl -s $function_sh | grep -oP '^\s*\K\w+(?=\()'); do
 	fi
 done
 
-#alias_names=$(curl -s https://raw.githubusercontent.com/TheSuperGiant/Arch/refs/heads/Arch/functions.sh | grep -oP '^\s*alias\s+\K\w+')
-#alias_names=$(curl -s $function_sh | grep -oP '^\s*alias\s+\K\w+')
 for alias in $(curl -s $function_sh | grep -oP '^\s*alias\s+\K\w+'); do
 	if [ "$(eval echo \${function__$alias})" == "1" ] && [[ "$(curl -s -L $function_sh | awk "/^alias $alias=/ {f=1} f; /^[^\\\\]*$/ {f=0}")" != "$(sed -n "/^alias $alias=/p" ~/.bashrc)" ]]; then
 		echo "Updating .bashrc with the latest $alias alias code."
+		if [[ "$(sed -n "/^alias $alias=/p" ~/.bashrc)" != "" ]]; then
+			sed -i "/^alias $alias=/d" ~/.bashrc
+		fi
 		curl -s -L $function_sh | awk "/^alias $alias=/ {f=1} f; /^[^\\\\]*$/ {f=0}" >> ~/.bashrc
 	fi
 done
 
-#alias_names=$(curl -s $function_sh | grep -oP '^\s*alias\s+\K\w+')
-#alias md >> ~/.bashrc
-#alias $alias >> ~/.bashrc
 
-
-#add_alias md "mkdir -p \$1"
-#add_alias mds "sudo mkdir -p \$1"
-#add_function mdr "sudo mkdir -p \$1
-	#sudo chown \$USER:\$USER \$1"
 #add_function mdc "sudo mkdir -p \$1
 	#sudo chown \$USER:\$USER \$1"
 #add_function mdsc "sudo mkdir -p \$1
