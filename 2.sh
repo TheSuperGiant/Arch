@@ -47,8 +47,8 @@ done
 #alias_names=$(curl -s https://raw.githubusercontent.com/TheSuperGiant/Arch/refs/heads/Arch/functions.sh | grep -oP '^\s*alias\s+\K\w+')
 #alias_names=$(curl -s $function_sh | grep -oP '^\s*alias\s+\K\w+')
 for alias in $(curl -s $function_sh | grep -oP '^\s*alias\s+\K\w+')
-	#if [ "$(eval echo \${function__$alias})" == "1" ] && 
-	if [[ "$(curl -s -L $function_sh | awk "/^alias $alias=/ {f=1} f; /^[^\\\\]*$/ {f=0}")" != "$(sed -n "/^alias $alias=/p" ~/.bashrc)" ]]; then
+	if [ "$(eval echo \${function__$alias})" == "1" ] && 
+	#if [[ "$(curl -s -L $function_sh | awk "/^alias $alias=/ {f=1} f; /^[^\\\\]*$/ {f=0}")" != "$(sed -n "/^alias $alias=/p" ~/.bashrc)" ]]; then
 		echo "Updating .bashrc with the latest $alias alias code."
 		curl -s -L $function_sh | awk "/^alias $alias=/ {f=1} f; /^[^\\\\]*$/ {f=0}"
 	fi
