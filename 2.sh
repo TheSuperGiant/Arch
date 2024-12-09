@@ -13,7 +13,7 @@ done &
 
 http_check() {
 	if [[ "$1" == *"http"* ]]; then
-		source <(curl -L $1)
+		source <(curl -s -L $1)
 	else
 		source $1
 	fi
@@ -29,10 +29,10 @@ fi
 
 function_sh="https://raw.githubusercontent.com/TheSuperGiant/Arch/refs/heads/Arch/functions.sh"
 
-source <(curl -L $function_sh)
+source <(curl -s -L $function_sh)
 
-md
-mdr
+#md
+#mdr
 
 for function in $(curl -s $function_sh | grep -oP '^\s*\K\w+(?=\()'); do
 	if [ "$(eval echo \${function__$function})" == "1" ] && [[ "$(curl -s -L "$function_sh" | awk "/^$function\\(\\)/ {f=1} f; /^}/ {f=0}")" != "$(sed -n "/^$function()/,/^}/p" ~/.bashrc)" ]]; then
@@ -41,10 +41,17 @@ for function in $(curl -s $function_sh | grep -oP '^\s*\K\w+(?=\()'); do
 			sed -i "/^$function()/,/^}/d" ~/.bashrc
 		fi
 		curl -s -L $function_sh | awk "/^$function\\(\\)/ {f=1} f; /^}/ {f=0}" >> ~/.bashrc
-		fi
+	fi
 done
 
 #alias_names=$(curl -s https://raw.githubusercontent.com/TheSuperGiant/Arch/refs/heads/Arch/functions.sh | grep -oP '^\s*alias\s+\K\w+')
+#alias_names=$(curl -s $function_sh | grep -oP '^\s*alias\s+\K\w+')
+for alias in $(curl -s $function_sh | grep -oP '^\s*alias\s+\K\w+')
+	if [ "$(eval echo \${function__$function})" == "1" ] && [[ curl -s -L $function_sh | awk "/^alias $alias=/ {f=1} f; /^[^\\\\]*$/ {f=0}" != "$(sed -n "/^alias $alias=/p" ~/.bashrc)" ]]; then
+		echo "Updating .bashrc with the latest $function alias code."
+		curl -s -L $function_sh | awk "/^alias $alias=/ {f=1} f; /^[^\\\\]*$/ {f=0}"
+	fi
+done
 #alias_names=$(curl -s $function_sh | grep -oP '^\s*alias\s+\K\w+')
 #alias md >> ~/.bashrc
 #alias $alias >> ~/.bashrc
