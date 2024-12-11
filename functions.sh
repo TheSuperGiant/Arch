@@ -8,17 +8,10 @@
 #LIGHTDM_CONF="/etc/lightdm/lightdm.conf"
 
 add_alias() {
-	alias_name=$1
-	alias_command=$2
-	if ! grep -q "^alias $alias_name" ~/.bashrc; then
-		#echo "alias $alias_name=\"$alias_command\"" >> ~/.bashrc
-		#eval "alias $alias_name=\"$alias_command\"" >> ~/.bashrc
-		echo "$(eval echo \${$alias_name=\"$alias_command\"})" >> ~/.bashrc
-		#eval "alias $alias_name=\"$alias_command\"" >> ~/.bashrc
-		#eval "$alias_name() {
-		#	$alias_command
-		#}"
-		echo "Alias '$alias_name' added and saved to ~/.bashrc."
+	if ! grep -q "^alias $1=" ~/.bashrc; then
+		code="alias $1=\"$2\""
+		eval $code && echo $code >> ~/.bashrc
+		echo "Alias '$1' added and saved to ~/.bashrc."
 	fi
 }
 add_device_label() {
@@ -73,8 +66,8 @@ bool() {
 }
 
 
-alias md="mkdir -p $1"
-alias mds="sudo mkdir -p $1"
+alias md="mkdir -p \$1"
+alias mds="sudo mkdir -p \$1"
 mdr() {
 	sudo mkdir -p $1
 	sudo chown $USER:$USER $1
