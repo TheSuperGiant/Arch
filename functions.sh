@@ -66,8 +66,8 @@ bool() {
 }
 
 
-alias md="mkdir -p \$1"
-alias mds="sudo mkdir -p \$1"
+alias md="mkdir -p $1"
+alias mds="sudo mkdir -p $1"
 mdr() {
 	sudo mkdir -p $1
 	sudo chown $USER:$USER $1
