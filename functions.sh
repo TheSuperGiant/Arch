@@ -15,7 +15,7 @@ add_alias() {
 	fi
 }
 add_device_label() {
-	if ! sudo grep -q "LABEL=$1 " /etc/fstab; then
+	if ! sudo grep -q "^LABEL=$1 " /etc/fstab; then
 		fs_type=$(lsblk -o NAME,LABEL,FSTYPE | grep -w $1 | awk '{print $3}')
 		if [ -n "$fs_type" ]; then
 			mountpoint="/mnt/$1"
@@ -41,17 +41,17 @@ add_lightdm() {
 		local third="$3"
 	fi
 	if [ "$1" == "e" ]; then
-		if ! grep -q "^$third" "/etc/lightdm/lightdm.conf"; then
+		if ! grep -q "^$third$" "/etc/lightdm/lightdm.conf"; then
 			echo -e "\n$2" | sudo tee -a "/etc/lightdm/lightdm.conf"
 		fi
 	else
-		if ! grep -q "^$1" "/etc/lightdm/lightdm.conf"; then
+		if ! grep -q "^$1$" "/etc/lightdm/lightdm.conf"; then
 			sudo sed -i "$2 $1" "/etc/lightdm/lightdm.conf"
 		fi
 	fi
 }
 add_sudo() {
-	if ! sudo grep -q "$1" /etc/sudoers; then
+	if ! sudo grep -q "^$1$" /etc/sudoers; then
 		echo "$1" | sudo tee -a /etc/sudoers
 	fi
 }
