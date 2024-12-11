@@ -26,14 +26,12 @@ add_device_label() {
 	fi
 }
 add_function() {
-    func_name=$1
-    func_body=$2
-	if ! grep -q "^function $func_name" ~/.bashrc; then
-		echo -e "function $func_name {\n\t$func_body\n}" >> ~/.bashrc
-		eval "$func_name() {
-			$func_body
+    if ! grep -q "^$1()" ~/.bashrc; then
+		echo -e "$1() {\n\t$2\n}" >> ~/.bashrc
+		eval "$1() {
+			$2
 		}"
-		echo "Function '$func_name' added and is now available."
+		echo "Function '$1' added and is now available."
 	fi
 }
 add_lightdm() {
