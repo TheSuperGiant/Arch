@@ -15,7 +15,7 @@ add_alias() {
 	fi
 }
 add_device_label() {
-	if ! sudo grep -q "LABEL=$1" /etc/fstab; then
+	if ! sudo grep -q "LABEL=$1 " /etc/fstab; then
 		fs_type=$(lsblk -o NAME,LABEL,FSTYPE | grep -w $1 | awk '{print $3}')
 		if [ -n "$fs_type" ]; then
 			mountpoint="/mnt/$1"
