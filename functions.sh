@@ -11,8 +11,8 @@ add_alias() {
 	alias_name=$1
 	alias_command=$2
 	if ! grep -q "^alias $alias_name" ~/.bashrc; then
-		echo "alias $alias_name=\"$alias_command\"" >> ~/.bashrc
-		eval "alias $alias_name=\"$alias_command\""
+		#echo "alias $alias_name=\"$alias_command\"" >> ~/.bashrc
+		eval "alias $alias_name=\"$alias_command\"" >> ~/.bashrc
 		#eval "$alias_name() {
 		#	$alias_command
 		#}"
