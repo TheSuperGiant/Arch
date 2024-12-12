@@ -318,6 +318,8 @@ done
 #later
 	#qemu
 
+md
+mds
 
 http_check $2
 
