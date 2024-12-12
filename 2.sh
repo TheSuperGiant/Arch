@@ -28,8 +28,12 @@ if [ "$linutil__christitus" == "1" ]; then
 fi
 
 function_sh="https://raw.githubusercontent.com/TheSuperGiant/Arch/refs/heads/Arch/functions.sh"
+	
 
-source <(curl -s -L "$function_sh" | sed 's/^alias \(.*\)=\(.*\)/\1() {\n  \2\n}/g')
+source <(curl -s -L "$function_sh" | sed 's/^alias \(.*\)="\(.*\)"$/\1() {\n  \2\n}/g')
+#source <(curl -s -L "$function_sh" | sed 's/^alias \(.*\)=\(.*\)/\1() {\n  \2\n}/g')
+#source <(curl -s -L "$function_sh" | sed 's/^alias \(.*\)=\(.*\)/\1() {\n  \2\n}/g')
+#source <(curl -s -L "$function_sh" | sed 's/^alias \(.*\)=\(.*\)/\1() {\n  \2\n}/g')
 #source <(curl -s -L "$function_sh" | sed 's/^alias \(.*\)=\(.*\)/\1() {\n \2\n}/g')
 #source <(curl -s -L "$function_sh" | sed "s/\$[0-9]\+/\'\&\'/g")
 #source <(curl -s -L "$function_sh" | sed "s/\$[0-9]\+/\'&\'/g")
@@ -345,7 +349,7 @@ done
 #testing by hand
 	#paru -S --noconfirm nvidia
 
-#later
+#later	
 	#qemu
 
 md
