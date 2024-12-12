@@ -45,6 +45,7 @@ for function in $(curl -s $function_sh | grep -oP '^\s*\K\w+(?=\()'); do
 done
 
 for alias in $(curl -s $function_sh | grep -oP '^\s*alias\s+\K\w+'); do
+	eval $function_sh | awk "/^alias $alias=/ {f=1} f; /^[^\\\\]*$/ {f=0}"
 	if [ "$(eval echo \${function__$alias})" == "1" ] && [[ "$(curl -s -L $function_sh | awk "/^alias $alias=/ {f=1} f; /^[^\\\\]*$/ {f=0}")" != "$(sed -n "/^alias $alias=/p" ~/.bashrc)" ]]; then
 		echo "Updating .bashrc with the latest $alias alias code."
 		if [[ "$(sed -n "/^alias $alias=/p" ~/.bashrc)" != "" ]]; then
