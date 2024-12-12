@@ -337,8 +337,9 @@ mds
 mdr
 
 alias
-alias md
-alias mds
+#alias md
+#alias mds
+declare -f mdr
 
 http_check $2
 
