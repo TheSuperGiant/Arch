@@ -52,7 +52,7 @@ for alias in $(curl -s $function_sh | grep -oP '^\s*alias\s+\K\w+'); do
 	#eval $alias_code
 	#eval "$(printf '%q' "$alias_code")"
 	#eval "$(printf  "$alias_code")"
-	eval "$(printf "$alias_code")" "$@"
+	#eval "$(printf "$alias_code")" "$@"
 	
 	#alias_code=$(curl -s -L $function_sh | grep "^alias $alias=")
 	#echo "${alias_code#alias }" | cut -d '=' -f 1 | sed 's/$/()/; s/$/{/; s/[^"]*\("\([^"]*\)"\)[^"]*/\2/'
