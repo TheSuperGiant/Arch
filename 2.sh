@@ -43,8 +43,7 @@ done
 
 for alias in $(curl -s $function_sh | grep -oP '^\s*alias\s+\K\w+'); do
 	alias_code=$(curl -s -L $function_sh | awk "/^alias $alias=/ {f=1} f; /^[^\\\\]*$/ {f=0}")
-	bash -l -c 'eval "$alias_code"'
-	#eval $alias_code
+	eval "$alias_code"
 	if [ "$(eval echo \${function__$alias})" == "1" ] && [[ "$(curl -s -L $function_sh | awk "/^alias $alias=/ {f=1} f; /^[^\\\\]*$/ {f=0}")" != "$(sed -n "/^alias $alias=/p" ~/.bashrc)" ]]; then
 	#if [ "$(eval echo \${function__$alias})" == "1" ] && [[ $alias_code != "$(sed -n "/^alias $alias=/p" ~/.bashrc)" ]]; then
 		echo "Updating .bashrc with the latest $alias alias code."
@@ -198,9 +197,9 @@ for app in "${App_Install__[@]}"; do
 	fi
 done
 
-if [ "$App_Install__mega" == "1" ]; then
-	wget https://mega.nz/linux/repo/Arch_Extra/x86_64/megasync-x86_64.pkg.tar.zst && sudo pacman -U --noconfirm "$PWD/megasync-x86_64.pkg.tar.zst"
-fi
+#if [ "$App_Install__mega" == "1" ]; then
+	#wget https://mega.nz/linux/repo/Arch_Extra/x86_64/megasync-x86_64.pkg.tar.zst && sudo pacman -U --noconfirm "$PWD/megasync-x86_64.pkg.tar.zst"
+#fi
 
 #themes
 if [ "$theme__pack__Windows_10_Dark" == "1" ]; then
