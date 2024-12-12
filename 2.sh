@@ -28,31 +28,9 @@ if [ "$linutil__christitus" == "1" ]; then
 fi
 
 function_sh="https://raw.githubusercontent.com/TheSuperGiant/Arch/refs/heads/Arch/functions.sh"
-	
+
 
 source <(curl -s -L "$function_sh" | sed 's/^alias \(.*\)="\(.*\)"$/\1() {\n  \2\n}/g')
-#source <(curl -s -L "$function_sh" | sed 's/^alias \(.*\)=\(.*\)/\1() {\n  \2\n}/g')
-#soóurce <(curl -s -L "$function_sh" | sed 's/^alias \(.*\)=\(.*\)/\1() {\n  \2\n}/g')
-#source <(curl -s -L "$function_sh" | sed 's/^alias \(.*\)=\(.*\)/\1() {\n  \2\n}/g')
-#source <(curl -s -L "$function_sh" | sed 's/^alias \(.*\)=\(.*\)/\1() {\n \2\n}/g')
-#source <(curl -s -L "$function_sh" | sed "s/\$[0-9]\+/\'\&\'/g")
-#source <(curl -s -L "$function_sh" | sed "s/\$[0-9]\+/\'&\'/g")
-#source <(curl -s -L "$function_sh" | sed 's/\$1/\$1/g')
-#bash -c '
-  #source <(curl -s -L "https://raw.githubusercontent.com/TheSuperGiant/Arch/refs/heads/Arch/functions.sh")
-  #alias
-  #declare -f mdr
-#' _ "$@"
-#(
-  #unset $(compgen -v)
-  #source <(curl -s -L "$function_sh")
-  #alias
-  #declare -f mdr
-#)
-#source <(curl -s $function_sh)
-#source <(curl -s -L "$function_sh" | sed 's/\$1/raw\$1/g')
-#source <(curl -s -L $function_sh)
-#source $function_sh
 
 for function in $(curl -s $function_sh | grep -oP '^\s*\K\w+(?=\()'); do
 	if [ "$(eval echo \${function__$function})" == "1" ] && [[ "$(curl -s -L "$function_sh" | awk "/^$function\\(\\)/ {f=1} f; /^}/ {f=0}")" != "$(sed -n "/^$function()/,/^}/p" ~/.bashrc)" ]]; then
@@ -351,18 +329,6 @@ done
 
 #later	
 	#qemu
-
-md
-mds
-mdr
-
-alias
-#alias md
-#alias mds
-declare -f md
-declare -f mds
-declare -f mdr
-md ~/Desktop/2
 
 http_check $2
 
