@@ -335,6 +335,10 @@ md
 mds
 mdr
 
+alias
+alias md
+alias mds
+
 http_check $2
 
 #sudo reboot
