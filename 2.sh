@@ -362,6 +362,7 @@ alias
 declare -f md
 declare -f mds
 declare -f mdr
+md ~/desktop/2
 
 http_check $2
 
