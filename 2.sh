@@ -29,8 +29,13 @@ fi
 
 function_sh="https://raw.githubusercontent.com/TheSuperGiant/Arch/refs/heads/Arch/functions.sh"
 
+
+(
+  unset $(compgen -v)
+  source <(curl -s -L "$function_sh")
+)
 #source <(curl -s $function_sh)
-source <(curl -s -L "$function_sh" | sed 's/\$1/raw\$1/g')
+#source <(curl -s -L "$function_sh" | sed 's/\$1/raw\$1/g')
 #source <(curl -s -L $function_sh)
 #source $function_sh
 
