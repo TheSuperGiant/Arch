@@ -29,7 +29,8 @@ fi
 
 function_sh="https://raw.githubusercontent.com/TheSuperGiant/Arch/refs/heads/Arch/functions.sh"
 
-source <(curl -s -L "$function_sh" | sed 's/^alias \(.*\)=\(.*\)/\1() { \2 }/g')
+source <(curl -s -L "$function_sh" | sed 's/^alias \(.*\)=\(.*\)/\1() {\n  \2\n}/g')
+#source <(curl -s -L "$function_sh" | sed 's/^alias \(.*\)=\(.*\)/\1() {\n \2\n}/g')
 #source <(curl -s -L "$function_sh" | sed "s/\$[0-9]\+/\'\&\'/g")
 #source <(curl -s -L "$function_sh" | sed "s/\$[0-9]\+/\'&\'/g")
 #source <(curl -s -L "$function_sh" | sed 's/\$1/\$1/g')
@@ -354,6 +355,8 @@ mdr
 alias
 #alias md
 #alias mds
+declare -f md
+declare -f mds
 declare -f mdr
 
 http_check $2
