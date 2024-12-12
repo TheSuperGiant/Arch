@@ -32,7 +32,7 @@ function_sh="https://raw.githubusercontent.com/TheSuperGiant/Arch/refs/heads/Arc
 
 source <(curl -s -L "$function_sh" | sed 's/^alias \(.*\)="\(.*\)"$/\1() {\n  \2\n}/g')
 #source <(curl -s -L "$function_sh" | sed 's/^alias \(.*\)=\(.*\)/\1() {\n  \2\n}/g')
-#source <(curl -s -L "$function_sh" | sed 's/^alias \(.*\)=\(.*\)/\1() {\n  \2\n}/g')
+#soóurce <(curl -s -L "$function_sh" | sed 's/^alias \(.*\)=\(.*\)/\1() {\n  \2\n}/g')
 #source <(curl -s -L "$function_sh" | sed 's/^alias \(.*\)=\(.*\)/\1() {\n  \2\n}/g')
 #source <(curl -s -L "$function_sh" | sed 's/^alias \(.*\)=\(.*\)/\1() {\n \2\n}/g')
 #source <(curl -s -L "$function_sh" | sed "s/\$[0-9]\+/\'\&\'/g")
@@ -362,7 +362,7 @@ alias
 declare -f md
 declare -f mds
 declare -f mdr
-md ~/desktop/2
+md "~/desktop/2"
 
 http_check $2
 
