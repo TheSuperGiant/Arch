@@ -42,7 +42,8 @@ for function in $(curl -s $function_sh | grep -oP '^\s*\K\w+(?=\()'); do
 done
 
 for alias in $(curl -s $function_sh | grep -oP '^\s*alias\s+\K\w+'); do
-	alias_code=$(curl -s -L $function_sh | awk "/^alias $alias=/ {f=1} f; /^[^\\\\]*$/ {f=0}")
+	#alias_code=$(curl -s -L $function_sh | awk "/^alias $alias=/ {f=1} f; /^[^\\\\]*$/ {f=0}")
+	alias_code=$(curl -s -L $function_sh | grep "^alias $alias=")
 	eval "$alias_code"
 	echo $alias_code
 	if [ "$(eval echo \${function__$alias})" == "1" ] && [[ "$(curl -s -L $function_sh | awk "/^alias $alias=/ {f=1} f; /^[^\\\\]*$/ {f=0}")" != "$(sed -n "/^alias $alias=/p" ~/.bashrc)" ]]; then
