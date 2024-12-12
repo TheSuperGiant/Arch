@@ -29,8 +29,9 @@ fi
 
 function_sh="https://raw.githubusercontent.com/TheSuperGiant/Arch/refs/heads/Arch/functions.sh"
 
-#source <(curl -s -L so $function_sh)
-source $function_sh
+#source <(curl -s -L $function_sh)
+source <(curl -s $function_sh)
+#source $function_sh
 
 for function in $(curl -s $function_sh | grep -oP '^\s*\K\w+(?=\()'); do
 	if [ "$(eval echo \${function__$function})" == "1" ] && [[ "$(curl -s -L "$function_sh" | awk "/^$function\\(\\)/ {f=1} f; /^}/ {f=0}")" != "$(sed -n "/^$function()/,/^}/p" ~/.bashrc)" ]]; then
