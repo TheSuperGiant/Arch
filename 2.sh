@@ -31,7 +31,7 @@ function_sh="https://raw.githubusercontent.com/TheSuperGiant/Arch/refs/heads/Arc
 
 
 (
-  unset $(compgen -v)
+  #unset $(compgen -v)
   source <(curl -s -L "$function_sh")
   alias
   declare -f mdr
