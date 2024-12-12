@@ -29,7 +29,6 @@ fi
 
 function_sh="https://raw.githubusercontent.com/TheSuperGiant/Arch/refs/heads/Arch/functions.sh"
 
-source <(curl -s -L $function_sh)
 
 for function in $(curl -s $function_sh | grep -oP '^\s*\K\w+(?=\()'); do
 	if [ "$(eval echo \${function__$function})" == "1" ] && [[ "$(curl -s -L "$function_sh" | awk "/^$function\\(\\)/ {f=1} f; /^}/ {f=0}")" != "$(sed -n "/^$function()/,/^}/p" ~/.bashrc)" ]]; then
@@ -44,7 +43,7 @@ done
 for alias in $(curl -s $function_sh | grep -oP '^\s*alias\s+\K\w+'); do
 	#alias_code=$(curl -s -L $function_sh | awk "/^alias $alias=/ {f=1} f; /^[^\\\\]*$/ {f=0}")
 	alias_code=$(curl -s -L $function_sh | grep "^alias $alias=")
-	eval "$alias_code"
+	eval $alias_code
 	echo $alias_code
 	if [ "$(eval echo \${function__$alias})" == "1" ] && [[ "$(curl -s -L $function_sh | awk "/^alias $alias=/ {f=1} f; /^[^\\\\]*$/ {f=0}")" != "$(sed -n "/^alias $alias=/p" ~/.bashrc)" ]]; then
 	#if [ "$(eval echo \${function__$alias})" == "1" ] && [[ $alias_code != "$(sed -n "/^alias $alias=/p" ~/.bashrc)" ]]; then
@@ -57,6 +56,7 @@ for alias in $(curl -s $function_sh | grep -oP '^\s*alias\s+\K\w+'); do
 	fi
 done
 
+source <(curl -s -L $function_sh)
 
 #add_function mdc "sudo mkdir -p \$1
 	#sudo chown \$USER:\$USER \$1"
