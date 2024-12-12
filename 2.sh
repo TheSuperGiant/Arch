@@ -31,8 +31,8 @@ function_sh="https://raw.githubusercontent.com/TheSuperGiant/Arch/refs/heads/Arc
 
 
 bash -c '
-  function_sh="your_url_here"
   source <(curl -s -L "$function_sh")
+  
 ' _ "$@"
 #(
   #unset $(compgen -v)
