@@ -29,7 +29,8 @@ fi
 
 function_sh="https://raw.githubusercontent.com/TheSuperGiant/Arch/refs/heads/Arch/functions.sh"
 
-source <(curl -s -L "$function_sh" | sed "s/\$[0-9]\+/\'\&\'/g")
+source <(curl -s -L "$function_sh" | sed 's/^alias \(.*\)=\(.*\)/\1() { \2 }/g')
+#source <(curl -s -L "$function_sh" | sed "s/\$[0-9]\+/\'\&\'/g")
 #source <(curl -s -L "$function_sh" | sed "s/\$[0-9]\+/\'&\'/g")
 #source <(curl -s -L "$function_sh" | sed 's/\$1/\$1/g')
 #bash -c '
