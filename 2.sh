@@ -31,9 +31,6 @@ function_sh="https://raw.githubusercontent.com/TheSuperGiant/Arch/refs/heads/Arc
 
 source <(curl -s -L $function_sh)
 
-#md
-#mdr
-
 for function in $(curl -s $function_sh | grep -oP '^\s*\K\w+(?=\()'); do
 	if [ "$(eval echo \${function__$function})" == "1" ] && [[ "$(curl -s -L "$function_sh" | awk "/^$function\\(\\)/ {f=1} f; /^}/ {f=0}")" != "$(sed -n "/^$function()/,/^}/p" ~/.bashrc)" ]]; then
 		echo "Updating .bashrc with the latest $function function code."
@@ -45,13 +42,15 @@ for function in $(curl -s $function_sh | grep -oP '^\s*\K\w+(?=\()'); do
 done
 
 for alias in $(curl -s $function_sh | grep -oP '^\s*alias\s+\K\w+'); do
-	eval $function_sh | awk "/^alias $alias=/ {f=1} f; /^[^\\\\]*$/ {f=0}"
+	alias_code=$(curl -s -L $function_sh | awk "/^alias $alias=/ {f=1} f; /^[^\\\\]*$/ {f=0}")
+	eval $alias_code
 	if [ "$(eval echo \${function__$alias})" == "1" ] && [[ "$(curl -s -L $function_sh | awk "/^alias $alias=/ {f=1} f; /^[^\\\\]*$/ {f=0}")" != "$(sed -n "/^alias $alias=/p" ~/.bashrc)" ]]; then
 		echo "Updating .bashrc with the latest $alias alias code."
 		if [[ "$(sed -n "/^alias $alias=/p" ~/.bashrc)" != "" ]]; then
 			sed -i "/^alias $alias=/d" ~/.bashrc
 		fi
-		curl -s -L $function_sh | awk "/^alias $alias=/ {f=1} f; /^[^\\\\]*$/ {f=0}" >> ~/.bashrc
+		#curl -s -L $function_sh | awk "/^alias $alias=/ {f=1} f; /^[^\\\\]*$/ {f=0}" >> ~/.bashrc
+		echo $alias_code >> ~/.bashrc
 	fi
 done
 
