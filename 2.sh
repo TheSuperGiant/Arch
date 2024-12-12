@@ -29,7 +29,8 @@ fi
 
 function_sh="https://raw.githubusercontent.com/TheSuperGiant/Arch/refs/heads/Arch/functions.sh"
 
-source <(curl -s -L $function_sh)
+#source <(curl -s -L so $function_sh)
+source $function_sh
 
 for function in $(curl -s $function_sh | grep -oP '^\s*\K\w+(?=\()'); do
 	if [ "$(eval echo \${function__$function})" == "1" ] && [[ "$(curl -s -L "$function_sh" | awk "/^$function\\(\\)/ {f=1} f; /^}/ {f=0}")" != "$(sed -n "/^$function()/,/^}/p" ~/.bashrc)" ]]; then
@@ -48,7 +49,10 @@ for alias in $(curl -s $function_sh | grep -oP '^\s*alias\s+\K\w+'); do
 	#eval "$a"
 	#eval alias md="mkdir -p $1"
 	#eval alias md="mkdir -p $1"
-	eval $alias_code
+	#eval $alias_code
+	#eval "$(printf '%q' "$alias_code")"
+	#eval "$(printf  "$alias_code")"
+	eval "$(printf "$alias_code")" "$@"
 	
 	#alias_code=$(curl -s -L $function_sh | grep "^alias $alias=")
 	#echo "${alias_code#alias }" | cut -d '=' -f 1 | sed 's/$/()/; s/$/{/; s/[^"]*\("\([^"]*\)"\)[^"]*/\2/'
@@ -328,6 +332,7 @@ done
 
 md
 mds
+mdr
 
 http_check $2
 
