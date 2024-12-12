@@ -166,6 +166,7 @@ declare -a App_Install__=(
 	"leafpad:				leafpad"
 	"libreoffice:			libreoffice"
 	"librewolf:				librewolf-bin"
+	"mega:					megasync"
 	"mousepad:				mousepad"
 	"minecraft_launcher:	minecraft-launcher;1"
 	"notepadqq:				notepadqq"
