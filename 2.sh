@@ -56,7 +56,7 @@ for alias in $(curl -s $function_sh | grep -oP '^\s*alias\s+\K\w+'); do
 	fi
 done
 
-source <(curl -s -L $function_sh)
+#source <(curl -s -L $function_sh)
 
 #add_function mdc "sudo mkdir -p \$1
 	#sudo chown \$USER:\$USER \$1"
