@@ -41,24 +41,11 @@ for function in $(curl -s $function_sh | grep -oP '^\s*\K\w+(?=\()'); do
 		curl -s -L $function_sh | awk "/^$function\\(\\)/ {f=1} f; /^}/ {f=0}" >> ~/.bashrc
 	fi
 done
-
+function__md=0
 for alias in $(curl -s $function_sh | grep -oP '^\s*alias\s+\K\w+'); do
-	#alias_code=$(curl -s -L $function_sh | awk "/^alias $alias=/ {f=1} f; /^[^\\\\]*$/ {f=0}")
 	alias_code=$(curl -s -L $function_sh | grep "^alias $alias=")
-	#a=$(echo "$alias_code" | sed -E 's/^alias ([^=]*)="([^"]*)".*/\1() { \2 }/')
-	#eval "$a"
-	#eval alias md="mkdir -p $1"
-	#eval alias md="mkdir -p $1"
-	#eval $alias_code
-	#eval "$(printf '%q' "$alias_code")"
-	#eval "$(printf  "$alias_code")"
-	#eval "$(printf "$alias_code")" "$@"
-	
-	#alias_code=$(curl -s -L $function_sh | grep "^alias $alias=")
-	#echo "${alias_code#alias }" | cut -d '=' -f 1 | sed 's/$/()/; s/$/{/; s/[^"]*\("\([^"]*\)"\)[^"]*/\2/'
-	#echo "${alias_code%%=*}"
-	if [ "$(eval echo \${function__$alias})" == "1" ] && [[ "$(curl -s -L $function_sh | awk "/^alias $alias=/ {f=1} f; /^[^\\\\]*$/ {f=0}")" != "$(sed -n "/^alias $alias=/p" ~/.bashrc)" ]]; then
-	#if [ "$(eval echo \${function__$alias})" == "1" ] && [[ $alias_code != "$(sed -n "/^alias $alias=/p" ~/.bashrc)" ]]; then
+	#if [ "$(eval echo \${function__$alias})" == "1" ] && [[ "$(curl -s -L $function_sh | awk "/^alias $alias=/ {f=1} f; /^[^\\\\]*$/ {f=0}")" != "$(sed -n "/^alias $alias=/p" ~/.bashrc)" ]]; then
+	if [ "$(eval echo \${function__$alias})" == "1" ] && [[ $alias_code != "$(sed -n "/^alias $alias=/p" ~/.bashrc)" ]]; then
 		echo "Updating .bashrc with the latest $alias alias code."
 		if [[ "$(sed -n "/^alias $alias=/p" ~/.bashrc)" != "" ]]; then
 			sed -i "/^alias $alias=/d" ~/.bashrc
@@ -209,10 +196,6 @@ for app in "${App_Install__[@]}"; do
 		fi
 	fi
 done
-
-#if [ "$App_Install__mega" == "1" ]; then
-	#wget https://mega.nz/linux/repo/Arch_Extra/x86_64/megasync-x86_64.pkg.tar.zst && sudo pacman -U --noconfirm "$PWD/megasync-x86_64.pkg.tar.zst"
-#fi
 
 #themes
 if [ "$theme__pack__Windows_10_Dark" == "1" ]; then
