@@ -219,7 +219,7 @@ declare -a Setting__=(
 	"mouse__locate_pointer:	/org/cinnamon/desktop/peripherals/mouse/locate-pointer;b"
 	"mouse__size:	/org/cinnamon/desktop/interface/cursor-size"
 	"mouse__size:	/org/gnome/desktop/interface/cursor-size"
-	"night_light:	org/cinnamon/settings-daemon/plugins/color;b"
+	"night_light:	/org/cinnamon/settings-daemon/plugins/color;b"
 	"power__display_sleep_ac:	/org/cinnamon/settings-daemon/plugins/power/sleep-display-ac"
 	"power__display_sleep_battery:	/org/cinnamon/settings-daemon/plugins/power/sleep-display-battery"
 	"privicy__dis_camera:	/org/cinnamon/desktop/privacy/disable-camera;b"
