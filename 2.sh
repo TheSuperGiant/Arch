@@ -210,16 +210,16 @@ time_converd() {
 	M="${1##*:}" && M=$(( (M * 100) / 60 ))
 	echo "$H.$M"
 }
-Setting__night_light__schedule_from="00:30"
+Setting__night_light__schedule_from="00:15"
 if [ "$Setting__night_light__schedule_from" != "" ]; then
 	Setting__night_light__schedule_from=$(time_converd $Setting__night_light__schedule_from)
 fi
-Setting__night_light__schedule_to="9:15"
+Setting__night_light__schedule_to="9:30"
 if [ "$Setting__night_light__schedule_to" != "" ]; then
 	Setting__night_light__schedule_to=$(time_converd $Setting__night_light__schedule_to)
 fi
-
-if [[ "$Setting__night_light__schedule_mode" != "" ]]; then
+Setting__night_light__schedule_mode=1
+if [[ "$Setting__night_light__schedule_mode=0" != "" ]]; then
 	if [ "$Setting__night_light__schedule_mode" == "0" ]; then
 		Setting__night_light__schedule_mode="auto"
 	else
