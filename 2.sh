@@ -210,6 +210,7 @@ time_converd() {
 	M="${1##*:}" && M=$(( (M * 100) / 60 ))
 	echo "$H.$M"
 }
+Setting__night_light__temperature=2800
 Setting__night_light__schedule_from="00:15"
 if [ "$Setting__night_light__schedule_from" != "" ]; then
 	Setting__night_light__schedule_from=$(time_converd $Setting__night_light__schedule_from)
