@@ -205,6 +205,18 @@ if [ "$theme__pack__Windows_10_Dark" == "1" ]; then
 	sudo cp -r "$theme" /usr/share/themes/
 fi
 
+#if [ "$Setting__night_light__schedule_from" == "1" ]; then
+#	
+#fi
+Setting__night_light__schedule_mode=1
+if [[ "$Setting__night_light__schedule_mode" != "" ]]; then
+	if [ "$Setting__night_light__schedule_mode" == "0" ]; then
+		Setting__night_light__schedule_mode="auto"
+	else
+		Setting__night_light__schedule_mode="manual"
+	fi
+fi
+
 declare -a Setting__=(
 	"clock__show_date:	/org/cinnamon/desktop/interface/clock-show-date;b"
 	"clock__show_date:	/org/gnome/desktop/interface/clock-show-date;b"
@@ -219,7 +231,11 @@ declare -a Setting__=(
 	"mouse__locate_pointer:	/org/cinnamon/desktop/peripherals/mouse/locate-pointer;b"
 	"mouse__size:	/org/cinnamon/desktop/interface/cursor-size"
 	"mouse__size:	/org/gnome/desktop/interface/cursor-size"
-	"night_light:	/org/cinnamon/settings-daemon/plugins/color/night-light-enabled;b"
+	"night_light__enable:	/org/cinnamon/settings-daemon/plugins/color/night-light-enabled;b"
+	"night_light__schedule_from:	/org/cinnamon/settings-daemon/plugins/color/night-light-schedule-from"
+	"night_light__schedule_to:	/org/cinnamon/settings-daemon/night-light-schedule-to"
+	"night_light__schedule_mode:	/org/cinnamon/settings-daemon/night-light-schedule-mode;'"
+	"night_light__temperature:	/org/cinnamon/settings-daemon/plugins/color/night-light-temperature;u"
 	"power__display_sleep_ac:	/org/cinnamon/settings-daemon/plugins/power/sleep-display-ac"
 	"power__display_sleep_battery:	/org/cinnamon/settings-daemon/plugins/power/sleep-display-battery"
 	"privicy__dis_camera:	/org/cinnamon/desktop/privacy/disable-camera;b"
