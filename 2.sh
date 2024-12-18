@@ -205,10 +205,20 @@ if [ "$theme__pack__Windows_10_Dark" == "1" ]; then
 	sudo cp -r "$theme" /usr/share/themes/
 fi
 
-#if [ "$Setting__night_light__schedule_from" == "1" ]; then
-#	
-#fi
-Setting__night_light__schedule_mode=1
+time_converd() {
+	H=${1%%:*}; H=${H//24/0}
+	M="${1##*:}" && M=$(( (M * 100) / 60 ))
+	echo "$H.$M"
+}
+Setting__night_light__schedule_from="00:30"
+if [ "$Setting__night_light__schedule_from" != "" ]; then
+	Setting__night_light__schedule_from=$(time_converd $Setting__night_light__schedule_from)
+fi
+Setting__night_light__schedule_to="9:15"
+if [ "$Setting__night_light__schedule_to" != "" ]; then
+	Setting__night_light__schedule_to=$(time_converd $Setting__night_light__schedule_to)
+fi
+
 if [[ "$Setting__night_light__schedule_mode" != "" ]]; then
 	if [ "$Setting__night_light__schedule_mode" == "0" ]; then
 		Setting__night_light__schedule_mode="auto"
