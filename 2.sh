@@ -32,6 +32,12 @@ function_sh="https://raw.githubusercontent.com/TheSuperGiant/Arch/refs/heads/Arc
 
 source <(curl -s -L "$function_sh" | sed 's/^alias \(.*\)="\(.*\)"$/\1() {\n  \2\n}/g')
 
+if [[ $DNS_Quad9 == 1 ]]; then
+	add_dns 9.9.9.9 149.112.112.112 2620:fe::fe 2620:fe::9 $adding_dns
+elif [[ $DNS_Cloudflare == 1 ]]; then
+	add_dns 1.1.1.1 1.0.0.1 2606:4700:4700::1111 2606:4700:4700::1001 $adding_dns
+fi
+
 for function in $(curl -s $function_sh | grep -oP '^\s*\K\w+(?=\()'); do
 	if [ "$(eval echo \${function__$function})" == "1" ] && [[ "$(curl -s -L "$function_sh" | awk "/^$function\\(\\)/ {f=1} f; /^}/ {f=0}")" != "$(sed -n "/^$function()/,/^}/p" ~/.bashrc)" ]]; then
 		echo "Updating .bashrc with the latest $function function code."
