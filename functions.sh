@@ -52,7 +52,7 @@ add_dns() {
 			fi
 		done
 		if [[ $compare == 1 || $nameservers == "" ]]; then
-			echo "nameserver $ips" | sudo tee -a /etc/resolv.conf
+			echo "nameserver $ips" | sudo tee -a /etc/resolv.conf > /dev/null
 			echo "\"nameserver $ips\" add to /etc/resolv.conf"
 		fi
 	done
