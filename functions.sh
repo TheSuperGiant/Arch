@@ -25,6 +25,39 @@ add_device_label() {
 		fi
 	fi
 }
+add_dns() {
+	sudo chattr -i /etc/resolv.conf
+	nameservers=$(grep '^nameserver' /etc/resolv.conf | awk '{print $2}')
+	for serverips in $nameservers; do
+		for values in "$@"; do
+			if [[ $serverips != $values ]]; then
+				compare=1
+			else
+				compare=0
+				break
+			fi
+		done
+		if [ $compare == 1 ]; then
+			echo "Removed: \"nameserver $serverips\" from /etc/resolv.conf"
+			sudo sed -i "/^nameserver $serverips/d" /etc/resolv.conf
+		fi
+	done
+	for ips in $@; do
+		for serverips in $nameservers; do
+			if [[ $serverips != $ips ]]; then
+				compare=1
+			else
+				compare=0
+				break
+			fi
+		done
+		if [[ $compare == 1 || $nameservers == "" ]]; then
+			echo "nameserver $ips" | sudo tee -a /etc/resolv.conf
+			echo "\"nameserver $ips\" add to /etc/resolv.conf"
+		fi
+	done
+	sudo chattr +i /etc/resolv.conf
+}
 add_function() {
     if ! grep -q "^$1()" ~/.bashrc; then
 		echo -e "$1() {\n\t$2\n}" >> ~/.bashrc
@@ -55,12 +88,20 @@ add_sudo() {
 		echo "$1" | sudo tee -a /etc/sudoers
 	fi
 }
+#add_wirless_network() {
+#	echo -e "network={\n	ssid=\"$1\"\n	psk=\"$2\"\n	scan_ssid=1\n}" | sudo tee -a "/etc/wpa_supplicant/multi_networks.conf"
+#}
 bool() {
 	if [ "$1" == "1" ]; then
 		echo "true"
 	else
 		echo "false"
 	fi
+}
+paru_clean() {
+	paru -Sc --noconfirm
+	rm -rf ~/.cache/paru/clone/*
+	rm -rf /home/$USER/.cache/paru/clone/*
 }
 
 
