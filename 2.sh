@@ -266,6 +266,8 @@ declare -a Setting__=(
 	"power__close_lid:	/org/cinnamon/settings-daemon/plugins/power/lid-close-ac-action;'"
 	"power__display_sleep_ac:	/org/cinnamon/settings-daemon/plugins/power/sleep-display-ac"
 	"power__display_sleep_battery:	/org/cinnamon/settings-daemon/plugins/power/sleep-display-battery"
+	"power__inactive_suspend_ac:	/org/cinnamon/settings-daemon/plugins/power/sleep-inactive-ac-timeout"
+	"power__inactive_suspend_battery:	/org/cinnamon/settings-daemon/plugins/power/sleep-inactive-battery-timeout"
 	"privicy__dis_camera:	/org/cinnamon/desktop/privacy/disable-camera;b"
 	"privicy__dis_mic:	/org/cinnamon/desktop/privacy/disable-microphone;b"
 	"privicy__dis_sound:	/org/cinnamon/desktop/privacy/disable-sound-output;b"
