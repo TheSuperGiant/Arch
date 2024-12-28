@@ -237,7 +237,7 @@ if [[ "$Setting__night_light__schedule_mode=0" != "" ]]; then
 		Setting__night_light__schedule_mode="manual"
 	fi
 fi
-Setting__notifications__display_notifications=0
+
 declare -a Setting__=(
 	"clock__show_date:	/org/cinnamon/desktop/interface/clock-show-date;b"
 	"clock__show_date:	/org/gnome/desktop/interface/clock-show-date;b"
