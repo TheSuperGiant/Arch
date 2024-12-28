@@ -139,6 +139,7 @@ declare -a App_Install__=(
 	"audacity:				audacity"
 	"biglybt:				biglybt"
 	"bleachbit:				bleachbit"
+	"bluetooth:				bluez bluez-utils blueman"
 	"brave:					brave"
 	"calibre:				calibre"
 	"discord:				discord"
@@ -162,7 +163,7 @@ declare -a App_Install__=(
 	"mousepad:				mousepad"
 	"minecraft_launcher:	minecraft-launcher;1"
 	"notepadqq:				notepadqq"
-	"notepadPlusPlus:				notepad++"
+	"notepadPlusPlus:		notepad++"
 	"numlockx:				numlockx"
 	"obs_studio:			obs-studio"
 	"opera:					opera"
@@ -186,7 +187,7 @@ declare -a App_Install__=(
 	"waterfox:				waterfox-bin"
 	"wire:					wire-desktop"
 	"xed:					xed"
-	"game_independedies:	gamemode,mangohud"
+	"game_independedies:	gamemode mangohud"
 )
 
 for app in "${App_Install__[@]}"; do
@@ -202,6 +203,10 @@ for app in "${App_Install__[@]}"; do
 		fi
 	fi
 done
+
+if [ "$App_Install__bluetooth" == "1" ]; then
+	sudo systemctl enable --now bluetooth.service
+fi
 
 #themes
 if [ "$theme__pack__Windows_10_Dark" == "1" ]; then
@@ -232,7 +237,7 @@ if [[ "$Setting__night_light__schedule_mode=0" != "" ]]; then
 		Setting__night_light__schedule_mode="manual"
 	fi
 fi
-
+Setting__notifications__display_notifications=0
 declare -a Setting__=(
 	"clock__show_date:	/org/cinnamon/desktop/interface/clock-show-date;b"
 	"clock__show_date:	/org/gnome/desktop/interface/clock-show-date;b"
@@ -252,6 +257,12 @@ declare -a Setting__=(
 	"night_light__schedule_to:	/org/cinnamon/settings-daemon/plugins/color/night-light-schedule-to"
 	"night_light__schedule_mode:	/org/cinnamon/settings-daemon/plugins/color/night-light-schedule-mode;'"
 	"night_light__temperature:	/org/cinnamon/settings-daemon/plugins/color/night-light-temperature;u"
+	"notifications__bottom_notifications:	/org/cinnamon/desktop/notifications/bottom-notifications;b"
+	"notifications__display_notifications:	/org/cinnamon/desktop/notifications/display-notifications;b"
+	"notifications__fullscreen_notifications:	/org/cinnamon/desktop/notifications/fullscreen-notifications;b"
+	"notifications__notification_duration:	/org/cinnamon/desktop/notifications/notification-duration"
+	"notifications__remove_old:	/org/cinnamon/desktop/notifications/remove-old;b"
+	"power__button__power:	/org/cinnamon/settings-daemon/plugins/power/button-power;'"
 	"power__display_sleep_ac:	/org/cinnamon/settings-daemon/plugins/power/sleep-display-ac"
 	"power__display_sleep_battery:	/org/cinnamon/settings-daemon/plugins/power/sleep-display-battery"
 	"privicy__dis_camera:	/org/cinnamon/desktop/privacy/disable-camera;b"
