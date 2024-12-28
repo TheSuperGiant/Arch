@@ -98,12 +98,12 @@ bool() {
 		echo "false"
 	fi
 }
+alias dco="dconf dump /"
 paru_clean() {
 	paru -Sc --noconfirm
 	rm -rf ~/.cache/paru/clone/*
 	rm -rf /home/$USER/.cache/paru/clone/*
 }
-
 
 alias md="mkdir -p $1"
 alias mds="sudo mkdir -p $1"
