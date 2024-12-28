@@ -263,6 +263,7 @@ declare -a Setting__=(
 	"notifications__notification_duration:	/org/cinnamon/desktop/notifications/notification-duration"
 	"notifications__remove_old:	/org/cinnamon/desktop/notifications/remove-old;b"
 	"power__button__power:	/org/cinnamon/settings-daemon/plugins/power/button-power;'"
+	"power__close_lid:	/org/cinnamon/settings-daemon/plugins/power/lid-close-ac-action;'"
 	"power__display_sleep_ac:	/org/cinnamon/settings-daemon/plugins/power/sleep-display-ac"
 	"power__display_sleep_battery:	/org/cinnamon/settings-daemon/plugins/power/sleep-display-battery"
 	"privicy__dis_camera:	/org/cinnamon/desktop/privacy/disable-camera;b"
