@@ -243,6 +243,7 @@ declare -a Setting__=(
 	"clock__show_date:	/org/gnome/desktop/interface/clock-show-date;b"
 	"explorer__click:	/org/nemo/preferences/click-policy;'"
 	"explorer__confirm_files_to_trash:	/org/nemo/preferences/confirm-move-to-trash;b"
+	"explorer__date_format:	/org/nemo/preferences/date_format;'"
 	"explorer__folder_viewer:	/org/nemo/preferences/default-folder-viewer;'"
 	"explorer__show_hiden_files:	/org/nemo/preferences/show-hidden-files;b"
 	"font__default:	/org/cinnamon/desktop/interface/font-name;'"
