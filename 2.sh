@@ -308,20 +308,21 @@ echo "|      Updating settings file      |"
 echo "------------------------------------"
 
 dcow(){
-	if [ "$2" != "$3" ]; then
-		dconf write $1 $3
-		echo "$1 $3 - updated"
+	current_value=$(dconf read $value)
+	if [ "$2" != "$current_value" ]; then
+		dconf write $1 $2
+		echo "$1 $2 - updated"
 	else
-		echo "$1 $3 - already has the value"
+		echo "$1 $2 - already has the value"
 	fi
-	echo "-----------------------------------"
+	echo "------------------------------------"
 }
 
 for Setting in "${Setting__[@]}"; do
 	key="${Setting%%:*}"
 	value=$(echo "${Setting##*:}" | cut -d';' -f1 | tr -d '[:space:]')
 	type=$(echo "${Setting##*;}")
-	current_value=$(dconf read $value)
+	#current_value=$(dconf read $value)
 	if [[ "$type" == "b" ]]; then
 		if [[ "$(eval echo \$Setting__$key)" == "0" || "$(eval echo \$Setting__$key)" == "1" ]]; then
 			desired_value=$(bool "$(eval echo \${Setting__$key})")
