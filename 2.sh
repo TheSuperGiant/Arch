@@ -302,7 +302,21 @@ declare -a Setting__=(
 	"theme__mouse:	/org/cinnamon/desktop/interface/cursor-theme;'"
 	"theme__mouse:	/org/gnome/desktop/interface/cursor-theme;'"
 )
-	
+
+echo "------------------------------------"
+echo "|      Updating settings file      |"
+echo "------------------------------------"
+
+dcow(){
+	if [ "$2" != "$3" ]; then
+		dconf write $1 $3
+		echo "$1 $3 - updated"
+	else
+		echo "$1 $3 - already has the value"
+	fi
+	echo "-----------------------------------"
+}
+
 for Setting in "${Setting__[@]}"; do
 	key="${Setting%%:*}"
 	value=$(echo "${Setting##*:}" | cut -d';' -f1 | tr -d '[:space:]')
@@ -311,30 +325,34 @@ for Setting in "${Setting__[@]}"; do
 	if [[ "$type" == "b" ]]; then
 		if [[ "$(eval echo \$Setting__$key)" == "0" || "$(eval echo \$Setting__$key)" == "1" ]]; then
 			desired_value=$(bool "$(eval echo \${Setting__$key})")
-			if [ "$current_value" != "$desired_value" ]; then
-				dconf write $value $desired_value
+			dcow $value $desired_value
+			#if [ "$current_value" != "$desired_value" ]; then
+				#dconf write $value $desired_value
 				#echo "dconf write $value $desired_value"
-			fi
+			#fi
 		fi
 	elif [ -n "$(eval echo \${Setting__$key})" ]; then
 		if [[ "$type" == "u" ]]; then
 			desired_value="uint32 $(eval echo \${Setting__$key})"
-			if [ "$current_value" != "$desired_value" ]; then
-				dconf write $value "$desired_value"
+			dcow $value $desired_value
+			#if [ "$current_value" != "$desired_value" ]; then
+				#dconf write $value "$desired_value"
 				#echo "dconf write $value $desired_value"
-			fi
+			#fi
 		elif [[ "$type" == "'" ]]; then
 			desired_value="'$(eval echo \${Setting__$key})'"
-			if [ "$current_value" != "$desired_value" ]; then
-				dconf write $value "$desired_value"
+			dcow $value $desired_value
+			#if [ "$current_value" != "$desired_value" ]; then
+				#dconf write $value "$desired_value"
 				#echo "dconf write $value $desired_value"
-			fi
+			#fi
 		else
 			desired_value="$(eval echo \${Setting__$key})"
-			if [ "$current_value" != "$desired_value" ]; then
-				dconf write $value "$desired_value"
+			dcow $value $desired_value
+			#if [ "$current_value" != "$desired_value" ]; then
+				#dconf write $value "$desired_value"
 				#echo "dconf write $value $desired_value"
-			fi
+			#fi
 		#echo "dconf write $value $desired_value"
 		fi
 	fi
