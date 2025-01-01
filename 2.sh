@@ -310,7 +310,7 @@ echo "------------------------------------"
 dcow(){
 	current_value=$(dconf read $1)
 	if [ "$2" != "$current_value" ]; then
-		dconf write $1 $2
+		dconf write $1 "$2"
 		echo "$1 $2 - updated"
 	else
 		echo "$1 $2 - already has the value"
