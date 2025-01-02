@@ -304,7 +304,7 @@ declare -a Setting__=(
 )
 
 echo "------------------------------------"
-echo "|      Updating settings file      |"
+echo "|       Updating settings...       |"
 echo "------------------------------------"
 
 dcow(){
@@ -322,42 +322,39 @@ for Setting in "${Setting__[@]}"; do
 	key="${Setting%%:*}"
 	value=$(echo "${Setting##*:}" | cut -d';' -f1 | tr -d '[:space:]')
 	type=$(echo "${Setting##*;}")
-	#current_value=$(dconf read $value)
 	if [[ "$type" == "b" ]]; then
 		if [[ "$(eval echo \$Setting__$key)" == "0" || "$(eval echo \$Setting__$key)" == "1" ]]; then
 			desired_value=$(bool "$(eval echo \${Setting__$key})")
 			dcow $value "$desired_value"
-			#if [ "$current_value" != "$desired_value" ]; then
-				#dconf write $value $desired_value
-				#echo "dconf write $value $desired_value"
-			#fi
 		fi
 	elif [ -n "$(eval echo \${Setting__$key})" ]; then
 		if [[ "$type" == "u" ]]; then
 			desired_value="uint32 $(eval echo \${Setting__$key})"
 			dcow $value "$desired_value"
-			#if [ "$current_value" != "$desired_value" ]; then
-				#dconf write $value "$desired_value"
-				#echo "dconf write $value $desired_value"
-			#fi
 		elif [[ "$type" == "'" ]]; then
 			desired_value="'$(eval echo \${Setting__$key})'"
 			dcow $value "$desired_value"
-			#if [ "$current_value" != "$desired_value" ]; then
-				#dconf write $value "$desired_value"
-				#echo "dconf write $value $desired_value"
-			#fi
 		else
 			desired_value="$(eval echo \${Setting__$key})"
 			dcow $value "$desired_value"
-			#if [ "$current_value" != "$desired_value" ]; then
-				#dconf write $value "$desired_value"
-				#echo "dconf write $value $desired_value"
-			#fi
-		#echo "dconf write $value $desired_value"
 		fi
 	fi
 done
+
+if command -v cinnamon-session >/dev/null 2>&1; then
+	declare -a applet__=(
+		"notfication:	notifications@cinnamon.org"
+	)
+	path="/org/cinnamon/enabled-applets"
+	for applet in "${applet__[@]}"; do
+		name="${applet%%:*}"
+		if [ "$(eval echo \${applet__$name})" == "1" ]; then
+			key=$(echo "${applet##*:}" | tr -d '[:space:]')
+			updated_applets=$(dconf read $path | sed "s/'[^']*$key[^']*',\?//g" | sed -E 's/\[ *,/\[/; s/, *\]/\]/')
+		fi
+	done
+	dcow $path $updated_applets
+fi
 
 
 
