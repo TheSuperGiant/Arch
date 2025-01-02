@@ -353,7 +353,7 @@ if command -v cinnamon-session >/dev/null 2>&1; then
 			updated_applets=$(dconf read $path | sed "s/'[^']*$key[^']*',\?//g" | sed -E 's/\[ *,/\[/; s/, *\]/\]/')
 		fi
 	done
-	dcow $path $updated_applets
+	dcow $path "$updated_applets"
 fi
 
 
