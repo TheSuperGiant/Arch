@@ -193,7 +193,10 @@ declare -a App_Install__=(
 for app in "${App_Install__[@]}"; do
 	key="${app%%:*}"
 	if [ "$(eval echo \$App_Install__$key)" == "1" ]; then
-		value=$(echo "${app##*:}" | tr -d '[:space:]')
+		#value=$(echo "${app##*:}")
+		#value=$(echo "${app##*:}" | tr -d '[:space:]')
+		value=$(echo "${app##*:}" | sed -E 's/^[[:space:]]+//')
+		#echo "e $value"
 		if [[ "$app" == *";"* ]]; then
 			value=$(echo "${value%%;*}" | tr -d '[:space:]')
 			number=$(echo "${app##*;}")
