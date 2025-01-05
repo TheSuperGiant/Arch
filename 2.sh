@@ -342,7 +342,8 @@ for Setting in "${Setting__[@]}"; do
 	fi
 done
 
-
+applet__printer=1
+applet__start_menu=1
 if command -v cinnamon-session >/dev/null 2>&1; then
 	declare -a applet__=(
 		"notfication:	notifications@cinnamon.org"
