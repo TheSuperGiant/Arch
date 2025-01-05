@@ -104,6 +104,13 @@ paru_clean() {
 	rm -rf ~/.cache/paru/clone/*
 	rm -rf /home/$USER/.cache/paru/clone/*
 }
+ssu() {
+	sudo -v
+	while true; do
+		sudo -n true
+		sleep 60
+	done &
+}
 
 alias md="mkdir -p $1"
 alias mds="sudo mkdir -p $1"

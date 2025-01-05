@@ -5,11 +5,11 @@
 # I am not responsible for any damage, data loss, or other issues that may result from the use of this script.
 
 
-sudo -v
-while true; do
-    sudo -n true
-    sleep 60
-done &
+#sudo -v
+#while true; do
+    #sudo -n true
+    #sleep 60
+#done &
 
 http_check() {
 	if [[ "$1" == *"http"* ]]; then
@@ -31,6 +31,7 @@ function_sh="https://raw.githubusercontent.com/TheSuperGiant/Arch/refs/heads/Arc
 
 
 source <(curl -s -L "$function_sh" | sed 's/^alias \(.*\)="\(.*\)"$/\1() {\n  \2\n}/g')
+ssu
 
 if [[ $DNS_Quad9 == 1 ]]; then
 	add_dns 9.9.9.9 149.112.112.112 2620:fe::fe 2620:fe::9 $adding_dns
@@ -193,10 +194,7 @@ declare -a App_Install__=(
 for app in "${App_Install__[@]}"; do
 	key="${app%%:*}"
 	if [ "$(eval echo \$App_Install__$key)" == "1" ]; then
-		#value=$(echo "${app##*:}")
-		#value=$(echo "${app##*:}" | tr -d '[:space:]')
 		value=$(echo "${app##*:}" | sed -E 's/^[[:space:]]+//')
-		#echo "e $value"
 		if [[ "$app" == *";"* ]]; then
 			value=$(echo "${value%%;*}" | tr -d '[:space:]')
 			number=$(echo "${app##*;}")
@@ -344,9 +342,12 @@ for Setting in "${Setting__[@]}"; do
 	fi
 done
 
+
 if command -v cinnamon-session >/dev/null 2>&1; then
 	declare -a applet__=(
 		"notfication:	notifications@cinnamon.org"
+		"printer:	printers@cinnamon.org"
+		"start_menu:	menu@cinnamon.org"
 	)
 	path="/org/cinnamon/enabled-applets"
 	for applet in "${applet__[@]}"; do
