@@ -356,17 +356,16 @@ fi
 
 if [ "$ipV6_disable" == 1 ]; then
 	echo "IPv6 disabled"
-	#CONFIG_FILE="/etc/sysctl.d/99-disable-ipv6.conf"
-	#sudo bash -c "cat > $CONFIG_FILE" << EOF
-	#sudo bash -c "cat > /etc/sysctl.d/99-disable-ipv6.conf" << EOF
-	#net.ipv6.conf.all.disable_ipv6 = 1
-	#net.ipv6.conf.default.disable_ipv6 = 1
-	#net.ipv6.conf.lo.disable_ipv6 = 1
-	#EOF
-	echo -e "net.ipv6.conf.all.disable_ipv6 = 1
-	net.ipv6.conf.default.disable_ipv6 = 1
-	net.ipv6.conf.lo.disable_ipv6 = 1" | sed -E 's/^[[:space:]]+//' | sudo tee -a /etc/sysctl.d/99-disable-ipv6.conf
-	sudo sysctl --system
+	CONFIG_FILE="/etc/sysctl.d/99-disable-ipv6.conf"
+	for ipV6 in "net.ipv6.conf.all.disable_ipv6 = 1" "net.ipv6.conf.default.disable_ipv6 = 1" "net.ipv6.conf.lo.disable_ipv6 = 1"; do
+		if ! sudo grep -q "^$ipV6" $CONFIG_FILE; then
+			echo -e "$ipV6" | sudo tee -a $CONFIG_FILE
+			network_restart=1
+		fi
+	done
+	if [ "$network_restart" == 1 ]; then 
+		sudo sysctl --system
+	fi
 fi
 
 
