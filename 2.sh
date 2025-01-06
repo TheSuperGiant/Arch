@@ -337,13 +337,10 @@ for Setting in "${Setting__[@]}"; do
 	fi
 done
 
-applet__printer=1
-applet__start_menu=1
 if command -v cinnamon-session >/dev/null 2>&1; then
 	declare -a applet__=(
 		"notfication:	notifications@cinnamon.org"
 		"printer:	printers@cinnamon.org"
-		"start_menu:	menu@cinnamon.org"
 	)
 	path="/org/cinnamon/enabled-applets"
 	updated_applets=$(dconf read $path)
@@ -351,7 +348,6 @@ if command -v cinnamon-session >/dev/null 2>&1; then
 		name="${applet%%:*}"
 		if [ "$(eval echo \${applet__$name})" == "1" ]; then
 			key=$(echo "${applet##*:}" | tr -d '[:space:]')
-			#updated_applets=$(dconf read $path | sed "s/'[^']*$key[^']*',\?//g" | sed -E 's/\[ *,/\[/; s/, *\]/\]/')
 			updated_applets=$(echo "$updated_applets" | sed "s/'[^']*$key[^']*',\?//g" | sed -E 's/\[ *,/\[/; s/, *\]/\]/')
 		fi
 	done
