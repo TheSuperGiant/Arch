@@ -5,12 +5,6 @@
 # I am not responsible for any damage, data loss, or other issues that may result from the use of this script.
 
 
-#sudo -v
-#while true; do
-    #sudo -n true
-    #sleep 60
-#done &
-
 http_check() {
 	if [[ "$1" == *"http"* ]]; then
 		source <(curl -s -L $1)
@@ -31,6 +25,7 @@ function_sh="https://raw.githubusercontent.com/TheSuperGiant/Arch/refs/heads/Arc
 
 
 source <(curl -s -L "$function_sh" | sed 's/^alias \(.*\)="\(.*\)"$/\1() {\n  \2\n}/g')
+
 ssu
 
 if [[ $DNS_Quad9 == 1 ]]; then
@@ -351,11 +346,13 @@ if command -v cinnamon-session >/dev/null 2>&1; then
 		"start_menu:	menu@cinnamon.org"
 	)
 	path="/org/cinnamon/enabled-applets"
+	updated_applets=$(dconf read $path)
 	for applet in "${applet__[@]}"; do
 		name="${applet%%:*}"
 		if [ "$(eval echo \${applet__$name})" == "1" ]; then
 			key=$(echo "${applet##*:}" | tr -d '[:space:]')
-			updated_applets=$(dconf read $path | sed "s/'[^']*$key[^']*',\?//g" | sed -E 's/\[ *,/\[/; s/, *\]/\]/')
+			#updated_applets=$(dconf read $path | sed "s/'[^']*$key[^']*',\?//g" | sed -E 's/\[ *,/\[/; s/, *\]/\]/')
+			updated_applets=$($updated_applets | sed "s/'[^']*$key[^']*',\?//g" | sed -E 's/\[ *,/\[/; s/, *\]/\]/')
 		fi
 	done
 	dcow $path "$updated_applets"
