@@ -352,7 +352,7 @@ if command -v cinnamon-session >/dev/null 2>&1; then
 		if [ "$(eval echo \${applet__$name})" == "1" ]; then
 			key=$(echo "${applet##*:}" | tr -d '[:space:]')
 			#updated_applets=$(dconf read $path | sed "s/'[^']*$key[^']*',\?//g" | sed -E 's/\[ *,/\[/; s/, *\]/\]/')
-			updated_applets=$("$updated_applets" | sed "s/'[^']*$key[^']*',\?//g" | sed -E 's/\[ *,/\[/; s/, *\]/\]/')
+			updated_applets=$(echo "$updated_applets" | sed "s/'[^']*$key[^']*',\?//g" | sed -E 's/\[ *,/\[/; s/, *\]/\]/')
 		fi
 	done
 	dcow $path "$updated_applets"
