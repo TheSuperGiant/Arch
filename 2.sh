@@ -187,6 +187,7 @@ declare -a App_Install__=(
 )
 
 for app in "${App_Install__[@]}"; do
+	paru
 	key="${app%%:*}"
 	if [ "$(eval echo \$App_Install__$key)" == "1" ]; then
 		value=$(echo "${app##*:}" | sed -E 's/^[[:space:]]+//')
