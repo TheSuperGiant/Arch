@@ -99,6 +99,24 @@ bool() {
 	fi
 }
 alias dco="dconf dump /"
+par() {
+	while true; do
+		while read line; do
+			echo "$line"
+			if echo "$line" | grep -q "invalid or corrupted.*(PGP signature)"; then
+				local PGP_signature_error=1
+			fi
+		done < <(paru -S $@ 2>&1)
+		if [[ $PGP_signature_error == 1 ]]; then
+			sudo pacman -Sy archlinux-keyring --noconfirm
+			sudo pacman-key --populate archlinux
+			sudo pacman-key --refresh-keys --keyserver hkps://keyserver.ubuntu.com
+		else
+			break
+		fi
+		local PGP_signature_error=0
+	done
+}
 paru_clean() {
 	paru -Sc --noconfirm
 	rm -rf ~/.cache/paru/clone/*

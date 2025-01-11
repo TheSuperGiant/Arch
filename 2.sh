@@ -63,7 +63,6 @@ done
 	#sudo chown \$USER:\$USER \$1"
 
 sudo pacman -Syu --noconfirm
-paru --noconfirm
 
 #----------maby to personal--------
 
@@ -158,7 +157,8 @@ declare -a App_Install__=(
 	"librewolf:				librewolf-bin"
 	"mega:					megasync"
 	"mousepad:				mousepad"
-	"minecraft_launcher:	minecraft-launcher;1"
+	#"minecraft_launcher:	minecraft-launcher;1"
+	"minecraft_launcher:	minecraft-launcher"
 	"notepadqq:				notepadqq"
 	"notepadPlusPlus:		notepad++"
 	"numlockx:				numlockx"
@@ -191,13 +191,13 @@ for app in "${App_Install__[@]}"; do
 	key="${app%%:*}"
 	if [ "$(eval echo \$App_Install__$key)" == "1" ]; then
 		value=$(echo "${app##*:}" | sed -E 's/^[[:space:]]+//')
-		if [[ "$app" == *";"* ]]; then
-			value=$(echo "${value%%;*}" | tr -d '[:space:]')
-			number=$(echo "${app##*;}")
-			echo $number | paru -S --needed --noconfirm $value
-		else
-			paru -S --needed --noconfirm $value
-		fi
+		#if [[ "$app" == *";"* ]]; then
+			#value=$(echo "${value%%;*}" | tr -d '[:space:]')
+			#number=$(echo "${app##*;}")
+			#echo $number | paru -S --needed --noconfirm $value
+		#else
+			par -S --needed --noconfirm $value
+		#fi
 	fi
 done
 
