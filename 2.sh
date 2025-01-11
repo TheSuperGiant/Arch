@@ -196,7 +196,7 @@ for app in "${App_Install__[@]}"; do
 			#number=$(echo "${app##*;}")
 			#echo $number | paru -S --needed --noconfirm $value
 		#else
-			par -S --needed --noconfirm $value
+			par --needed --noconfirm $value
 		#fi
 	fi
 done
