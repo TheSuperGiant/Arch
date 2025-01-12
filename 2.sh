@@ -320,21 +320,24 @@ for Setting in "${Setting__[@]}"; do
 	value=$(echo "${Setting##*:}" | cut -d';' -f1 | tr -d '[:space:]')
 	type=$(echo "${Setting##*;}")
 	if [[ "$type" == "b" ]]; then
-		if [[ "$(eval echo \$Setting__$key)" == "0" || "$(eval echo \$Setting__$key)" == "1" ]]; then
+		#if [[ "$(eval echo \$Setting__$key)" == "0" || "$(eval echo \$Setting__$key)" == "1" ]]; then
+		if [[ " 0 1 " == *" $(eval echo \$Setting__$key) *" ]]; then
 			desired_value=$(bool "$(eval echo \${Setting__$key})")
 			dcow $value "$desired_value"
 		fi
 	elif [ -n "$(eval echo \${Setting__$key})" ]; then
 		if [[ "$type" == "u" ]]; then
 			desired_value="uint32 $(eval echo \${Setting__$key})"
-			dcow $value "$desired_value"
+			#dcow $value "$desired_value"
 		elif [[ "$type" == "'" ]]; then
 			desired_value="'$(eval echo \${Setting__$key})'"
-			dcow $value "$desired_value"
+			#dcow $value "$desired_value"
 		else
 			desired_value="$(eval echo \${Setting__$key})"
-			dcow $value "$desired_value"
+			##dcow $value "$desired_value"
+			#dcow $value "$desired_value"
 		fi
+		dcow $value "$desired_value"
 	fi
 done
 
