@@ -321,7 +321,7 @@ for Setting in "${Setting__[@]}"; do
 	type=$(echo "${Setting##*;}")
 	if [[ "$type" == "b" ]]; then
 		#if [[ "$(eval echo \$Setting__$key)" == "0" || "$(eval echo \$Setting__$key)" == "1" ]]; then
-		if [[ " 0 1 " == *" $(eval echo \$Setting__$key) *" ]]; then
+		if [[ " 0 1 " == *" $(eval echo \$Setting__$key) "* ]]; then
 			desired_value=$(bool "$(eval echo \${Setting__$key})")
 			dcow $value "$desired_value"
 		fi
