@@ -122,97 +122,6 @@ if [[ "$numlock_startup" == "on" || "$numlock_startup" == "off" ]]; then
 	echo "NumLock $numlock_startup configuration added to [Seat:*] section."
 fi
 
-if [ "$App_Install__notepadPlusPlus" == "1" ]; then
-	App_Install__wine=1
-fi 
-
-declare -a App_Install__=(
-	"wine:					wine"
-	"wine_mono:				wine-mono"
-	"7_zip:					7-zip-full"
-	"adwaita_theme:			adwaita-icon-theme"
-	"anydesk:				anydesk-bin"
-	"audacity:				audacity"
-	"biglybt:				biglybt"
-	"bleachbit:				bleachbit"
-	"bluetooth:				bluez bluez-utils blueman"
-	"brave:					brave"
-	"calibre:				calibre"
-	"discord:				discord"
-	"dropbox:				dropbox"
-	"filezilla:				filezilla"
-	"firefox:				firefox"
-	"font_dejavu:			ttf-dejavu"
-	"git:					git"
-	"gimp:					gimp"
-	"gnome_terminal:		gnome-terminal"
-	"google_chrome:			google-chrome"
-	"handbrake:				handbrake"
-	"heroic_launcher:		heroic-games-launcher-bin"
-	"jitsi_meet:			jitsi-meet-desktop-bin"
-	"keepass:				keepass"
-	"keepassxc:				keepassxc"
-	"leafpad:				leafpad"
-	"libreoffice:			libreoffice"
-	"librewolf:				librewolf-bin"
-	"mega:					megasync"
-	"mousepad:				mousepad"
-	#"minecraft_launcher:	minecraft-launcher;1"
-	"minecraft_launcher:	minecraft-launcher"
-	"notepadqq:				notepadqq"
-	"notepadPlusPlus:		notepad++"
-	"numlockx:				numlockx"
-	"obs_studio:			obs-studio"
-	"opera:					opera"
-	"paradox_launcher:		paradox-launcher"
-	"pcloud:				pcloud-drive"
-	"peazip:				peazip"
-	"pidgin:				pidgin"
-	"scrcpy:				scrcpy"
-	"session:				session-desktop-bin"
-	"signal:				signal-desktop-desktop-bin"
-	"steam:					steam"
-	"teamviewer:			teamviewer"
-	"thorium:				thorium-browser-bin"
-	"torbrowser:			torbrowser-launcher"
-	"thunderbird:			thunderbird"
-	"tigervnc:				tigervnc"
-	"virtualbox:			virtualbox"
-	"visual_studio_code:	visual-studio-code-bin"
-	"vlc:					vlc"
-	"vuze:					vuze"
-	"waterfox:				waterfox-bin"
-	"wire:					wire-desktop"
-	"xed:					xed"
-	"game_independedies:	gamemode mangohud"
-)
-
-for app in "${App_Install__[@]}"; do
-	key="${app%%:*}"
-	if [ "$(eval echo \$App_Install__$key)" == "1" ]; then
-		value=$(echo "${app##*:}" | sed -E 's/^[[:space:]]+//')
-		#if [[ "$app" == *";"* ]]; then
-			#value=$(echo "${value%%;*}" | tr -d '[:space:]')
-			#number=$(echo "${app##*;}")
-			#echo $number | paru -S --needed --noconfirm $value
-		#else
-			par --needed --noconfirm $value
-		#fi
-	fi
-done
-
-if [ "$App_Install__bluetooth" == "1" ]; then
-	sudo systemctl enable --now bluetooth.service
-fi
-
-#themes
-if [ "$theme__pack__Windows_10_Dark" == "1" ]; then
-	theme='Windows-10-Dark'
-	git clone https://github.com/B00merang-Project/"$theme".git
-	mds /usr/share/themes/
-	sudo cp -r "$theme" /usr/share/themes/
-fi
-
 time_converd() {
 	H=${1%%:*}; H=${H//24/0}
 	M="${1##*:}" && M=$(( (M * 100) / 60 ))
@@ -320,7 +229,6 @@ for Setting in "${Setting__[@]}"; do
 	value=$(echo "${Setting##*:}" | cut -d';' -f1 | tr -d '[:space:]')
 	type=$(echo "${Setting##*;}")
 	if [[ "$type" == "b" ]]; then
-		#if [[ "$(eval echo \$Setting__$key)" == "0" || "$(eval echo \$Setting__$key)" == "1" ]]; then
 		if [[ " 0 1 " == *" $(eval echo \$Setting__$key) "* ]]; then
 			desired_value=$(bool "$(eval echo \${Setting__$key})")
 			dcow $value "$desired_value"
@@ -328,14 +236,10 @@ for Setting in "${Setting__[@]}"; do
 	elif [ -n "$(eval echo \${Setting__$key})" ]; then
 		if [[ "$type" == "u" ]]; then
 			desired_value="uint32 $(eval echo \${Setting__$key})"
-			#dcow $value "$desired_value"
 		elif [[ "$type" == "'" ]]; then
 			desired_value="'$(eval echo \${Setting__$key})'"
-			#dcow $value "$desired_value"
 		else
 			desired_value="$(eval echo \${Setting__$key})"
-			##dcow $value "$desired_value"
-			#dcow $value "$desired_value"
 		fi
 		dcow $value "$desired_value"
 	fi
@@ -370,6 +274,96 @@ if [ "$ipV6_disable" == 1 ]; then
 	if [ "$network_restart" == 1 ]; then 
 		sudo sysctl --system
 	fi
+fi
+
+if [ "$App_Install__notepadPlusPlus" == "1" ]; then
+	App_Install__wine=1
+fi 
+
+declare -a App_Install__=(
+	"wine:					wine"
+	"wine_mono:				wine-mono"
+	"7_zip:					7-zip-full"
+	"adwaita_theme:			adwaita-icon-theme"
+	"anydesk:				anydesk-bin"
+	"audacity:				audacity"
+	"biglybt:				biglybt"
+	"bleachbit:				bleachbit"
+	"bluetooth:				bluez bluez-utils blueman"
+	"brave:					brave"
+	"calibre:				calibre"
+	"discord:				discord"
+	"dropbox:				dropbox"
+	"filezilla:				filezilla"
+	"firefox:				firefox"
+	"font_dejavu:			ttf-dejavu"
+	"git:					git"
+	"gimp:					gimp"
+	"gnome_terminal:		gnome-terminal"
+	"google_chrome:			google-chrome"
+	"handbrake:				handbrake"
+	"heroic_launcher:		heroic-games-launcher-bin"
+	"jitsi_meet:			jitsi-meet-desktop-bin"
+	"keepass:				keepass"
+	"keepassxc:				keepassxc"
+	"leafpad:				leafpad"
+	"libreoffice:			libreoffice"
+	"librewolf:				librewolf-bin"
+	"mega:					megasync"
+	"mousepad:				mousepad"
+	"minecraft_launcher:	minecraft-launcher"
+	"notepadqq:				notepadqq"
+	"notepadPlusPlus:		notepad++"
+	"numlockx:				numlockx"
+	"obs_studio:			obs-studio"
+	"opera:					opera"
+	"paradox_launcher:		paradox-launcher"
+	"pcloud:				pcloud-drive"
+	"peazip:				peazip"
+	"pidgin:				pidgin"
+	"scrcpy:				scrcpy"
+	"session:				session-desktop-bin"
+	"signal:				signal-desktop-desktop-bin"
+	"steam:					steam"
+	"teamviewer:			teamviewer"
+	"thorium:				thorium-browser-bin"
+	"torbrowser:			torbrowser-launcher"
+	"thunderbird:			thunderbird"
+	"tigervnc:				tigervnc"
+	"virtualbox:			virtualbox"
+	"visual_studio_code:	visual-studio-code-bin"
+	"vlc:					vlc"
+	"vuze:					vuze"
+	"waterfox:				waterfox-bin"
+	"wire:					wire-desktop"
+	"xed:					xed"
+	"game_independedies:	gamemode mangohud"
+)
+
+for app in "${App_Install__[@]}"; do
+	key="${app%%:*}"
+	if [ "$(eval echo \$App_Install__$key)" == "1" ]; then
+		value=$(echo "${app##*:}" | sed -E 's/^[[:space:]]+//')
+		#if [[ "$app" == *";"* ]]; then
+			#value=$(echo "${value%%;*}" | tr -d '[:space:]')
+			#number=$(echo "${app##*;}")
+			#echo $number | paru -S --needed --noconfirm $value
+		#else
+			par --needed --noconfirm $value
+		#fi
+	fi
+done
+
+if [ "$App_Install__bluetooth" == "1" ]; then
+	sudo systemctl enable --now bluetooth.service
+fi
+
+#themes
+if [ "$theme__pack__Windows_10_Dark" == "1" ]; then
+	theme='Windows-10-Dark'
+	git clone https://github.com/B00merang-Project/"$theme".git
+	mds /usr/share/themes/
+	sudo cp -r "$theme" /usr/share/themes/
 fi
 
 
