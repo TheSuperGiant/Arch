@@ -14,4 +14,4 @@ cd ArchTitus
 chmod +x archtitus.sh
 ./archtitus.sh
 
-reboot
+#reboot
