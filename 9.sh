@@ -11,7 +11,7 @@
 #ArchTitus_files="/mnt/ramdisk/ArchTitus"
 #sudo mount -t tmpfs -o size=1G tmpfs /mnt/ramdisk
 sudo pacman -Syu --noconfirm
-sudo pacman git --noconfirm
+sudo pacman -S git --noconfirm
 git clone --depth=1 https://github.com/ChrisTitusTech/ArchTitus.git #$ArchTitus_files
 #cd $ArchTitus_files
 cd ArchTitus
