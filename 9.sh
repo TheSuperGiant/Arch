@@ -8,11 +8,11 @@
 
 #bash <(curl -L christitus.com/archtitus)
 
-#archfiles="/mnt/ramdisk/ArchTitus"
+#ArchTitus_files="/mnt/ramdisk/ArchTitus"
 #sudo mount -t tmpfs -o size=1G tmpfs /mnt/ramdisk
-sudo pacman git --noconfirm
-git clone --depth=1 https://github.com/ChrisTitusTech/ArchTitus.git #$archfiles
-#cd $archfiles
+sudo pacman -Syu git --noconfirm
+git clone --depth=1 https://github.com/ChrisTitusTech/ArchTitus.git #$ArchTitus_files
+#cd $ArchTitus_files
 cd ArchTitus
 chmod +x archtitus.sh
 ./archtitus.sh
