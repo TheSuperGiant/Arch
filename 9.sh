@@ -6,18 +6,17 @@
  
 #All credits to christitus.com for creating this archtitus.
 
-#bash <(curl -L christitus.com/archtitus)
-
-#ArchTitus_files="/mnt/ramdisk/ArchTitus"
-#sudo mount -t tmpfs -o size=1G tmpfs /mnt/ramdisk
 sudo pacman-key --init
 sudo pacman-key --populate archlinux
 sudo pacman -Syu --noconfirm
 sudo pacman -S git --noconfirm
-git clone --depth=1 https://github.com/ChrisTitusTech/ArchTitus.git #$ArchTitus_files
-#cd $ArchTitus_files
+git clone --depth=1 https://github.com/ChrisTitusTech/ArchTitus.git
 cd ArchTitus
 chmod +x archtitus.sh
 ./archtitus.sh
+
+sudo pacman -S lightdm lightdm-gtk-greeter cinnamon --noconfirm
+
+sudo systemctl enable lightdm
 
 #reboot
