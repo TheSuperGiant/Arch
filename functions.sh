@@ -99,13 +99,17 @@ bool() {
 	fi
 }
 alias dco="dconf dump /"
+pa() {
+	sudo pacman -Syu --noconfirm
+	par $@
+}
 par() {
 	while true; do
 		while read line; do
 			if echo "$line" | grep -q "invalid or corrupted.*(PGP signature)"; then
 				local PGP_signature_error=1
 			fi
-		done < <(paru -S $@)
+		done < <(paru -S $@ | tee /dev/tty)
 		if [[ $PGP_signature_error == 1 ]]; then
 			sudo pacman -Sy archlinux-keyring --noconfirm
 			sudo pacman-key --populate archlinux
