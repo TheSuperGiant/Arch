@@ -214,7 +214,7 @@ declare -a App_Install__=(
 	"gnome_calculator:		gnome-calculator"
 	"gnome_terminal:		gnome-terminal"
 	"google_chrome:			google-chrome"
-	"gThumb:			google-chrome"
+	"gThumb:			gthumb"
 	"handbrake:				handbrake"
 	"heroic_launcher:		heroic-games-launcher-bin"
 	"jitsi_meet:			jitsi-meet-desktop-bin"
