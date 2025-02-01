@@ -4,6 +4,71 @@
 # By using this script, you acknowledge that you do so at your own risk.
 # I am not responsible for any damage, data loss, or other issues that may result from the use of this script.
 
+App_Install__7_zip=1
+App_Install__brave=1
+App_Install__firefox=1
+App_Install__google_chrome=1
+App_Install__librewolf=1
+App_Install__opera=1
+App_Install__thorium=1
+App_Install__torbrowser=1
+App_Install__waterfox=1
+App_Install__heroic_launcher=1
+App_Install__minecraft_launcher=1
+App_Install__paradox_launcher=1
+App_Install__gnome_terminal=1
+App_Install__adwaita_theme=1
+App_Install__font_dejavu=1
+App_Install__bluetooth=1
+App_Install__wine=1
+App_Install__wine_mono=1
+App_Install__anydesk=1
+App_Install__audacity=1
+App_Install__biglybt=1
+App_Install__bleachbit=1
+App_Install__calibre=1
+App_Install__discord=1
+App_Install__dropbox=1
+App_Install__eye_of_gnome=1
+App_Install__filezilla=1
+App_Install__git=1
+App_Install__gimp=1
+App_Install__gnome_calculator=1
+App_Install__handbrake=1
+App_Install__jitsi_meet=1
+App_Install__kcalc=1
+App_Install__keepass=1
+App_Install__keepassxc=1
+App_Install__leafpad=1
+App_Install__libreoffice=1
+App_Install__mega=1
+App_Install__mousepad=1
+App_Install__mpv_Media_player=1
+App_Install__nautilus=1
+App_Install__nomacs=1
+App_Install__notepadqq=1
+App_Install__notepadPlusPlus=1
+App_Install__numlockx=1
+App_Install__obs_studio=1
+App_Install__openoffice=1
+App_Install__pcloud=1
+App_Install__peazip=1
+App_Install__pidgin=1
+App_Install__scrcpy=1
+App_Install__session=1
+App_Install__signal=1
+App_Install__smplayer=1
+App_Install__steam=1
+App_Install__teamviewer=1
+App_Install__thunderbird=1
+App_Install__tigervnc=1
+App_Install__vim=1
+App_Install__virtualbox=1
+App_Install__visual_studio_code=1
+App_Install__vlc=1
+App_Install__vuze=1
+App_Install__wire=1
+App_Install__xed=1
 
 http_check() {
 	if [[ "$1" == *"http"* ]]; then
@@ -125,11 +190,11 @@ fi
 if [ "$App_Install__notepadPlusPlus" == "1" ]; then
 	App_Install__wine=1
 fi 
-
+App_Install__eye_of_gnome=1
 declare -a App_Install__=(
 	"wine:					wine"
 	"wine_mono:				wine-mono"
-	"7_zip:					7-zip-full"
+	"7_zip:					7zip"
 	"adwaita_theme:			adwaita-icon-theme"
 	"anydesk:				anydesk-bin"
 	"audacity:				audacity"
@@ -140,16 +205,20 @@ declare -a App_Install__=(
 	"calibre:				calibre"
 	"discord:				discord"
 	"dropbox:				dropbox"
+	"eye_of_gnome:			eog"
 	"filezilla:				filezilla"
 	"firefox:				firefox"
 	"font_dejavu:			ttf-dejavu"
 	"git:					git"
 	"gimp:					gimp"
+	"gnome_calculator:		gnome-calculator"
 	"gnome_terminal:		gnome-terminal"
 	"google_chrome:			google-chrome"
+	"gThumb:			google-chrome"
 	"handbrake:				handbrake"
 	"heroic_launcher:		heroic-games-launcher-bin"
 	"jitsi_meet:			jitsi-meet-desktop-bin"
+	"kcalc:					kcalc"
 	"keepass:				keepass"
 	"keepassxc:				keepassxc"
 	"leafpad:				leafpad"
@@ -158,10 +227,14 @@ declare -a App_Install__=(
 	"mega:					megasync"
 	"mousepad:				mousepad"
 	"minecraft_launcher:	minecraft-launcher"
+	"mpv_Media_player:		mpv"
+	"nautilus:				nautilus"
+	"nomacs:				nomacs"
 	"notepadqq:				notepadqq"
 	"notepadPlusPlus:		notepad++"
 	"numlockx:				numlockx"
 	"obs_studio:			obs-studio"
+	"openoffice:				openoffice-bin"
 	"opera:					opera"
 	"paradox_launcher:		paradox-launcher"
 	"pcloud:				pcloud-drive"
@@ -170,12 +243,14 @@ declare -a App_Install__=(
 	"scrcpy:				scrcpy"
 	"session:				session-desktop-bin"
 	"signal:				signal-desktop-desktop-bin"
+	"smplayer:				smplayer"
 	"steam:					steam"
 	"teamviewer:			teamviewer"
 	"thorium:				thorium-browser-bin"
 	"torbrowser:			torbrowser-launcher"
 	"thunderbird:			thunderbird"
 	"tigervnc:				tigervnc"
+	"vim:					vim"
 	"virtualbox:			virtualbox"
 	"visual_studio_code:	visual-studio-code-bin"
 	"vlc:					vlc"
@@ -190,13 +265,7 @@ for app in "${App_Install__[@]}"; do
 	key="${app%%:*}"
 	if [ "$(eval echo \$App_Install__$key)" == "1" ]; then
 		value=$(echo "${app##*:}" | sed -E 's/^[[:space:]]+//')
-		#if [[ "$app" == *";"* ]]; then
-			#value=$(echo "${value%%;*}" | tr -d '[:space:]')
-			#number=$(echo "${app##*;}")
-			#echo $number | paru -S --needed --noconfirm $value
-		#else
-			par --needed --noconfirm $value
-		#fi
+		par --needed --noconfirm $value
 	fi
 done
 
@@ -237,6 +306,8 @@ fi
 declare -a Setting__=(
 	"clock__show_date:	/org/cinnamon/desktop/interface/clock-show-date;b"
 	"clock__show_date:	/org/gnome/desktop/interface/clock-show-date;b"
+	"Default_calculator:	/org/cinnamon/desktop/applications/calculator/exec;'"
+	"Default_terminal:	/org/cinnamon/desktop/applications/terminal/exec;'"
 	"explorer__click:	/org/nemo/preferences/click-policy;'"
 	"explorer__confirm_files_to_trash:	/org/nemo/preferences/confirm-move-to-trash;b"
 	"explorer__date_format:	/org/nemo/preferences/date-format;'"
@@ -365,6 +436,11 @@ if [ "$ipV6_disable" == 1 ]; then
 		sudo sysctl --system
 	fi
 fi
+
+
+echo "------------------------------------"
+echo "|    Updating default program..    |"
+echo "------------------------------------"
 
 
 #------------------
