@@ -34,6 +34,7 @@ App_Install__filezilla=1
 App_Install__git=1
 App_Install__gimp=1
 App_Install__gnome_calculator=1
+App_Install__gthumb=1
 App_Install__handbrake=1
 App_Install__jitsi_meet=1
 App_Install__kcalc=1
