@@ -446,7 +446,7 @@ declare -a Default_category=(
 	"Default_office_presentation:		application"
 	"Default_office_spreadsheet"
 	"Default_office_word:		application"
-	"Default_pdf:		application/pdf"
+	"Default_pdf:		application/pdf application/x-pdf"
 	"Default_scripts:		text/javascript text/xml text/x-python text/x-c text/x-c++ text/x-java text/x-shellscript text/x-php text/x-perl text/x-ruby text/x-lua text/x-markdown text/x-yaml text/x-toml text/x-sql text/x-asm text/x-csharp text/x-go text/x-rust text/x-d text/x-swift text/x-kotlin text/x-scala text/x-haskell text/x-erlang text/x-elisp text/x-lisp text/x-clojure text/x-scheme text/x-ocaml text/x-vbscript text/x-pascal text/x-fortran text/x-r"
 	"Default_text_files:		text/plain"
 	"Default_torrent:		application/x-bittorrent"
@@ -512,8 +512,8 @@ declare -a Default_office_database=(
 )
 
 declare -a Default_office_graphics=(
-	"libreoffice_graphics:	vnd.oasis.opendocument.graphics vnd.oasis.opendocument.graphics-template vnd.sun.xml.draw vnd.sun.xml.draw.template vnd.stardivision.draw vnd.openxmlformats-officedocument.drawingml.diagram+xml vnd.visio vnd.visio2013 x-coreldraw x-coreldrawtemplate x-coreldrawpattern x-coreldrawpresentation x-fig x-pdf"
-	"openoffice_graphics:	vnd.oasis.opendocument.graphics vnd.oasis.opendocument.graphics-template vnd.sun.xml.draw vnd.sun.xml.draw.template vnd.stardivision.draw x-fig x-pdf"
+	"libreoffice_graphics:	vnd.oasis.opendocument.graphics vnd.oasis.opendocument.graphics-template vnd.oasis.opendocument.graphics-flat-xml vnd.sun.xml.draw vnd.sun.xml.draw.template vnd.stardivision.draw vnd.openxmlformats-officedocument.drawingml.diagram+xml vnd.visio vnd.visio2013 x-coreldraw x-coreldrawtemplate x-coreldrawpattern x-coreldrawpresentation x-fig"
+	"openoffice_graphics:	vnd.oasis.opendocument.graphics vnd.oasis.opendocument.graphics-template vnd.oasis.opendocument.graphics-flat-xml vnd.sun.xml.draw vnd.sun.xml.draw.template vnd.stardivision.draw x-fig"
 )
 
 declare -a Default_office_math=(
