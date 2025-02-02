@@ -23,12 +23,13 @@ echo test
 
 #envoirement
 #sudo pacman -S --root /mnt lightdm lightdm-gtk-greeter cinnamon --noconfirm
-pacman -S --root /mnt lightdm lightdm-gtk-greeter cinnamon --noconfirm
+#pacman -S --root /mnt lightdm lightdm-gtk-greeter cinnamon --noconfirm
 #sudo pacman -S lightdm lightdm-gtk-greeter cinnamon --noconfirm
+pacman -S lightdm lightdm-gtk-greeter cinnamon --noconfirm
 
 #sudo systemctl enable lightdm
-systemctl --root=/mnt enable lightdm
-#systemctl enable lightdm
+#systemctl --root=/mnt enable lightdm
+systemctl enable lightdm
 
 #terminal
 
