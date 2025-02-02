@@ -13,24 +13,24 @@ sudo pacman -S git --noconfirm
 git clone --depth=1 https://github.com/ChrisTitusTech/ArchTitus.git
 cd ArchTitus
 chmod +x archtitus.sh
-#bash archtitus.sh
 ./archtitus.sh
 
-echo test
-#arch-chroot /mnt
+source <(curl -s -L $1)
 
-#exit
+echo $1
+echo $login_screen
+echo $terminal
+echo $desktop_environment
 
-#envoirement
-#sudo pacman -S --root /mnt lightdm lightdm-gtk-greeter cinnamon --noconfirm
-#pacman -S --root /mnt lightdm lightdm-gtk-greeter cinnamon --noconfirm
-#sudo pacman -S lightdm lightdm-gtk-greeter cinnamon --noconfirm
+echo "The script is paused. Press Enter to continue..."
+read
+echo "Continuing the script..."
 
-cinnamon="lightdm lightdm-gtk-greeter cinnamon"
+lightdm="lightdm lightdm-gtk-greeter"
+cinnamon="cinnamon"
+terminal="gnome-terminal"
+install="$lightdm $cinnamon"
 login_manager="lightdm"
-#lightdm_service() {
-#	systemctl enable lightdm
-#}
 
 
 arch-chroot /mnt /bin/bash <<EOF
@@ -38,17 +38,5 @@ arch-chroot /mnt /bin/bash <<EOF
 	lightdm_service
 	systemctl enable $login_manager
 EOF
-
-
-#pacman -S lightdm lightdm-gtk-greeter cinnamon --noconfirm
-
-#sudo systemctl enable lightdm
-#systemctl --root=/mnt enable lightdm
-#systemctl enable lightdm
-
-#terminal
-
-
-#exit
 
 #reboot
