@@ -13,15 +13,17 @@ sudo pacman -S git --noconfirm
 git clone --depth=1 https://github.com/ChrisTitusTech/ArchTitus.git
 cd ArchTitus
 chmod +x archtitus.sh
-bash archtitus.sh
+#bash archtitus.sh
+./archtitus.sh
 
 echo test
-arch-chroot /mnt
+#arch-chroot /mnt
 
 #envoirement
-sudo pacman -S lightdm lightdm-gtk-greeter cinnamon --noconfirm
+sudo pacman -S --root /mnt lightdm lightdm-gtk-greeter cinnamon --noconfirm
 
-sudo systemctl enable lightdm
+#sudo systemctl enable lightdm
+systemctl --root=/mnt enable lightdm
 
 #terminal
 
