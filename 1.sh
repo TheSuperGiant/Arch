@@ -5,7 +5,20 @@
 # I am not responsible for any damage, data loss, or other issues that may result from the use of this script.
  
 #All credits to christitus.com for creating this archtitus.
- 
-#bash <(curl -L christitus.com/archtitus)
-bash <(curl -L https://github.com/ChrisTitusTech/ArchTitus/blob/main/archtitus.sh)
-reboot
+
+sudo pacman-key --init
+sudo pacman-key --populate archlinux
+sudo pacman -Syu --noconfirm
+sudo pacman -S git --noconfirm
+git clone --depth=1 https://github.com/ChrisTitusTech/ArchTitus.git
+cd ArchTitus
+chmod +x archtitus.sh
+./archtitus.sh
+
+arch-chroot /mnt
+
+sudo pacman -S lightdm lightdm-gtk-greeter cinnamon --noconfirm
+
+sudo systemctl enable lightdm
+
+#reboot
