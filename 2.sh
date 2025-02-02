@@ -125,7 +125,7 @@ fi
 if [ "$App_Install__notepadPlusPlus" == "1" ]; then
 	App_Install__wine=1
 fi 
-App_Install__eye_of_gnome=1
+
 declare -a App_Install__=(
 	"wine:					wine"
 	"wine_mono:				wine-mono"
