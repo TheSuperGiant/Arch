@@ -25,11 +25,26 @@ echo test
 #sudo pacman -S --root /mnt lightdm lightdm-gtk-greeter cinnamon --noconfirm
 #pacman -S --root /mnt lightdm lightdm-gtk-greeter cinnamon --noconfirm
 #sudo pacman -S lightdm lightdm-gtk-greeter cinnamon --noconfirm
-pacman -S lightdm lightdm-gtk-greeter cinnamon --noconfirm
+
+cinnamon="lightdm lightdm-gtk-greeter cinnamon"
+login_manager="lightdm"
+#lightdm_service() {
+#	systemctl enable lightdm
+#}
+
+
+arch-chroot /mnt /bin/bash -c <<EOF
+	pacman -S $cinnamon --noconfirm
+	lightdm_service
+	systemctl enable $login_manager
+EOF
+
+
+#pacman -S lightdm lightdm-gtk-greeter cinnamon --noconfirm
 
 #sudo systemctl enable lightdm
 #systemctl --root=/mnt enable lightdm
-systemctl enable lightdm
+#systemctl enable lightdm
 
 #terminal
 
