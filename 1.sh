@@ -19,7 +19,7 @@ chmod +x archtitus.sh
 echo test
 #arch-chroot /mnt
 
-exit
+#exit
 
 #envoirement
 sudo pacman -S --root /mnt lightdm lightdm-gtk-greeter cinnamon --noconfirm
@@ -30,6 +30,6 @@ systemctl --root=/mnt enable lightdm
 #terminal
 
 
-exit
+#exit
 
 #reboot
