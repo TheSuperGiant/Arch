@@ -33,7 +33,7 @@ login_manager="lightdm"
 #}
 
 
-arch-chroot /mnt /bin/bash -c <<EOF
+arch-chroot /mnt /bin/bash <<EOF
 	pacman -S $cinnamon --noconfirm
 	lightdm_service
 	systemctl enable $login_manager
