@@ -21,4 +21,6 @@ sudo pacman -S lightdm lightdm-gtk-greeter cinnamon --noconfirm
 
 sudo systemctl enable lightdm
 
+exit
+
 #reboot
