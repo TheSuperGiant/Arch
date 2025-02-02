@@ -19,6 +19,8 @@ chmod +x archtitus.sh
 echo test
 #arch-chroot /mnt
 
+exit
+
 #envoirement
 sudo pacman -S --root /mnt lightdm lightdm-gtk-greeter cinnamon --noconfirm
 
