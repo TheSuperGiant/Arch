@@ -15,6 +15,7 @@ cd ArchTitus
 chmod +x archtitus.sh
 bash archtitus.sh
 
+echo test
 arch-chroot /mnt
 
 #envoirement
