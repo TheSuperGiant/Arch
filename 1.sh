@@ -14,7 +14,7 @@ git clone --depth=1 https://github.com/ChrisTitusTech/ArchTitus.git
 cd ArchTitus
 chmod +x archtitus.sh
 #bash archtitus.sh
-./archtitus.sh && exit
+./archtitus.sh && break
 
 echo test
 #arch-chroot /mnt
