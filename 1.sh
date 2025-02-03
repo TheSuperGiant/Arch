@@ -7,7 +7,7 @@
 
 sudo pacman-key --init
 sudo pacman-key --populate archlinux
-sudo pacman -Syu --noconfirm
+#sudo pacman -Syu --noconfirm
 sudo pacman -S git --noconfirm
 
 #All credits to christitus.com for creating archtitus.
