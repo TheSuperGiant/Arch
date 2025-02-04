@@ -7,12 +7,12 @@
 
 sudo pacman-key --init
 sudo pacman-key --populate archlinux
-#sudo pacman -Syu --noconfirm
 sudo pacman -Sy git --noconfirm
 
 #All credits to christitus.com for creating archtitus.
 git clone --depth=1 https://github.com/ChrisTitusTech/ArchTitus.git
 cd ArchTitus
+sed -i '/xterm/d' pkg-files/pacman-pkgs.txt
 chmod +x archtitus.sh
 ./archtitus.sh
 
@@ -30,22 +30,21 @@ list() {
     done
 }
 
-declare -a login_sc=(
-	"lightdm:	lightdm lightdm-gtk-greeter"
-)
+#declare -a login_sc=(
+	#"lightdm:	lightdm lightdm-gtk-greeter"
+#)
 
-declare -a desktop_env=(
-	"cinnamon:	cinnamon"
-)
+#declare -a desktop_env=(
+	#"cinnamon:	cinnamon"
+#)
 
-install=$(list desktop_env[@] "cinnamon")
-install+=" $( list login_sc[@] "lightdm")"
-install+=" $( list App_Install__[@] "gnome_terminal")"
-login_manager=$(list login_sc[@] "lightdm" | awk '{print $1}')
+install=$(list App_Install__[@] "$terminal")
+#install+=" $( list desktop_env[@] "$desktop_environment")"
+#install+=" $( list login_sc[@] "$login_screen")"
+#login_manager=$(list login_sc[@] "$login_screen" | awk '{print $1}')
 
 arch-chroot /mnt /bin/bash <<EOF
-	pacman -S $install --noconfirm
-	systemctl enable $login_manager
+	pacman -S $install --needed --noconfirm
 EOF
 
 #reboot
