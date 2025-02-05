@@ -49,7 +49,7 @@ EOF
 	#systemctl enable $login_manager
 
 mkdir -p /mnt/etc/xdg/autostart
-cat << 'EOF' > /mnt/etc/xdg/autostart/firstboot.desktop
+cat << EOF > /mnt/etc/xdg/autostart/firstboot.desktop
 [Desktop Entry]
 Type=Application
 Exec=gnome-terminal -- bash -c "nm-online -q && sleep 1 && bash <(curl -fsSL $2); exec bash"
