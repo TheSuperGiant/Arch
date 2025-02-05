@@ -46,5 +46,20 @@ install=$(list App_Install__[@] "$terminal")
 arch-chroot /mnt /bin/bash <<EOF
 	pacman -S $install --needed --noconfirm
 EOF
+	#systemctl enable $login_manager
+
+mkdir -p /mnt/etc/xdg/autostart
+cat << 'EOF' > /mnt/etc/xdg/autostart/firstboot.desktop
+[Desktop Entry]
+Type=Application
+Exec=gnome-terminal -- bash -c 'nm-online -q && sleep 1 && bash <(curl -fsSL $2); exec bash'
+Hidden=false
+NoDisplay=false
+X-GNOME-Autostart-enabled=true
+Name[en_NG]=Terminal
+Name=Terminal
+Comment[en_NG]=Start Terminal On Startup
+Comment=Start Terminal On Startup
+EOF
 
 #reboot
