@@ -43,11 +43,6 @@ install=$(list App_Install__[@] "$terminal")
 #install+=" $( list login_sc[@] "$login_screen")"
 #login_manager=$(list login_sc[@] "$login_screen" | awk '{print $1}')
 
-arch-chroot /mnt /bin/bash <<EOF
-	pacman -S $install --needed --noconfirm
-EOF
-	#systemctl enable $login_manager
-
 mkdir -p /mnt/etc/xdg/autostart
 cat << 'EOF' > /mnt/etc/xdg/autostart/firstboot.desktop
 [Desktop Entry]
@@ -61,5 +56,10 @@ Name=Terminal
 Comment[en_NG]=Start Terminal On Startup
 Comment=Start Terminal On Startup
 EOF
+
+arch-chroot /mnt /bin/bash <<EOF
+	pacman -S $install --needed --noconfirm
+EOF
+	#systemctl enable $login_manager
 
 #reboot
