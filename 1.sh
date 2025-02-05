@@ -5,7 +5,8 @@
 # I am not responsible for any damage, data loss, or other issues that may result from the use of this script.
  
 
-systemctl mask systemd-journald-audit.socket
+dmesg -n 1
+echo 0 > /proc/sys/kernel/printk
 
 #pacman-key --init
 #pacman-key --populate archlinux
