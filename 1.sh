@@ -5,9 +5,10 @@
 # I am not responsible for any damage, data loss, or other issues that may result from the use of this script.
  
 
-sudo pacman-key --init
-sudo pacman-key --populate archlinux
-sudo pacman -Sy git --noconfirm
+#sudo pacman-key --init
+#sudo pacman-key --populate archlinux
+#sudo pacman -Sy git --noconfirm
+pacman -Sy --needed --noconfirm git glibc
 
 #All credits to christitus.com for creating archtitus.
 git clone --depth=1 https://github.com/ChrisTitusTech/ArchTitus.git
