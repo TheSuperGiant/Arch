@@ -5,7 +5,7 @@
 # I am not responsible for any damage, data loss, or other issues that may result from the use of this script.
  
 
-exec 2>/dev/null
+systemctl mask systemd-journald-audit.socket
 
 #pacman-key --init
 #pacman-key --populate archlinux
