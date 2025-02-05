@@ -7,10 +7,10 @@
 
 systemd-inhibit --mode=block 
 
-pacman-key --init
-pacman-key --populate archlinux
-#pacman-key --init >/dev/null 2>&1
-#pacman-key --populate archlinux >/dev/null 2>&1
+3pacman-key --init
+#pacman-key --populate archlinux
+pacman-key --init >/dev/null 2>&1
+pacman-key --populate archlinux >/dev/null 2>&1
 pacman -Sy git glibc --needed --noconfirm
 
 #All credits to christitus.com for creating archtitus.
