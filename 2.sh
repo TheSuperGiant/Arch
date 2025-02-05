@@ -4,6 +4,7 @@
 # By using this script, you acknowledge that you do so at your own risk.
 # I am not responsible for any damage, data loss, or other issues that may result from the use of this script.
 
+rm -f /etc/xdg/autostart/firstboot.desktop
 
 http_check() {
 	if [[ "$1" == *"http"* ]]; then
@@ -126,75 +127,7 @@ if [ "$App_Install__notepadPlusPlus" == "1" ]; then
 	App_Install__wine=1
 fi 
 
-declare -a App_Install__=(
-	"wine:					wine"
-	"wine_mono:				wine-mono"
-	"7_zip:					7zip"
-	"adwaita_theme:			adwaita-icon-theme"
-	"anydesk:				anydesk-bin"
-	"audacity:				audacity"
-	"biglybt:				biglybt"
-	"bleachbit:				bleachbit"
-	"bluetooth:				bluez bluez-utils blueman"
-	"brave:					brave"
-	"calibre:				calibre"
-	"discord:				discord"
-	"dropbox:				dropbox"
-	"eye_of_gnome:			eog"
-	"filezilla:				filezilla"
-	"firefox:				firefox"
-	"font_dejavu:			ttf-dejavu"
-	"git:					git"
-	"gimp:					gimp"
-	"gnome_calculator:		gnome-calculator"
-	"gnome_terminal:		gnome-terminal"
-	"google_chrome:			google-chrome"
-	"gThumb:			gthumb"
-	"handbrake:				handbrake"
-	"heroic_launcher:		heroic-games-launcher-bin"
-	"jitsi_meet:			jitsi-meet-desktop-bin"
-	"kcalc:					kcalc"
-	"keepass:				keepass"
-	"keepassxc:				keepassxc"
-	"leafpad:				leafpad"
-	"libreoffice:			libreoffice"
-	"librewolf:				librewolf-bin"
-	"mega:					megasync"
-	"mousepad:				mousepad"
-	"minecraft_launcher:	minecraft-launcher"
-	"mpv_Media_player:		mpv"
-	"nautilus:				nautilus"
-	"nomacs:				nomacs"
-	"notepadqq:				notepadqq"
-	"notepadPlusPlus:		notepad++"
-	"numlockx:				numlockx"
-	"obs_studio:			obs-studio"
-	"openoffice:				openoffice-bin"
-	"opera:					opera"
-	"paradox_launcher:		paradox-launcher"
-	"pcloud:				pcloud-drive"
-	"peazip:				peazip"
-	"pidgin:				pidgin"
-	"scrcpy:				scrcpy"
-	"session:				session-desktop-bin"
-	"signal:				signal-desktop-desktop-bin"
-	"smplayer:				smplayer"
-	"steam:					steam"
-	"teamviewer:			teamviewer"
-	"thorium:				thorium-browser-bin"
-	"torbrowser:			torbrowser-launcher"
-	"thunderbird:			thunderbird"
-	"tigervnc:				tigervnc"
-	"vim:					vim"
-	"virtualbox:			virtualbox"
-	"visual_studio_code:	visual-studio-code-bin"
-	"vlc:					vlc"
-	"vuze:					vuze"
-	"waterfox:				waterfox-bin"
-	"wire:					wire-desktop"
-	"xed:					xed"
-	"game_independedies:	gamemode mangohud"
-)
+source <(curl -s -L https://raw.githubusercontent.com/TheSuperGiant/Arch/refs/heads/Arch/program_install_list.sh)
 
 for app in "${App_Install__[@]}"; do
 	key="${app%%:*}"
@@ -322,7 +255,7 @@ dcow(){
 
 for Setting in "${Setting__[@]}"; do
 	key="${Setting%%:*}"
-	value=$(echo "${Setting##*:}" | cut -d';' -f1 | tr -d '[:space:]')
+	value=$(echo "${Setting##*:}" | cut -d';' -f1 | sed -E 's/^[[:space:]]+//')
 	type=$(echo "${Setting##*;}")
 	if [[ "$type" == "b" ]]; then
 		if [[ " 0 1 " == *" $(eval echo \$Setting__$key) "* ]]; then
@@ -351,7 +284,7 @@ if command -v cinnamon-session >/dev/null 2>&1; then
 	for applet in "${applet__[@]}"; do
 		name="${applet%%:*}"
 		if [ "$(eval echo \${applet__$name})" == "1" ]; then
-			key=$(echo "${applet##*:}" | tr -d '[:space:]')
+			key=$(echo "${applet##*:}" | sed -E 's/^[[:space:]]+//')
 			updated_applets=$(echo "$updated_applets" | sed "s/'[^']*$key[^']*',\?//g" | sed -E 's/\[ *,/\[/; s/, *\]/\]/')
 		fi
 	done
