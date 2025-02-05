@@ -5,7 +5,7 @@
 # I am not responsible for any damage, data loss, or other issues that may result from the use of this script.
  
 
-dmesg -n1
+dmesg -n 1
 
 #pacman-key --init
 #pacman-key --populate archlinux
