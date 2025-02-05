@@ -7,7 +7,7 @@
 
 systemd-inhibit --mode=block 
 
-3pacman-key --init
+#pacman-key --init
 #pacman-key --populate archlinux
 pacman-key --init >/dev/null 2>&1
 pacman-key --populate archlinux >/dev/null 2>&1
