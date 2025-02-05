@@ -7,8 +7,9 @@
 
 #sudo pacman-key --init
 #sudo pacman-key --populate archlinux
-#sudo pacman -Sy git --noconfirm
-pacman -Sy --needed --noconfirm git glibc
+pacman-key --init
+pacman-key --populate archlinux
+pacman -Sy git glibc --needed --noconfirm
 
 #All credits to christitus.com for creating archtitus.
 git clone --depth=1 https://github.com/ChrisTitusTech/ArchTitus.git
@@ -64,4 +65,4 @@ Comment[en_NG]=Start Terminal On Startup
 Comment=Start Terminal On Startup
 EOF
 
-#reboot
+reboot
