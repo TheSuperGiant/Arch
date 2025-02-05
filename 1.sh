@@ -5,10 +5,10 @@
 # I am not responsible for any damage, data loss, or other issues that may result from the use of this script.
  
 
-#sudo pacman-key --init
-#sudo pacman-key --populate archlinux
-pacman-key --init
-pacman-key --populate archlinux
+#pacman-key --init
+#pacman-key --populate archlinux
+pacman-key --init >/dev/null 2>&1
+pacman-key --populate archlinux >/dev/null 2>&1
 pacman -Sy git glibc --needed --noconfirm
 
 #All credits to christitus.com for creating archtitus.
