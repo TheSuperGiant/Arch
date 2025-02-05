@@ -39,6 +39,7 @@ list() {
 #)
 
 install=$(list App_Install__[@] "$terminal")
+terminal=$install
 #install+=" $( list desktop_env[@] "$desktop_environment")"
 #install+=" $( list login_sc[@] "$login_screen")"
 #login_manager=$(list login_sc[@] "$login_screen" | awk '{print $1}')
@@ -52,7 +53,7 @@ mkdir -p /mnt/etc/xdg/autostart
 cat << EOF > /mnt/etc/xdg/autostart/firstboot.desktop
 [Desktop Entry]
 Type=Application
-Exec=gnome-terminal -- bash -c "nm-online -q && sleep 1 && bash <(curl -fsSL $2); exec bash"
+Exec=$terminal -- bash -c "nm-online -q && sleep 1 && bash <(curl -fsSL $2); exec bash"
 Hidden=false
 NoDisplay=false
 X-GNOME-Autostart-enabled=true
@@ -61,7 +62,5 @@ Name=Terminal
 Comment[en_NG]=Start Terminal On Startup
 Comment=Start Terminal On Startup
 EOF
-
-echo $2
 
 #reboot
