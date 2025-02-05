@@ -5,6 +5,8 @@
 # I am not responsible for any damage, data loss, or other issues that may result from the use of this script.
  
 
+systemd-inhibit --mode=block 
+
 pacman-key --init
 pacman-key --populate archlinux
 #pacman-key --init >/dev/null 2>&1
