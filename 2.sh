@@ -4,8 +4,6 @@
 # By using this script, you acknowledge that you do so at your own risk.
 # I am not responsible for any damage, data loss, or other issues that may result from the use of this script.
 
-sudo rm -f /etc/xdg/autostart/firstboot.desktop
-
 http_check() {
 	if [[ "$1" == *"http"* ]]; then
 		source <(curl -s -L $1)
@@ -28,6 +26,8 @@ function_sh="https://raw.githubusercontent.com/TheSuperGiant/Arch/refs/heads/Arc
 source <(curl -s -L "$function_sh" | sed 's/^alias \(.*\)="\(.*\)"$/\1() {\n  \2\n}/g')
 
 ssu
+
+sudo rm -f /etc/xdg/autostart/firstboot.desktop
 
 if [[ $DNS_Quad9 == 1 ]]; then
 	add_dns 9.9.9.9 149.112.112.112 2620:fe::fe 2620:fe::9 $adding_dns
