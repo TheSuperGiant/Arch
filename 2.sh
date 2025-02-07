@@ -4,7 +4,7 @@
 # By using this script, you acknowledge that you do so at your own risk.
 # I am not responsible for any damage, data loss, or other issues that may result from the use of this script.
 
-rm -f /etc/xdg/autostart/firstboot.desktop
+sudo rm -f /etc/xdg/autostart/firstboot.desktop
 
 http_check() {
 	if [[ "$1" == *"http"* ]]; then
