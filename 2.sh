@@ -172,6 +172,8 @@ if [[ "$Setting__night_light__schedule_mode=0" != "" ]]; then
 fi
 
 declare -a Setting__=(
+	"autorun:	/org/cinnamon/desktop/media-handling/autorun-never;b"
+	"autorun:	/org/gnome/desktop/media-handling/autorun-never;b"
 	"clock__show_date:	/org/cinnamon/desktop/interface/clock-show-date;b"
 	"clock__show_date:	/org/gnome/desktop/interface/clock-show-date;b"
 	"Default_calculator:	/org/cinnamon/desktop/applications/calculator/exec;'"

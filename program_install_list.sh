@@ -47,6 +47,7 @@ declare -a App_Install__=(
 	"pcloud:				pcloud-drive"
 	"peazip:				peazip"
 	"pidgin:				pidgin"
+	"rustdesk:				rustdesk"
 	"scrcpy:				scrcpy"
 	"session:				session-desktop-bin"
 	"signal:				signal-desktop-desktop-bin"
