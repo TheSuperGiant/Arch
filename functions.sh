@@ -265,15 +265,9 @@ if you need an \" in startup file then you must use \\\"...\\\""
         esac
     done
 	save_file="/etc/xdg/autostart/${info[0]}.desktop"
-	if [[ $(echo "${info[@]}" | wc -w ) -ge 4 ]]; then
-		read -ra exec <<< "${info[@]}"
-		local exec=$(echo "${exec[@]: -2}")
-	else 
-		local exec=${info[2]}
-	fi
 	data=$(echo "[Desktop Entry]
 		Type=${info[1]}
-		Exec=$exec
+		Exec=${info[2]}
 		$( [[ "$n" == 1 ]] && echo "Hidden=true" )
 		$( [[ "$d" == 1 ]] && echo "NoDisplay=true" )
 		$( [[ "$a" == 1 ]] && echo "X-GNOME-Autostart-enabled=false" )
