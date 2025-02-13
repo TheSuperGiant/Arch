@@ -134,6 +134,9 @@ sp() {
 arguments
 	Filename Type Execution
 	
+	Filename:
+	a space is not allowed use instead _ or -
+	
 	Type can only be:
 	Application, Link, or Directory
 
