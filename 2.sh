@@ -605,7 +605,7 @@ declare -a App_Startup___=(
 	"notepadqq:	Notepadqq Application"
 	"notepadPlusPlus:	notepad++.exe Application"
 	"obs_studio:	obs Application"
-	"opera:	Opera Application"
+	"opera:	opera Application"
 	"paradox_launcher:	Paradox Launcher Application"
 	"pcloud:	pcloud Application"
 	"peazip:	PeaZip Application"
