@@ -611,7 +611,7 @@ declare -a App_Startup___=(
 	"peazip:	peazip Application"
 	"pidgin:	pidgin Application"
 	"rustdesk:	rustdesk Application"
-	"session:	session-desktop Application"
+	"session:	/opt/Session/session-desktop Application"
 	"signal:	signal-desktop Application"
 	"smplayer:	smplayer Application"
 	"steam:	steam Application"
