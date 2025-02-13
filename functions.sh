@@ -125,6 +125,172 @@ paru_clean() {
 	rm -rf ~/.cache/paru/clone/*
 	rm -rf /home/$USER/.cache/paru/clone/*
 }
+sp() {
+	while [[ $# -gt 0 ]]; do
+        case "$1" in
+            -help)
+                echo "startup personal
+
+arguments
+	Filename Type Execution
+	
+	Type can only be:
+	Application, Link, or Directory
+
+parameters (optional)
+	sp -a 	autostart disabled
+	sp -d 	invisble - possible to run visible applications
+	sp -n	invisble - not possible to run visible applications 
+	sp -t	terminal - run in terminal
+	sp -s	startup animation
+	sp -b	if supports DBus activation
+	sp -e	[text]	explorer name
+	sp -c	[text]	comment
+	sp -h	[text]	hoverover name - (work in some environments)
+	sp -o	[text]	only show in specifies desktop environments
+	sp -x	[text]	not show in specifies desktop environments
+	sp -y	[text]	supported file types (MimeTypes)
+	sp -m	[text]	window menu class
+	sp -g	[text]	categories start menu
+	sp -k	[text]	search keywords
+	sp -i	[path]	icon
+	sp -w	[path]	working directory
+	sp -r	[path]	program path - (only show in menu when program exists)
+	
+Translations
+	Translations codes can be:
+	af am an ar as ast be bn br bs ca cs cy da de de_AT de_CH el en en_GB en_US eo es es_AR es_CO et eu fa fi fo fr fr_BE fr_CA ga gl gu he hi hr hu hy id is it ja jv ka kk km kn ko ky la lb lo lt lv mk ml mr ms mt nb ne nl nn oc pl ps pt pt_BR qu ro ru rw se si sk sl sq sr sv sw ta te th tl tr uk uz vi wa xh yi zh zh_CN zh_TW zu
+
+parameters (optional)
+	sp -Name[*]	[text]	explorer name (translations)
+	sp -Comment[*]	[text]	comment (translations)
+
+example:
+sp filename application \"execution command\" -a -b -d -n -e -s -t \"explorer name\" -c \"comment\" -i \"/path/to/icon/\" -w \"/path/to/working/directory/\" -h \"hoverover name\" -r \"/path/to/program/\" -o \"GNOME;KDE;\" -x \"GNOME;KDE;\" -m firefox -g \"Office;\" -y \"text/plain;image/png;\" -k \"browser;internet;\" -Name[it] \"avvio personale\" -Comment[id] \"Buat file aplikasi startup pribadi dengan mudah\"
+
+if you need an \" in startup file then you must use \\\"...\\\""
+                return 1
+                ;;
+            -a)
+                local a=1
+                shift
+                ;;
+            -b)
+                local b=1
+                shift
+                ;;
+            -c)
+                local c="$2"
+                shift 2
+                ;;
+            -Comment\[*\])
+                local Comment+=("$1=$2\n")
+                shift 2
+                ;;
+            -d)
+                local d=1
+                shift
+                ;;
+            -e)
+                local e="$2"
+                shift 2
+                ;;
+            -g)
+                local g="$2"
+                shift 2
+                ;;
+            -h)
+                local h="$2"
+                shift 2
+                ;;
+            -i)
+                local i="$2"
+                shift 2
+                ;;
+            -k)
+                local k="$2"
+                shift 2
+                ;;
+            -m)
+                local m="$2"
+                shift 2
+                ;;
+            -n)
+                local n=1
+                shift
+                ;;
+            -Name\[*\])
+                local Name+=("$1=$2\n")
+                shift 2
+                ;;
+            -o)
+                local o="$2"
+                shift 2
+                ;;
+            -r)
+                local r="$2"
+                shift 2
+                ;;
+            -s)
+                local s=1
+                shift
+                ;;
+            -t)
+                local t=1
+                shift
+                ;;
+            -w)
+                local w="$2"
+                shift 2
+                ;;
+            -x)
+                local x="$2"
+                shift 2
+                ;;
+            -y)
+                local y="$2"
+                shift 2
+                ;;
+            -*)
+                echo "Unknown option: $1"
+                return 1
+                ;;
+            *)
+                local info+=("$1")
+                shift
+                ;;
+        esac
+    done
+	save_file="/etc/xdg/autostart/${info[0]}.desktop"
+	data=$(echo "[Desktop Entry]
+		Type=${info[1]}
+		Exec=${info[2]}
+		$( [[ "$n" == 1 ]] && echo "Hidden=true" )
+		$( [[ "$d" == 1 ]] && echo "NoDisplay=true" )
+		$( [[ "$a" == 1 ]] && echo "X-GNOME-Autostart-enabled=false" )
+		$( [[ "$t" == 1 ]] && echo "Terminal=true" )
+		$( [[ "$s" == 1 ]] && echo "StartupNotify=true" )
+		$( [[ "$b" == 1 ]] && echo "DBusActivatable=true" )
+		$( [[ -n $e ]] && echo "Name=$e" )
+		$( [[ -n $Name[@] ]] && echo -e ${Name[@]} | sed 's/-//' )
+		$( [[ -n $c ]] && echo "Comment=$c" )
+		$( [[ -n $Comment[@] ]] && echo -e ${Comment[@]} | sed 's/-//' )
+		$( [[ -n $i ]] && echo "Icon=$i" )
+		$( [[ -n $w ]] && echo "Path=$w" )
+		$( [[ -n $h ]] && echo "GenericName=$h" )
+		$( [[ -n $r ]] && echo "TryExec=$r" )
+		$( [[ -n $o ]] && echo "OnlyShowIn=$o" )
+		$( [[ -n $x ]] && echo "NotShowIn=$x" )
+		$( [[ -n $m ]] && echo "StartupWMClass=$m" )
+		$( [[ -n $g ]] && echo "Categories=$g" )
+		$( [[ -n $y ]] && echo "MimeType=$y" )
+		$( [[ -n $k ]] && echo "Keywords=$k" )" | sed 's/^[[:space:]]*//' | sed '/^$/d')
+	if [[ "$(cat $save_file 2>/dev/null)" != "$data" ]]; then
+		sudo bash -c "cat << EOF | sed 's/^\t\+//' > $save_file
+		$data
+EOF"
+	fi
+}
 ssu() {
 	sudo -v
 	while true; do

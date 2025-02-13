@@ -50,7 +50,7 @@ declare -a App_Install__=(
 	"rustdesk:				rustdesk"
 	"scrcpy:				scrcpy"
 	"session:				session-desktop-bin"
-	"signal:				signal-desktop-desktop-bin"
+	"signal:				signal-desktop"
 	"smplayer:				smplayer"
 	"steam:					steam"
 	"teamviewer:			teamviewer"

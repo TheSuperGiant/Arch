@@ -4,6 +4,53 @@
 # By using this script, you acknowledge that you do so at your own risk.
 # I am not responsible for any damage, data loss, or other issues that may result from the use of this script.
 
+App_Startup__audacity=1
+App_Startup__biglybt=1
+App_Startup__brave=1
+App_Startup__calibre=1
+App_Startup__discord=1
+App_Startup__dropbox=1
+App_Startup__filezilla=1
+App_Startup__firefox=1
+App_Startup__gnome_terminal=1
+App_Startup__google_chrome=1
+App_Startup__handbrake=1
+App_Startup__heroic_launcher=1
+App_Startup__jitsi_meet=1
+App_Startup__keepass=1
+App_Startup__keepassxc=1
+App_Startup__leafpad=1
+App_Startup__libreWolf=1
+App_Startup__mega=1
+App_Startup__minecraft_launcher=1
+App_Startup__mpv_Media_player=1
+App_Startup__nautilus=1
+App_Startup__nemo=1
+App_Startup__notepadqq=1
+App_Startup__notepadPlusPlus=1
+App_Startup__obs_studio=1
+App_Startup__opera=1
+App_Startup__paradox_launcher=1
+App_Startup__pcloud=1
+App_Startup__peazip=1
+App_Startup__pidgin=1
+App_Startup__rustdesk=1
+App_Startup__session=1
+App_Startup__signal=1
+App_Startup__smplayer=1
+App_Startup__steam=1
+App_Startup__teamviewer=1
+App_Startup__thorium=1
+App_Startup__torbrowser=1
+App_Startup__thunderbird=1
+App_Startup__tigervnc=1
+App_Startup__virtualbox=1
+App_Startup__visual_studio_code=1
+App_Startup__vlc=1
+App_Startup__vuze=1
+App_Startup__waterfox=1
+App_Startup__wire=1
+
 http_check() {
 	if [[ "$1" == *"http"* ]]; then
 		source <(curl -s -L $1)
@@ -527,6 +574,69 @@ for default in "${Default_category[@]}"; do
 	fi
 done
 
+echo "------------------------------------"
+echo "|        Startup programs..        |"
+echo "------------------------------------"
+
+declare -a App_Startup___=(
+	"audacity:	Audacity Application"
+	"biglybt:	BiglyBT Application"
+	"brave:	Brave-browser Application"
+	"calibre:	calibre Application"
+	"discord:	discord Application"
+	"dropbox:	dropbox Application"
+	"filezilla:	FileZilla Application"
+	"firefox:	firefox Application"
+	"gnome_terminal:	LibreWolf Application"
+	"google_chrome:	Google-chrome Application"
+	"handbrake:	fr.handbrake.ghb Application"
+	"heroic_launcher:	heroic Application"
+	"jitsi_meet:	Jitsi Meet Application"
+	"keepass:	KeePass2 Application"
+	"keepassxc:	KeePassXC Application"
+	"leafpad:	Leafpad Application"
+	"libreWolf:	LibreWolf Application"
+	"mega:	MEGAsync Application"
+	"minecraft_launcher:	Minecraft Launcher Application"
+	"mpv_Media_player:	mpv Application"
+	"nautilus:	org.gnome.Nautilus Application"
+	"nemo:	Nemo Application"
+	"notepadqq:	Notepadqq Application"
+	"notepadPlusPlus:	notepad++.exe Application"
+	"obs_studio:	obs Application"
+	"opera:	Opera Application"
+	"paradox_launcher:	Paradox Launcher Application"
+	"pcloud:	pcloud Application"
+	"peazip:	PeaZip Application"
+	"pidgin:	Pidgin Application"
+	"rustdesk:	Rustdesk Application"
+	"session:	Session Application"
+	"signal:	Signal Application"
+	"smplayer:	smplayer Application"
+	"steam:	steam Application"
+	"teamviewer:	TeamViewer Application"
+	"thorium:	Thorium-browser Application"
+	"torbrowser:	Tor Browser Application"
+	"thunderbird:	thunderbird Application"
+	"tigervnc:	Vncviewer Application"
+	"virtualbox:	VirtualBox Manager Application"
+	"visual_studio_code:	Code Application"
+	"vlc:	vlc Application"
+	"vuze:	Vuze Application"
+	"waterfox:	waterfox Application"
+	"wire:	Wire Application"
+)
+
+for App_Startup in "${App_Startup___[@]}"; do
+	name_string="${App_Startup%%:*}"
+	if [ "$(eval echo \$App_Startup__$name_string)" == "1" ]; then
+		application=$(echo "${App_Startup##*:}" | cut -d';' -f1 | sed -E 's/^[[:space:]]+//')	
+		#name_app=($application); unset name_app[-1];
+		name_app=($application); unset name_app[-1]
+		read -ra type <<< "$application"
+		sp $name_string "${type[@]: -1}" "${name_app[@]}"
+	fi
+done
 
 #------------------
 #games
