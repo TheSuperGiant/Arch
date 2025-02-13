@@ -533,8 +533,6 @@ echo "|        Startup programs..        |"
 echo "------------------------------------"
 
 
-App_Startup__gnome_terminal=1
-
 declare -a App_Startup___=(
 	"audacity:	audacity Application"
 	"biglybt:	biglybt Application"
