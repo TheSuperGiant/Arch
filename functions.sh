@@ -290,6 +290,8 @@ if you need an \" in startup file then you must use \\\"...\\\""
 		$data
 EOF"
 	fi
+	echo "${info[0]} - startup created"
+	echo "------------------------------------"
 }
 ssu() {
 	sudo -v

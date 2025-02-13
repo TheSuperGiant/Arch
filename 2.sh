@@ -4,53 +4,6 @@
 # By using this script, you acknowledge that you do so at your own risk.
 # I am not responsible for any damage, data loss, or other issues that may result from the use of this script.
 
-App_Startup__audacity=1
-App_Startup__biglybt=1
-App_Startup__brave=1
-App_Startup__calibre=1
-App_Startup__discord=1
-App_Startup__dropbox=1
-App_Startup__filezilla=1
-App_Startup__firefox=1
-App_Startup__gnome_terminal=1
-App_Startup__google_chrome=1
-App_Startup__handbrake=1
-App_Startup__heroic_launcher=1
-App_Startup__jitsi_meet=1
-App_Startup__keepass=1
-App_Startup__keepassxc=1
-App_Startup__leafpad=1
-App_Startup__libreWolf=1
-App_Startup__mega=1
-App_Startup__minecraft_launcher=1
-App_Startup__mpv_Media_player=1
-App_Startup__nautilus=1
-App_Startup__nemo=1
-App_Startup__notepadqq=1
-App_Startup__notepadPlusPlus=1
-App_Startup__obs_studio=1
-App_Startup__opera=1
-App_Startup__paradox_launcher=1
-App_Startup__pcloud=1
-App_Startup__peazip=1
-App_Startup__pidgin=1
-App_Startup__rustdesk=1
-App_Startup__session=1
-App_Startup__signal=1
-App_Startup__smplayer=1
-App_Startup__steam=1
-App_Startup__teamviewer=1
-App_Startup__thorium=1
-App_Startup__torbrowser=1
-App_Startup__thunderbird=1
-App_Startup__tigervnc=1
-App_Startup__virtualbox=1
-App_Startup__visual_studio_code=1
-App_Startup__vlc=1
-App_Startup__vuze=1
-App_Startup__waterfox=1
-App_Startup__wire=1
-
 http_check() {
 	if [[ "$1" == *"http"* ]]; then
 		source <(curl -s -L $1)
@@ -139,6 +92,7 @@ if [ -n "$StartScript" ]; then
 	fi
 	autostart_location="$HOME/.config/autostart/startup_script.desktop"
 	if [ ! -f $autostart_location ]; then
+		#sp?
 		echo "[Desktop Entry]
 Type=Application
 Exec=sudo $startup_script_file_location
@@ -578,6 +532,53 @@ echo "------------------------------------"
 echo "|        Startup programs..        |"
 echo "------------------------------------"
 
+App_Startup__audacity=1
+App_Startup__biglybt=1
+App_Startup__brave=1
+App_Startup__calibre=1
+App_Startup__discord=1
+App_Startup__dropbox=1
+App_Startup__filezilla=1
+App_Startup__firefox=1
+App_Startup__gnome_terminal=1
+App_Startup__google_chrome=1
+App_Startup__handbrake=1
+App_Startup__heroic_launcher=1
+App_Startup__jitsi_meet=1
+App_Startup__keepass=1
+App_Startup__keepassxc=1
+App_Startup__leafpad=1
+App_Startup__libreWolf=1
+App_Startup__mega=1
+App_Startup__minecraft_launcher=1
+App_Startup__mpv_Media_player=1
+App_Startup__nautilus=1
+App_Startup__nemo=1
+App_Startup__notepadqq=1
+App_Startup__notepadPlusPlus=1
+App_Startup__obs_studio=1
+App_Startup__opera=1
+App_Startup__paradox_launcher=1
+App_Startup__pcloud=1
+App_Startup__peazip=1
+App_Startup__pidgin=1
+App_Startup__rustdesk=1
+App_Startup__session=1
+App_Startup__signal=1
+App_Startup__smplayer=1
+App_Startup__steam=1
+App_Startup__teamviewer=1
+App_Startup__thorium=1
+App_Startup__torbrowser=1
+App_Startup__thunderbird=1
+App_Startup__tigervnc=1
+App_Startup__virtualbox=1
+App_Startup__visual_studio_code=1
+App_Startup__vlc=1
+App_Startup__vuze=1
+App_Startup__waterfox=1
+App_Startup__wire=1
+
 declare -a App_Startup___=(
 	"audacity:	Audacity Application"
 	"biglybt:	BiglyBT Application"
@@ -630,8 +631,7 @@ declare -a App_Startup___=(
 for App_Startup in "${App_Startup___[@]}"; do
 	name_string="${App_Startup%%:*}"
 	if [ "$(eval echo \$App_Startup__$name_string)" == "1" ]; then
-		application=$(echo "${App_Startup##*:}" | cut -d';' -f1 | sed -E 's/^[[:space:]]+//')	
-		#name_app=($application); unset name_app[-1];
+		application=$(echo "${App_Startup##*:}" | cut -d';' -f1 | sed -E 's/^[[:space:]]+//')
 		name_app=($application); unset name_app[-1]
 		read -ra type <<< "$application"
 		sp $name_string "${type[@]: -1}" "${name_app[@]}"
