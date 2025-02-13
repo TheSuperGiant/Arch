@@ -289,8 +289,10 @@ if you need an \" in startup file then you must use \\\"...\\\""
 		sudo bash -c "cat << EOF | sed 's/^\t\+//' > $save_file
 		$data
 EOF"
+		echo "${info[0]} - startup created"
+	else
+		echo "${info[0]} - startup already has the value"
 	fi
-	echo "${info[0]} - startup created"
 	echo "------------------------------------"
 }
 ssu() {
