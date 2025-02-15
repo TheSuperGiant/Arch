@@ -56,4 +56,4 @@ Type=Application
 Exec=$terminal -- bash -c "nm-online -q && sleep 1 && bash <(curl -fsSL $2); exec bash"
 EOF
 
-reboot
+#reboot
