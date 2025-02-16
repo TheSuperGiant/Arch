@@ -13,6 +13,7 @@ pacman -Sy git glibc --needed --noconfirm
 git clone --depth=1 https://github.com/ChrisTitusTech/ArchTitus.git
 cd ArchTitus
 sed -i '/xterm/d' pkg-files/pacman-pkgs.txt
+sed -i '/after formatting your disk there is no way to get data back/a ------------------------------------------------------------------------\n\necho "------------------------------------------------------------------------"\nlsblk -n --output TYPE,KNAME,SIZE,LABEL\necho "------------------------------------------------------------------------\n\n"' scripts/startup.sh
 chmod +x archtitus.sh
 ./archtitus.sh
 
@@ -56,7 +57,4 @@ Type=Application
 Exec=$terminal -- bash -c "nm-online -q && sleep 1 && bash <(curl -fsSL $2); exec bash"
 EOF
 
-echo $add_device_labels
-echo $applet__notfication
-
-#reboot
+reboot
