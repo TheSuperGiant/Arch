@@ -55,7 +55,8 @@ mkdir -p /mnt/etc/xdg/autostart
 cat << EOF > /mnt/etc/xdg/autostart/firstboot.desktop
 [Desktop Entry]
 Type=Application
-Exec=$terminal -- bash -c "nm-online -q && sleep 1 && bash <(curl -fsSL $2); exec bash"
+Exec=bash -c "nm-online -q && sleep 1 && bash <(curl -fsSL $2); exec bash"
+Terminal=true
 EOF
 
-#reboot
+reboot
