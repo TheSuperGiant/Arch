@@ -13,7 +13,11 @@ pacman -Sy git glibc --needed --noconfirm
 git clone --depth=1 https://github.com/ChrisTitusTech/ArchTitus.git
 cd ArchTitus
 sed -i '/xterm/d' pkg-files/pacman-pkgs.txt
-sed -i '/after formatting your disk there is no way to get data back/a ------------------------------------------------------------------------\n\necho "------------------------------------------------------------------------"\nlsblk -n --output TYPE,KNAME,SIZE,LABEL\necho "------------------------------------------------------------------------\n\n"' scripts/startup.sh
+sed -i 's/formating/formatting/g' scripts/startup.sh
+sed -i '/^    after formatting your disk there is no way to get data back$/ { N; N; s/$/\n------------------------------------------------------------------------\n$(lsblk -n --output TYPE,KNAME,SIZE,LABEL)\n------------------------------------------------------------------------/ }' scripts/startup.sh
+
+
+
 chmod +x archtitus.sh
 ./archtitus.sh
 
