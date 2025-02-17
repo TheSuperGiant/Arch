@@ -22,6 +22,7 @@ add_device_label() {
 			sudo bash -c "echo \"LABEL=$1 $mountpoint $fs_type defaults,nofail 0 2\" >> /etc/fstab"
 			sudo mkdir -p $mountpoint
 			sudo chown $USER:$USER $mountpoint
+			sudo mount -a >/dev/null 2>&1
 		fi
 	fi
 }
@@ -99,6 +100,12 @@ bool() {
 	fi
 }
 alias dco="dconf dump /"
+hm() {
+	local path=/$1/$USER
+	md $path
+	sudo rsync -av /home/$USER/ $path
+	sudo diff -qr /home/$USER $path 2>/dev/null && echo yes || echo no
+}
 pa() {
 	sudo pacman -Syu --noconfirm
 	par $@
