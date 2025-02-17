@@ -41,7 +41,6 @@ list() {
 #)
 
 install=$(list App_Install__[@] "$terminal")
-terminal=$install
 #install+=" $( list desktop_env[@] "$desktop_environment")"
 #install+=" $( list login_sc[@] "$login_screen")"
 #login_manager=$(list login_sc[@] "$login_screen" | awk '{print $1}')
