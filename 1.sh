@@ -13,8 +13,10 @@ pacman -Sy git glibc --needed --noconfirm
 git clone --depth=1 https://github.com/ChrisTitusTech/ArchTitus.git
 cd ArchTitus
 sed -i '/xterm/d' pkg-files/pacman-pkgs.txt
-sed -i 's/formating/formatting/g' scripts/startup.sh
-if grep -q 'lsblk' "scripts/startup.sh" ; then
+startup_sh_file="scripts/startup.sh"
+#sed -i 's/formating/formatting/g' scripts/startup.sh
+sed -i 's/formating/formatting/g' $startup_sh_file
+if grep -q 'lsblk' $startup_sh_file ; then
 #if ! [[ grep 'lsblk' scripts/startup.sh ]]; then
 	sed -i '/^    after formatting your disk there is no way to get data back$/ { N; N; s/$/\n------------------------------------------------------------------------\n$(lsblk -n --output TYPE,KNAME,SIZE,LABEL)\n------------------------------------------------------------------------/ }' scripts/startup.sh
 fi
