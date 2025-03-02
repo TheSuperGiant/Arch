@@ -23,7 +23,8 @@ fi
 function_sh="https://raw.githubusercontent.com/TheSuperGiant/Arch/refs/heads/Arch/functions.sh"
 
 
-source <(curl -s -L "$function_sh" | sed 's/^alias \(.*\)="\(.*\)"$/\1() {\n  \2\n}/g')
+#source <(curl -s -L "$function_sh" | sed 's/^alias \(.*\)="\(.*\)"$/\1() {\n  \2\n}/g')
+source <(curl -s -L "$function_sh" | sed 's/^alias \(.*\)="\(.*\)"$/\1() {\n \2\n}/g')
 
 ssu
 
@@ -63,8 +64,6 @@ done
 #add_function mdrc "sudo mkdir -p \$1
 	#sudo chown \$USER:\$USER \$1"
 
-sudo pacman -Syu --noconfirm
-
 #----------maby to personal--------
 
 #Script_configfile_folder=$HOME/Scripts/config
@@ -81,38 +80,62 @@ if [ "$sudo_reboot" == "1" ]; then
 	add_sudo "$USER ALL=(ALL) NOPASSWD: /usr/bin/reboot, /usr/bin/shutdown, /usr/bin/poweroff"
 fi
 
-if [ -n "$StartScript" ]; then
-	md $HOME/Scripts
-	md ~/.config/autostart
+#if [ -n "$StartScript" ]; then
+	#md $HOME/Scripts
+	#md ~/.config/autostart
 	
-	startup_location="$HOME/Scripts/startup_script.sh"
+	#startup_location="$HOME/Scripts/startup_script.sh"
 	
-	if [ ! -f "$startup_location" ] || ! echo "$StartScript" | diff -q - "$startup_location" > /dev/null; then
-		echo -e "$StartScript" > $startup_location
-	fi
-	autostart_location="$HOME/.config/autostart/startup_script.desktop"
-	if [ ! -f $autostart_location ]; then
+	#if [ ! -f "$startup_location" ] || ! echo "$StartScript" | diff -q - "$startup_location" > /dev/null; then
+		#echo -e "$StartScript" > $startup_location
+	#fi
+	#autostart_location="$HOME/.config/autostart/startup_script.desktop"
+	#if [ ! -f $autostart_location ]; then
 		#sp?
-		echo "[Desktop Entry]
-Type=Application
-Exec=sudo $startup_script_file_location
-Hidden=false
-NoDisplay=false
-X-GNOME-Autostart-enabled=true
-Name=My Startup Script
-Comment=Runs my startup script at login" > $autostart_location
-	fi
+		#echo "[Desktop Entry]
+#Type=Application
+#Exec=sudo $startup_script_file_location
+#Hidden=false
+#NoDisplay=false
+#X-GNOME-Autostart-enabled=true
+#Name=My Startup Script
+#Comment=Runs my startup script at login" > $autostart_location
+	#fi
 
-	add_sudo "$USER ALL=(ALL) NOPASSWD: $HOME/Scripts/*"
+	#add_sudo "$USER ALL=(ALL) NOPASSWD: $HOME/Scripts/*"
 
-	chmod +x $startup_location
-fi
+	#chmod +x $startup_location
+#fi
+
+echo "------------------------------------"
+echo "|    Adding mounted partitions..    |"
+echo "------------------------------------"
 
 if [ -n "$add_device_labels" ]; then
 	for label in "${add_device_labels[@]}"; do
 		add_device_label $label
 	done
 fi
+
+echo "------------------------------------"
+echo "|    Moving personal folders...    |"
+echo "------------------------------------"
+
+if [ -n "$personal_folder_place" ]; then
+	for folders in Desktop Documents Downloads Music Pictures Public Templates Videos; do
+		if [ "$(eval echo \$personal_folder__$folders)" == "1" ]; then
+			echo 
+			folder+=" $folders"
+		fi
+	done
+	pf $personal_folder_place $folder
+fi
+
+echo "------------------------------------"
+echo "|         System update...         |"
+echo "------------------------------------"
+
+sudo pacman -Syu --noconfirm
 
 if [[ "$numlock_startup" == "on" || "$numlock_startup" == "off" ]]; then
 	add_lightdm e "[Seat:*]" "\[Seat:\*\]"
@@ -532,7 +555,6 @@ echo "------------------------------------"
 echo "|        Startup programs..        |"
 echo "------------------------------------"
 
-
 declare -a App_Startup___=(
 	"audacity:	audacity Application"
 	"biglybt:	biglybt Application"
@@ -592,6 +614,7 @@ for App_Startup in "${App_Startup___[@]}"; do
 	fi
 done
 
+
 #------------------
 #games
 	#indipendesies
@@ -616,5 +639,3 @@ done
 	#qemu
 
 http_check $2
-
-#sudo reboot

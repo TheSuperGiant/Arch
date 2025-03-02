@@ -100,12 +100,6 @@ bool() {
 	fi
 }
 alias dco="dconf dump /"
-hm() {
-	local path=/$1/$USER
-	md $path
-	sudo rsync -av /home/$USER/ $path
-	sudo diff -qr /home/$USER $path 2>/dev/null && echo yes || echo no
-}
 pa() {
 	sudo pacman -Syu --noconfirm
 	par $@
@@ -131,6 +125,144 @@ paru_clean() {
 	paru -Sc --noconfirm
 	rm -rf ~/.cache/paru/clone/*
 	rm -rf /home/$USER/.cache/paru/clone/*
+}
+pf() {
+	if [[ ! $1 == -help ]]; then
+		new_path="$1"
+		shift
+	fi
+	if [[ $# == 0 ]]; then
+		echo "doesn't give up folders to move or and new location."
+		return 1
+	fi
+	while [[ $# -gt 0 ]]; do
+        case "$1" in
+            -help)
+                echo "personal folders
+		
+moving to new location
+
+pf <path to new location> <personal folder(s)>
+pf <path to new location> <parameters>
+pf <path to new location> <personal folder(s)> <parameters>
+
+parameters folders
+	pf -d	Downloads
+	pf -e	Desktop
+	pf -m	Music
+	pf -o	Documents
+	pf -p	Pictures
+	pf -t	Templates
+	pf -u	Public
+	pf -v	Videos
+
+example:
+pf \mnt\Data Downloads Documents -v -t
+pf \mnt\Data Downloads"
+                return 1
+                ;;
+            -d)
+                local folders+=("Downloads")
+                shift
+                ;;
+            -e)
+                local folders+=("Desktop")
+                shift
+                ;;
+            -m)
+                local folders+=("Music")
+                shift
+                ;;
+            -o)
+                local folders+=("Documents")
+                shift
+                ;;
+            -p)
+                local folders+=("Pictures")
+                shift
+                ;;
+            -t)
+                local folders+=("Templates")
+                shift
+                ;;
+            -u)
+                local folders+=("Public")
+                shift
+                ;;
+            -v)
+                local folders+=("Videos")
+                shift
+                ;;
+            -*)
+                echo "Unknown option: $1"
+                return 1
+                ;;
+            *)
+				folder="${1,,}"; folder="${folder^}"
+				if [[ " $folder " =~ Downloads|Documents|Pictures|Videos|Music|Desktop|Public|Templates ]]; then
+					local folders+=("$folder")
+					shift
+				else
+					echo "Unknown Folder: $folder"
+					return 1
+				fi
+				;;
+        esac
+    done
+	mkdir -p "$new_path" 2>/dev/null
+	if ! [[ -d "$new_path" ]]; then
+		echo "personal data Folder cannot be created."
+		return 1
+	fi
+	declare -a old_location=(
+		"Downloads:		DOWNLOAD"
+		"Documents:		DOCUMENTS"
+		"Pictures:		PICTURES"
+		"Videos:		VIDEOS"
+		"Music:			MUSIC"
+		"Desktop:		DESKTOP"
+		"Public:		PUBLICSHARE"
+		"Templates:		TEMPLATES"
+	)
+	folders=($(printf "%s\n" "${folders[@]}" | awk '!seen[$0]++'))
+	for userfolder in "${folders[@]}"; do
+		echo $userfolder
+		old_location_dir=$(printf "%s\n" "${old_location[@]}" | grep "$userfolder" | awk -F':' '{print $2}' | sed -E 's/^[[:space:]]+//')
+		old_location_path=$(xdg-user-dir $old_location_dir)
+		new_path_userfolder="$new_path/$userfolder"
+		if [[ $(grep "^XDG_${old_location_dir}_DIR=" ~/.config/user-dirs.dirs | awk -F'=' '{print $2}' | sed 's/"//g') == "$new_path_userfolder" ]]; then
+			echo "$new_path_userfolder: is already set to this location"
+			echo "----------------"
+			continue
+		fi
+		local sync_error=0
+		while (( $sync_error < 3 )); do
+			sudo rsync -avuc $old_location_path $new_path
+			local error=0
+			while read line; do
+				if echo "$line" | grep "^Only in $old_location_path" > /dev/null; then
+					echo "yuuuuuuuup"
+					((sync_error++))
+					local error=1
+					break
+				elif echo "$line" | grep "differ" > /dev/null; then
+					if [[ "$(echo "$line" | grep -oP '/[^ ]+' | sed -n '2p')" != "$(ls -lt $(echo "$line" | grep -oP '/[^ ]+') | head -n 1 | grep -oP '/[^ ]+')" ]]; then
+						echo "Giant"
+						((sync_error++))
+						local error=1
+						break
+					fi
+				fi
+			done < <(sudo diff -qr $old_location_path $new_path_userfolder 2>/dev/null)
+			if [[ (( $error = 0 )) ]]; then
+				sudo sed -i "/^XDG_${old_location_dir}_DIR=/c\XDG_${old_location_dir}_DIR=\"$new_path_userfolder\"" ~/.config/user-dirs.dirs
+				rm -rf $old_location_path
+				sudo ln -sf $new_path_userfolder $old_location_path
+				break
+			fi 
+		done
+		echo "----------------"
+	done
 }
 sp() {
 	while [[ $# -gt 0 ]]; do
