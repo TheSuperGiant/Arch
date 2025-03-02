@@ -241,13 +241,11 @@ pf \mnt\Data Downloads"
 			local error=0
 			while read line; do
 				if echo "$line" | grep "^Only in $old_location_path" > /dev/null; then
-					echo "yuuuuuuuup"
 					((sync_error++))
 					local error=1
 					break
 				elif echo "$line" | grep "differ" > /dev/null; then
 					if [[ "$(echo "$line" | grep -oP '/[^ ]+' | sed -n '2p')" != "$(ls -lt $(echo "$line" | grep -oP '/[^ ]+') | head -n 1 | grep -oP '/[^ ]+')" ]]; then
-						echo "Giant"
 						((sync_error++))
 						local error=1
 						break
