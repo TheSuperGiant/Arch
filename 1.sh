@@ -4,7 +4,9 @@
 # By using this script, you acknowledge that you do so at your own risk.
 # I am not responsible for any damage, data loss, or other issues that may result from the use of this script.
  
-setleds +num < /dev/tty1
+if [[ "$numlock_startup" == "on" ]]; then
+	setleds +num < /dev/tty1
+fi
 
 pacman-key --init
 pacman-key --populate archlinux
