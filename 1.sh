@@ -7,7 +7,8 @@
 source <(curl -s -L $1)
 
 if [[ "$numlock_startup" == "on" ]]; then
-	setleds +num < /dev/tty1
+	#setleds +num < /dev/tty1
+	setleds +num < $(tty)
 fi
 
 pacman-key --init
