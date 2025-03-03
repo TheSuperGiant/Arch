@@ -23,7 +23,7 @@ sed -i 's/"|"$3//g' $startup_sh_file
 sed -i 's/formating/formatting/g' $startup_sh_file
 if ! grep '^\$(lsblk' $startup_sh_file ; then
 	#sed -i '/^    after formatting your disk there is no way to get data back$/ { N; N; s/$/\n------------------------------------------------------------------------\n$(lsblk -n --output TYPE,KNAME,SIZE,LABEL)\n------------------------------------------------------------------------/ }' $startup_sh_file
-	sed -i '/^    after formatting your disk there is no way to get data back$/ { N; N; s/$/\n------------------------------------------------------------------------\n$(lsblk -o NAME,TYPE,SIZE | awk '\''$2 ~ /^(disk|part)$/\'')\n------------------------------------------------------------------------/ }' $startup_sh_file
+	sed -i '/^    after formatting your disk there is no way to get data back$/ { N; N; s/$/\n------------------------------------------------------------------------\n$(lsblk -o NAME,TYPE,SIZE | awk $2 ~ /^(disk|part)$/\)\n------------------------------------------------------------------------/ }' $startup_sh_file
 fi
 chmod +x archtitus.sh
 ./archtitus.sh
