@@ -21,16 +21,9 @@ sed -i '/xterm/d' pkg-files/pacman-pkgs.txt
 startup_sh_file="scripts/startup.sh"
 sed -i 's/"|"$3//g' $startup_sh_file
 sed -i 's/formating/formatting/g' $startup_sh_file
-if ! grep '^\$(lsblk' $startup_sh_file ; then
-	#sed -i '/^    after formatting your disk there is no way to get data back$/ { N; N; s/$/\n------------------------------------------------------------------------\n$(lsblk -n --output TYPE,KNAME,SIZE,LABEL)\n------------------------------------------------------------------------/ }' $startup_sh_file
-	#sed -i '/^    after formatting your disk there is no way to get data back$/ { N; N; s/$/\n------------------------------------------------------------------------\n$(lsblk -o NAME,TYPE,SIZE,LABEL -n)\n------------------------------------------------------------------------/ }' $startup_sh_file
+#if ! grep '^\$(lsblk' $startup_sh_file ; then
+if ! grep '^\$(lsblk' $startup_sh_file; then
 	sed -i '/^    after formatting your disk there is no way to get data back$/ { N; N; s/$/\n------------------------------------------------------------------------\n$(lsblk -o NAME,TYPE,SIZE,LABEL -n | grep -E "^(.*) (disk|part) (.*)$")\n------------------------------------------------------------------------/ }' $startup_sh_file
-	#sed -i "/^    after formatting your disk there is no way to get data back$/ { N; N; s/$/\n------------------------------------------------------------------------\n$(lsblk -n --output TYPE,KNAME,SIZE,LABEL)\n------------------------------------------------------------------------/ }" $startup_sh_file
-	#sed -i '/^    after formatting your disk there is no way to get data back$/ { N; N; s/$/\n------------------------------------------------------------------------\n$(lsblk -o NAME,TYPE,SIZE,LABEL -n | awk '$2 ~ /^(disk|part)$/')\n------------------------------------------------------------------------/ }' $startup_sh_file
-	#output_lsblk="lsblk -o NAME,TYPE,SIZE,LABEL -n | awk '$2 ~ /^(disk|part)$/'"
-	#sed -i $('/^    after formatting your disk there is no way to get data back$/ { N; N; s/$/\n------------------------------------------------------------------------\n$('"$output_lsblk"')\n------------------------------------------------------------------------/ }') $startup_sh_file
-	#sed -i '/^    after formatting your disk there is no way to get data back$/ { N; N; s/$/\n------------------------------------------------------------------------\n$(lsblk -o NAME,TYPE,SIZE,LABEL -n | awk '$2 ~ /^(disk|part)$/')\n------------------------------------------------------------------------/ }' $startup_sh_file
-	#sed -i "/^    after formatting your disk there is no way to get data back$/ { N; N; s/\$/\n------------------------------------------------------------------------\n\$(lsblk -o NAME,TYPE,SIZE | awk '\$2 ~ /^(disk|part)$/')\n------------------------------------------------------------------------/ }" startup.sh
 fi
 chmod +x archtitus.sh
 ./archtitus.sh
