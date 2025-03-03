@@ -19,7 +19,7 @@ git clone --depth=1 https://github.com/ChrisTitusTech/ArchTitus.git
 cd ArchTitus
 sed -i '/xterm/d' pkg-files/pacman-pkgs.txt
 startup_sh_file="scripts/startup.sh"
-sed -i 's/|"$3//g' $startup_sh_file
+sed -i 's/"|"$3//g' $startup_sh_file
 sed -i 's/formating/formatting/g' $startup_sh_file
 if ! grep '^\$(lsblk' $startup_sh_file ; then
 	sed -i '/^    after formatting your disk there is no way to get data back$/ { N; N; s/$/\n------------------------------------------------------------------------\n$(lsblk -n --output TYPE,KNAME,SIZE,LABEL)\n------------------------------------------------------------------------/ }' $startup_sh_file
