@@ -16,7 +16,8 @@ sed -i '/xterm/d' pkg-files/pacman-pkgs.txt
 startup_sh_file="scripts/startup.sh"
 #sed -i 's/formating/formatting/g' scripts/startup.sh
 sed -i 's/formating/formatting/g' $startup_sh_file
-if grep -q 'lsblk' $startup_sh_file ; then
+#if grep -q 'lsblk' $startup_sh_file ; then
+if ! grep -F '$(lsblk' $startup_sh_file ; then
 #if ! [[ grep 'lsblk' scripts/startup.sh ]]; then
 	sed -i '/^    after formatting your disk there is no way to get data back$/ { N; N; s/$/\n------------------------------------------------------------------------\n$(lsblk -n --output TYPE,KNAME,SIZE,LABEL)\n------------------------------------------------------------------------/ }' scripts/startup.sh
 fi
