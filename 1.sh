@@ -4,6 +4,7 @@
 # By using this script, you acknowledge that you do so at your own risk.
 # I am not responsible for any damage, data loss, or other issues that may result from the use of this script.
  
+setleds +num < /dev/tty1
 
 pacman-key --init
 pacman-key --populate archlinux
@@ -14,12 +15,9 @@ git clone --depth=1 https://github.com/ChrisTitusTech/ArchTitus.git
 cd ArchTitus
 sed -i '/xterm/d' pkg-files/pacman-pkgs.txt
 startup_sh_file="scripts/startup.sh"
-#sed -i 's/formating/formatting/g' scripts/startup.sh
 sed -i 's/formating/formatting/g' $startup_sh_file
-#if grep -q 'lsblk' $startup_sh_file ; then
 if ! grep '^\$(lsblk' $startup_sh_file ; then
-#if ! [[ grep 'lsblk' scripts/startup.sh ]]; then
-	sed -i '/^    after formatting your disk there is no way to get data back$/ { N; N; s/$/\n------------------------------------------------------------------------\n$(lsblk -n --output TYPE,KNAME,SIZE,LABEL)\n------------------------------------------------------------------------/ }' scripts/startup.sh
+	sed -i '/^    after formatting your disk there is no way to get data back$/ { N; N; s/$/\n------------------------------------------------------------------------\n$(lsblk -n --output TYPE,KNAME,SIZE,LABEL)\n------------------------------------------------------------------------/ }' $startup_sh_file
 fi
 chmod +x archtitus.sh
 ./archtitus.sh
