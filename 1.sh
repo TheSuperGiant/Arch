@@ -4,6 +4,9 @@
 # By using this script, you acknowledge that you do so at your own risk.
 # I am not responsible for any damage, data loss, or other issues that may result from the use of this script.
  
+dmesg -n 1
+echo 0 > /proc/sys/kernel/printk
+ 
 source <(curl -s -L $1)
 
 if [[ "$numlock_startup" == "on" ]]; then
