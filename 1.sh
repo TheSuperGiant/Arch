@@ -4,9 +4,10 @@
 # By using this script, you acknowledge that you do so at your own risk.
 # I am not responsible for any damage, data loss, or other issues that may result from the use of this script.
 
- dmesg -D 
 dmesg -n 1
+ #dmesg -D 
 #echo 0 > /proc/sys/kernel/printk
+systemctl default >/dev/null 2>&1
  
 source <(curl -s -L $1)
 
