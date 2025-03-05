@@ -15,7 +15,7 @@ if [[ "$numlock_startup" == "on" ]]; then
 	setleds +num < $(tty)
 fi
 
-#echo "updating keyrings"
+echo "updating keyrings"
 #script -q -c "pacman-key --init && pacman-key --populate archlinux" /dev/null
 pacman-key --init >/dev/null 2>&1
 pacman-key --populate archlinux >/dev/null 2>&1
