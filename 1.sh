@@ -3,7 +3,8 @@
 # This script is provided as-is, without any warranty or guarantee.
 # By using this script, you acknowledge that you do so at your own risk.
 # I am not responsible for any damage, data loss, or other issues that may result from the use of this script.
- 
+
+ dmesg -D 
 dmesg -n 1
 #echo 0 > /proc/sys/kernel/printk
  
@@ -13,10 +14,10 @@ if [[ "$numlock_startup" == "on" ]]; then
 	setleds +num < $(tty)
 fi
 
-echo "updating keyrings"
-script -q -c "pacman-key --init && pacman-key --populate archlinux" /dev/null
-#pacman-key --init
-#pacman-key --populate archlinux
+#echo "updating keyrings"
+#script -q -c "pacman-key --init && pacman-key --populate archlinux" /dev/null
+pacman-key --init
+pacman-key --populate archlinux
 pacman -Sy git glibc --needed --noconfirm
 
 #All credits to christitus.com for creating archtitus.
