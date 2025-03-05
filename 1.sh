@@ -16,8 +16,10 @@ fi
 
 #echo "updating keyrings"
 #script -q -c "pacman-key --init && pacman-key --populate archlinux" /dev/null
-pacman-key --init
-pacman-key --populate archlinux
+pacman-key --init >/dev/null 2>&1
+pacman-key --populate archlinux >/dev/null 2>&1
+#pacman-key --init
+#pacman-key --populate archlinux
 pacman -Sy git glibc --needed --noconfirm
 
 #All credits to christitus.com for creating archtitus.
