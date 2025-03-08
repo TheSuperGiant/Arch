@@ -111,21 +111,21 @@ par() {
 				local PGP_signature_error=1
 			elif echo "$line1" | grep -q ":: keys need to be imported:"; then
 				gpg_key=$(echo "$line2" | awk '{print $1}')
-				local gpg_recv_keys=1
+				local gpg_key_error=1
 			fi
 		done < <(paru -S $@ | tee /dev/tty)
 		if [[ $PGP_signature_error == 1 ]]; then
 			sudo pacman -Sy archlinux-keyring --noconfirm
 			sudo pacman-key --populate archlinux
 			sudo pacman-key --refresh-keys --keyserver hkps://keyserver.ubuntu.com
-		elif [[ $gpg_recv_keys == 1 ]]; then
+		elif [[ $gpg_key_error == 1 ]]; then
 			gpg --keyserver keyserver.ubuntu.com --recv-keys $gpg_key
 			gpg --keyserver hkps://keys.openpgp.org --recv-keys $gpg_key
 		else
 			break
 		fi
 		local PGP_signature_error=0
-		local gpg_recv_keys=0
+		local gpg_key_error=0
 	done
 }
 paru_clean() {
