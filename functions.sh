@@ -106,19 +106,26 @@ pa() {
 }
 par() {
 	while true; do
-		while read line; do
-			if echo "$line" | grep -q "invalid or corrupted.*(PGP signature)"; then
+		while IFS= read -r line1 && IFS= read -r line2; do
+			if echo "$line1" | grep -q "invalid or corrupted.*(PGP signature)"; then
 				local PGP_signature_error=1
+			elif echo "$line1" | grep -q ":: keys need to be imported:"; then
+				gpg_key=$(echo "$line2" | awk '{print $1}')
+				local gpg_recv_keys=1
 			fi
 		done < <(paru -S $@ | tee /dev/tty)
 		if [[ $PGP_signature_error == 1 ]]; then
 			sudo pacman -Sy archlinux-keyring --noconfirm
 			sudo pacman-key --populate archlinux
 			sudo pacman-key --refresh-keys --keyserver hkps://keyserver.ubuntu.com
+		elif [[ $gpg_recv_keys == 1 ]]; then
+			gpg --keyserver keyserver.ubuntu.com --recv-keys $gpg_key
+			gpg --keyserver hkps://keys.openpgp.org --recv-keys $gpg_key
 		else
 			break
 		fi
 		local PGP_signature_error=0
+		local gpg_recv_keys=0
 	done
 }
 paru_clean() {
@@ -232,7 +239,7 @@ pf \mnt\Data Downloads"
 		new_path_userfolder="$new_path/$userfolder"
 		if [[ $(grep "^XDG_${old_location_dir}_DIR=" ~/.config/user-dirs.dirs | awk -F'=' '{print $2}' | sed 's/"//g') == "$new_path_userfolder" ]]; then
 			echo "$new_path_userfolder: is already set to this location"
-			echo "----------------"
+			echo "------------------------------------"
 			continue
 		fi
 		local sync_error=0
@@ -259,7 +266,7 @@ pf \mnt\Data Downloads"
 				break
 			fi 
 		done
-		echo "----------------"
+		echo "------------------------------------"
 	done
 }
 sp() {

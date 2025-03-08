@@ -23,12 +23,9 @@ fi
 function_sh="https://raw.githubusercontent.com/TheSuperGiant/Arch/refs/heads/Arch/functions.sh"
 
 
-#source <(curl -s -L "$function_sh" | sed 's/^alias \(.*\)="\(.*\)"$/\1() {\n  \2\n}/g')
 source <(curl -s -L "$function_sh" | sed 's/^alias \(.*\)="\(.*\)"$/\1() {\n \2\n}/g')
 
 ssu
-
-sudo rm -f /etc/xdg/autostart/firstboot.desktop
 
 if [[ $DNS_Quad9 == 1 ]]; then
 	add_dns 9.9.9.9 149.112.112.112 2620:fe::fe 2620:fe::9 $adding_dns
@@ -79,33 +76,6 @@ done
 if [ "$sudo_reboot" == "1" ]; then
 	add_sudo "$USER ALL=(ALL) NOPASSWD: /usr/bin/reboot, /usr/bin/shutdown, /usr/bin/poweroff"
 fi
-
-#if [ -n "$StartScript" ]; then
-	#md $HOME/Scripts
-	#md ~/.config/autostart
-	
-	#startup_location="$HOME/Scripts/startup_script.sh"
-	
-	#if [ ! -f "$startup_location" ] || ! echo "$StartScript" | diff -q - "$startup_location" > /dev/null; then
-		#echo -e "$StartScript" > $startup_location
-	#fi
-	#autostart_location="$HOME/.config/autostart/startup_script.desktop"
-	#if [ ! -f $autostart_location ]; then
-		#sp?
-		#echo "[Desktop Entry]
-#Type=Application
-#Exec=sudo $startup_script_file_location
-#Hidden=false
-#NoDisplay=false
-#X-GNOME-Autostart-enabled=true
-#Name=My Startup Script
-#Comment=Runs my startup script at login" > $autostart_location
-	#fi
-
-	#add_sudo "$USER ALL=(ALL) NOPASSWD: $HOME/Scripts/*"
-
-	#chmod +x $startup_location
-#fi
 
 echo "------------------------------------"
 echo "|    Adding mounted partitions..    |"
@@ -576,6 +546,7 @@ declare -a App_Startup___=(
 	"mega:	megasync Application"
 	"minecraft_launcher:	minecraft-launcher Application"
 	"mpv_Media_player:	mpv Application"
+	"mullvad_browser:	mullvad-browser Application"
 	"nautilus:	nautilus Application"
 	"nemo:	nemo Application"
 	"notepadqq:	notepadqq Application"
@@ -614,6 +585,39 @@ for App_Startup in "${App_Startup___[@]}"; do
 	fi
 done
 
+#startup script download to $HOME/Scripts
+#md $HOME/Scripts
+#sp ... -t -d
+#Exec=bash -c "nm-online -q && sleep 1 && bash <(curl -fsSL $2); exec bash"
+
+#if [ -n "$StartScript" ]; then
+	#md $HOME/Scripts
+	#md ~/.config/autostart
+	
+	#startup_location="$HOME/Scripts/startup_script.sh"
+	
+	#if [ ! -f "$startup_location" ] || ! echo "$StartScript" | diff -q - "$startup_location" > /dev/null; then
+		#echo -e "$StartScript" > $startup_location
+	#fi
+	#autostart_location="$HOME/.config/autostart/startup_script.desktop"
+	#if [ ! -f $autostart_location ]; then
+		#sp?
+		#echo "[Desktop Entry]
+#Type=Application
+#Exec=sudo $startup_script_file_location
+#Hidden=false
+#NoDisplay=false
+#X-GNOME-Autostart-enabled=true
+#Name=My Startup Script
+#Comment=Runs my startup script at login" > $autostart_location
+	#fi
+
+	#add_sudo "$USER ALL=(ALL) NOPASSWD: $HOME/Scripts/*"
+
+	#chmod +x $startup_location
+#fi
+
+#------------------------------------
 
 #------------------
 #games
@@ -639,3 +643,5 @@ done
 	#qemu
 
 http_check $2
+
+sudo rm -f /etc/xdg/autostart/firstboot.desktop
