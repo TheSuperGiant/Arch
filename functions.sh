@@ -5,8 +5,6 @@
 # I am not responsible for any damage, data loss, or other issues that may result from the use of this script.
 
 
-#LIGHTDM_CONF="/etc/lightdm/lightdm.conf"
-
 add_alias() {
 	if ! grep -q "^alias $1=" ~/.bashrc; then
 		code="alias $1=\"$2\""
@@ -15,16 +13,21 @@ add_alias() {
 	fi
 }
 add_device_label() {
-	if ! sudo grep -q "^LABEL=$1 " /etc/fstab; then
-		fs_type=$(lsblk -o NAME,LABEL,FSTYPE | grep -w $1 | awk '{print $3}')
-		if [ -n "$fs_type" ]; then
-			mountpoint="/mnt/$1"
-			sudo bash -c "echo \"LABEL=$1 $mountpoint $fs_type defaults,nofail 0 2\" >> /etc/fstab"
-			sudo mkdir -p $mountpoint
-			sudo chown $USER:$USER $mountpoint
-			sudo mount -a >/dev/null 2>&1
+	for devices in "$@"; do
+		if ! sudo grep -q "^LABEL=$devices " /etc/fstab; then
+			fs_type=$(lsblk -o NAME,LABEL,FSTYPE | grep -w $devices | awk '{print $3}')
+			if [ -n "$fs_type" ]; then
+				mountpoint="/mnt/$devices"
+				sudo bash -c "echo \"LABEL=$devices $mountpoint $fs_type defaults,nofail 0 2\" >> /etc/fstab"
+				sudo mkdir -p $mountpoint
+				sudo chown $USER:$USER $mountpoint
+				#local device_added=1
+			fi
 		fi
-	fi
+	done
+	#if [[ $device_added == 1 ]]; then
+		sudo mount -a >/dev/null 2>&1
+	#fi
 }
 add_dns() {
 	sudo chattr -i /etc/resolv.conf
@@ -274,6 +277,8 @@ sp() {
         case "$1" in
             -help)
                 echo "startup personal
+				
+Creating program startup for this user.
 
 arguments
 	Filename Type Execution

@@ -78,13 +78,13 @@ if [ "$sudo_reboot" == "1" ]; then
 fi
 
 echo "------------------------------------"
-echo "|    Adding mounted partitions..    |"
+echo "|   Adding mounted partitions...   |"
 echo "------------------------------------"
 
 if [ -n "$add_device_labels" ]; then
-	for label in "${add_device_labels[@]}"; do
+	#for label in "${add_device_labels[@]}"; do
 		add_device_label $label
-	done
+	#done
 fi
 
 echo "------------------------------------"
@@ -637,7 +637,7 @@ done
 
 
 #testing by hand
-	#paru -S --noconfirm nvidia
+	#paru -S --noconfirm nvidia #already installing it in pre install with archtitus.
 
 #later	
 	#qemu

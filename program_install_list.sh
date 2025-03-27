@@ -35,6 +35,7 @@ declare -a App_Install__=(
 	"mousepad:				mousepad"
 	"minecraft_launcher:	minecraft-launcher"
 	"mpv_Media_player:		mpv"
+	"mullvad_browser:		mullvad-browser-bin"
 	"nautilus:				nautilus"
 	"nomacs:				nomacs"
 	"notepadqq:				notepadqq"
