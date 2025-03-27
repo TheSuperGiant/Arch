@@ -84,7 +84,8 @@ echo "------------------------------------"
 if [ -n "$add_device_labels" ]; then
 	#for label in "${add_device_labels[@]}"; do
 		#add_device_label $label
-		add_device_label $add_device_labels
+		#add_device_label $add_device_labels
+		add_device_label ${add_device_labels[@]}
 	#done
 fi
 
