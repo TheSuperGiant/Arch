@@ -21,13 +21,13 @@ add_device_label() {
 				sudo bash -c "echo \"LABEL=$devices $mountpoint $fs_type defaults,nofail 0 2\" >> /etc/fstab"
 				sudo mkdir -p $mountpoint
 				sudo chown $USER:$USER $mountpoint
-				#local device_added=1
+				local device_added=1
 			fi
 		fi
 	done
-	#if [[ $device_added == 1 ]]; then
+	if [[ $device_added == 1 ]]; then
 		sudo mount -a >/dev/null 2>&1
-	#fi
+	fi
 }
 add_dns() {
 	sudo chattr -i /etc/resolv.conf
@@ -101,6 +101,9 @@ bool() {
 	else
 		echo "false"
 	fi
+}
+Clean_Folder() {
+	find $1/* -mtime $2 -exec rm -f {} \; && find -L "$1" -type d -empty -delete
 }
 alias dco="dconf dump /"
 pa() {
