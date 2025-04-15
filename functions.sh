@@ -140,18 +140,8 @@ paru_clean() {
 	rm -rf /home/$USER/.cache/paru/clone/*
 }
 pf() {
-	if [[ ! $1 == -help ]]; then
-		new_path="$1"
-		shift
-	fi
-	if [[ $# == 0 ]]; then
-		echo "doesn't give up folders to move or and new location."
-		return 1
-	fi
-	while [[ $# -gt 0 ]]; do
-        case "$1" in
-            -help)
-                echo "personal folders
+	if [[ $# == 0 || $1 =~ -h|-help|--help ]]; then
+		echo "personal folders
 		
 moving to new location
 
@@ -172,8 +162,13 @@ parameters folders
 example:
 pf \mnt\Data Downloads Documents -v -t
 pf \mnt\Data Downloads"
-                return 1
-                ;;
+		return
+	else
+		new_path="$1"
+		shift
+	fi
+	while [[ $# -gt 0 ]]; do
+        case "$1" in
             -d)
                 local folders+=("Downloads")
                 shift
@@ -208,7 +203,7 @@ pf \mnt\Data Downloads"
                 ;;
             -*)
                 echo "Unknown option: $1"
-                return 1
+                return
                 ;;
             *)
 				folder="${1,,}"; folder="${folder^}"
@@ -217,7 +212,7 @@ pf \mnt\Data Downloads"
 					shift
 				else
 					echo "Unknown Folder: $folder"
-					return 1
+					return
 				fi
 				;;
         esac
@@ -225,7 +220,7 @@ pf \mnt\Data Downloads"
 	mkdir -p "$new_path" 2>/dev/null
 	if ! [[ -d "$new_path" ]]; then
 		echo "personal data Folder cannot be created."
-		return 1
+		return
 	fi
 	declare -a old_location=(
 		"Downloads:		DOWNLOAD"
@@ -276,12 +271,13 @@ pf \mnt\Data Downloads"
 	done
 }
 sp() {
-	while [[ $# -gt 0 ]]; do
-        case "$1" in
-            -help)
-                echo "startup personal
+	local ShowIn="Budgie;Deepin;Enlightenment;GNOME;KDE;LXDE;LXQt;MATE;Old;Pantheon;ROX;Sugar;TDE;Unity;X-Cinnamon;XFCE;"
+	help_text() {
+		echo "startup personal
 				
 Creating program startup for this user.
+
+Usage:	sp [arguments] [parameters]
 
 arguments
 	Filename Type Execution
@@ -293,122 +289,160 @@ arguments
 	Application, Link, or Directory
 
 parameters (optional)
-	sp -a 	autostart disabled
-	sp -d 	invisble - possible to run visible applications
-	sp -n	invisble - not possible to run visible applications 
-	sp -t	terminal - run in terminal
-	sp -s	startup animation
-	sp -b	if supports DBus activation
-	sp -e	[text]	explorer name
-	sp -c	[text]	comment
-	sp -h	[text]	hoverover name - (work in some environments)
-	sp -o	[text]	only show in specifies desktop environments
-	sp -x	[text]	not show in specifies desktop environments
-	sp -y	[text]	supported file types (MimeTypes)
-	sp -m	[text]	window menu class
-	sp -g	[text]	categories start menu
-	sp -k	[text]	search keywords
-	sp -i	[path]	icon
-	sp -w	[path]	working directory
-	sp -r	[path]	program path - (only show in menu when program exists)
+    -a --Autostart		autostart disabled
+    -d --NoDisplay		invisble - possible to run visible applications
+    -e --Hidden			invisble - not possible to run visible applications 
+    -t --Terminal		run in a visual terminal
+    -s --StartupNotify		startup animation
+    -b --DBusActivatable	if supports DBus activation
+    -D --Delay			[text] autostartdelay (seconds, digits only)
+    -n --Name			[text]	explorer name
+    -c --Comment		[text]	comment
+    -H --GenericName		[text]	hoverover name - (work in some environments)
+    -o --OnlyShowIn		[text]	only show in specifies desktop environments {$ShowIn}
+    -x --NotShowIn		[text]	not show in specifies desktop environments {$ShowIn}
+    -y --MimeType		[text]	supported file types (MimeTypes) common one {text/plain;text/html;text/css;image/png;image/jpeg;image/gif;audio/mpeg;audio/ogg;video/mp4;video/webm;application/pdf;application/zip;application/x-tar;application/json;application/xml;}
+    -m --StartupWMClass		[text]	window menu class
+    -g --Categories		[text]	categories start menu
+    -k --Keywords		[text]	search keywords
+    -i --Icon			[path]	icon
+    -w --Path			[path]	working directory
+    -r --TryExec		[path]	program path - (only show in menu when program exists)
 	
 Translations
-	Translations codes can be:
-	af am an ar as ast be bn br bs ca cs cy da de de_AT de_CH el en en_GB en_US eo es es_AR es_CO et eu fa fi fo fr fr_BE fr_CA ga gl gu he hi hr hu hy id is it ja jv ka kk km kn ko ky la lb lo lt lv mk ml mr ms mt nb ne nl nn oc pl ps pt pt_BR qu ro ru rw se si sk sl sq sr sv sw ta te th tl tr uk uz vi wa xh yi zh zh_CN zh_TW zu
+    Translations codes can be:
+    af am an ar as ast be bn br bs ca cs cy da de de_AT de_CH el en en_GB en_US eo es es_AR es_CO et eu fa fi fo fr fr_BE fr_CA ga gl gu he hi hr hu hy id is it ja jv ka kk km kn ko ky la lb lo lt lv mk ml mr ms mt nb ne nl nn oc pl ps pt pt_BR qu ro ru rw se si sk sl sq sr sv sw ta te th tl tr uk uz vi wa xh yi zh zh_CN zh_TW zu
 
 parameters (optional)
-	sp -Name[*]	[text]	explorer name (translations)
-	sp -Comment[*]	[text]	comment (translations)
+    -Name[*]	[text]	explorer name (translations)
+    -Comment[*]	[text]	comment (translations)
 
 example:
-sp filename application \"execution command\" -a -b -d -n -e -s -t \"explorer name\" -c \"comment\" -i \"/path/to/icon/\" -w \"/path/to/working/directory/\" -h \"hoverover name\" -r \"/path/to/program/\" -o \"GNOME;KDE;\" -x \"GNOME;KDE;\" -m firefox -g \"Office;\" -y \"text/plain;image/png;\" -k \"browser;internet;\" -Name[it] \"avvio personale\" -Comment[id] \"Buat file aplikasi startup pribadi dengan mudah\"
+sp filename Application \"execution command\" -a -b -d -e -s -t -n \"explorer name\" -c \"comment\" -D \"25\" -i \"/path/to/icon/\" -w \"/path/to/working/directory/\" -H \"hoverover name\" -r \"/path/to/program/\" -o \"GNOME;KDE;\" -x \"GNOME;KDE;\" -m firefox -g \"Office;\" -y \"text/plain;image/png;\" -k \"browser;internet;\" -Name[it] \"avvio personale\" -Comment[id] \"Buat file aplikasi startup pribadi dengan mudah\"
 
-if you need an \" in startup file then you must use \\\"...\\\""
-                return 1
+if you need an \" in startup file then you must use \\\"...\\\"
+
+---------------------------------
+Removing startup file
+sp -R \"filename\"
+"
+	}
+	if [[ $# -eq 0 ]]; then
+		help_text
+		return
+	fi
+	valid_option() {
+		local VO_splits=(${2//;/ })
+		local VO_valid=(${3//;/ })
+		for VO_split in ${VO_splits[@]}; do
+			if ! [[ " ${VO_valid[@]} " == *" $VO_split "* ]]; then
+				echo -e "\n\nNo valid option for $1; the only valid options are: ($3)"
+				return 2
+			fi
+		done
+	}
+	local save_path="/etc/xdg/autostart"
+	while [[ $# -gt 0 ]]; do
+        case "$1" in
+            -h|-help|--help)
+                help_text
+                return
                 ;;
-            -a)
-                local a=1
+            -a|--Autostart)
+                local Autostart="Autostart-enabled=false\nX-GNOME-Autostart-enabled=false"
                 shift
                 ;;
-            -b)
-                local b=1
+            -b|--DBusActivatable)
+                local DBusActivatable="true"
                 shift
                 ;;
-            -c)
-                local c="$2"
+            -c|--Comment)
+                local Comment="$2"
                 shift 2
                 ;;
             -Comment\[*\])
-                local Comment+=("$1=$2\n")
+                [[ -n $comment ]] && comment+=$(echo "\n")
+				local comment+=$(echo "$1=$2")
                 shift 2
                 ;;
-            -d)
-                local d=1
+            -d|--NoDisplay)
+                local NoDisplay="NoDisplay=true"
                 shift
                 ;;
-            -e)
-                local e="$2"
+            -D|--Delay)
+                local Delay=$2
                 shift 2
                 ;;
-            -g)
-                local g="$2"
-                shift 2
-                ;;
-            -h)
-                local h="$2"
-                shift 2
-                ;;
-            -i)
-                local i="$2"
-                shift 2
-                ;;
-            -k)
-                local k="$2"
-                shift 2
-                ;;
-            -m)
-                local m="$2"
-                shift 2
-                ;;
-            -n)
-                local n=1
+            -e|--Hidden)
+                local Hidden="Hidden=true"
                 shift
+                ;;
+            -g|--Categories)
+                local Categories="$2"
+                shift 2
+                ;;
+            -H|--GenericName)
+                local GenericName="$2"
+                shift 2
+                ;;
+            -i|--Icon)
+                local Icon="$2"
+                shift 2
+                ;;
+            -k|--Keywords)
+                local Keywords="$2"
+                shift 2
+                ;;
+            -m|--StartupWMClass)
+                local StartupWMClass="$2"
+                shift 2
+                ;;
+            -n|--Name)
+                local Name="$2"
+                shift 2
                 ;;
             -Name\[*\])
-                local Name+=("$1=$2\n")
+				#valid_option "-Name[*]" $2 "" #the possible translation options
+				[[ -n $name ]] && name+=$(echo "\n")
+				local name+=$(echo "$1=$2")
                 shift 2
                 ;;
-            -o)
-                local o="$2"
+            -o|--OnlyShowIn)
+				valid_option $1 $2 $ShowIn; [[ $? -eq 2 ]] && return || local OnlyShowIn="$2"
                 shift 2
                 ;;
-            -r)
-                local r="$2"
+            -r|--TryExec)
+                local TryExec="$2"
                 shift 2
                 ;;
-            -s)
-                local s=1
+			-R|--Remove)
+				sudo rm -f "$save_path/$2.desktop"
+				echo "$2.desktop has been removed from the startup directory"
+                return
+                ;;
+            -s|--StartupNotify)
+                local StartupNotify="StartupNotify=true"
                 shift
                 ;;
-            -t)
-                local t=1
+            -t|--Terminal)
+                local Terminal="true"
                 shift
                 ;;
-            -w)
-                local w="$2"
+            -w|--Path)
+                local Path="$2"
                 shift 2
                 ;;
-            -x)
-                local x="$2"
+            -x|--NotShowIn)
+                valid_option $1 $2 $ShowIn; [[ $? -eq 2 ]] && return || local NotShowIn="$2"
                 shift 2
                 ;;
-            -y)
-                local y="$2"
+            -y|--MimeType)
+                local MimeType="$2"
                 shift 2
                 ;;
             -*)
                 echo "Unknown option: $1"
-                return 1
+                return
                 ;;
             *)
                 local info+=("$1")
@@ -416,30 +450,18 @@ if you need an \" in startup file then you must use \\\"...\\\""
                 ;;
         esac
     done
-	save_file="/etc/xdg/autostart/${info[0]}.desktop"
-	data=$(echo "[Desktop Entry]
+	valid_option "Type" ${info[1]} "Application;Link;Directory"; [[ $? -eq 2 ]] && return
+	save_file="$save_path/${info[0]}.desktop"
+	data=$(echo -e "[Desktop Entry]
 		Type=${info[1]}
-		Exec=${info[2]}
-		$( [[ "$n" == 1 ]] && echo "Hidden=true" )
-		$( [[ "$d" == 1 ]] && echo "NoDisplay=true" )
-		$( [[ "$a" == 1 ]] && echo "X-GNOME-Autostart-enabled=false" )
-		$( [[ "$t" == 1 ]] && echo "Terminal=true" )
-		$( [[ "$s" == 1 ]] && echo "StartupNotify=true" )
-		$( [[ "$b" == 1 ]] && echo "DBusActivatable=true" )
-		$( [[ -n $e ]] && echo "Name=$e" )
-		$( [[ -n $Name[@] ]] && echo -e ${Name[@]} | sed 's/-//' )
-		$( [[ -n $c ]] && echo "Comment=$c" )
-		$( [[ -n $Comment[@] ]] && echo -e ${Comment[@]} | sed 's/-//' )
-		$( [[ -n $i ]] && echo "Icon=$i" )
-		$( [[ -n $w ]] && echo "Path=$w" )
-		$( [[ -n $h ]] && echo "GenericName=$h" )
-		$( [[ -n $r ]] && echo "TryExec=$r" )
-		$( [[ -n $o ]] && echo "OnlyShowIn=$o" )
-		$( [[ -n $x ]] && echo "NotShowIn=$x" )
-		$( [[ -n $m ]] && echo "StartupWMClass=$m" )
-		$( [[ -n $g ]] && echo "Categories=$g" )
-		$( [[ -n $y ]] && echo "MimeType=$y" )
-		$( [[ -n $k ]] && echo "Keywords=$k" )" | sed 's/^[[:space:]]*//' | sed '/^$/d')
+		$( [[ -n $Delay ]] && echo "Exec=/bin/bash -c \"sleep $Delay; ${info[2]}\"" || echo "Exec=/bin/bash -c \"${info[2]}\"" )
+		$( for list in Autostart  Categories comment DBusActivatable GenericName Hidden Icon Keywords MimeType Name name NoDisplay OnlyShowIn NotShowIn Path StartupNotify StartupWMClass Terminal TryExec; do
+			if [[ ${!list} == *=* ]]; then
+				echo ${!list}
+			else
+				[[ -n ${!list} ]] && echo "$list=${!list}"
+			fi
+		done)" | sed 's/^[[:space:]]*//' | sed '/^$/d' | sed 's/^\([^=\[]*\)-/\1/')
 	if [[ "$(cat $save_file 2>/dev/null)" != "$data" ]]; then
 		sudo bash -c "cat << EOF | sed 's/^\t\+//' > $save_file
 		$data
@@ -450,6 +472,7 @@ EOF"
 	fi
 	echo "------------------------------------"
 }
+#start_s()
 ssu() {
 	sudo -v
 	while true; do
