@@ -85,7 +85,7 @@ Exec=/bin/bash -c "nm-online -q && sleep 1 && bash <(curl -fsSL $2); exec bash"
 Terminal=true
 EOF
 
-echo $username
+echo $USERNAME
 
 #echo "$USER ALL=(ALL) NOPASSWD: /dev/shm/2.sh" | sudo tee -a /mnt/etc/sudoers
 echo " ALL=(ALL) NOPASSWD: /dev/shm/2.sh" | sudo tee -a /mnt/etc/sudoers
