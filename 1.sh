@@ -77,26 +77,12 @@ arch-chroot /mnt /bin/bash <<EOF
 EOF
 	#systemctl enable $login_manager
 
-filename="${2##*/}"
-filename_location="/dev/shm/$filename"
-
 mkdir -p /mnt/etc/xdg/autostart
 cat << EOF > /mnt/etc/xdg/autostart/firstboot.desktop
 [Desktop Entry]
 Type=Application
-Exec=/bin/bash -c "nm-online -q && sleep 1 && curl -L $2 -o $filename_location && chmod +x "$filename_location" && sudo "$filename_location""
+Exec=/bin/bash -c "nm-online -q && sleep 1 && bash <(curl -fsSL $2); exec bash"
 Terminal=true
 EOF
-#Exec=/bin/bash -c "nm-online -q && sleep 1 && curl -L https://raw.githubusercontent.com/007BS/arch/refs/heads/Arch/run_main.sh -o $filename_location && chmod +x "$filename_location" && sudo "$filename_location""
-#Exec=/bin/bash -c "nm-online -q && sleep 1 && curl -L $2 -o $filename_location && bash "$filename_location"; exec bash"
 
-
-echo "1.$USERNAME"
-#Exec=/bin/bash -c "nm-online -q && sleep 1 && bash <(curl -fsSL $2); exec bash"
-echo $filename
-
-#echo "$USER ALL=(ALL) NOPASSWD: /dev/shm/2.sh" | sudo tee -a /mnt/etc/sudoers
-#echo "ALL ALL=(ALL) NOPASSWD: /dev/shm/$filename" | sudo tee -a /mnt/etc/sudoers
-echo "ALL ALL=(ALL) NOPASSWD: $filename_location" | sudo tee -a /mnt/etc/sudoers
-
-#reboot
+reboot
