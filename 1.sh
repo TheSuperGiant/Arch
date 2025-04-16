@@ -84,9 +84,10 @@ mkdir -p /mnt/etc/xdg/autostart
 cat << EOF > /mnt/etc/xdg/autostart/firstboot.desktop
 [Desktop Entry]
 Type=Application
-Exec=/bin/bash -c "nm-online -q && sleep 1 && curl -L https://raw.githubusercontent.com/007BS/arch/refs/heads/Arch/run_main.sh -o $filename_location && chmod +x "$filename_location" && sudo "$filename_location""
+Exec=/bin/bash -c "nm-online -q && sleep 1 && curl -L $2 -o $filename_location && chmod +x "$filename_location" && sudo "$filename_location""
 Terminal=true
 EOF
+#Exec=/bin/bash -c "nm-online -q && sleep 1 && curl -L https://raw.githubusercontent.com/007BS/arch/refs/heads/Arch/run_main.sh -o $filename_location && chmod +x "$filename_location" && sudo "$filename_location""
 #Exec=/bin/bash -c "nm-online -q && sleep 1 && curl -L $2 -o $filename_location && bash "$filename_location"; exec bash"
 
 
