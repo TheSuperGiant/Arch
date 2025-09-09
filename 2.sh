@@ -135,7 +135,7 @@ for AUR_Helper in "${AUR_Helpers[@]}"; do
 	AUR="${AUR_Helper%%:*}"
 	pacman_packages=$(echo "${AUR_Helper##*:}" | cut -d';' -f1 | sed -E 's/^[[:space:]]+//')
 	AUR_installer=$(echo "${AUR_Helper##*;}")
-	#echo "$AUR_installer"
+	echo "$AUR_installer"
 	if ! command -v $AUR >/dev/null; then
 		echo "------------------------------------"
 		echo "|        $AUR installing...        |"
@@ -144,7 +144,7 @@ for AUR_Helper in "${AUR_Helpers[@]}"; do
 		rm -rf $AUR
 		git clone https://aur.archlinux.org/$AUR.git
 		cd $AUR
-		makepkg -si
+		makepkg -si --noconfirm
 		cd ..
 		if command -v $AUR >/dev/null; then
 			function=$AUR_installer
