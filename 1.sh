@@ -48,7 +48,7 @@ chmod +x archtitus.sh
 
 
 
-source <(curl -s -L https://raw.githubusercontent.com/TheSuperGiant/Arch/refs/heads/Arch/program_install_list.sh)
+source <(curl -s -L https://raw.githubusercontent.com/TheSuperGiant/Arch/refs/heads/Stable/program_install_list.sh)
 
 list() {
 	local array=("${!1}")
