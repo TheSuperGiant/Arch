@@ -126,21 +126,21 @@ fi
 source <(curl -s -L https://raw.githubusercontent.com/TheSuperGiant/Arch/refs/heads/Stable/program_install_list.sh)
 
 declare -a AUR_Helpers=(
-	"paru:	base-devel rust git; par"
+	#"paru:	base-devel rust git; par"
 	"yay:	go; yay"
 	"test:	nothing"
 )
 
 for AUR_Helper in "${AUR_Helpers[@]}"; do
 	AUR="${AUR_Helper%%:*}"
-	echo "AUR_Helper"
+	echo "$AUR_Helper"
 	pacman_packages=$(echo "${AUR_Helper##*:}" | cut -d';' -f1 | sed -E 's/^[[:space:]]+//')
 	AUR_installer=$(echo "${AUR_Helper##*;}")
 	echo "$AUR"
 	echo "$pacman_packages"
 	echo "$AUR_installer"
-	echo "AUR_Helper"
-	"read -p \"Press [Enter] to continue...\""
+	echo "$AUR_Helper"
+	#read -p "Press [Enter] to continue..."
 	if ! command -v $AUR >/dev/null; then
 		echo "------------------------------------"
 		echo "|        $AUR installing...        |"
@@ -149,7 +149,7 @@ for AUR_Helper in "${AUR_Helpers[@]}"; do
 		rm -rf $AUR
 		git clone https://aur.archlinux.org/$AUR.git
 		cd $AUR
-		makepkg -si --noconfirm
+		#makepkg -si --noconfirm
 		cd ..
 		if command -v $AUR >/dev/null; then
 			function=$AUR_installer
@@ -160,6 +160,8 @@ for AUR_Helper in "${AUR_Helpers[@]}"; do
 		break
 	fi
 done
+echo "$function"
+read -p "Press [Enter] to continue..."
 #if ! command -v paru >/dev/null &&  ! command -v yay >/dev/null; then
 	#echo "yay installing"
 	#sudo pacman -S --needed go --noconfirm
@@ -170,7 +172,7 @@ done
 	#cd ..
 #fi
 
-pause
+#pause
 
 for app in "${App_Install__[@]}"; do
 	key="${app%%:*}"
