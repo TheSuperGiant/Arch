@@ -20,7 +20,7 @@ if [ "$linutil__christitus" == "1" ]; then
 	curl -fsSL https://christitus.com/linux | sh
 fi
 
-function_sh="https://raw.githubusercontent.com/TheSuperGiant/Arch/refs/heads/Arch/functions.sh"
+function_sh="https://raw.githubusercontent.com/TheSuperGiant/Arch/refs/heads/Stable/functions.sh"
 
 
 source <(curl -s -L "$function_sh" | sed 's/^alias \(.*\)="\(.*\)"$/\1() {\n \2\n}/g')
@@ -123,7 +123,7 @@ if [ "$App_Install__notepadPlusPlus" == "1" ]; then
 	App_Install__wine=1
 fi 
 
-source <(curl -s -L https://raw.githubusercontent.com/TheSuperGiant/Arch/refs/heads/Arch/program_install_list.sh)
+source <(curl -s -L https://raw.githubusercontent.com/TheSuperGiant/Arch/refs/heads/Stable/program_install_list.sh)
 
 for app in "${App_Install__[@]}"; do
 	key="${app%%:*}"
