@@ -126,14 +126,16 @@ fi
 source <(curl -s -L https://raw.githubusercontent.com/TheSuperGiant/Arch/refs/heads/Stable/program_install_list.sh)
 
 declare -a AUR_Helpers=(
-	"paru:	base-devel rust git"
-	"yay:	go"
+	"paru:	base-devel rust git; par"
+	"yay:	go; yay"
 	"test:	nothing"
 )
 
 for AUR_Helper in "${AUR_Helpers[@]}"; do
 	AUR="${AUR_Helper%%:*}"
-	pacman_packages="${AUR_Helper#*:}"
+	#pacman_packages="${AUR_Helper#*:}"
+	pacman_packages=$(echo "${AUR_Helper##*:}" | cut -d';' -f1 | sed -E 's/^[[:space:]]+//')
+	AUR_installer=$(echo "${Setting##*;}")
 	if ! command -v $AUR >/dev/null; then
 		echo "------------------------------------"
 		echo "|        $AUR installing...        |"
@@ -145,14 +147,14 @@ for AUR_Helper in "${AUR_Helpers[@]}"; do
 		makepkg -si
 		cd ..
 		if ! command -v $AUR >/dev/null; then
-			function=$AUR
+			function=$AUR_installer
 			break
 		fi
 	else
-		function="paru"
+		function=$AUR_installer
 		break
 	fi
-fi
+done
 #if ! command -v paru >/dev/null &&  ! command -v yay >/dev/null; then
 	#echo "yay installing"
 	#sudo pacman -S --needed go --noconfirm
