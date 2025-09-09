@@ -146,7 +146,7 @@ for AUR_Helper in "${AUR_Helpers[@]}"; do
 		#git clone https://aur.archlinux.org/$AUR.git
 		cd $AUR
 		makepkg -si
-		cd ..
+		#cd ..
 		if ! command -v $AUR >/dev/null; then
 			function=$AUR_installer
 			break
