@@ -125,7 +125,7 @@ fi
 
 source <(curl -s -L https://raw.githubusercontent.com/TheSuperGiant/Arch/refs/heads/Stable/program_install_list.sh)
 
-if declare -F paru >/dev/null; then
+if ! command -v paru >/dev/null; then
     echo "paru installing"
 	sudo pacman -S --needed base-devel rust git
 	rm -rf paru
@@ -133,7 +133,7 @@ if declare -F paru >/dev/null; then
 	makepkg -si
 	cd ..
 fi
-if declare -F paru >/dev/null && declare -F yay >/dev/null; then
+if ! command -v paru >/dev/null &&  ! command -v yay >/dev/null; then
 	echo "yay installing"
 	sudo pacman -S --needed go
 	rm -rf yay
