@@ -133,9 +133,14 @@ declare -a AUR_Helpers=(
 
 for AUR_Helper in "${AUR_Helpers[@]}"; do
 	AUR="${AUR_Helper%%:*}"
+	echo "AUR_Helper"
 	pacman_packages=$(echo "${AUR_Helper##*:}" | cut -d';' -f1 | sed -E 's/^[[:space:]]+//')
 	AUR_installer=$(echo "${AUR_Helper##*;}")
+	echo "$AUR"
+	echo "$pacman_packages"
 	echo "$AUR_installer"
+	echo "AUR_Helper"
+	"read -p \"Press [Enter] to continue...\""
 	if ! command -v $AUR >/dev/null; then
 		echo "------------------------------------"
 		echo "|        $AUR installing...        |"
