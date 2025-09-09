@@ -136,13 +136,14 @@ for AUR_Helper in "${AUR_Helpers[@]}"; do
 	#pacman_packages="${AUR_Helper#*:}"
 	pacman_packages=$(echo "${AUR_Helper##*:}" | cut -d';' -f1 | sed -E 's/^[[:space:]]+//')
 	AUR_installer=$(echo "${Setting##*;}")
+	echo "$AUR_installer"
 	if ! command -v $AUR >/dev/null; then
 		echo "------------------------------------"
 		echo "|        $AUR installing...        |"
 		echo "------------------------------------"
 		sudo pacman -S --needed $pacman_packages --noconfirm
 		rm -rf $AUR
-		git clone https://aur.archlinux.org/$AUR.git
+		#git clone https://aur.archlinux.org/$AUR.git
 		cd $AUR
 		makepkg -si
 		cd ..
