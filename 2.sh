@@ -147,7 +147,7 @@ for AUR_Helper in "${AUR_Helpers[@]}"; do
 		cd $AUR
 		makepkg -si
 		#cd ..
-		if ! command -v $AUR >/dev/null; then
+		if command -v $AUR >/dev/null; then
 			function=$AUR_installer
 			break
 		fi
