@@ -125,6 +125,26 @@ fi
 
 source <(curl -s -L https://raw.githubusercontent.com/TheSuperGiant/Arch/refs/heads/Stable/program_install_list.sh)
 
+if declare -F paru >/dev/null; then
+    echo "paru installing"
+	sudo pacman -S --needed base-devel rust git
+	rm -rf paru
+	cd paru
+	makepkg -si
+	cd ..
+fi
+if declare -F paru >/dev/null && declare -F yay >/dev/null; then
+	echo "yay installing"
+	sudo pacman -S --needed go
+	rm -rf yay
+	git clone https://aur.archlinux.org/yay.git
+	cd yay
+	makepkg -si
+	cd ..
+fi
+
+pause
+
 for app in "${App_Install__[@]}"; do
 	key="${app%%:*}"
 	if [ "$(eval echo \$App_Install__$key)" == "1" ]; then
