@@ -127,15 +127,18 @@ source <(curl -s -L https://raw.githubusercontent.com/TheSuperGiant/Arch/refs/he
 
 if ! command -v paru >/dev/null; then
     echo "paru installing"
-	sudo pacman -S --needed base-devel rust git
+	sudo pacman -S --needed base-devel rust git --noconfirm
 	rm -rf paru
+	git clone https://aur.archlinux.org/paru.git
 	cd paru
 	makepkg -si
 	cd ..
+else
+	function="paru"
 fi
 if ! command -v paru >/dev/null &&  ! command -v yay >/dev/null; then
 	echo "yay installing"
-	sudo pacman -S --needed go
+	sudo pacman -S --needed go --noconfirm
 	rm -rf yay
 	git clone https://aur.archlinux.org/yay.git
 	cd yay
