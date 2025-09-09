@@ -12,7 +12,13 @@ $([[ $(uname -m) == x86_64 ]] && echo 64-bit installer || echo 32-bit installer)
 
 "
 
-echo "updating keyrings"
+if dmesg | grep -qi "efi:"; then
+    echo "UEFI"
+else
+    echo "BIOS"
+fi
+
+echo -e "\n\nupdating keyrings"
 #disable RCU messeges output
 dmesg -n 1
 #disable [ ok ] output messages.
