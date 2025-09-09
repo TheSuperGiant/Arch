@@ -125,26 +125,43 @@ fi
 
 source <(curl -s -L https://raw.githubusercontent.com/TheSuperGiant/Arch/refs/heads/Stable/program_install_list.sh)
 
-if ! command -v paru >/dev/null; then
-    echo "paru installing"
-	sudo pacman -S --needed base-devel rust git --noconfirm
-	rm -rf paru
-	git clone https://aur.archlinux.org/paru.git
-	cd paru
-	makepkg -si
-	cd ..
-else
-	function="paru"
+declare -a AUR_Helpers=(
+	"paru:	base-devel rust git"
+	"yay:	go"
+	"test:	nothing"
+)
+
+for AUR_Helper in "${AUR_Helpers[@]}"; do
+	AUR="${AUR_Helper%%:*}"
+	pacman_packages="${AUR_Helper#*:}"
+	if ! command -v $AUR >/dev/null; then
+		echo "------------------------------------"
+		echo "|        $AUR installing...        |"
+		echo "------------------------------------"
+		sudo pacman -S --needed $pacman_packages --noconfirm
+		rm -rf $AUR
+		git clone https://aur.archlinux.org/$AUR.git
+		cd $AUR
+		makepkg -si
+		cd ..
+		if ! command -v $AUR >/dev/null; then
+			function=$AUR
+			break
+		fi
+	else
+		function="paru"
+		break
+	fi
 fi
-if ! command -v paru >/dev/null &&  ! command -v yay >/dev/null; then
-	echo "yay installing"
-	sudo pacman -S --needed go --noconfirm
-	rm -rf yay
-	git clone https://aur.archlinux.org/yay.git
-	cd yay
-	makepkg -si
-	cd ..
-fi
+#if ! command -v paru >/dev/null &&  ! command -v yay >/dev/null; then
+	#echo "yay installing"
+	#sudo pacman -S --needed go --noconfirm
+	#rm -rf yay
+	#git clone https://aur.archlinux.org/yay.git
+	#cd yay
+	#makepkg -si
+	#cd ..
+#fi
 
 pause
 
