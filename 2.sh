@@ -140,6 +140,7 @@ for AUR_Helper in "${AUR_Helpers[@]}"; do
 	echo "$pacman_packages"
 	echo "$AUR_installer"
 	echo "$AUR_Helper"
+	cd ~
 	#read -p "Press [Enter] to continue..."
 	if ! command -v $AUR >/dev/null; then
 		echo "------------------------------------"
@@ -148,9 +149,8 @@ for AUR_Helper in "${AUR_Helpers[@]}"; do
 		sudo pacman -S --needed $pacman_packages --noconfirm
 		rm -rf $AUR
 		git clone https://aur.archlinux.org/$AUR.git
-		cd $AUR
-		#makepkg -si --noconfirm
-		cd ..
+		cd ~/$AUR
+		makepkg -si --noconfirm
 		if command -v $AUR >/dev/null; then
 			function=$AUR_installer
 			break
@@ -160,6 +160,7 @@ for AUR_Helper in "${AUR_Helpers[@]}"; do
 		break
 	fi
 done
+cd ~
 echo "$function"
 read -p "Press [Enter] to continue..."
 #if ! command -v paru >/dev/null &&  ! command -v yay >/dev/null; then
