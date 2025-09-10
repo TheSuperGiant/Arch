@@ -128,18 +128,17 @@ source <(curl -s -L https://raw.githubusercontent.com/TheSuperGiant/Arch/refs/he
 declare -a AUR_Helpers=(
 	#"paru:	base-devel rust git; par"
 	"yay:	go; yay"
-	"test:	nothing"
 )
 
 for AUR_Helper in "${AUR_Helpers[@]}"; do
 	AUR="${AUR_Helper%%:*}"
-	echo "$AUR_Helper"
+	#echo "$AUR_Helper"
 	pacman_packages=$(echo "${AUR_Helper##*:}" | cut -d';' -f1 | sed -E 's/^[[:space:]]+//')
 	AUR_installer=$(echo "${AUR_Helper##*;}")
-	echo "$AUR"
-	echo "$pacman_packages"
+	#echo "$AUR"
+	#echo "$pacman_packages"
 	echo "$AUR_installer"
-	echo "$AUR_Helper"
+	#echo "$AUR_Helper"
 	cd ~
 	#read -p "Press [Enter] to continue..."
 	if ! command -v $AUR >/dev/null; then
@@ -161,8 +160,8 @@ for AUR_Helper in "${AUR_Helpers[@]}"; do
 	fi
 done
 cd ~
-echo "$function"
-read -p "Press [Enter] to continue..."
+#echo "$function"
+#read -p "Press [Enter] to continue..."
 #if ! command -v paru >/dev/null &&  ! command -v yay >/dev/null; then
 	#echo "yay installing"
 	#sudo pacman -S --needed go --noconfirm
@@ -179,7 +178,8 @@ for app in "${App_Install__[@]}"; do
 	key="${app%%:*}"
 	if [ "$(eval echo \$App_Install__$key)" == "1" ]; then
 		value=$(echo "${app##*:}" | sed -E 's/^[[:space:]]+//')
-		par --needed --noconfirm $value
+		#par --needed --noconfirm $value
+		$function --needed --noconfirm $value
 	fi
 done
 
