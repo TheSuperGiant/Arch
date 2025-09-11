@@ -21,9 +21,6 @@ fi
 echo -e "\n\nupdating keyrings"
 #disable RCU messeges output
 dmesg -n 1
-#disable [ ok ] output messages.
- #dmesg -D 
-#echo 0 > /proc/sys/kernel/printk
 systemctl default >/dev/null 2>&1
  
 source <(curl -s -L $1)
@@ -32,23 +29,13 @@ if [[ "$numlock_startup" == "on" ]]; then
 	setleds +num < $(tty)
 fi
 
-#script -q -c "pacman-key --init && pacman-key --populate archlinux" /dev/null
 pacman-key --init >/dev/null 2>&1
 pacman-key --populate archlinux >/dev/null 2>&1
-#pacman-key --init
-#pacman-key --populate archlinux
 pacman -Sy git glibc --needed --noconfirm
 
-#All credits to christitus.com for creating archtitus.
-git clone --depth=1 https://github.com/ChrisTitusTech/ArchTitus.git
+#All credits to christitus.com for creating archtitus. #https://github.com/ChrisTitusTech/ArchTitus
+git clone --depth=1 https://github.com/TheSuperGiant/ArchTitus.git
 cd ArchTitus
-sed -i '/xterm/d' pkg-files/pacman-pkgs.txt
-startup_sh_file="scripts/startup.sh"
-sed -i 's/"|"$3//g' $startup_sh_file
-sed -i 's/formating/formatting/g' $startup_sh_file
-if ! grep '^\$(lsblk' $startup_sh_file; then
-	sed -i '/^    after formatting your disk there is no way to get data back$/ { N; N; s/$/\n------------------------------------------------------------------------\n$(lsblk -o NAME,TYPE,SIZE,LABEL -n | grep -E "^(.*) (disk|part) (.*)$")\n------------------------------------------------------------------------/ }' $startup_sh_file
-fi
 chmod +x archtitus.sh
 ./archtitus.sh
 
