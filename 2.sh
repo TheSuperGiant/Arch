@@ -123,24 +123,22 @@ if [ "$App_Install__notepadPlusPlus" == "1" ]; then
 	App_Install__wine=1
 fi 
 
+if [ "$Firewall__Default" == "1" ]; then
+	nftables=1
+fi
+
 source <(curl -s -L https://raw.githubusercontent.com/TheSuperGiant/Arch/refs/heads/Stable/program_install_list.sh)
 
 declare -a AUR_Helpers=(
-	#"paru:	base-devel rust git; par"
+	"paru:	base-devel rust git; par"
 	"yay:	go; yay"
 )
 
 for AUR_Helper in "${AUR_Helpers[@]}"; do
 	AUR="${AUR_Helper%%:*}"
-	#echo "$AUR_Helper"
 	pacman_packages=$(echo "${AUR_Helper##*:}" | cut -d';' -f1 | sed -E 's/^[[:space:]]+//')
 	AUR_installer=$(echo "${AUR_Helper##*;}")
-	#echo "$AUR"
-	#echo "$pacman_packages"
-	echo "$AUR_installer"
-	#echo "$AUR_Helper"
 	cd ~
-	#read -p "Press [Enter] to continue..."
 	if ! command -v $AUR >/dev/null; then
 		echo "------------------------------------"
 		echo "|        $AUR installing...        |"
@@ -160,19 +158,6 @@ for AUR_Helper in "${AUR_Helpers[@]}"; do
 	fi
 done
 cd ~
-#echo "$function"
-#read -p "Press [Enter] to continue..."
-#if ! command -v paru >/dev/null &&  ! command -v yay >/dev/null; then
-	#echo "yay installing"
-	#sudo pacman -S --needed go --noconfirm
-	#rm -rf yay
-	#git clone https://aur.archlinux.org/yay.git
-	#cd yay
-	#makepkg -si
-	#cd ..
-#fi
-
-#pause
 
 for app in "${App_Install__[@]}"; do
 	key="${app%%:*}"
@@ -182,6 +167,10 @@ for app in "${App_Install__[@]}"; do
 		$function --needed --noconfirm $value <<< 1
 	fi
 done
+
+if [ "$Firewall__Default" == "1" ]; then
+	sudo systemctl enable --now nftables
+fi
 
 if [ "$App_Install__bluetooth" == "1" ]; then
 	sudo systemctl enable --now bluetooth.service
