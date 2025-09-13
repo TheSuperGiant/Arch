@@ -164,7 +164,8 @@ for app in "${App_Install__[@]}"; do
 	if [ "$(eval echo \$App_Install__$key)" == "1" ]; then
 		value=$(echo "${app##*:}" | sed -E 's/^[[:space:]]+//')
 		#par --needed --noconfirm $value
-		$function --needed --noconfirm $value <<< 1
+		#$function --needed --noconfirm $value <<< 1
+		sudo $function --needed --noconfirm $value <<< 1
 	fi
 done
 
