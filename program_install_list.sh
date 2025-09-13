@@ -40,7 +40,7 @@ declare -a App_Install__=(
 	"nautilus:				nautilus"
 	"nftables:				nftables"
 	"nomacs:				nomacs"
-	"notepadqq:				notepadqq-git"
+	"notepadqq:				notepadqq"
 	"notepadPlusPlus:		notepad++"
 	"numlockx:				numlockx"
 	"obs_studio:			obs-studio"
