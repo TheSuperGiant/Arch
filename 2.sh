@@ -25,7 +25,8 @@ function_sh="https://raw.githubusercontent.com/TheSuperGiant/Arch/refs/heads/Sta
 
 #source <(curl -s -L "$function_sh" | sed 's/^alias \(.*\)="\(.*\)"$/\1() {\n \2\n}/g')
 #source <(curl -s -L "$function_sh" | sed -E 's/^alias \(.*\)=["'\'']\(.*\)["'\'']$/\1() {\n  \2\n}/p')
-source <(curl -s -L "$function_sh" | sed -E 's/^alias ([^=]+)=["'"'"'](.*)["'"'"']$/\1() {\n  \2\n}/')
+#source <(curl -s -L "$function_sh" | sed -E 's/^alias ([^=]+)=["'"'"'](.*)["'"'"']$/\1() {\n  \2\n}/')
+source <(curl -s -L "$function_sh" | sed 's/^alias ([^=]+)=["'"'"'](.*)["'"'"']$/\1() {\n  \2\n}/')
 #source <(curl -s -L "$function_sh" | sed -E 's/^alias ([^=]+)="(.*)"$/\1() {\n  \2\n}/'')
 
 ssu
@@ -167,8 +168,8 @@ for app in "${App_Install__[@]}"; do
 	if [ "$(eval echo \$App_Install__$key)" == "1" ]; then
 		value=$(echo "${app##*:}" | sed -E 's/^[[:space:]]+//')
 		#par --needed --noconfirm $value
-		$function --needed --noconfirm --sudoloop $value <<< 1
-		#sudo $function --needed --noconfirm $value <<< 1
+		#$function --needed --noconfirm --sudoloop $value <<< 1
+		sudo $function --needed --noconfirm $value <<< 1
 	fi
 done
 
