@@ -139,7 +139,7 @@ paru_clean() {
 	rm -rf ~/.cache/paru/clone/*
 	rm -rf /home/$USER/.cache/paru/clone/*
 }
-#alias pause="read -p \"Press [Enter] to continue...\""
+alias pause="read -p \"Press [Enter] to continue...\""
 pf() {
 	if [[ $# == 0 || $1 =~ -h|-help|--help ]]; then
 		echo "personal folders
