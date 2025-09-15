@@ -24,7 +24,10 @@ function_sh="https://raw.githubusercontent.com/TheSuperGiant/Arch/refs/heads/Sta
 
 
 #source <(curl -s -L "$function_sh" | sed 's/^alias \(.*\)="\(.*\)"$/\1() {\n \2\n}/g')
-source <(curl -s -L "$function_sh" | sed -E 's/^alias ([^=]+)=["'\''](.*)["'\'']$/\1() {\n  \2\n}/')
+source <(curl -s -L "$function_sh" | \
+  sed -E 's/^alias ([^=]+)=["](.*)["]$/\1() {\n  \2\n}/' | \
+  sed 's/\\"/"/g')
+#source <(curl -s -L "$function_sh" | sed -E 's/^alias ([^=]+)=["'\''](.*)["'\'']$/\1() {\n  \2\n}/')
 #source <(curl -s -L "$function_sh" | sed -E 's/^alias \(.*\)=["'\'']\(.*\)["'\'']$/\1() {\n  \2\n}/p')
 #source <(curl -s -L "$function_sh" | sed -E 's/^alias ([^=]+)=["'"'"'](.*)["'"'"']$/\1() {\n  \2\n}/')
 #source <(curl -s -L "$function_sh" | sed 's/^alias ([^=]+)=["'"'"'](.*)["'"'"']$/\1() {\n  \2\n}/')
