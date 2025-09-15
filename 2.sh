@@ -29,6 +29,12 @@ source <(curl -s -L "$function_sh" | sed 's/^alias \(.*\)="\(.*\)"$/\1() {\n \2\
 #source <(curl -s -L "$function_sh" | sed 's/^alias ([^=]+)=["'"'"'](.*)["'"'"']$/\1() {\n  \2\n}/')
 #source <(curl -s -L "$function_sh" | sed -E 's/^alias ([^=]+)="(.*)"$/\1() {\n  \2\n}/'')
 
+declare -F add_function
+declare -F ssu
+alias dco
+alias pause
+alias md
+
 ssu
 
 #if [[ $DNS_Quad9 == 1 ]]; then
