@@ -23,8 +23,8 @@ fi
 function_sh="https://raw.githubusercontent.com/TheSuperGiant/Arch/refs/heads/Stable/functions.sh"
 
 
-#source <(curl -s -L "$function_sh" | sed 's/^alias \(.*\)="\(.*\)"$/\1() {\n \2\n}/g')
-source <(curl -s -L "$function_sh" | sed -E 's/^alias \(.*\)=["'\'']\(.*\)["'\'']$/\1() {\n  \2\n}/p')
+source <(curl -s -L "$function_sh" | sed 's/^alias \(.*\)="\(.*\)"$/\1() {\n \2\n}/g')
+#source <(curl -s -L "$function_sh" | sed -E 's/^alias \(.*\)=["'\'']\(.*\)["'\'']$/\1() {\n  \2\n}/p')
 #source <(curl -s -L "$function_sh" | sed -E 's/^alias ([^=]+)=["'"'"'](.*)["'"'"']$/\1() {\n  \2\n}/')
 #source <(curl -s -L "$function_sh" | sed 's/^alias ([^=]+)=["'"'"'](.*)["'"'"']$/\1() {\n  \2\n}/')
 #source <(curl -s -L "$function_sh" | sed -E 's/^alias ([^=]+)="(.*)"$/\1() {\n  \2\n}/'')
@@ -35,7 +35,13 @@ alias dco
 alias pause
 alias md
 
+pause
+
 ssu
+
+md
+
+pause
 
 #if [[ $DNS_Quad9 == 1 ]]; then
 	#add_dns 9.9.9.9 149.112.112.112 2620:fe::fe 2620:fe::9 $adding_dns
