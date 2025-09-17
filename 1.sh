@@ -19,7 +19,6 @@ if dmesg | grep -qi "efi:"; then
     echo "UEFI"
 else
     echo "BIOS"
-	echo "$time_zone"
 fi
 
 echo -e "\n\nupdating keyrings"
@@ -28,6 +27,9 @@ dmesg -n 1
 systemctl default >/dev/null 2>&1
  
 source <(curl -s -L $1)
+
+
+	echo "$time_zone"
 
 if [[ "$numlock_startup" == "on" ]]; then
 	setleds +num < $(tty)
