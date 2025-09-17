@@ -6,6 +6,9 @@
 
 
 #checks for 64 or 32 bit installer
+
+clear
+
 echo "
 
 $([[ $(uname -m) == x86_64 ]] && echo 64-bit installer || echo 32-bit installer)
@@ -16,6 +19,7 @@ if dmesg | grep -qi "efi:"; then
     echo "UEFI"
 else
     echo "BIOS"
+	echo "$time_zone"
 fi
 
 echo -e "\n\nupdating keyrings"
