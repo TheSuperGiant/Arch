@@ -33,6 +33,10 @@ if [[ "$numlock_startup" == "on" ]]; then
 	setleds +num < $(tty)
 fi
 
+if [ "$time_zone" ]; then
+	export time_zone
+fi
+
 pacman-key --init >/dev/null 2>&1
 pacman-key --populate archlinux >/dev/null 2>&1
 pacman -Sy git glibc --needed --noconfirm
@@ -42,10 +46,10 @@ git clone --depth=1 https://github.com/TheSuperGiant/ArchTitus.git
 cd ArchTitus
 chmod +x archtitus.sh
 
-	echo "$time_zone"
+	#echo "$time_zone"
 
 
-	read -p "Press [Enter] to continue..."
+	#read -p "Press [Enter] to continue..."
 
 ./archtitus.sh
 
