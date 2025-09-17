@@ -4,11 +4,9 @@
 # By using this script, you acknowledge that you do so at your own risk.
 # I am not responsible for any damage, data loss, or other issues that may result from the use of this script.
 
-
-#checks for 64 or 32 bit installer
-
 clear
 
+#checks for 64 or 32 bit installer
 echo "
 
 $([[ $(uname -m) == x86_64 ]] && echo 64-bit installer || echo 32-bit installer)
@@ -45,12 +43,6 @@ pacman -Sy git glibc --needed --noconfirm
 git clone --depth=1 https://github.com/TheSuperGiant/ArchTitus.git
 cd ArchTitus
 chmod +x archtitus.sh
-
-	#echo "$time_zone"
-
-
-	#read -p "Press [Enter] to continue..."
-
 ./archtitus.sh
 
 
