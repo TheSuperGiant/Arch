@@ -29,8 +29,6 @@ systemctl default >/dev/null 2>&1
 source <(curl -s -L $1)
 
 
-	echo "$time_zone"
-
 if [[ "$numlock_startup" == "on" ]]; then
 	setleds +num < $(tty)
 fi
@@ -43,6 +41,12 @@ pacman -Sy git glibc --needed --noconfirm
 git clone --depth=1 https://github.com/TheSuperGiant/ArchTitus.git
 cd ArchTitus
 chmod +x archtitus.sh
+
+	echo "$time_zone"
+
+
+	read -p "Press [Enter] to continue..."
+
 ./archtitus.sh
 
 
