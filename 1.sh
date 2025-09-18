@@ -31,9 +31,10 @@ if [[ "$numlock_startup" == "on" ]]; then
 	setleds +num < $(tty)
 fi
 
-for EXPORT in "$time_zone" "$install_type"; do
-	if [ "$EXPORT" ]; then
-		export $EXPORT
+for EXPORT in time_zone install_type; do
+	value="${!EXPORT}"
+	if [ "$value" ]; then
+		export "$name=$value"
 	fi
 done
 
