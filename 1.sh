@@ -34,7 +34,7 @@ fi
 for EXPORT in time_zone install_type; do
 	value="${!EXPORT}"
 	if [ "$value" ]; then
-		export "$name=$value"
+		export "$EXPORT=$value"
 	fi
 done
 
