@@ -26,7 +26,6 @@ systemctl default >/dev/null 2>&1
  
 source <(curl -s -L $1)
 
-
 if [[ "$numlock_startup" == "on" ]]; then
 	setleds +num < $(tty)
 fi
