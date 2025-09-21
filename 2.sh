@@ -130,8 +130,8 @@ fi
 source <(curl -s -L https://raw.githubusercontent.com/TheSuperGiant/Arch/refs/heads/Stable/program_install_list.sh)
 
 declare -a AUR_Helpers=(
-	"paru:	base-devel rust git; par"
-	"yay:	go; yay"
+	#"paru:	base-devel rust git; par"
+	"yay:	base-devel git go; yay"
 )
 
 for AUR_Helper in "${AUR_Helpers[@]}"; do
