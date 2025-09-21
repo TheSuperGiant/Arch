@@ -147,7 +147,7 @@ for AUR_Helper in "${AUR_Helpers[@]}"; do
 		rm -rf $AUR
 		git clone https://aur.archlinux.org/$AUR.git
 		cd ~/$AUR
-		makepkg -si --noconfirm
+		sudo makepkg -si --noconfirm
 		if command -v $AUR >/dev/null; then
 			function=$AUR_installer
 			break
@@ -158,8 +158,6 @@ for AUR_Helper in "${AUR_Helpers[@]}"; do
 	fi
 done
 cd ~
-
-ssu
 
 for app in "${App_Install__[@]}"; do
 	key="${app%%:*}"
