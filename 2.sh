@@ -159,6 +159,8 @@ for AUR_Helper in "${AUR_Helpers[@]}"; do
 done
 cd ~
 
+ssu
+
 for app in "${App_Install__[@]}"; do
 	key="${app%%:*}"
 	if [ "$(eval echo \$App_Install__$key)" == "1" ]; then
