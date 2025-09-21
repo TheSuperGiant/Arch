@@ -165,7 +165,8 @@ for app in "${App_Install__[@]}"; do
 		value=$(echo "${app##*:}" | sed -E 's/^[[:space:]]+//')
 		#par --needed --noconfirm $value
 		#$function --needed --noconfirm --sudoloop $value <<< 1
-		sudo $function --needed --noconfirm $value <<< 1
+		$function --needed --noconfirm $value <<< 1
+		#sudo $function --needed --noconfirm $value <<< 1
 	fi
 done
 
