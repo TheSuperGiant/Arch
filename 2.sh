@@ -4,6 +4,24 @@
 # By using this script, you acknowledge that you do so at your own risk.
 # I am not responsible for any damage, data loss, or other issues that may result from the use of this script.
 
+
+#if file not exists then create this file and overwrite it with -force|--force|-f. this are the default setting but with variables creating none default settings.
+fail2ban_creation() {
+#maby auto install the firewall and the fail2ban if not exists.
+#if
+sudo cp -n /etc/fail2ban/jail.conf /etc/fail2ban/jail.local
+cat << EOF > /etc/fail2ban/jail.local
+[DEFAULT]
+bantime  = 1h
+findtime = 10m
+maxretry = 5
+backend  = systemd
+ignoreip = 127.0.0.1/8 ::1
+EOF
+sudo systemctl restart fail2ban
+#fi
+}
+
 http_check() {
 	if [[ "$1" == *"http"* ]]; then
 		source <(curl -s -L $1)
@@ -124,13 +142,16 @@ if [ "$App_Install__notepadPlusPlus" == "1" ]; then
 fi 
 
 if [ "$Firewall__Default" == "1" ]; then
-	nftables=1
+	ufw=1
+	if [ "$firewall_Recommanded_rules" == "1" ]; then
+		fail2ban=1
+	fi
 fi
 
 source <(curl -s -L https://raw.githubusercontent.com/TheSuperGiant/Arch/refs/heads/Stable/program_install_list.sh)
 
 declare -a AUR_Helpers=(
-	#"paru:	base-devel rust git; par"
+	"paru:	base-devel rust git; par"
 	"yay:	base-devel git go; yay"
 )
 
@@ -147,7 +168,7 @@ for AUR_Helper in "${AUR_Helpers[@]}"; do
 		rm -rf $AUR
 		git clone https://aur.archlinux.org/$AUR.git
 		cd ~/$AUR
-		sudo makepkg -si --noconfirm
+		makepkg -si --noconfirm
 		if command -v $AUR >/dev/null; then
 			function=$AUR_installer
 			break
@@ -163,15 +184,17 @@ for app in "${App_Install__[@]}"; do
 	key="${app%%:*}"
 	if [ "$(eval echo \$App_Install__$key)" == "1" ]; then
 		value=$(echo "${app##*:}" | sed -E 's/^[[:space:]]+//')
-		#par --needed --noconfirm $value
-		#$function --needed --noconfirm --sudoloop $value <<< 1
 		$function --needed --noconfirm $value <<< 1
-		#sudo $function --needed --noconfirm $value <<< 1
 	fi
 done
 
 if [ "$Firewall__Default" == "1" ]; then
-	sudo systemctl enable --now nftables
+	sudo ufw enable
+	if [ "$firewall_Recommanded_rules" == "1" ]; then
+		sudo ufw default deny incoming
+		sudo ufw default allow outgoing
+		#sudo systemctl enable --now fail2ban
+	fi
 fi
 
 if [ "$App_Install__bluetooth" == "1" ]; then
