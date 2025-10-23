@@ -418,6 +418,7 @@ pf /mnt/Data $download_name"
 				else
 					sudo echo "XDG_${old_location_dir}_DIR=\"$new_path_userfolder\"" >> $userfolder_file
 					sudo mkdir $new_path_userfolder
+					sudo chown $USER:$USER $new_path_userfolder
 				fi
 				sudo ln -sf $new_path_userfolder "$HOME/$userfolder"
 				break
