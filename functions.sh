@@ -13,12 +13,50 @@ add_alias() {
 	fi
 }
 add_device_label() {
+	help_text() {
+		echo "mounting paritions add boot
+
+add_device_label <label name>
+
+example:
+add_device_label \"data\" \"games\""
+	}
+	if [[ $# == 0 ]] || printf '%s\n' "$@" | grep -qE '^-(h|help)$|^--help$'; then
+		help_text
+		return
+	fi
+	error() {
+		printf "\e[1;91m\n\n$1\e[0m\n\n"
+	}
 	for devices in "$@"; do
-		if ! sudo grep -q "^LABEL=$devices " /etc/fstab; then
-			fs_type=$(lsblk -o NAME,LABEL,FSTYPE | grep -w $devices | awk '{print $3}')
-			if [ -n "$fs_type" ]; then
-				mountpoint="/mnt/$devices"
-				sudo bash -c "echo \"LABEL=$devices $mountpoint $fs_type defaults,nofail 0 2\" >> /etc/fstab"
+		#echo $devices
+		#local device_name=$(printf '%s\n' $devices | head -n 1)
+		#local parameter=$(printf '%s\n' $devices | sed -n '2p')
+		#printf '%s\n' $device_name
+		#printf '%s\n' $parameter
+		#if [[ ! "$parameter" =~ ^(-p|-pre-mount|--pre-mount)?$ ]];then
+			#help_text
+			#error "Error: Only -p/--pre-mount is allowed."
+			#return
+		#fi
+		#local old_value=$(grep "^LABEL=$device_name " /etc/fstab)
+		local old_value=$(grep "^LABEL=$devices " /etc/fstab)
+		local fs_type=$(lsblk -o NAME,LABEL,FSTYPE | grep -w $devices | awk '{print $3}')
+		if [ -n "$fs_type" ]; then
+			mountpoint="/mnt/$devices"
+			#if [ -n "$parameter" ]; then
+				#other vlue
+				#new_value=$(LABEL=$devices $mountpoint $fs_type defaults,nofail 0 2)
+				#new_value=$(LABEL=$device_name $mountpoint $fs_type defaults,nofail 0 2)
+			#else
+				#new_value=$(LABEL=$devices $mountpoint $fs_type defaults,nofail 0 2)
+			new_value="LABEL=$devices $mountpoint $fs_type defaults,nofail 0 2"
+			if [[ "$new_value" != "$old_value" && -n "$old_value" ]];then
+				echo test
+				sudo sed -i "\|$old_value|d" /etc/fstab 
+			fi
+			if ! sudo grep -q "^LABEL=$devices " /etc/fstab; then
+				sudo bash -c "echo \"$new_value\" >> /etc/fstab" && echo "✅ Added '$devices' partition to /etc/fstab"
 				sudo mkdir -p $mountpoint
 				sudo chown $USER:$USER $mountpoint
 				local device_added=1
@@ -95,17 +133,92 @@ add_sudo() {
 #add_wirless_network() {
 #	echo -e "network={\n	ssid=\"$1\"\n	psk=\"$2\"\n	scan_ssid=1\n}" | sudo tee -a "/etc/wpa_supplicant/multi_networks.conf"
 #}
-bool() {
-	if [ "$1" == "1" ]; then
-		echo "true"
-	else
-		echo "false"
-	fi
-}
 Clean_Folder() {
 	find $1/* -mtime $2 -exec rm -f {} \; && find -L "$1" -type d -empty -delete
 }
 alias dco="dconf dump /"
+ext4setup() {
+	error() {
+		echo -e "\e[1;91m$1\e[0m"
+	}
+	label_check(){
+
+		while true; do
+			
+			printf "Enter label for the partition: "; read label
+
+			if [[ "$label" =~ ^("root"|"home"|"swap"|"boot") || ! "$label" =~ ^[A-Za-z0-9_-]{1,16}$ ]];then
+				clear
+				error "$label: is not allowed! \nAllowed: 1–16 letters, numbers, - or _ (no spaces or special characters)\nnot allowed names: root home swap boot\n\n"
+			else
+				return
+			fi
+		done
+	}
+
+    clear
+
+	# Disclaimer message
+	echo "Warning: I am not responsible for any data loss if you choose the wrong disk!"
+	echo "Please double-check the disk you are selecting before proceeding."
+
+	printf "\n\n⚠️ WARNING: This will erase all data on that disk.⚠️\n\n\n"
+
+	while true; do
+		while true; do
+			lsblk -o NAME,TYPE,SIZE,LABEL,MODEL | awk 'NR==1{print;next} $2=="disk" && NR>1{print "--------------------------------------------------"} $2=="disk" || $2=="part"{print}'
+			echo "--------------------------------------------------"
+			
+			printf "Enter disk (e.g., 'a-z' for /dev/sdX or '0,1,..' for /dev/nvmeXn1): "; read disk_letter; disk_letter=$(echo "$disk_letter" | tr '[:upper:]' '[:lower:]')
+            if [[ $disk_letter =~ ^[a-z]$ ]];then
+			    DISK="/dev/sd${disk_letter}"
+            else
+                DISK="/dev/nvme${disk_letter}n1"
+            fi
+			if [ ! -e "$DISK" ]; then
+                clear
+				echo "Disk not found. Try again."
+				echo
+				echo
+			else
+				break
+			fi
+		done
+			
+		clear
+		echo "Disk information for $DISK:"
+		echo "----------------------------------"
+		lsblk -o NAME,TYPE,SIZE,LABEL,MODEL $DISK
+		
+		echo
+		echo
+		printf "Are you sure you want to format disk $DISK? Type 'y' to proceed: "; read confirm; confirm=$(echo "$confirm" | tr '[:upper:]' '[:lower:]')
+		if [ $confirm = "y" ]; then
+			disk_type=$(lsblk -d -o ROTA -n "$DISK" | xargs)
+			break
+		fi
+	done
+
+	clear
+	label_check
+    
+    partitions=$(ls ${DISK}* | grep -E "^${DISK}[0-9]$" | wc -l)
+    
+    for ((i=1; i<=partitions; i++)); do
+    	printf "d\n$i\n" | sudo fdisk "$DISK"
+    done
+    printf "g\nn\n\n\n\nw" | sudo fdisk "$DISK"
+    
+    if [[ $disk_letter =~ ^[0-9]$ ]];then
+        DISK="${DISK}p"
+    fi
+
+	if [[ "$disk_type" == "1" ]];then #hdd
+		sudo mkfs.ext4 -F -c -L $label "${DISK}1"
+	elif [[ "$disk_type" == "0" ]];then #flash drives
+		sudo mkfs.ext4 -F -L $label "${DISK}1"
+	fi
+}
 pa() {
 	sudo pacman -Syu --noconfirm
 	par $@
@@ -141,7 +254,16 @@ paru_clean() {
 }
 alias pause="read -p \"Press [Enter] to continue...\""
 pf() {
-	if [[ $# == 0 || $1 =~ -h|-help|--help ]]; then
+	printf "⚠️ WARNING: Using this function will lock the userfolders file. If you want to make changes to the file, you must first give it root write privileges again.⚠️\n\n\n"
+	desktop_name=$(xdg-user-dir "DESKTOP" | awk -F'/' '{print $NF}')
+	download_name=$(xdg-user-dir "DOWNLOAD" | awk -F'/' '{print $NF}')
+	music_name=$(xdg-user-dir "MUSIC" | awk -F'/' '{print $NF}')
+	documents_name=$(xdg-user-dir "DOCUMENTS" | awk -F'/' '{print $NF}')
+	pictures_name=$(xdg-user-dir "PICTURES" | awk -F'/' '{print $NF}')
+	templates_name=$(xdg-user-dir "TEMPLATES" | awk -F'/' '{print $NF}')
+	public_name=$(xdg-user-dir "PUBLICSHARE" | awk -F'/' '{print $NF}')
+	videos_name=$(xdg-user-dir "VIDEOS" | awk -F'/' '{print $NF}')
+	help_text() {
 		echo "personal folders
 		
 moving to new location
@@ -151,55 +273,64 @@ pf <path to new location> <parameters>
 pf <path to new location> <personal folder(s)> <parameters>
 
 parameters folders
-	pf -d	Downloads
-	pf -e	Desktop
-	pf -m	Music
-	pf -o	Documents
-	pf -p	Pictures
-	pf -t	Templates
-	pf -u	Public
-	pf -v	Videos
+	pf -d	$download_name
+	pf -e	$desktop_name
+	pf -m	$music_name
+	pf -o	$documents_name
+	pf -p	$pictures_name
+	pf -t	$templates_name
+	pf -u	$public_name
+	pf -v	$videos_name
 
 example:
-pf \mnt\Data Downloads Documents -v -t
-pf \mnt\Data Downloads"
+pf /mnt/Data $download_name $documents_name -v -t
+pf /mnt/Data $download_name"
+	}
+	if [[ $# == 0 ]] || printf '%s\n' "$@" | grep -qE '^-(h|help)$|^--help$'; then
+		help_text
 		return
 	else
 		new_path="$1"
 		shift
 	fi
+	if [[ " $* " == *" -y "* ]];then
+		local yes_force="1"
+	fi
 	while [[ $# -gt 0 ]]; do
         case "$1" in
             -d)
-                local folders+=("Downloads")
+                local folders+=("$download_name")
                 shift
                 ;;
             -e)
-                local folders+=("Desktop")
+                local folders+=("$desktop_name")
                 shift
                 ;;
             -m)
-                local folders+=("Music")
+                local folders+=("$music_name")
                 shift
                 ;;
             -o)
-                local folders+=("Documents")
+                local folders+=("$documents_name")
                 shift
                 ;;
             -p)
-                local folders+=("Pictures")
+                local folders+=("$pictures_name")
                 shift
                 ;;
             -t)
-                local folders+=("Templates")
+                local folders+=("$templates_name")
                 shift
                 ;;
             -u)
-                local folders+=("Public")
+                local folders+=("$public_name")
                 shift
                 ;;
             -v)
-                local folders+=("Videos")
+                local folders+=("$videos_name")
+                shift
+                ;;
+            -y)
                 shift
                 ;;
             -*)
@@ -208,12 +339,23 @@ pf \mnt\Data Downloads"
                 ;;
             *)
 				folder="${1,,}"; folder="${folder^}"
-				if [[ " $folder " =~ Downloads|Documents|Pictures|Videos|Music|Desktop|Public|Templates ]]; then
+				if [[ " $folder " =~ $download_name|$desktop_name|$music_name|$documents_name|$pictures_name|$templates_name|$public_name|$videos_name ]]; then
 					local folders+=("$folder")
 					shift
 				else
-					echo "Unknown Folder: $folder"
-					return
+					if [[ "$yes_force" == "1" ]];then
+						local folders+=("$folder")
+						shift
+					else
+						printf "Is '$folder' the correct folder name? Type 'y' to confirm: "; read confirm; confirm=$(echo "$confirm" | tr '[:upper:]' '[:lower:]')
+						if [ $confirm = "y" ]; then
+							local folders+=("$folder")
+							shift
+						else
+							echo "Unknown Folder: $folder"
+							return
+						fi
+					fi
 				fi
 				;;
         esac
@@ -224,29 +366,37 @@ pf \mnt\Data Downloads"
 		return
 	fi
 	declare -a old_location=(
-		"Downloads:		DOWNLOAD"
-		"Documents:		DOCUMENTS"
-		"Pictures:		PICTURES"
-		"Videos:		VIDEOS"
-		"Music:			MUSIC"
-		"Desktop:		DESKTOP"
-		"Public:		PUBLICSHARE"
-		"Templates:		TEMPLATES"
+		"$download_name:		DOWNLOAD"
+		"$documents_name:		DOCUMENTS"
+		"$pictures_name:		PICTURES"
+		"$videos_name:		VIDEOS"
+		"$music_name:			MUSIC"
+		"$desktop_name:		DESKTOP"
+		"$public_name:		PUBLICSHARE"
+		"$templates_name:		TEMPLATES"
 	)
+	userfolder_file="$HOME/.config/user-dirs.dirs"
 	folders=($(printf "%s\n" "${folders[@]}" | awk '!seen[$0]++'))
+	sudo chattr -i $userfolder_file
 	for userfolder in "${folders[@]}"; do
 		echo $userfolder
 		old_location_dir=$(printf "%s\n" "${old_location[@]}" | grep "$userfolder" | awk -F':' '{print $2}' | sed -E 's/^[[:space:]]+//')
-		old_location_path=$(xdg-user-dir $old_location_dir)
+		if [[ -z $old_location_dir ]];then 
+			old_location_dir=${userfolder^^}
+		fi
+		old_location_path=$(grep "^XDG_${old_location_dir}_DIR=" $userfolder_file | sed -n 's/.*"\([^"]*\)".*/\1/p')
+		old_location_path=$(echo "$old_location_path" | envsubst)
 		new_path_userfolder="$new_path/$userfolder"
-		if [[ $(grep "^XDG_${old_location_dir}_DIR=" ~/.config/user-dirs.dirs | awk -F'=' '{print $2}' | sed 's/"//g') == "$new_path_userfolder" ]]; then
+		if [[ $(grep "^XDG_${old_location_dir}_DIR=" $userfolder_file | awk -F'=' '{print $2}' | sed 's/"//g') == "$new_path_userfolder" ]]; then
 			echo "$new_path_userfolder: is already set to this location"
 			echo "------------------------------------"
 			continue
 		fi
 		local sync_error=0
 		while (( $sync_error < 3 )); do
-			sudo rsync -avuc $old_location_path $new_path
+			if [[ -n $old_location_path ]];then
+				sudo rsync -avuc $old_location_path $new_path
+			fi
 			local error=0
 			while read line; do
 				if echo "$line" | grep "^Only in $old_location_path" > /dev/null; then
@@ -262,14 +412,20 @@ pf \mnt\Data Downloads"
 				fi
 			done < <(sudo diff -qr $old_location_path $new_path_userfolder 2>/dev/null)
 			if [[ (( $error = 0 )) ]]; then
-				sudo sed -i "/^XDG_${old_location_dir}_DIR=/c\XDG_${old_location_dir}_DIR=\"$new_path_userfolder\"" ~/.config/user-dirs.dirs
-				rm -rf $old_location_path
-				sudo ln -sf $new_path_userfolder $old_location_path
+				if [[ -n $old_location_path ]];then
+					sudo sed -i "/^XDG_${old_location_dir}_DIR=/c\XDG_${old_location_dir}_DIR=\"$new_path_userfolder\"" $userfolder_file
+					sudo rm -rf $old_location_path
+				else
+					sudo echo "XDG_${old_location_dir}_DIR=\"$new_path_userfolder\"" >> $userfolder_file
+					sudo mkdir $new_path_userfolder
+				fi
+				sudo ln -sf $new_path_userfolder "$HOME/$userfolder"
 				break
 			fi 
 		done
 		echo "------------------------------------"
 	done
+	sudo chattr +i $userfolder_file
 }
 sp() {
 	local ShowIn="Budgie;Deepin;Enlightenment;GNOME;KDE;LXDE;LXQt;MATE;Old;Pantheon;ROX;Sugar;TDE;Unity;X-Cinnamon;XFCE;"
