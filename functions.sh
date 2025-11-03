@@ -133,10 +133,37 @@ add_sudo() {
 #add_wirless_network() {
 #	echo -e "network={\n	ssid=\"$1\"\n	psk=\"$2\"\n	scan_ssid=1\n}" | sudo tee -a "/etc/wpa_supplicant/multi_networks.conf"
 #}
+bool() {
+	if [ "$1" == "1" ]; then
+		echo "true"
+	else
+		echo "false"
+	fi
+}
 Clean_Folder() {
 	find $1/* -mtime $2 -exec rm -f {} \; && find -L "$1" -type d -empty -delete
 }
 alias dco="dconf dump /"
+dcoa(){
+	if [[ "$2" != *[\[\]]* ]]; then
+		echo "['$1']"
+	else
+		echo "${2%]}, '$1']"
+	fi
+}
+dcod(){
+	list="${2//\'$1\'/}"; list="${list//, , /, }"; echo "$list"
+}
+dcow(){
+	current_value=$(dconf read $1)
+	if [ "$2" != "$current_value" ]; then
+		dconf write $1 "$2"
+		echo "$1 $2 - updated"
+	else
+		echo "$1 $2 - already has the value"
+	fi
+	echo "------------------------------------"
+}
 ext4setup() {
 	error() {
 		echo -e "\e[1;91m$1\e[0m"
