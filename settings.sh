@@ -112,8 +112,45 @@ for Setting in "${Setting__[@]}"; do
 		dcow $value "$desired_value"
 	fi
 done
-
-#if command -v cinnamon-session >/dev/null 2>&1; then
+if [[ "$XDG_CURRENT_DESKTOP" == "X-Cinnamon" ]]; then
+	#app list source - if variable app list is empty
+	source <(curl -s -L https://raw.githubusercontent.com/TheSuperGiant/Arch/refs/heads/Stable/app_list.sh)
+	path="/org/cinnamon/favorite-apps"
+	#favorite_apps=$(dconf read $path)
+	#echo $favorite_apps
+	for app in "${app_list[@]}"; do
+		program="${app%%:*}"
+		program_install_name=$(echo "${app##*:}" | sed -E 's/^[[:space:]]+//')
+		order=$(eval echo \${start_munu__favorite_app__$program})
+		if [[ "$order" != "0" && -n "$order" ]]; then
+			favorite_order+="$order:$program_install_name|"
+		elif [[ "$order" == "0" ]];then
+			startmenu_add="1"
+		else
+			:
+			#favorite_apps=$(dcod $program_install_name "$favorite_apps")
+		fi
+	done
+	favorites=($(echo "$favorite_order" | tr '|' '\n' | sort -V))
+	for i in "${favorites[@]}";do	
+		echo $i
+		row="${i%%:*}"
+		i="${i##*:}"
+		favorite[$row]="$i"
+	done
+	for add_favorite in ${favorite[@]};do
+		add_favorites=$(dcoa "$add_favorite" "$add_favorites")
+	done
+	if [[ -z "$add_favorites" && $startmenu_add == "1" ]];then
+		add_favorites="['']"
+	elif [[ -z "$add_favorites" ]];then
+		add_favorites=$(dconf read $path)
+	fi
+	dcow $path "$add_favorites"
+	#unset favorite_order
+	#unset favorite
+	#unset add_favorites
+fi
 if [[ "$XDG_CURRENT_DESKTOP" == "X-Cinnamon" ]]; then
 	declare -a applet__=(
 		"notfication:	notifications@cinnamon.org"
