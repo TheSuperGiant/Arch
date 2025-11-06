@@ -5,15 +5,15 @@
 # I am not responsible for any damage, data loss, or other issues that may result from the use of this script.
 
 
-add_alias() {
+add_alias(){
 	if ! grep -q "^alias $1=" ~/.bashrc; then
 		code="alias $1=\"$2\""
 		eval $code && echo $code >> ~/.bashrc
 		echo "Alias '$1' added and saved to ~/.bashrc."
 	fi
 }
-add_device_label() {
-	help_text() {
+add_device_label(){
+	help_text(){
 		echo "mounting paritions add boot
 
 add_device_label <label name>
@@ -25,7 +25,7 @@ add_device_label \"data\" \"games\""
 		help_text
 		return
 	fi
-	error() {
+	error(){
 		printf "\e[1;91m\n\n$1\e[0m\n\n"
 	}
 	for devices in "$@"; do
@@ -67,7 +67,7 @@ add_device_label \"data\" \"games\""
 		sudo mount -a >/dev/null 2>&1
 	fi
 }
-add_dns() {
+add_dns(){
 	sudo chattr -i /etc/resolv.conf
 	nameservers=$(grep '^nameserver' /etc/resolv.conf | awk '{print $2}')
 	for serverips in $nameservers; do
@@ -100,16 +100,16 @@ add_dns() {
 	done
 	sudo chattr +i /etc/resolv.conf
 }
-add_function() {
+add_function(){
     if ! grep -q "^$1()" ~/.bashrc; then
-		echo -e "$1() {\n\t$2\n}" >> ~/.bashrc
-		eval "$1() {
+		echo -e "$1(){\n\t$2\n}" >> ~/.bashrc
+		eval "$1(){
 			$2
 		}"
 		echo "Function '$1' added and is now available."
 	fi
 }
-add_lightdm() {
+add_lightdm(){
 	if [[ -n "$2" && -z "$3" ]]; then
 		local third="$2"
 	else
@@ -125,22 +125,45 @@ add_lightdm() {
 		fi
 	fi
 }
-add_sudo() {
+add_sudo(){
 	if ! sudo grep -q "^$1$" /etc/sudoers; then
 		echo "$1" | sudo tee -a /etc/sudoers
 	fi
 }
-#add_wirless_network() {
+#add_wirless_network(){
 #	echo -e "network={\n	ssid=\"$1\"\n	psk=\"$2\"\n	scan_ssid=1\n}" | sudo tee -a "/etc/wpa_supplicant/multi_networks.conf"
 #}
-bool() {
+bool(){
 	if [ "$1" == "1" ]; then
 		echo "true"
 	else
 		echo "false"
 	fi
 }
-Clean_Folder() {
+box(){
+	local char="${2:-=}"
+	local width=40
+	local text="$1"
+	local fill=$(( (width - 2 - ${#text}) / 2 ))
+	line(){
+		awk -v w="$width" -v c="$char" 'BEGIN {for(i=0;i<w;i++) printf "%s", c; print ""}'
+	}
+	if [[ "$char" =~ ^("█"|"▒"|"░") ]];then
+		begin_end="$char"
+	else
+		begin_end="|"
+	fi
+	line
+	printf "$begin_end%*s%s%*s$begin_end\n" "$fill" '' "$text" "$((width - 2 - ${#text} - fill))" ''
+	line
+}
+box_part(){
+	box "$1..." "="
+}
+box_sub(){
+	box "$1" "-"
+}
+Clean_Folder(){
 	find $1/* -mtime $2 -exec rm -f {} \; && find -L "$1" -type d -empty -delete
 }
 alias dco="dconf dump /"
@@ -164,8 +187,8 @@ dcow(){
 	fi
 	echo "------------------------------------"
 }
-ext4setup() {
-	error() {
+ext4setup(){
+	error(){
 		echo -e "\e[1;91m$1\e[0m"
 	}
 	label_check(){
@@ -246,11 +269,11 @@ ext4setup() {
 		sudo mkfs.ext4 -F -L $label "${DISK}1"
 	fi
 }
-pa() {
+pa(){
 	sudo pacman -Syu --noconfirm
 	par $@
 }
-par() {
+par(){
 	while true; do
 		while IFS= read -r line1 && IFS= read -r line2; do
 			if echo "$line1" | grep -q "invalid or corrupted.*(PGP signature)"; then
@@ -274,13 +297,13 @@ par() {
 		local gpg_key_error=0
 	done
 }
-paru_clean() {
+paru_clean(){
 	paru -Sc --noconfirm
 	rm -rf ~/.cache/paru/clone/*
 	rm -rf /home/$USER/.cache/paru/clone/*
 }
 alias pause="read -p \"Press [Enter] to continue...\""
-pf() {
+pf(){
 	printf "⚠️ WARNING: Using this function will lock the userfolders file. If you want to make changes to the file, you must first give it root write privileges again.⚠️\n\n\n"
 	desktop_name=$(xdg-user-dir "DESKTOP" | awk -F'/' '{print $NF}')
 	download_name=$(xdg-user-dir "DOWNLOAD" | awk -F'/' '{print $NF}')
@@ -290,7 +313,7 @@ pf() {
 	templates_name=$(xdg-user-dir "TEMPLATES" | awk -F'/' '{print $NF}')
 	public_name=$(xdg-user-dir "PUBLICSHARE" | awk -F'/' '{print $NF}')
 	videos_name=$(xdg-user-dir "VIDEOS" | awk -F'/' '{print $NF}')
-	help_text() {
+	help_text(){
 		echo "personal folders
 		
 moving to new location
@@ -455,9 +478,9 @@ pf /mnt/Data $download_name"
 	done
 	sudo chattr +i $userfolder_file
 }
-sp() {
+sp(){
 	local ShowIn="Budgie;Deepin;Enlightenment;GNOME;KDE;LXDE;LXQt;MATE;Old;Pantheon;ROX;Sugar;TDE;Unity;X-Cinnamon;XFCE;"
-	help_text() {
+	help_text(){
 		echo "startup personal
 				
 Creating program startup for this user.
@@ -516,7 +539,7 @@ sp -R --Remove \"filename\"
 		help_text
 		return
 	fi
-	valid_option() {
+	valid_option(){
 		local VO_splits=(${2//;/ })
 		local VO_valid=(${3//;/ })
 		for VO_split in ${VO_splits[@]}; do
@@ -658,7 +681,7 @@ EOF"
 	echo "------------------------------------"
 }
 #start_s()
-ssu() {
+ssu(){
 	sudo -v
 	while true; do
 		sudo -n true
@@ -668,7 +691,7 @@ ssu() {
 
 alias md="mkdir -p $1"
 alias mds="sudo mkdir -p $1"
-mdr() {
+mdr(){
 	sudo mkdir -p $1
 	sudo chown $USER:$USER $1
 }

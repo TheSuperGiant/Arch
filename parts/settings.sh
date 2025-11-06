@@ -88,9 +88,7 @@ if [[ "$(xdg-mime query default inode/directory)" == "nemo.desktop" ]];then
 	)
 fi
 
-echo "------------------------------------"
-echo "|       Updating settings...       |"
-echo "------------------------------------"
+box_part "Updating settings"
 
 for Setting in "${Setting__[@]}"; do
 	key="${Setting%%:*}"
@@ -113,8 +111,10 @@ for Setting in "${Setting__[@]}"; do
 	fi
 done
 if [[ "$XDG_CURRENT_DESKTOP" == "X-Cinnamon" ]]; then
+	#favories apps menu
+	
 	#app list source - if variable app list is empty
-	source <(curl -s -L https://raw.githubusercontent.com/TheSuperGiant/Arch/refs/heads/Stable/app_list.sh)
+	source <(curl -s -L https://raw.githubusercontent.com/TheSuperGiant/Arch/refs/heads/Stable/parts/app_list.sh)
 	path="/org/cinnamon/favorite-apps"
 	#favorite_apps=$(dconf read $path)
 	#echo $favorite_apps
@@ -147,11 +147,9 @@ if [[ "$XDG_CURRENT_DESKTOP" == "X-Cinnamon" ]]; then
 		add_favorites=$(dconf read $path)
 	fi
 	dcow $path "$add_favorites"
-	#unset favorite_order
-	#unset favorite
-	#unset add_favorites
-fi
-if [[ "$XDG_CURRENT_DESKTOP" == "X-Cinnamon" ]]; then
+
+	#----------------------------
+	#applets
 	declare -a applet__=(
 		"notfication:	notifications@cinnamon.org"
 		"printer:	printers@cinnamon.org"
@@ -166,6 +164,37 @@ if [[ "$XDG_CURRENT_DESKTOP" == "X-Cinnamon" ]]; then
 		fi
 	done
 	dcow $path "$updated_applets"
+
+	#----------------------------
+	#cinnamon menu
+	declare -a cinnamon_menu=(
+		"on_hover__activate:	activate-on-hover;b"
+	)
+	CONFIG="$HOME/.config/cinnamon/spices/menu@cinnamon.org/0.json"
+	for menu in "${cinnamon_menu[@]}"; do
+		program_name="${menu%%:*}"
+		block_name=$(echo "${menu##*:}" | cut -d';' -f1 | sed -E 's/^[[:space:]]+//')
+		user_value="$(eval echo   \$Setting__menu__$program_name)"
+		if [ -n "$user_value" ]; then
+			type=$(echo "${menu##*;}")
+			if [[ "$type" == "b" ]];then
+				user_value=$(bool $(echo "${menu##*:}" | cut -d';' -f1 | sed -E 's/^[[:space:]]+//'))
+			fi
+			current_value=$(awk -v block="$block_name" '
+				$0 ~ "\""block"\": *\\{" {flag=1}
+				flag && /"value":/ {
+					gsub(/[ ,]/,"",$2)
+					print $2
+					exit
+				}
+				/}/ && flag {flag=0}
+			' "$CONFIG")
+			if [[ "$current_value" != "$user_value" ]]; then
+				sed -i "/\"$block_name\": {/,/},/ s/\"value\":[[:space:]]*$current_value/\"value\": $user_value/" "$CONFIG"
+				echo "$block_name set to $user_value"
+			fi
+		fi
+	done	
 fi
 
 if [ "$ipV6_disable" == 1 ]; then

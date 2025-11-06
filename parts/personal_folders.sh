@@ -4,9 +4,10 @@
 # By using this script, you acknowledge that you do so at your own risk.
 # I am not responsible for any damage, data loss, or other issues that may result from the use of this script.
 
-echo "------------------------------------"
-echo "|    Moving personal folders...    |"
-echo "------------------------------------"
+part_box "Moving personal folders"
+#echo "------------------------------------"
+#echo "|    Moving personal folders...    |"
+#echo "------------------------------------"
 
 declare -a folder_parameters=(
 	"Downloads:-d"
