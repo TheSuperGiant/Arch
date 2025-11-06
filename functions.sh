@@ -140,6 +140,29 @@ bool() {
 		echo "false"
 	fi
 }
+box(){
+	local char="${2:-=}"
+	local width=40
+	local text="$1"
+	local fill=$(( (width - 2 - ${#text}) / 2 ))
+	line(){
+		awk -v w="$width" -v c="$char" 'BEGIN {for(i=0;i<w;i++) printf "%s", c; print ""}'
+	}
+	if [[ "$char" =~ ^("█"|"▒"|"░") ]];then
+		begin_end="$char"
+	else
+		begin_end="|"
+	fi
+	line
+	printf "$begin_end%*s%s%*s$begin_end\n" "$fill" '' "$text" "$((width - 2 - ${#text} - fill))" ''
+	line
+}
+box_part(){
+	box "$1..." "="
+}
+box_sub(){
+	box "$1" "-"
+}
 Clean_Folder() {
 	find $1/* -mtime $2 -exec rm -f {} \; && find -L "$1" -type d -empty -delete
 }
