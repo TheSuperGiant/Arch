@@ -1,4 +1,4 @@
-part_box "Adding mounted partitions"
+box_part "Adding mounted partitions"
 #echo "------------------------------------"
 #echo "|   Adding mounted partitions...   |"
 #echo "------------------------------------"
