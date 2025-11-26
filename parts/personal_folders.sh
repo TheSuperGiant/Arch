@@ -5,9 +5,6 @@
 # I am not responsible for any damage, data loss, or other issues that may result from the use of this script.
 
 box_part "Moving personal folders"
-#echo "------------------------------------"
-#echo "|    Moving personal folders...    |"
-#echo "------------------------------------"
 
 declare -a folder_parameters=(
 	"Downloads:-d"

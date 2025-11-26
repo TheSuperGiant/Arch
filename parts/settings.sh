@@ -9,12 +9,22 @@ declare -a Setting__=()
 
 
 if [[ "$XDG_CURRENT_DESKTOP" == "X-Cinnamon" ]]; then
+	if [[ -n $Setting__background_image ]];then
+		Setting__background_image_total="file://$Setting__background_image"
+	fi
+	if [[ $Setting__first_day_of_the_weak == "sunday" ]];then
+		Setting__first_day_of_the_weak="0"
+	elif [[ $Setting__first_day_of_the_weak == "monday" ]];then
+		Setting__first_day_of_the_weak="1"
+	fi
 	Setting__+=(
 		"autorun:	/org/cinnamon/desktop/media-handling/autorun-never;b"
-		"clock__show_date:	/org/cinnamon/desktop/interface/clock-show-date;b"
+		"background_color:	/org/cinnamon/desktop/background/primary-color;'"
+		"background_image_total:	/org/cinnamon/desktop/background/picture-uri;'"
 		"clock__show_date:	/org/cinnamon/desktop/interface/clock-show-date;b"
 		"Default_calculator:	/org/cinnamon/desktop/applications/calculator/exec;'"
 		"Default_terminal:	/org/cinnamon/desktop/applications/terminal/exec;'"
+		"first_day_of_the_weak:	/org/cinnamon/desktop/interface/first-day-of-week"
 		"font__default:	/org/cinnamon/desktop/interface/font-name;'"
 		"font__titlebar:	/org/cinnamon/desktop/wm/preferences/titlebar-font;'"
 		"mouse__locate_pointer:	/org/cinnamon/desktop/peripherals/mouse/locate-pointer;b"
@@ -79,7 +89,13 @@ if [[ "$XDG_CURRENT_DESKTOP" == *"GNOME"* || "$XDG_CURRENT_DESKTOP" == "X-Cinnam
 	)
 fi
 if [[ "$(xdg-mime query default inode/directory)" == "nemo.desktop" ]];then
+	if [[ "$Setting__explorer__always_open_in_a_new_window" == "0" ]];then
+		Setting__explorer__new_window="1"
+	elif [[ "$Setting__explorer__always_open_in_a_new_window" == "1" ]];then
+		Setting__explorer__new_window="0"
+	fi
 	Setting__+=(
+		"explorer__new_window:	/org/nemo/preferences/always-use-browser;b"
 		"explorer__click:	/org/nemo/preferences/click-policy;'"
 		"explorer__confirm_files_to_trash:	/org/nemo/preferences/confirm-move-to-trash;b"
 		"explorer__date_format:	/org/nemo/preferences/date-format;'"
