@@ -166,7 +166,7 @@ box_sub(){
 Clean_Folder() {
 	find $1/* -mtime $2 -exec rm -f {} \; && find -L "$1" -type d -empty -delete
 }
-alias dco="dconf dump /"
+#alias dco="dconf dump /"
 dcoa() {
 	if [[ "$2" != *[\[\]]* ]]; then
 		echo "['$1']"
