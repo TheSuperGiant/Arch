@@ -38,7 +38,7 @@ if [ "$linutil__christitus" == "1" ]; then
 	curl -fsSL https://christitus.com/linux | sh
 fi
 
-function_sh="https://raw.githubusercontent.com/TheSuperGiant/Arch/refs/heads/Stable/functions.sh"
+function_sh="https://raw.githubusercontent.com/TheSuperGiant/Arch/refs/heads/main/functions.sh"
 
 
 source <(curl -s -L "$function_sh" | sed -E '/^alias / s/\\"/"/g' | sed -E 's/^alias ([^=]+)=["](.*)["]$/\1() {\n  \2\n}/')
@@ -148,7 +148,7 @@ if [ "$Firewall__Default" == "1" ]; then
 	fi
 fi
 
-source <(curl -s -L https://raw.githubusercontent.com/TheSuperGiant/Arch/refs/heads/Stable/program_install_list.sh)
+source <(curl -s -L https://raw.githubusercontent.com/TheSuperGiant/Arch/refs/heads/main/program_install_list.sh)
 
 declare -a AUR_Helpers=(
 	"paru:	base-devel rust git; par"

@@ -130,7 +130,7 @@ if [[ "$XDG_CURRENT_DESKTOP" == "X-Cinnamon" ]]; then
 	#favories apps menu
 	
 	#app list source - if variable app list is empty
-	source <(curl -s -L https://raw.githubusercontent.com/TheSuperGiant/Arch/refs/heads/Stable/parts/app_list.sh)
+	source <(curl -s -L https://raw.githubusercontent.com/TheSuperGiant/Arch/refs/heads/main/parts/app_list.sh)
 	path="/org/cinnamon/favorite-apps"
 	#favorite_apps=$(dconf read $path)
 	#echo $favorite_apps
