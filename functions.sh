@@ -319,23 +319,23 @@ pf() {
 		
 moving to new location
 
-pf <path to new location> <personal folder(s)>
-pf <path to new location> <parameters>
-pf <path to new location> <personal folder(s)> <parameters>
+${FUNCNAME[1]} <path to new location> <personal folder(s)>
+${FUNCNAME[1]} <path to new location> <parameters>
+${FUNCNAME[1]} <path to new location> <personal folder(s)> <parameters>
 
 parameters folders
-	pf -d	$download_name
-	pf -e	$desktop_name
-	pf -m	$music_name
-	pf -o	$documents_name
-	pf -p	$pictures_name
-	pf -t	$templates_name
-	pf -u	$public_name
-	pf -v	$videos_name
+	${FUNCNAME[1]} -d	$download_name
+	${FUNCNAME[1]} -e	$desktop_name
+	${FUNCNAME[1]} -m	$music_name
+	${FUNCNAME[1]} -o	$documents_name
+	${FUNCNAME[1]} -p	$pictures_name
+	${FUNCNAME[1]} -t	$templates_name
+	${FUNCNAME[1]} -u	$public_name
+	${FUNCNAME[1]} -v	$videos_name
 
 example:
-pf /mnt/Data $download_name $documents_name -v -t
-pf /mnt/Data $download_name"
+${FUNCNAME[1]} /mnt/Data $download_name $documents_name -v -t
+${FUNCNAME[1]} /mnt/Data $download_name"
 	}
 	if [[ $# == 0 ]] || printf '%s\n' "$@" | grep -qE '^-(h|help)$|^--help$'; then
 		help_text
