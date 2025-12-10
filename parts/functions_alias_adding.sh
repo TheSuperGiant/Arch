@@ -23,3 +23,15 @@ aliasi(){
 functi(){
 	echo "$1" | grep -oP '^\s*\K\w+(?=\()'
 }
+
+if [[ -n "$function_personal" ]];then
+	#source <($function_personal_conf)
+	source <(cat $function_personal_conf)
+	personal_sh="$(cat $function_personal)"
+	for function in $(functi "$personal_sh"); do
+		function_adding "$function" "$personal_sh"
+	done
+	for alias in $(aliasi "$personal_sh"); do
+		alias_adding "$alias" "$personal_sh"
+	done
+fi
