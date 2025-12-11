@@ -184,8 +184,8 @@ dcod() {
 dcow() {
 	current_value=$(dconf read $1)
 	if [ "$2" != "$current_value" ]; then
-		dconf write $1 "$2"
-		echo "$1 $2 - updated"
+		dconf write $1 "$2" && echo "$1 $2 - updated"
+		#echo "$1 $2 - updated"
 	else
 		echo "$1 $2 - already has the value"
 	fi
@@ -278,6 +278,25 @@ ext4setup() {
 	elif [[ "$disk_type" == "0" ]];then #flash drives
 		sudo mkfs.ext4 -F -L $label "${DISK}1"
 	fi
+}
+git_adding(){	
+	#$1 github user
+	#$2 github repo
+	#$- repo name for push
+	#$3 path (optional)
+	git clone https://github.com/"$1"/"$2".git "$3"
+	git remote add origin git@github.com:"$1"/"$2".git
+}
+git_config(){
+	while :; do
+		printf "Enter global github push email: ";read email
+		if [[ "$email" =~ ^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$ ]]; then
+			break
+		fi
+	done
+	printf "Enter global github push name: ";read name
+	git config --global user.email "$email"
+	git config --global user.name "$name"
 }
 git_u(){
 	error_default(){
@@ -601,6 +620,13 @@ ${FUNCNAME[1]} /mnt/Data $download_name"
 		echo "------------------------------------"
 	done
 	sudo chattr +i $userfolder_file
+}
+s_link(){
+	if [[ "$2" != $(readlink "$2") ]];then
+		rm "$2"
+		mkdir -p ${2%/*}
+		ln -s "$1" "$2"
+	fi
 }
 sp() {
 	local ShowIn="Budgie;Deepin;Enlightenment;GNOME;KDE;LXDE;LXQt;MATE;Old;Pantheon;ROX;Sugar;TDE;Unity;X-Cinnamon;XFCE;"

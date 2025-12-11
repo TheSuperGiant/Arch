@@ -649,6 +649,14 @@ for App_Startup in "${App_Startup___[@]}"; do
 	fi
 done
 
+#github repos
+if [[ "$script_main" == 1 || "$script_startup" == 1 ]];then
+	git_repo__thesupergiant__arch=1
+fi
+
+#github updater
+source <(curl -s -L https://raw.githubusercontent.com/TheSuperGiant/Arch/refs/heads/main/parts/github_git_repo.sh)
+
 #startup script download to $HOME/Scripts
 #md $HOME/Scripts
 #sp ... -t -d

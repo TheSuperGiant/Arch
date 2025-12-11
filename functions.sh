@@ -279,14 +279,6 @@ ext4setup() {
 		sudo mkfs.ext4 -F -L $label "${DISK}1"
 	fi
 }
-git_adding(){	
-	#$1 github user
-	#$2 github repo
-	#$- repo name for push
-	#$3 path (optional)
-	git clone https://github.com/"$1"/"$2".git "$3"
-	git remote add origin git@github.com:"$1"/"$2".git
-}
 git_config(){
 	while :; do
 		printf "Enter global github push email: ";read email
@@ -410,6 +402,17 @@ ${FUNCNAME[1]} -b \"main\" -g \"git@github.com:username/respetory.git\" -p \"/pa
 		fi
 	done
 	cd ~
+}
+git_update(){	
+	#$1 github user
+	#$2 github repo
+	#$- repo name for push
+	#$3 path (optional)
+	if ! [[ -e "$3" ]]; then
+		git clone https://github.com/"$1"/"$2".git "$3"
+	else
+		git -C "$3" pull
+	fi
 }
 alias lsbl="lsblk -o NAME,TYPE,SIZE,LABEL,MOUNTPOINTS"
 pa() {

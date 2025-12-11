@@ -1,3 +1,5 @@
+box_part "Github repo updating"
+
 user="thesupergiant"
 
 declare -a needed=(
@@ -36,12 +38,10 @@ fi
 
 for re in "${repos[@]}"; do
 	repo_name="${re%%:*}"
-	printf "%s\n" $repo_name
 	if [[ "$(eval echo \${git_repo__$repo_name})" == "1" ]];then
+		box_sub "$repo_name"
 		repo_user=$(echo "${re##*:}" | awk '{print $1}')
 		repo=$(echo "${re##*:}" | awk '{print $2}')
-		printf "%s\n" $repo_user
-		printf "%s\n" $repo
-		git_adding $repo_user $repo "$github_repo_location/$repo"
+		git_update $repo_user $repo "$github_repo_location/$repo"
 	fi
 done
