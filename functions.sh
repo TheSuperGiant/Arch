@@ -404,14 +404,14 @@ ${FUNCNAME[1]} -b \"main\" -g \"git@github.com:username/respetory.git\" -p \"/pa
 	cd ~
 }
 git_update(){	
-	#$1 github user
-	#$2 github repo
+	#$1 path
+	#$2 github user
+	#$3	github repo
 	#$- repo name for push
-	#$3 path (optional)
-	if ! [[ -e "$3" ]]; then
-		git clone https://github.com/"$1"/"$2".git "$3"
+	if ! [[ -e "$1" ]]; then
+		git clone https://github.com/"$2"/"$3".git "$1"
 	else
-		git -C "$3" pull
+		git -C "$1" pull
 	fi
 }
 alias lsbl="lsblk -o NAME,TYPE,SIZE,LABEL,MOUNTPOINTS"

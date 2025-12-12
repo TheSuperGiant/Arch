@@ -42,6 +42,6 @@ for re in "${repos[@]}"; do
 		box_sub "$repo_name"
 		repo_user=$(echo "${re##*:}" | awk '{print $1}')
 		repo=$(echo "${re##*:}" | awk '{print $2}')
-		git_update $repo_user $repo "$github_repo_location/$repo"
+		git_update "$github_repo_location/$repo" $repo_user $repo
 	fi
 done
