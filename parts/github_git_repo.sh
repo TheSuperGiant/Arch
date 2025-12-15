@@ -52,7 +52,9 @@ for re in "${repos[@]}"; do
 		box_sub "$repo_name"
 		repo_user=$(echo "${re##*:}" | awk '{print $1}')
 		repo=$(echo "${re##*:}" | awk '{print $2}')
-		git_update "$github_repo_location/$repo" 
+		#needs to test
+		#git_update "$github_repo_location/$repo" 
+		git_update "$github_repo_location/$repo" $repo_user $repo
 		dis=$(printf '%s\n' "${distro_list[@]}" | grep "^$repo_name" | cut -d: -f2- | sed 's/^[[:space:]]*//')
 		echo $dis
 		if [[ "$distro" == "$dis" ]];then
