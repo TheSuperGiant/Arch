@@ -17,8 +17,8 @@ declare -a repos=(
 )
 
 declare -a sudo_scripts=(
-	"${user}__arch:	Arch/2.sh"
-	"${user}__linux_mint:	Linux-mint/mint_2.sh"
+	"arch:	Arch/2.sh"
+	"linux_mint:	Linux-mint/mint_2.sh"
 )
 
 declare -a distro_list=(
@@ -52,11 +52,7 @@ for re in "${repos[@]}"; do
 		box_sub "$repo_name"
 		repo_user=$(echo "${re##*:}" | awk '{print $1}')
 		repo=$(echo "${re##*:}" | awk '{print $2}')
-		git_update "$github_repo_location/$repo" 
-		dis=$(printf '%s\n' "${distro_list[@]}" | grep "^$repo_name" | cut -d: -f2- | sed 's/^[[:space:]]*//')
-		echo $dis
-		if [[ "$distro" == "$dis" ]];then
-			echo test
-		fi
+		git_update "$github_repo_location/$repo" $repo_user $repo
+		$(printf '%s\n' "$distro_list" | grep '^arch:' | cut -d: -f2- | sed 's/^[[:space:]]*//')
 	fi
 done

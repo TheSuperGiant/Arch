@@ -4,6 +4,9 @@
 # By using this script, you acknowledge that you do so at your own risk.
 # I am not responsible for any damage, data loss, or other issues that may result from the use of this script.
 
+#variable
+source <(curl -s -L https://raw.githubusercontent.com/TheSuperGiant/Arch/refs/heads/main/parts/variable.sh)
+
 
 #if file not exists then create this file and overwrite it with -force|--force|-f. this are the default setting but with variables creating none default settings.
 fail2ban_creation() {
