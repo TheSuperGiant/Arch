@@ -26,18 +26,16 @@ declare -a distro_list=(
 	"${user}__linux_mint:	Linux Mint"
 )
 
-if [[ -n "$git_repo" ]];then
-	for needs in "${needed[@]}"; do
-		need="${needs%%:*}"
-		if [[ $need == "$git_repo" ]];then
-			repo=$(echo "${needs##*:}" | sed -E 's/^[[:space:]]+//')
-			for r in $repo;do
-				declare "git_repo__$r=1"
-			done
-			break
-		fi
-	done
-fi
+for needs in "${needed[@]}"; do
+	need="${needs%%:*}"
+	if [[ "$(eval echo \${git_repo__$need})" == "1" ]];then
+		repo=$(echo "${needs##*:}" | sed -E 's/^[[:space:]]+//')
+		for r in $repo;do
+			declare "git_repo__$r=1"
+		done
+		break
+	fi
+done
 
 github_repo_location="/opt/github_repo"
 if [[ ! -d "$github_repo_location" ]]; then
@@ -52,13 +50,13 @@ for re in "${repos[@]}"; do
 		box_sub "$repo_name"
 		repo_user=$(echo "${re##*:}" | awk '{print $1}')
 		repo=$(echo "${re##*:}" | awk '{print $2}')
-		#needs to test
-		#git_update "$github_repo_location/$repo" 
 		git_update "$github_repo_location/$repo" $repo_user $repo
 		dis=$(printf '%s\n' "${distro_list[@]}" | grep "^$repo_name" | cut -d: -f2- | sed 's/^[[:space:]]*//')
-		echo $dis
 		if [[ "$distro" == "$dis" ]];then
-			echo test
+			files=$(printf '%s\n' "${sudo_scripts[@]}" | grep "^$repo_name" | cut -d: -f2- | sed 's/^[[:space:]]*//')
+			for file in ${files[@]};do
+				add_sudo "$SUDO_USER ALL=(ALL) NOPASSWD: $github_repo_location/$file"
+			done
 		fi
 	fi
 done
