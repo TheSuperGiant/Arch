@@ -18,7 +18,7 @@ declare -a repos=(
 
 declare -a sudo_scripts=(
 	"${user}__arch:	Arch/2.sh"
-	"${user}__linux_mint:	Linux-mint/mint_2.sh"
+	"${user}__linux_mint:	Linux-Mint/mint_2.sh"
 )
 
 declare -a distro_list=(
