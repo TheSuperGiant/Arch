@@ -103,6 +103,11 @@ if [[ "$(xdg-mime query default inode/directory)" == "nemo.desktop" ]];then
 		"explorer__show_hiden_files:	/org/nemo/preferences/show-hidden-files;b"
 	)
 fi
+if [[ "$(xdg-mime query default inode/directory)" == "thunar.desktop" ]];then
+	:
+	#~/.config/xfce4/xfconf/xfce-perchannel-xml/thunar.xml
+
+fi
 
 box_part "Updating settings"
 

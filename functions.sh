@@ -626,7 +626,11 @@ ${FUNCNAME[1]} /mnt/Data $download_name"
 }
 s_link(){
 	if [[ "$2" != $(readlink "$2") ]];then
-		rm "$2"
+		if [[ $3 == "-f" ]];then
+			rm -r "$2"
+		else
+			rm "$2"
+		fi
 		mkdir -p ${2%/*}
 		ln -s "$1" "$2"
 	fi
