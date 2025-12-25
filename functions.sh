@@ -367,6 +367,10 @@ ${FUNCNAME[1]} -b \"main\" -g \"git@github.com:username/respetory.git\" -p \"/pa
 	if [[ -n $ssh ]];then
 		ssh-add ~/.ssh/"$ssh"
 	fi
+	if ! [[ -e "$path" ]]; then
+		echo "$path - not found"
+		return
+	fi
 	cd "$path"
 	if ! [[ -e ".git" ]]; then
 		git init
