@@ -368,7 +368,8 @@ ${FUNCNAME[1]} -b \"main\" -g \"git@github.com:username/respetory.git\" -p \"/pa
 		ssh-add ~/.ssh/"$ssh"
 	fi
 	if ! [[ -e "$path" ]]; then
-		echo "$path - not found"
+		#echo "$path - not found"
+		error "$path - not found"
 		return
 	fi
 	cd "$path"
