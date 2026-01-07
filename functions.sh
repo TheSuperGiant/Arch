@@ -5,7 +5,7 @@
 # I am not responsible for any damage, data loss, or other issues that may result from the use of this script.
 
 
-error() {
+error_message() {
 	printf "\e[1;91m$1\e[0m\n"
 }
 
