@@ -5,11 +5,10 @@
 # I am not responsible for any damage, data loss, or other issues that may result from the use of this script.
 
 
-error() {
-	if [[ 1 == 1 ]];then
-		echo "test"
-	fi
+error_message() {
+	printf "\e[1;91m$1\e[0m\n"
 }
+
 add_alias() {
 	if ! grep -q "^alias $1=" ~/.bashrc; then
 		code="alias $1=\"$2\""
