@@ -6,7 +6,9 @@
 
 
 error() {
-	echo test
+	if [[ 1 == 1 ]];then
+		echo test
+	fi
 }
 add_alias() {
 	if ! grep -q "^alias $1=" ~/.bashrc; then
