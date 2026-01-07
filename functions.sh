@@ -5,7 +5,7 @@
 # I am not responsible for any damage, data loss, or other issues that may result from the use of this script.
 
 
-error(){
+error() {
 	printf "\e[1;91m$1\e[0m\n"
 }
 
@@ -36,12 +36,7 @@ add_device_label \"data\" \"games\""
 			mountpoint="/mnt/$devices"
 			new_value="LABEL=$devices $mountpoint $fs_type defaults,nofail 0 2"
 			old_mountpoints=$(awk -v mp="$mountpoint" '{for(i=1;i<=NF;i++) if($i==mp) print}' /etc/fstab)
-			#if [[ "$new_value" != "$old_value" && -n "$old_value" ]];then
 			if [[ "$new_value" != "$old_value" && -n "$old_mountpoints" ]];then
-				#echo test
-				#sudo sed -i "\|$old_value|d" /etc/fstab 
-				#sed -i "\|$mountpoint|d" file.txt
-				#sudo sed -i "\|$old_mountingpoints|d" /etc/fstab 
 				sudo sed -i "\|$(printf '%s\n' "$mountpoint" | sed 's/[\/&]/\\&/g')|d" /etc/fstab 
 			fi
 			if ! sudo grep -q "^LABEL=$devices " /etc/fstab; then
