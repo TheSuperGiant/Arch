@@ -6,7 +6,6 @@
 
 
 e_message() {
-	printf "\e[1;91m$1\e[0m\n"
 	echo test
 }
 
