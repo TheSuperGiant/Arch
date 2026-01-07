@@ -29,20 +29,35 @@ add_device_label \"data\" \"games\""
 		help_text
 		return
 	fi
+	error() {
+		printf "\e[1;91m\n\n$1\e[0m\n\n"
+	}
 	for devices in "$@"; do
+		#echo $devices
+		#local device_name=$(printf '%s\n' $devices | head -n 1)
+		#local parameter=$(printf '%s\n' $devices | sed -n '2p')
+		#printf '%s\n' $device_name
+		#printf '%s\n' $parameter
+		#if [[ ! "$parameter" =~ ^(-p|-pre-mount|--pre-mount)?$ ]];then
+			#help_text
+			#error "Error: Only -p/--pre-mount is allowed."
+			#return
+		#fi
+		#local old_value=$(grep "^LABEL=$device_name " /etc/fstab)
 		local old_value=$(grep "^LABEL=$devices " /etc/fstab)
 		local fs_type=$(lsblk -o NAME,LABEL,FSTYPE | grep -w $devices | awk '{print $3}')
 		if [ -n "$fs_type" ]; then
 			mountpoint="/mnt/$devices"
+			#if [ -n "$parameter" ]; then
+				#other vlue
+				#new_value=$(LABEL=$devices $mountpoint $fs_type defaults,nofail 0 2)
+				#new_value=$(LABEL=$device_name $mountpoint $fs_type defaults,nofail 0 2)
+			#else
+				#new_value=$(LABEL=$devices $mountpoint $fs_type defaults,nofail 0 2)
 			new_value="LABEL=$devices $mountpoint $fs_type defaults,nofail 0 2"
-			old_mountpoints=$(awk -v mp="$mountpoint" '{for(i=1;i<=NF;i++) if($i==mp) print}' /etc/fstab)
-			#if [[ "$new_value" != "$old_value" && -n "$old_value" ]];then
-			if [[ "$new_value" != "$old_value" && -n "$old_mountpoints" ]];then
-				#echo test
-				#sudo sed -i "\|$old_value|d" /etc/fstab 
-				#sed -i "\|$mountpoint|d" file.txt
-				#sudo sed -i "\|$old_mountingpoints|d" /etc/fstab 
-				sudo sed -i "\|$(printf '%s\n' "$mountpoint" | sed 's/[\/&]/\\&/g')|d" /etc/fstab 
+			if [[ "$new_value" != "$old_value" && -n "$old_value" ]];then
+				echo test
+				sudo sed -i "\|$old_value|d" /etc/fstab 
 			fi
 			if ! sudo grep -q "^LABEL=$devices " /etc/fstab; then
 				sudo bash -c "echo \"$new_value\" >> /etc/fstab" && echo "✅ Added '$devices' partition to /etc/fstab"
@@ -57,7 +72,6 @@ add_device_label \"data\" \"games\""
 	fi
 }
 add_dns() {
-	printf "⚠️ WARNING: This function may block access to websites on open business networks. ⚠️\n\n\n"
 	sudo chattr -i /etc/resolv.conf
 	nameservers=$(grep '^nameserver' /etc/resolv.conf | awk '{print $2}')
 	for serverips in $nameservers; do
@@ -171,15 +185,22 @@ dcow() {
 	current_value=$(dconf read $1)
 	if [ "$2" != "$current_value" ]; then
 		dconf write $1 "$2" && echo "$1 $2 - updated"
+		#echo "$1 $2 - updated"
 	else
 		echo "$1 $2 - already has the value"
 	fi
 	echo "------------------------------------"
 }
 ext4setup() {
+	error() {
+		echo -e "\e[1;91m$1\e[0m"
+	}
 	label_check() {
-		while :; do
+
+		while true; do
+			
 			printf "Enter label for the partition: "; read label
+
 			if [[ "$label" =~ ^("root"|"home"|"swap"|"boot") || ! "$label" =~ ^[A-Za-z0-9_-]{1,16}$ ]];then
 				clear
 				error "$label: is not allowed! \nAllowed: 1–16 letters, numbers, - or _ (no spaces or special characters)\nnot allowed names: root home swap boot\n\n"
@@ -197,8 +218,8 @@ ext4setup() {
 
 	printf "\n\n⚠️ WARNING: This will erase all data on that disk.⚠️\n\n\n"
 
-	while :; do
-		while :; do
+	while true; do
+		while true; do
 			lsblk -o NAME,TYPE,SIZE,LABEL,MODEL | awk 'NR==1{print;next} $2=="disk" && NR>1{print "--------------------------------------------------"} $2=="disk" || $2=="part"{print}'
 			echo "--------------------------------------------------"
 			
@@ -403,7 +424,7 @@ pa() {
 	par $@
 }
 par() {
-	while :; do
+	while true; do
 		while IFS= read -r line1 && IFS= read -r line2; do
 			if echo "$line1" | grep -q "invalid or corrupted.*(PGP signature)"; then
 				local PGP_signature_error=1
@@ -576,26 +597,21 @@ ${FUNCNAME[1]} /mnt/Data $download_name"
 			if [[ -n $old_location_path ]];then
 				sudo rsync -avuc $old_location_path $new_path
 			fi
-			local err=0
+			local error=0
 			while read line; do
-				echo "$line"
 				if echo "$line" | grep "^Only in $old_location_path" > /dev/null; then
 					((sync_error++))
-					local err=1
+					local error=1
 					break
 				elif echo "$line" | grep "differ" > /dev/null; then
 					if [[ "$(echo "$line" | grep -oP '/[^ ]+' | sed -n '2p')" != "$(ls -lt $(echo "$line" | grep -oP '/[^ ]+') | head -n 1 | grep -oP '/[^ ]+')" ]]; then
 						((sync_error++))
-						local err=1
+						local error=1
 						break
 					fi
 				fi
-			done < <(sudo LC_ALL=C diff -qr $old_location_path $new_path_userfolder 2>/dev/null)
-			if ! [[ -d "$new_path_userfolder" ]];then
-				((sync_error++))
-				local err=1
-			fi
-			if [[ (( $err = 0 )) ]]; then
+			done < <(sudo diff -qr $old_location_path $new_path_userfolder 2>/dev/null)
+			if [[ (( $error = 0 )) ]]; then
 				if [[ -n $old_location_path ]];then
 					sudo sed -i "/^XDG_${old_location_dir}_DIR=/c\XDG_${old_location_dir}_DIR=\"$new_path_userfolder\"" $userfolder_file
 					sudo rm -rf $old_location_path
@@ -839,7 +855,7 @@ ssh_key(){
 }
 ssu() {
 	sudo -v
-	while :; do
+	while true; do
 		sudo -n true
 		sleep 60
 	done &
