@@ -7,7 +7,7 @@
 
 error() {
 	if [[ 1 == 1 ]];then
-		echo test
+		echo "test"
 	fi
 }
 add_alias() {
