@@ -8,7 +8,6 @@
 error() {
 	echo test
 }
-
 add_alias() {
 	if ! grep -q "^alias $1=" ~/.bashrc; then
 		code="alias $1=\"$2\""
