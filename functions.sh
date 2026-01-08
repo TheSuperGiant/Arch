@@ -6,7 +6,8 @@
 
 
 error_text_color() {
-	printf "\e[1;91m$1\e[0m\n"
+	#printf "\e[1;91m$1\e[0m\n"
+	echo "testing123"
 }
 
 add_alias() {
