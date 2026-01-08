@@ -145,7 +145,7 @@ box(){
 box_part(){
 	box "$1..." "="
 }
-box_sub(){
+box_sub() {
 	box "$1" "-"
 }
 Clean_Folder() {
