@@ -177,7 +177,7 @@ ext4setup() {
 			printf "Enter label for the partition: "; read label
 			if [[ "$label" =~ ^("root"|"home"|"swap"|"boot") || ! "$label" =~ ^[A-Za-z0-9_-]{1,16}$ ]];then
 				clear
-					error "$label: is not allowed! \nAllowed: 1–16 letters, numbers, - or _ (no spaces or special characters)\nnot allowed names: root home swap boot\n\n"
+				error "$label: is not allowed! \nAllowed: 1–16 letters, numbers, - or _ (no spaces or special characters)\nnot allowed names: root home swap boot\n\n"
 			else
 				return
 			fi
@@ -266,7 +266,7 @@ git_config(){
 }
 git_u(){
 	error_default(){
-			error "\n\n$1"
+		error "\n\n$1"
 	}
 	help_text(){
 		echo "git upload
@@ -336,7 +336,7 @@ ${FUNCNAME[1]} -b \"main\" -g \"git@github.com:username/respetory.git\" -p \"/pa
 		return
 	fi
 	if ! [[ -e "$path" ]]; then
-			error "$path - not found"
+		error "$path - not found"
 		return
 	fi
 	if [[ $(pgrep ssh-agent) == "" ]];then
