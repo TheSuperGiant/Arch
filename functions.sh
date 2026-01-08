@@ -5,9 +5,8 @@
 # I am not responsible for any damage, data loss, or other issues that may result from the use of this script.
 
 
-error_text_color() {
-	#printf "\e[1;91m$1\e[0m\n"
-	echo "testing123"
+error() {
+	printf "\e[1;91m$1\e[0m\n"
 }
 
 add_alias() {
@@ -178,7 +177,7 @@ ext4setup() {
 			printf "Enter label for the partition: "; read label
 			if [[ "$label" =~ ^("root"|"home"|"swap"|"boot") || ! "$label" =~ ^[A-Za-z0-9_-]{1,16}$ ]];then
 				clear
-				error_text_color "$label: is not allowed! \nAllowed: 1–16 letters, numbers, - or _ (no spaces or special characters)\nnot allowed names: root home swap boot\n\n"
+					error "$label: is not allowed! \nAllowed: 1–16 letters, numbers, - or _ (no spaces or special characters)\nnot allowed names: root home swap boot\n\n"
 			else
 				return
 			fi
@@ -267,7 +266,7 @@ git_config(){
 }
 git_u(){
 	error_default(){
-		error_text_color "\n\n$1"
+			error "\n\n$1"
 	}
 	help_text(){
 		echo "git upload
@@ -337,7 +336,7 @@ ${FUNCNAME[1]} -b \"main\" -g \"git@github.com:username/respetory.git\" -p \"/pa
 		return
 	fi
 	if ! [[ -e "$path" ]]; then
-		error_text_color "$path - not found"
+			error "$path - not found"
 		return
 	fi
 	if [[ $(pgrep ssh-agent) == "" ]];then

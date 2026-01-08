@@ -1,7 +1,7 @@
 declare -a required=(
 	#1
-	"function__ext4setup:	error_text_color"
-	"function__git_u:	error_text_color"
+	"function__ext4setup:	error"
+	"function__git_u:	error"
 	"function__github_program_updater:	box_sub"
 	"function__update:	ap github_program_updater"
 	#2
