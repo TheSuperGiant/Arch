@@ -556,12 +556,13 @@ ${FUNCNAME[1]} /mnt/Data $download_name"
 		echo $userfolder
 		local old_location_dir=$(printf "%s\n" "${old_location[@]}" | grep "$userfolder" | awk -F':' '{print $2}' | sed -E 's/^[[:space:]]+//')
 		if [[ -z $old_location_dir ]];then
+			local old_locationd_found=0
+			local old_location_dir=${userfolder^^}
 			local old_user_path="$HOME/$userfolder"
 			if [ -d "$old_user_path" ]; then
 				local old_location_path="$old_user_path"
 			fi
 		else
-			local old_location_dir=${userfolder^^}
 			local old_location_path=$(grep "^XDG_${old_location_dir}_DIR=" $userfolder_file | sed -n 's/.*"\([^"]*\)".*/\1/p')
 			local old_location_path=$(echo "$old_location_path" | envsubst)
 		fi
@@ -591,7 +592,6 @@ ${FUNCNAME[1]} /mnt/Data $download_name"
 					fi
 				fi
 			done < <(sudo LC_ALL=C diff -qr $old_location_path $new_path_userfolder 2>/dev/null)
-			echo "err: $err"
 			#this if check later again
 			if ! [[ -d "$new_path_userfolder" ]];then
 				((sync_error++))
@@ -599,7 +599,7 @@ ${FUNCNAME[1]} /mnt/Data $download_name"
 			fi
 			if [[ (( $err = 0 )) ]]; then
 				if [[ -n $old_location_path ]];then
-					if [[ -z $old_location_dir ]];then
+					if [[ $old_locationd_found == 0 ]];then
 						sudo echo "XDG_${old_location_dir}_DIR=\"$new_path_userfolder\"" >> $userfolder_file
 					else
 						sudo sed -i "/^XDG_${old_location_dir}_DIR=/c\XDG_${old_location_dir}_DIR=\"$new_path_userfolder\"" $userfolder_file
