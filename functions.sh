@@ -429,14 +429,14 @@ paru_clean() {
 alias pause="read -p \"Press [Enter] to continue...\""
 pf() {
 	printf "⚠️ WARNING: Using this function will lock the userfolders file. If you want to make changes to the file, you must first give it root write privileges again.⚠️\n\n\n"
-	local desktop_name=$(xdg-user-dir "DESKTOP" | awk -F'/' '{print $NF}')
-	local download_name=$(xdg-user-dir "DOWNLOAD" | awk -F'/' '{print $NF}')
-	local music_name=$(xdg-user-dir "MUSIC" | awk -F'/' '{print $NF}')
-	local documents_name=$(xdg-user-dir "DOCUMENTS" | awk -F'/' '{print $NF}')
-	local pictures_name=$(xdg-user-dir "PICTURES" | awk -F'/' '{print $NF}')
-	local templates_name=$(xdg-user-dir "TEMPLATES" | awk -F'/' '{print $NF}')
-	local public_name=$(xdg-user-dir "PUBLICSHARE" | awk -F'/' '{print $NF}')
-	local videos_name=$(xdg-user-dir "VIDEOS" | awk -F'/' '{print $NF}')
+	local desktop_name=$(xdg-user-dir "DESKTOP" 2>/dev/null | awk -F'/' '{print $NF}')
+	local download_name=$(xdg-user-dir "DOWNLOAD" 2>/dev/null | awk -F'/' '{print $NF}')
+	local music_name=$(xdg-user-dir "MUSIC" 2>/dev/null | awk -F'/' '{print $NF}')
+	local documents_name=$(xdg-user-dir "DOCUMENTS" 2>/dev/null | awk -F'/' '{print $NF}')
+	local pictures_name=$(xdg-user-dir "PICTURES" 2>/dev/null | awk -F'/' '{print $NF}')
+	local templates_name=$(xdg-user-dir "TEMPLATES" 2>/dev/null | awk -F'/' '{print $NF}')
+	local public_name=$(xdg-user-dir "PUBLICSHARE" 2>/dev/null | awk -F'/' '{print $NF}')
+	local videos_name=$(xdg-user-dir "VIDEOS" 2>/dev/null | awk -F'/' '{print $NF}')
 	help_text() {
 		echo "personal folders
 		
@@ -561,6 +561,8 @@ ${FUNCNAME[1]} /mnt/Data $download_name"
 			local old_user_path="$HOME/$userfolder"
 			if [ -d "$old_user_path" ]; then
 				local old_location_path="$old_user_path"
+			else
+				local userfolder_found=0
 			fi
 		else
 			local old_location_path=$(grep "^XDG_${old_location_dir}_DIR=" $userfolder_file | sed -n 's/.*"\([^"]*\)".*/\1/p')
@@ -579,7 +581,6 @@ ${FUNCNAME[1]} /mnt/Data $download_name"
 			fi
 			local err=0
 			while read line; do
-				echo "$line"
 				if echo "$line" | grep "^Only in $old_location_path" > /dev/null; then
 					((sync_error++))
 					local err=1
@@ -592,8 +593,7 @@ ${FUNCNAME[1]} /mnt/Data $download_name"
 					fi
 				fi
 			done < <(sudo LC_ALL=C diff -qr $old_location_path $new_path_userfolder 2>/dev/null)
-			#this if check later again
-			if ! [[ -d "$new_path_userfolder" ]];then
+			if ! [[ -d "$new_path_userfolder" ]] && [[ "$userfolder_found" != 0 ]];then
 				((sync_error++))
 				local err=1
 			fi
