@@ -429,14 +429,14 @@ paru_clean() {
 alias pause="read -p \"Press [Enter] to continue...\""
 pf() {
 	printf "⚠️ WARNING: Using this function will lock the userfolders file. If you want to make changes to the file, you must first give it root write privileges again.⚠️\n\n\n"
-	local desktop_name=$(xdg-user-dir "DESKTOP" | awk -F'/' '{print $NF}')
-	local download_name=$(xdg-user-dir "DOWNLOAD" | awk -F'/' '{print $NF}')
-	local music_name=$(xdg-user-dir "MUSIC" | awk -F'/' '{print $NF}')
-	local documents_name=$(xdg-user-dir "DOCUMENTS" | awk -F'/' '{print $NF}')
-	local pictures_name=$(xdg-user-dir "PICTURES" | awk -F'/' '{print $NF}')
-	local templates_name=$(xdg-user-dir "TEMPLATES" | awk -F'/' '{print $NF}')
-	local public_name=$(xdg-user-dir "PUBLICSHARE" | awk -F'/' '{print $NF}')
-	local videos_name=$(xdg-user-dir "VIDEOS" | awk -F'/' '{print $NF}')
+	desktop_name=$(xdg-user-dir "DESKTOP" | awk -F'/' '{print $NF}')
+	download_name=$(xdg-user-dir "DOWNLOAD" | awk -F'/' '{print $NF}')
+	music_name=$(xdg-user-dir "MUSIC" | awk -F'/' '{print $NF}')
+	documents_name=$(xdg-user-dir "DOCUMENTS" | awk -F'/' '{print $NF}')
+	pictures_name=$(xdg-user-dir "PICTURES" | awk -F'/' '{print $NF}')
+	templates_name=$(xdg-user-dir "TEMPLATES" | awk -F'/' '{print $NF}')
+	public_name=$(xdg-user-dir "PUBLICSHARE" | awk -F'/' '{print $NF}')
+	videos_name=$(xdg-user-dir "VIDEOS" | awk -F'/' '{print $NF}')
 	help_text() {
 		echo "personal folders
 		
@@ -554,18 +554,13 @@ ${FUNCNAME[1]} /mnt/Data $download_name"
 	sudo chattr -i $userfolder_file
 	for userfolder in "${folders[@]}"; do
 		echo $userfolder
-		local old_location_dir=$(printf "%s\n" "${old_location[@]}" | grep "$userfolder" | awk -F':' '{print $2}' | sed -E 's/^[[:space:]]+//')
-		if [[ -z $old_location_dir ]];then
-			local old_user_path="$HOME/$userfolder"
-			if [ -d "$old_user_path" ]; then
-				local old_location_path="$old_user_path"
-			fi
-		else
-			local old_location_dir=${userfolder^^}
-			local old_location_path=$(grep "^XDG_${old_location_dir}_DIR=" $userfolder_file | sed -n 's/.*"\([^"]*\)".*/\1/p')
-			local old_location_path=$(echo "$old_location_path" | envsubst)
+		old_location_dir=$(printf "%s\n" "${old_location[@]}" | grep "$userfolder" | awk -F':' '{print $2}' | sed -E 's/^[[:space:]]+//')
+		if [[ -z $old_location_dir ]];then 
+			old_location_dir=${userfolder^^}
 		fi
-		local new_path_userfolder="$new_path/$userfolder"
+		old_location_path=$(grep "^XDG_${old_location_dir}_DIR=" $userfolder_file | sed -n 's/.*"\([^"]*\)".*/\1/p')
+		old_location_path=$(echo "$old_location_path" | envsubst)
+		new_path_userfolder="$new_path/$userfolder"
 		if [[ $(grep "^XDG_${old_location_dir}_DIR=" $userfolder_file | awk -F'=' '{print $2}' | sed 's/"//g') == "$new_path_userfolder" ]]; then
 			echo "$new_path_userfolder: is already set to this location"
 			echo "------------------------------------"
@@ -591,19 +586,13 @@ ${FUNCNAME[1]} /mnt/Data $download_name"
 					fi
 				fi
 			done < <(sudo LC_ALL=C diff -qr $old_location_path $new_path_userfolder 2>/dev/null)
-			echo "err: $err"
-			#this if check later again
 			if ! [[ -d "$new_path_userfolder" ]];then
 				((sync_error++))
 				local err=1
 			fi
 			if [[ (( $err = 0 )) ]]; then
 				if [[ -n $old_location_path ]];then
-					if [[ -z $old_location_dir ]];then
-						sudo echo "XDG_${old_location_dir}_DIR=\"$new_path_userfolder\"" >> $userfolder_file
-					else
-						sudo sed -i "/^XDG_${old_location_dir}_DIR=/c\XDG_${old_location_dir}_DIR=\"$new_path_userfolder\"" $userfolder_file
-					fi
+					sudo sed -i "/^XDG_${old_location_dir}_DIR=/c\XDG_${old_location_dir}_DIR=\"$new_path_userfolder\"" $userfolder_file
 					sudo rm -rf $old_location_path
 				else
 					sudo echo "XDG_${old_location_dir}_DIR=\"$new_path_userfolder\"" >> $userfolder_file
