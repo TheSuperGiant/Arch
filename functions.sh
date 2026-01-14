@@ -446,6 +446,9 @@ ${FUNCNAME[1]} <path to new location> <personal folder(s)>
 ${FUNCNAME[1]} <path to new location> <parameters>
 ${FUNCNAME[1]} <path to new location> <personal folder(s)> <parameters>
 
+parameters
+	${FUNCNAME[1]} -y	Create non-default user folders automatically. Skips the yes/no confirmation.
+
 parameters folders
 	${FUNCNAME[1]} -d	$download_name
 	${FUNCNAME[1]} -e	$desktop_name
@@ -458,7 +461,10 @@ parameters folders
 
 example:
 ${FUNCNAME[1]} /mnt/Data $download_name $documents_name -v -t
-${FUNCNAME[1]} /mnt/Data $download_name"
+${FUNCNAME[1]} /mnt/Data $download_name
+${FUNCNAME[1]} /mnt/Data banana
+${FUNCNAME[1]} /mnt/Data banana -y
+${FUNCNAME[1]} /mnt/Data $download_name $documents_name -v -t banana -y"
 	}
 	if [[ $# == 0 ]] || printf '%s\n' "$@" | grep -qE '^-(h|help)$|^--help$'; then
 		help_text
