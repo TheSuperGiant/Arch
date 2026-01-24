@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 # Disclaimer:
 # This script is provided as-is, without any warranty or guarantee.
 # By using this script, you acknowledge that you do so at your own risk.
@@ -38,7 +38,7 @@ http_check() {
 
 http_check $1
 
-if [ "$linutil__christitus" == "1" ]; then
+if [[ "$linutil__christitus" == "1" ]]; then
 	#All credits to christitus.com for creating linutil.
 	#https://github.com/ChrisTitusTech/linutil
 	curl -fsSL https://christitus.com/linux | sh
@@ -100,7 +100,7 @@ done
 #----------maby to personal--------
 
 
-if [ "$sudo_reboot" == "1" ]; then
+if [[ "$sudo_reboot" == "1" ]]; then
 	add_sudo "$USER ALL=(ALL) NOPASSWD: /usr/bin/reboot, /usr/bin/shutdown, /usr/bin/poweroff"
 fi
 
@@ -130,7 +130,7 @@ source <(curl -s -L https://raw.githubusercontent.com/TheSuperGiant/Arch/refs/he
 #if [ -n "$personal_folder_place" ]; then
 	#for folders in Desktop Documents Downloads Music Pictures Public Templates Videos; do
 		#if [ "$(eval echo \$personal_folder__$folders)" == "1" ]; then
-			#echo 
+			#echo
 			#folder+=" $folders"
 		#fi
 	#done
@@ -142,22 +142,19 @@ box_part "System update"
 sudo pacman -Syu --noconfirm
 
 if [[ "$numlock_startup" == "on" || "$numlock_startup" == "off" ]]; then
-	add_lightdm e "[Seat:*]" "\[Seat:\*\]"
-fi
-
-if [[ "$numlock_startup" == "on" || "$numlock_startup" == "off" ]]; then
 	App_Install__numlockx=1
+	add_lightdm e "[Seat:*]" "\[Seat:\*\]"
 	add_lightdm "greeter-setup-script=/usr/bin/numlockx $numlock_startup" "/^\[Seat:\*\]/a"
 	echo "NumLock $numlock_startup configuration added to [Seat:*] section."
 fi
 
-if [ "$App_Install__notepadPlusPlus" == "1" ]; then
+if [[ "$App_Install__notepadPlusPlus" == "1" ]]; then
 	App_Install__wine=1
-fi 
+fi
 
-if [ "$Firewall__Default" == "1" ]; then
+if [[ "$Firewall__Default" == "1" ]]; then
 	ufw=1
-	if [ "$firewall_Recommanded_rules" == "1" ]; then
+	if [[ "$firewall_Recommanded_rules" == "1" ]]; then
 		fail2ban=1
 	fi
 fi
@@ -194,27 +191,27 @@ cd ~
 
 for app in "${App_Install__[@]}"; do
 	key="${app%%:*}"
-	if [ "$(eval echo \$App_Install__$key)" == "1" ]; then
+	if [[ "$(eval echo \$App_Install__$key)" == "1" ]]; then
 		value=$(echo "${app##*:}" | sed -E 's/^[[:space:]]+//')
 		$function --needed --noconfirm $value <<< 1
 	fi
 done
 
-if [ "$Firewall__Default" == "1" ]; then
+if [[ "$Firewall__Default" == "1" ]]; then
 	sudo ufw enable
-	if [ "$firewall_Recommanded_rules" == "1" ]; then
+	if [[ "$firewall_Recommanded_rules" == "1" ]]; then
 		sudo ufw default deny incoming
 		sudo ufw default allow outgoing
 		#sudo systemctl enable --now fail2ban
 	fi
 fi
 
-if [ "$App_Install__bluetooth" == "1" ]; then
+if [[ "$App_Install__bluetooth" == "1" ]]; then
 	sudo systemctl enable --now bluetooth.service
 fi
 
 #themes
-if [ "$theme__pack__Windows_10_Dark" == "1" ]; then
+if [[ "$theme__pack__Windows_10_Dark" == "1" ]]; then
 	theme='Windows-10-Dark'
 	git clone https://github.com/B00merang-Project/"$theme".git
 	mds /usr/share/themes/
@@ -233,16 +230,16 @@ time_converd() {
 	echo "$H.$M"
 }
 
-if [ "$Setting__night_light__schedule_from" != "" ]; then
+if [[ "$Setting__night_light__schedule_from" != "" ]]; then
 	Setting__night_light__schedule_from=$(time_converd $Setting__night_light__schedule_from)
 fi
 
-if [ "$Setting__night_light__schedule_to" != "" ]; then
+if [[ "$Setting__night_light__schedule_to" != "" ]]; then
 	Setting__night_light__schedule_to=$(time_converd $Setting__night_light__schedule_to)
 fi
 
 if [[ "$Setting__night_light__schedule_mode=0" != "" ]]; then
-	if [ "$Setting__night_light__schedule_mode" == "0" ]; then
+	if [[ "$Setting__night_light__schedule_mode" == "0" ]]; then
 		Setting__night_light__schedule_mode="auto"
 	else
 		Setting__night_light__schedule_mode="manual"
@@ -322,7 +319,7 @@ fi
 #echo "|       Updating settings...       |"
 #echo "------------------------------------"
 
-#dcow(){
+#dcow() {
 #	current_value=$(dconf read $1)
 #	if [ "$2" != "$current_value" ]; then
 #		dconf write $1 "$2"
@@ -380,7 +377,7 @@ fi
 #			network_restart=1
 #		fi
 #	done
-#	if [ "$network_restart" == 1 ]; then 
+#	if [ "$network_restart" == 1 ]; then
 #		sudo sysctl --system
 #	fi
 #fi
@@ -388,7 +385,7 @@ fi
 
 box_part "Updating default program"
 
-default_app (){
+default_app () {
 	if [[ "$1" == $(ls /usr/share/applications/ | grep -i $1) ]] && ! [[ "$1" == $(xdg-mime query default "$2") ]]; then
 		xdg-mime default "$1" "$2"
 		echo "${1%%.desktop} ${2##*/} - Updated to the default program"
@@ -581,12 +578,12 @@ for default in "${Default_category[@]}"; do
 	category="${default%%:*}"
 	category_verb="${category}__app"
 	default_app=${!category_verb}; default_app="${default_app,,}"
-	if [ -n "$default_app" ]; then
+	if [[ -n "$default_app" ]]; then
 		program_install_name=$(printf "%s\n" "${Default_Apps[@]}" | grep "^$default_app:" | awk -F: '{print $2}' | sed -E 's/^[[:space:]]+//')
 		file_association_type=$(echo "${default##*:}" | sed -E 's/^[[:space:]]+//')
 		if [[ "$file_association_type" == */* ]]; then
 			for asso in $file_association_type; do
-				if [[ -n $(declare -n list="$category"; printf "%s\n" "${list[@]}" | grep -x "^$default_app") ]]; then
+				if [[ -n $(declare -n list="$category"; printf "%s\n" "${list[[@ ]]}" | grep -x "^$default_app") ]]; then
 					default_app "$program_install_name" "$asso"
 				fi
 			done
@@ -657,7 +654,7 @@ declare -a App_Startup___=(
 
 for App_Startup in "${App_Startup___[@]}"; do
 	name_string="${App_Startup%%:*}"
-	if [ "$(eval echo \$App_Startup__$name_string)" == "1" ]; then
+	if [[ "$(eval echo \$App_Startup__$name_string)" == "1" ]]; then
 		application=$(echo "${App_Startup##*:}" | cut -d';' -f1 | sed -E 's/^[[:space:]]+//')
 		name_app=($application); unset name_app[-1]
 		read -ra type <<< "$application"
@@ -666,7 +663,7 @@ for App_Startup in "${App_Startup___[@]}"; do
 done
 
 #github repos
-if [[ "$script_main" == 1 || "$script_startup" == 1 ]];then
+if [[ "$script_main" == 1 || "$script_startup" == 1 ]]; then
 	git_repo__thesupergiant__arch=1
 fi
 
@@ -681,9 +678,9 @@ source <(curl -s -L https://raw.githubusercontent.com/TheSuperGiant/Arch/refs/he
 #if [ -n "$StartScript" ]; then
 	#md $HOME/Scripts
 	#md ~/.config/autostart
-	
+
 	#startup_location="$HOME/Scripts/startup_script.sh"
-	
+
 	#if [ ! -f "$startup_location" ] || ! echo "$StartScript" | diff -q - "$startup_location" > /dev/null; then
 		#echo -e "$StartScript" > $startup_location
 	#fi
@@ -727,7 +724,7 @@ source <(curl -s -L https://raw.githubusercontent.com/TheSuperGiant/Arch/refs/he
 #testing by hand
 	#paru -S --noconfirm nvidia #already installing it in pre install with archtitus.
 
-#later	
+#later
 	#qemu
 
 http_check $2

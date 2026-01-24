@@ -9,12 +9,12 @@ declare -a Setting__=()
 
 
 if [[ "$XDG_CURRENT_DESKTOP" == "X-Cinnamon" ]]; then
-	if [[ -n $Setting__background_image ]];then
+	if [[ -n $Setting__background_image ]]; then
 		Setting__background_image_total="file://$Setting__background_image"
 	fi
-	if [[ $Setting__first_day_of_the_weak == "sunday" ]];then
+	if [[ $Setting__first_day_of_the_weak == "sunday" ]]; then
 		Setting__first_day_of_the_weak="0"
-	elif [[ $Setting__first_day_of_the_weak == "monday" ]];then
+	elif [[ $Setting__first_day_of_the_weak == "monday" ]]; then
 		Setting__first_day_of_the_weak="1"
 	fi
 	Setting__+=(
@@ -88,10 +88,10 @@ if [[ "$XDG_CURRENT_DESKTOP" == *"GNOME"* || "$XDG_CURRENT_DESKTOP" == "X-Cinnam
 		"theme__mouse:	/org/gnome/desktop/interface/cursor-theme;'"
 	)
 fi
-if [[ "$(xdg-mime query default inode/directory)" == "nemo.desktop" ]];then
-	if [[ "$Setting__explorer__always_open_in_a_new_window" == "0" ]];then
+if [[ "$(xdg-mime query default inode/directory)" == "nemo.desktop" ]]; then
+	if [[ "$Setting__explorer__always_open_in_a_new_window" == "0" ]]; then
 		Setting__explorer__new_window="1"
-	elif [[ "$Setting__explorer__always_open_in_a_new_window" == "1" ]];then
+	elif [[ "$Setting__explorer__always_open_in_a_new_window" == "1" ]]; then
 		Setting__explorer__new_window="0"
 	fi
 	Setting__+=(
@@ -103,7 +103,7 @@ if [[ "$(xdg-mime query default inode/directory)" == "nemo.desktop" ]];then
 		"explorer__show_hiden_files:	/org/nemo/preferences/show-hidden-files;b"
 	)
 fi
-if [[ "$(xdg-mime query default inode/directory)" == "thunar.desktop" ]];then
+if [[ "$(xdg-mime query default inode/directory)" == "thunar.desktop" ]]; then
 	:
 	#~/.config/xfce4/xfconf/xfce-perchannel-xml/thunar.xml
 
@@ -120,7 +120,7 @@ for Setting in "${Setting__[@]}"; do
 			desired_value=$(bool "$(eval echo \${Setting__$key})")
 			dcow $value "$desired_value"
 		fi
-	elif [ -n "$(eval echo \${Setting__$key})" ]; then
+	elif [[ -n "$(eval echo \${Setting__$key})" ]]; then
 		if [[ "$type" == "u" ]]; then
 			desired_value="uint32 $(eval echo \${Setting__$key})"
 		elif [[ "$type" == "'" ]]; then
@@ -133,7 +133,7 @@ for Setting in "${Setting__[@]}"; do
 done
 if [[ "$XDG_CURRENT_DESKTOP" == "X-Cinnamon" ]]; then
 	#favories apps menu
-	
+
 	#app list source - if variable app list is empty
 	source <(curl -s -L https://raw.githubusercontent.com/TheSuperGiant/Arch/refs/heads/main/parts/app_list.sh)
 	path="/org/cinnamon/favorite-apps"
@@ -145,7 +145,7 @@ if [[ "$XDG_CURRENT_DESKTOP" == "X-Cinnamon" ]]; then
 		order=$(eval echo \${start_munu__favorite_app__$program})
 		if [[ "$order" != "0" && -n "$order" ]]; then
 			favorite_order+="$order:$program_install_name|"
-		elif [[ "$order" == "0" ]];then
+		elif [[ "$order" == "0" ]]; then
 			startmenu_add="1"
 		else
 			:
@@ -153,18 +153,18 @@ if [[ "$XDG_CURRENT_DESKTOP" == "X-Cinnamon" ]]; then
 		fi
 	done
 	favorites=($(echo "$favorite_order" | tr '|' '\n' | sort -V))
-	for i in "${favorites[@]}";do	
+	for i in "${favorites[@]}"; do
 		echo $i
 		row="${i%%:*}"
 		i="${i##*:}"
 		favorite[$row]="$i"
 	done
-	for add_favorite in ${favorite[@]};do
+	for add_favorite in ${favorite[@]}; do
 		add_favorites=$(dcoa "$add_favorite" "$add_favorites")
 	done
-	if [[ -z "$add_favorites" && $startmenu_add == "1" ]];then
+	if [[ -z "$add_favorites" && $startmenu_add == "1" ]]; then
 		add_favorites="['']"
-	elif [[ -z "$add_favorites" ]];then
+	elif [[ -z "$add_favorites" ]]; then
 		add_favorites=$(dconf read $path)
 	fi
 	dcow $path "$add_favorites"
@@ -179,7 +179,7 @@ if [[ "$XDG_CURRENT_DESKTOP" == "X-Cinnamon" ]]; then
 	updated_applets=$(dconf read $path)
 	for applet in "${applet__[@]}"; do
 		name="${applet%%:*}"
-		if [ "$(eval echo \${applet__$name})" == "1" ]; then
+		if [[ "$(eval echo \${applet__$name})" == "1" ]]; then
 			key=$(echo "${applet##*:}" | sed -E 's/^[[:space:]]+//')
 			updated_applets=$(echo "$updated_applets" | sed "s/'[^']*$key[^']*',\?//g" | sed -E 's/\[ *,/\[/; s/, *\]/\]/')
 		fi
@@ -196,9 +196,9 @@ if [[ "$XDG_CURRENT_DESKTOP" == "X-Cinnamon" ]]; then
 		program_name="${menu%%:*}"
 		block_name=$(echo "${menu##*:}" | cut -d';' -f1 | sed -E 's/^[[:space:]]+//')
 		user_value="$(eval echo   \$Setting__menu__$program_name)"
-		if [ -n "$user_value" ]; then
+		if [[ -n "$user_value" ]]; then
 			type=$(echo "${menu##*;}")
-			if [[ "$type" == "b" ]];then
+			if [[ "$type" == "b" ]]; then
 				user_value=$(bool $(echo "${menu##*:}" | cut -d';' -f1 | sed -E 's/^[[:space:]]+//'))
 			fi
 			current_value=$(awk -v block="$block_name" '
@@ -215,10 +215,10 @@ if [[ "$XDG_CURRENT_DESKTOP" == "X-Cinnamon" ]]; then
 				echo "$block_name set to $user_value"
 			fi
 		fi
-	done	
+	done
 fi
 
-if [ "$ipV6_disable" == 1 ]; then
+if [[ "$ipV6_disable" == 1 ]]; then
 	echo "IPv6 disabled"
 	CONFIG_FILE="/etc/sysctl.d/99-disable-ipv6.conf"
 	for ipV6 in "net.ipv6.conf.all.disable_ipv6 = 1" "net.ipv6.conf.default.disable_ipv6 = 1" "net.ipv6.conf.lo.disable_ipv6 = 1"; do
@@ -227,7 +227,7 @@ if [ "$ipV6_disable" == 1 ]; then
 			network_restart=1
 		fi
 	done
-	if [ "$network_restart" == 1 ]; then 
+	if [[ "$network_restart" == 1 ]]; then
 		sudo sysctl --system
 	fi
 fi

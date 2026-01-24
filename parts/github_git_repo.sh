@@ -28,9 +28,9 @@ declare -a distro_list=(
 
 for needs in "${needed[@]}"; do
 	need="${needs%%:*}"
-	if [[ "$(eval echo \${git_repo__$need})" == "1" ]];then
+	if [[ "$(eval echo \${git_repo__$need})" == "1" ]]; then
 		repo=$(echo "${needs##*:}" | sed -E 's/^[[:space:]]+//')
-		for r in $repo;do
+		for r in $repo; do
 			declare "git_repo__$r=1"
 		done
 		break
@@ -46,15 +46,15 @@ fi
 
 for re in "${repos[@]}"; do
 	repo_name="${re%%:*}"
-	if [[ "$(eval echo \${git_repo__$repo_name})" == "1" ]];then
+	if [[ "$(eval echo \${git_repo__$repo_name})" == "1" ]]; then
 		box_sub "$repo_name"
 		repo_user=$(echo "${re##*:}" | awk '{print $1}')
 		repo=$(echo "${re##*:}" | awk '{print $2}')
 		git_update "$github_repo_location/$repo" $repo_user $repo
 		dis=$(printf '%s\n' "${distro_list[@]}" | grep "^$repo_name" | cut -d: -f2- | sed 's/^[[:space:]]*//')
-		if [[ "$distro" == "$dis" ]];then
+		if [[ "$distro" == "$dis" ]]; then
 			files=$(printf '%s\n' "${sudo_scripts[@]}" | grep "^$repo_name" | cut -d: -f2- | sed 's/^[[:space:]]*//')
-			for file in ${files[@]};do
+			for file in ${files[@]}; do
 				add_sudo "$SUDO_USER ALL=(ALL) NOPASSWD: $github_repo_location/$file"
 			done
 		fi

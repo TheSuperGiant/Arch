@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 # Disclaimer:
 # This script is provided as-is, without any warranty or guarantee.
 # By using this script, you acknowledge that you do so at your own risk.
@@ -14,16 +14,16 @@ $([[ $(uname -m) == x86_64 ]] && echo 64-bit installer || echo 32-bit installer)
 "
 
 if dmesg | grep -qi "efi:"; then
-    echo "UEFI"
+	echo "UEFI"
 else
-    echo "BIOS"
+	echo "BIOS"
 fi
 
 echo -e "\n\nupdating keyrings"
 #disable RCU messeges output
 dmesg -n 1
 systemctl default >/dev/null 2>&1
- 
+
 source <(curl -s -L $1)
 
 if [[ "$numlock_startup" == "on" ]]; then
@@ -32,7 +32,7 @@ fi
 
 for EXPORT in time_zone install_type; do
 	value="${!EXPORT}"
-	if [ "$value" ]; then
+	if [[ "$value" ]]; then
 		export "$EXPORT=$value"
 	fi
 done
@@ -54,10 +54,10 @@ source <(curl -s -L https://raw.githubusercontent.com/TheSuperGiant/Arch/refs/he
 list() {
 	local array=("${!1}")
 	for item in "${array[@]}"; do
-        if grep -q "$2" <<< "$item"; then
+		if grep -q "$2" <<< "$item"; then
 			echo $(echo "${item##*:}" | sed -E 's/^[[:space:]]+//') && return 0
 		fi
-    done
+	done
 }
 
 #declare -a login_sc=(

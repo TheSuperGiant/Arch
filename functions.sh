@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 # Disclaimer:
 # This script is provided as-is, without any warranty or guarantee.
 # By using this script, you acknowledge that you do so at your own risk.
@@ -32,12 +32,12 @@ add_device_label \"data\" \"games\""
 	for devices in "$@"; do
 		local old_value=$(grep "^LABEL=$devices " /etc/fstab)
 		local fs_type=$(lsblk -o NAME,LABEL,FSTYPE | grep -w $devices | awk '{print $3}')
-		if [ -n "$fs_type" ]; then
+		if [[ -n "$fs_type" ]]; then
 			mountpoint="/mnt/$devices"
 			new_value="LABEL=$devices $mountpoint $fs_type defaults,nofail 0 2"
 			old_mountpoints=$(awk -v mp="$mountpoint" '{for(i=1;i<=NF;i++) if($i==mp) print}' /etc/fstab)
-			if [[ "$new_value" != "$old_value" && -n "$old_mountpoints" ]];then
-				sudo sed -i "\|$(printf '%s\n' "$mountpoint" | sed 's/[\/&]/\\&/g')|d" /etc/fstab 
+			if [[ "$new_value" != "$old_value" && -n "$old_mountpoints" ]]; then
+				sudo sed -i "\|$(printf '%s\n' "$mountpoint" | sed 's/[\/&]/\\&/g')|d" /etc/fstab
 			fi
 			if ! sudo grep -q "^LABEL=$devices " /etc/fstab; then
 				sudo bash -c "echo \"$new_value\" >> /etc/fstab" && echo "✅ Added '$devices' partition to /etc/fstab"
@@ -64,7 +64,7 @@ add_dns() {
 				break
 			fi
 		done
-		if [ $compare == 1 ]; then
+		if [[ $compare == 1 ]]; then
 			echo "Removed: \"nameserver $serverips\" from /etc/resolv.conf"
 			sudo sed -i "/^nameserver $serverips/d" /etc/resolv.conf
 		fi
@@ -86,7 +86,7 @@ add_dns() {
 	sudo chattr +i /etc/resolv.conf
 }
 add_function() {
-    if ! grep -q "^$1()" ~/.bashrc; then
+	if ! grep -q "^$1()" ~/.bashrc; then
 		echo -e "$1() {\n\t$2\n}" >> ~/.bashrc
 		eval "$1() {
 			$2
@@ -100,7 +100,7 @@ add_lightdm() {
 	else
 		local third="$3"
 	fi
-	if [ "$1" == "e" ]; then
+	if [[ "$1" == "e" ]]; then
 		if ! grep -q "^$third$" "/etc/lightdm/lightdm.conf"; then
 			echo -e "\n$2" | sudo tee -a "/etc/lightdm/lightdm.conf"
 		fi
@@ -119,21 +119,21 @@ add_sudo() {
 #	echo -e "network={\n	ssid=\"$1\"\n	psk=\"$2\"\n	scan_ssid=1\n}" | sudo tee -a "/etc/wpa_supplicant/multi_networks.conf"
 #}
 bool() {
-	if [ "$1" == "1" ]; then
+	if [[ "$1" == "1" ]]; then
 		echo "true"
 	else
 		echo "false"
 	fi
 }
-box(){
+box() {
 	local char="${2:-=}"
 	local width=40
 	local text="$1"
 	local fill=$(( (width - 2 - ${#text}) / 2 ))
-	line(){
+	line() {
 		awk -v w="$width" -v c="$char" 'BEGIN {for(i=0;i<w;i++) printf "%s", c; print ""}'
 	}
-	if [[ "$char" =~ ^("█"|"▒"|"░") ]];then
+	if [[ "$char" =~ ^("█"|"▒"|"░") ]]; then
 		begin_end="$char"
 	else
 		begin_end="|"
@@ -142,7 +142,7 @@ box(){
 	printf "$begin_end%*s%s%*s$begin_end\n" "$fill" '' "$text" "$((width - 2 - ${#text} - fill))" ''
 	line
 }
-box_part(){
+box_part() {
 	box "$1..." "="
 }
 box_sub() {
@@ -153,7 +153,7 @@ Clean_Folder() {
 }
 alias dco="dconf dump /"
 dcoa() {
-	if [[ "$2" != *[\[\]]* ]]; then
+	if [[ "$2" != *[[\[[\ ]]* ]]; then
 		echo "['$1']"
 	else
 		echo "${2%]}, '$1']"
@@ -164,7 +164,7 @@ dcod() {
 }
 dcow() {
 	current_value=$(dconf read $1)
-	if [ "$2" != "$current_value" ]; then
+	if [[ "$2" != "$current_value" ]]; then
 		dconf write $1 "$2" && echo "$1 $2 - updated"
 	else
 		echo "$1 $2 - already has the value"
@@ -175,7 +175,7 @@ ext4setup() {
 	label_check() {
 		while :; do
 			printf "Enter label for the partition: "; read label
-			if [[ "$label" =~ ^("root"|"home"|"swap"|"boot") || ! "$label" =~ ^[A-Za-z0-9_-]{1,16}$ ]];then
+			if [[ "$label" =~ ^("root"|"home"|"swap"|"boot") || ! "$label" =~ ^[[A-Za-z0-9_- ]]{1,16}$ ]]; then
 				clear
 				error "$label: is not allowed! \nAllowed: 1–16 letters, numbers, - or _ (no spaces or special characters)\nnot allowed names: root home swap boot\n\n"
 			else
@@ -184,7 +184,7 @@ ext4setup() {
 		done
 	}
 
-    clear
+	clear
 
 	# Disclaimer message
 	echo "Warning: I am not responsible for any data loss if you choose the wrong disk!"
@@ -196,15 +196,15 @@ ext4setup() {
 		while :; do
 			lsblk -o NAME,TYPE,SIZE,LABEL,MODEL | awk 'NR==1{print;next} $2=="disk" && NR>1{print "--------------------------------------------------"} $2=="disk" || $2=="part"{print}'
 			echo "--------------------------------------------------"
-			
+
 			printf "Enter disk (e.g., 'a-z' for /dev/sdX or '0,1,..' for /dev/nvmeXn1): "; read disk_letter; disk_letter=$(echo "$disk_letter" | tr '[:upper:]' '[:lower:]')
-            if [[ $disk_letter =~ ^[a-z]$ ]];then
+			if [[ $disk_letter =~ ^[[a-z ]]$ ]]; then
 			    DISK="/dev/sd${disk_letter}"
-            else
-                DISK="/dev/nvme${disk_letter}n1"
-            fi
-			if [ ! -e "$DISK" ]; then
-                clear
+			else
+				DISK="/dev/nvme${disk_letter}n1"
+			fi
+			if [[ ! -e "$DISK" ]]; then
+				clear
 				echo "Disk not found. Try again."
 				echo
 				echo
@@ -212,16 +212,16 @@ ext4setup() {
 				break
 			fi
 		done
-			
+
 		clear
 		echo "Disk information for $DISK:"
 		echo "----------------------------------"
 		lsblk -o NAME,TYPE,SIZE,LABEL,MODEL $DISK
-		
+
 		echo
 		echo
 		printf "Are you sure you want to format disk $DISK? Type 'y' to proceed: "; read confirm; confirm=$(echo "$confirm" | tr '[:upper:]' '[:lower:]')
-		if [ $confirm = "y" ]; then
+		if [[ $confirm = "y" ]]; then
 			disk_type=$(lsblk -d -o ROTA -n "$DISK" | xargs)
 			break
 		fi
@@ -229,34 +229,34 @@ ext4setup() {
 
 	clear
 	label_check
-    
-    partitions=$(ls ${DISK}* | grep -E "^${DISK}[0-9]$")
+
+	partitions=$(ls ${DISK}* | grep -E "^${DISK}[0-9]$")
 	partitions_count=$(echo "$partitions" | wc -l)
-	
-	for partion in $partitions;do
+
+	for partion in $partitions; do
 		echo "$partion"
 		sudo umount "$partion"
 	done
-	
-    for ((i=1; i<=partitions_count; i++)); do
-    	printf "d\n$i\n" | sudo fdisk "$DISK"
-    done
-    printf "g\nn\n\n\n\nw" | sudo fdisk "$DISK"
-    
-    if [[ $disk_letter =~ ^[0-9]$ ]];then
-        DISK="${DISK}p"
-    fi
 
-	if [[ "$disk_type" == "1" ]];then #hdd
+	for ((i=1; i<=partitions_count; i++)); do
+		printf "d\n$i\n" | sudo fdisk "$DISK"
+	done
+	printf "g\nn\n\n\n\nw" | sudo fdisk "$DISK"
+
+	if [[ $disk_letter =~ ^[[0-9 ]]$ ]]; then
+		DISK="${DISK}p"
+	fi
+
+	if [[ "$disk_type" == "1" ]]; then #hdd
 		sudo mkfs.ext4 -F -c -L $label "${DISK}1"
-	elif [[ "$disk_type" == "0" ]];then #flash drives
+	elif [[ "$disk_type" == "0" ]]; then #flash drives
 		sudo mkfs.ext4 -F -L $label "${DISK}1"
 	fi
 }
-git_config(){
+git_config() {
 	while :; do
 		printf "Enter global github push email: ";read email
-		if [[ "$email" =~ ^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$ ]]; then
+		if [[ "$email" =~ ^[[A-Za-z0-9._%+- ]]+@[[A-Za-z0-9.- ]]+\.[[A-Za-z ]]{2,}$ ]]; then
 			break
 		fi
 	done
@@ -264,27 +264,27 @@ git_config(){
 	git config --global user.email "$email"
 	git config --global user.name "$name"
 }
-git_u(){
-	error_default(){
+git_u() {
+	error_default() {
 		error "\n\n$1"
 	}
-	help_text(){
+	help_text() {
 		echo "git upload
-		
+
 github project upload with ssh
 
 parameters
 	-b --branch			branch
-	-g --git			ssh project url 
+	-g --git			ssh project url
 	-p --path			local path
-	
+
 parameters (optional)
 	-s --ssh			ssh file
 	-e --email			email
 	-u --user			username
 	-m --message			message
-	
-	
+
+
 example:
 ${FUNCNAME[1]} -b \"main\" -g \"git@github.com:username/respetory.git\" -p \"/path/to/local/project\"
 ${FUNCNAME[1]} -b \"main\" -g \"git@github.com:username/respetory.git\" -p \"/path/to/local/project\" -s \"filename\" -u \"username\" -m \"message\""
@@ -294,43 +294,43 @@ ${FUNCNAME[1]} -b \"main\" -g \"git@github.com:username/respetory.git\" -p \"/pa
 		return
 	fi
 	while [[ $# -gt 0 ]]; do
-        case "$1" in
-            -b|--branch)
-                local branch="$2"
-                shift 2
-                ;;
-            -e|--email)
-                local email="$2"
-                shift 2
-                ;;
-            -g|--git)
-                local git="$2"
-                shift 2
-                ;;
-            -m|--message)
-                local message="$2"
-                shift 2
-                ;;
-            -p|--path)
-                local path="$2"
-                shift 2
-                ;;
-            -s|--ssh)
-                local ssh="$2"
-                shift 2
-                ;;
-            -u|--user)
-                local user="$2"
-                shift 2
-                ;;
-            *)
+		case "$1" in
+			-b|--branch)
+				local branch="$2"
+				shift 2
+				;;
+			-e|--email)
+				local email="$2"
+				shift 2
+				;;
+			-g|--git)
+				local git="$2"
+				shift 2
+				;;
+			-m|--message)
+				local message="$2"
+				shift 2
+				;;
+			-p|--path)
+				local path="$2"
+				shift 2
+				;;
+			-s|--ssh)
+				local ssh="$2"
+				shift 2
+				;;
+			-u|--user)
+				local user="$2"
+				shift 2
+				;;
+			*)
 				help_text
-                error_default "Unknown option: $1"
-                return
-                ;;
-        esac
-    done
-	if [[ -z "$branch" || -z "$git" || -z "$path" ]];then
+				error_default "Unknown option: $1"
+				return
+				;;
+		esac
+	done
+	if [[ -z "$branch" || -z "$git" || -z "$path" ]]; then
 		help_text
 		error_default "paramers reqired: -b/--branch -g/--git -p/--path"
 		return
@@ -339,10 +339,10 @@ ${FUNCNAME[1]} -b \"main\" -g \"git@github.com:username/respetory.git\" -p \"/pa
 		error "$path - not found"
 		return
 	fi
-	if [[ $(pgrep ssh-agent) == "" ]];then
+	if [[ $(pgrep ssh-agent) == "" ]]; then
 		eval "$(ssh-agent -s)"
 	fi
-	if [[ -n $ssh ]];then
+	if [[ -n $ssh ]]; then
 		ssh-add ~/.ssh/"$ssh"
 	fi
 	cd "$path"
@@ -350,26 +350,26 @@ ${FUNCNAME[1]} -b \"main\" -g \"git@github.com:username/respetory.git\" -p \"/pa
 		git init
 	fi
 	local remote_set=$(git remote -v)
-	if [[ -z $remote_set ]];then
+	if [[ -z $remote_set ]]; then
 		git remote add origin "$git"
-		if [[ -n "$user" ]];then
+		if [[ -n "$user" ]]; then
 			git config user.name "$user"
 		fi
-		if [[ -n "$email" ]];then
+		if [[ -n "$email" ]]; then
 			git config user.email "$email"
 		fi
 	fi
 	git add .
 	git commit --allow-empty-message -m "$message"
 	git branch -M "$branch"
-	while [[ $folder_sync != "0" ]];do
+	while [[ $folder_sync != "0" ]]; do
 		local folder_sync=0
 		while IFS= read -r line1; do
 			if echo "$line1" | grep -qE "error: failed to push some refs to"; then
 				local folder_sync=1
 			fi
 		done < <(git push origin "$branch" --porcelain 2>&1)
-		if [[ "$folder_sync" == "1" ]];then
+		if [[ "$folder_sync" == "1" ]]; then
 			mkdir -p "/tmp/$path"
 			cp -r . "/tmp/$path"
 			git fetch origin
@@ -381,7 +381,7 @@ ${FUNCNAME[1]} -b \"main\" -g \"git@github.com:username/respetory.git\" -p \"/pa
 	done
 	cd ~
 }
-git_update(){	
+git_update() {
 	#$1 path
 	#$2 github user
 	#$3	github repo
@@ -439,7 +439,7 @@ pf() {
 	local videos_name=$(xdg-user-dir "VIDEOS" 2>/dev/null | awk -F'/' '{print $NF}')
 	help_text() {
 		echo "personal folders
-		
+
 moving to new location
 
 ${FUNCNAME[1]} <path to new location> <personal folder(s)>
@@ -473,62 +473,62 @@ ${FUNCNAME[1]} /mnt/Data $download_name $documents_name -v -t banana -y"
 		new_path="$1"
 		shift
 	fi
-	if [[ " $* " == *" -y "* ]];then
+	if [[ " $* " == *" -y "* ]]; then
 		local yes_force="1"
 	fi
 	while [[ $# -gt 0 ]]; do
-        case "$1" in
-            -d)
-                local folders+=("$download_name")
-                shift
-                ;;
-            -e)
-                local folders+=("$desktop_name")
-                shift
-                ;;
-            -m)
-                local folders+=("$music_name")
-                shift
-                ;;
-            -o)
-                local folders+=("$documents_name")
-                shift
-                ;;
-            -p)
-                local folders+=("$pictures_name")
-                shift
-                ;;
-            -t)
-                local folders+=("$templates_name")
-                shift
-                ;;
-            -u)
-                local folders+=("$public_name")
-                shift
-                ;;
-            -v)
-                local folders+=("$videos_name")
-                shift
-                ;;
-            -y)
-                shift
-                ;;
-            -*)
-                echo "Unknown option: $1"
-                return
-                ;;
-            *)
+		case "$1" in
+			-d)
+				local folders+=("$download_name")
+				shift
+				;;
+			-e)
+				local folders+=("$desktop_name")
+				shift
+				;;
+			-m)
+				local folders+=("$music_name")
+				shift
+				;;
+			-o)
+				local folders+=("$documents_name")
+				shift
+				;;
+			-p)
+				local folders+=("$pictures_name")
+				shift
+				;;
+			-t)
+				local folders+=("$templates_name")
+				shift
+				;;
+			-u)
+				local folders+=("$public_name")
+				shift
+				;;
+			-v)
+				local folders+=("$videos_name")
+				shift
+				;;
+			-y)
+				shift
+				;;
+			-*)
+				echo "Unknown option: $1"
+				return
+				;;
+			*)
 				folder="${1,,}"; folder="${folder^}"
 				if [[ " $folder " =~ $download_name|$desktop_name|$music_name|$documents_name|$pictures_name|$templates_name|$public_name|$videos_name ]]; then
 					local folders+=("$folder")
 					shift
 				else
-					if [[ "$yes_force" == "1" ]];then
+					if [[ "$yes_force" == "1" ]]; then
 						local folders+=("$folder")
 						shift
 					else
 						printf "Is '$folder' the correct folder name? Type 'y' to confirm: "; read confirm; confirm=$(echo "$confirm" | tr '[:upper:]' '[:lower:]')
-						if [ $confirm = "y" ]; then
+						if [[ $confirm = "y" ]]; then
 							local folders+=("$folder")
 							shift
 						else
@@ -538,8 +538,8 @@ ${FUNCNAME[1]} /mnt/Data $download_name $documents_name -v -t banana -y"
 					fi
 				fi
 				;;
-        esac
-    done
+		esac
+	done
 	mkdir -p "$new_path" 2>/dev/null
 	if ! [[ -d "$new_path" ]]; then
 		echo "personal data Folder cannot be created."
@@ -561,11 +561,11 @@ ${FUNCNAME[1]} /mnt/Data $download_name $documents_name -v -t banana -y"
 	for userfolder in "${folders[@]}"; do
 		echo $userfolder
 		local old_location_dir=$(printf "%s\n" "${old_location[@]}" | grep "$userfolder" | awk -F':' '{print $2}' | sed -E 's/^[[:space:]]+//')
-		if [[ -z $old_location_dir ]];then
+		if [[ -z $old_location_dir ]]; then
 			local old_locationd_found=0
 			local old_location_dir=${userfolder^^}
 			local old_user_path="$HOME/$userfolder"
-			if [ -d "$old_user_path" ]; then
+			if [[ -d "$old_user_path" ]]; then
 				local old_location_path="$old_user_path"
 			else
 				local userfolder_found=0
@@ -582,7 +582,7 @@ ${FUNCNAME[1]} /mnt/Data $download_name $documents_name -v -t banana -y"
 		fi
 		local sync_error=0
 		while (( $sync_error < 3 )); do
-			if [[ -n $old_location_path ]];then
+			if [[ -n $old_location_path ]]; then
 				sudo rsync -avuc $old_location_path $new_path
 			fi
 			local err=0
@@ -592,20 +592,20 @@ ${FUNCNAME[1]} /mnt/Data $download_name $documents_name -v -t banana -y"
 					local err=1
 					break
 				elif echo "$line" | grep "differ" > /dev/null; then
-					if [[ "$(echo "$line" | grep -oP '/[^ ]+' | sed -n '2p')" != "$(ls -lt $(echo "$line" | grep -oP '/[^ ]+') | head -n 1 | grep -oP '/[^ ]+')" ]]; then
+					if [[ "$(echo "$line" | grep -oP '/[[^ ]]+' | sed -n '2p')" != "$(ls -lt $(echo "$line" | grep -oP '/[[^ ]]+') | head -n 1 | grep -oP '/[[^ ]]+')" ]]; then
 						((sync_error++))
 						local err=1
 						break
 					fi
 				fi
 			done < <(sudo LC_ALL=C diff -qr $old_location_path $new_path_userfolder 2>/dev/null)
-			if ! [[ -d "$new_path_userfolder" ]] && [[ "$userfolder_found" != 0 ]];then
+			if ! [[ -d "$new_path_userfolder" ]] && [[ "$userfolder_found" != 0 ]]; then
 				((sync_error++))
 				local err=1
 			fi
 			if [[ (( $err = 0 )) ]]; then
-				if [[ -n $old_location_path ]];then
-					if [[ $old_locationd_found == 0 ]];then
+				if [[ -n $old_location_path ]]; then
+					if [[ $old_locationd_found == 0 ]]; then
 						sudo echo "XDG_${old_location_dir}_DIR=\"$new_path_userfolder\"" >> $userfolder_file
 					else
 						sudo sed -i "/^XDG_${old_location_dir}_DIR=/c\XDG_${old_location_dir}_DIR=\"$new_path_userfolder\"" $userfolder_file
@@ -613,20 +613,20 @@ ${FUNCNAME[1]} /mnt/Data $download_name $documents_name -v -t banana -y"
 					sudo rm -rf $old_location_path
 				else
 					sudo echo "XDG_${old_location_dir}_DIR=\"$new_path_userfolder\"" >> $userfolder_file
-					sudo mkdir $new_path_userfolder
+					sudo mkdir -p $new_path_userfolder
 					sudo chown $USER:$USER $new_path_userfolder
 				fi
 				sudo ln -sf $new_path_userfolder "$HOME/$userfolder"
 				break
-			fi 
+			fi
 		done
 		echo "------------------------------------"
 	done
 	sudo chattr +i $userfolder_file
 }
-s_link(){
-	if [[ "$2" != $(readlink "$2") ]];then
-		if [[ $3 == "-f" ]];then
+s_link() {
+	if [[ "$2" != $(readlink "$2") ]]; then
+		if [[ $3 == "-f" ]]; then
 			rm -r "$2"
 		else
 			rm "$2"
@@ -639,24 +639,24 @@ sp() {
 	local ShowIn="Budgie;Deepin;Enlightenment;GNOME;KDE;LXDE;LXQt;MATE;Old;Pantheon;ROX;Sugar;TDE;Unity;X-Cinnamon;XFCE;"
 	help_text() {
 		echo "startup personal
-				
+
 Creating program startup for this user.
 
-Usage:	sp [arguments] [parameters]
+Usage:	${FUNCNAME[1]} [arguments] [parameters]
 
 arguments
 	Filename Type Execution
-	
+
 	Filename:
 	a space is not allowed use instead _ or -
-	
+
 	Type can only be:
 	Application, Link, or Directory
 
 parameters (optional)
     -a --Autostart		autostart disabled
     -d --NoDisplay		invisble - possible to run visible applications
-    -e --Hidden			invisble - not possible to run visible applications 
+    -e --Hidden			invisble - not possible to run visible applications
     -t --Terminal		run in a visual terminal
     -s --StartupNotify		startup animation
     -b --DBusActivatable	if supports DBus activation
@@ -673,7 +673,7 @@ parameters (optional)
     -i --Icon			[path]	icon
     -w --Path			[path]	working directory
     -r --TryExec		[path]	program path - (only show in menu when program exists)
-	
+
 Translations
     Translations codes can be:
     af am an ar as ast be bn br bs ca cs cy da de de_AT de_CH el en en_GB en_US eo es es_AR es_CO et eu fa fi fo fr fr_BE fr_CA ga gl gu he hi hr hu hy id is it ja jv ka kk km kn ko ky la lb lo lt lv mk ml mr ms mt nb ne nl nn oc pl ps pt pt_BR qu ro ru rw se si sk sl sq sr sv sw ta te th tl tr uk uz vi wa xh yi zh zh_CN zh_TW zu
@@ -683,13 +683,13 @@ parameters (optional)
     -Comment[*]	[text]	comment (translations)
 
 example:
-sp filename Application \"execution command\" -a -b -d -e -s -t -n \"explorer name\" -c \"comment\" -D \"25\" -i \"/path/to/icon/\" -w \"/path/to/working/directory/\" -H \"hoverover name\" -r \"/path/to/program/\" -o \"GNOME;KDE;\" -x \"GNOME;KDE;\" -m firefox -g \"Office;\" -y \"text/plain;image/png;\" -k \"browser;internet;\" -Name[it] \"avvio personale\" -Comment[id] \"Buat file aplikasi startup pribadi dengan mudah\"
+${FUNCNAME[1]} filename Application \"execution command\" -a -b -d -e -s -t -n \"explorer name\" -c \"comment\" -D \"25\" -i \"/path/to/icon/\" -w \"/path/to/working/directory/\" -H \"hoverover name\" -r \"/path/to/program/\" -o \"GNOME;KDE;\" -x \"GNOME;KDE;\" -m firefox -g \"Office;\" -y \"text/plain;image/png;\" -k \"browser;internet;\" -Name[it] \"avvio personale\" -Comment[id] \"Buat file aplikasi startup pribadi dengan mudah\"
 
 if you need an \" in startup file then you must use \\\"...\\\"
 
 ---------------------------------
 Removing startup file
-sp -R --Remove \"filename\"
+${FUNCNAME[1]} -R --Remove \"filename\"
 "
 	}
 	if [[ $# -eq 0 ]]; then
@@ -700,7 +700,7 @@ sp -R --Remove \"filename\"
 		local VO_splits=(${2//;/ })
 		local VO_valid=(${3//;/ })
 		for VO_split in ${VO_splits[@]}; do
-			if ! [[ " ${VO_valid[@]} " == *" $VO_split "* ]]; then
+			if ! [[ " ${VO_valid[[@ ]]} " == *" $VO_split "* ]]; then
 				echo -e "\n\nNo valid option for $1; the only valid options are: ($3)"
 				return 2
 			fi
@@ -708,113 +708,113 @@ sp -R --Remove \"filename\"
 	}
 	local save_path="/etc/xdg/autostart"
 	while [[ $# -gt 0 ]]; do
-        case "$1" in
-            -h|-help|--help)
-                help_text
-                return
-                ;;
-            -a|--Autostart)
-                local Autostart="Autostart-enabled=false\nX-GNOME-Autostart-enabled=false"
-                shift
-                ;;
-            -b|--DBusActivatable)
-                local DBusActivatable="true"
-                shift
-                ;;
-            -c|--Comment)
-                local Comment="$2"
-                shift 2
-                ;;
-            -Comment\[*\])
-                [[ -n $comment ]] && comment+=$(echo "\n")
+		case "$1" in
+			-h|-help|--help)
+				help_text
+				return
+				;;
+			-a|--Autostart)
+				local Autostart="Autostart-enabled=false\nX-GNOME-Autostart-enabled=false"
+				shift
+				;;
+			-b|--DBusActivatable)
+				local DBusActivatable="true"
+				shift
+				;;
+			-c|--Comment)
+				local Comment="$2"
+				shift 2
+				;;
+			-Comment\[*\])
+				[[ -n $comment ]] && comment+=$(echo "\n")
 				local comment+=$(echo "$1=$2")
-                shift 2
-                ;;
-            -d|--NoDisplay)
-                local NoDisplay="NoDisplay=true"
-                shift
-                ;;
-            -D|--Delay)
-                local Delay=$2
-                shift 2
-                ;;
-            -e|--Hidden)
-                local Hidden="Hidden=true"
-                shift
-                ;;
-            -g|--Categories)
-                local Categories="$2"
-                shift 2
-                ;;
-            -H|--GenericName)
-                local GenericName="$2"
-                shift 2
-                ;;
-            -i|--Icon)
-                local Icon="$2"
-                shift 2
-                ;;
-            -k|--Keywords)
-                local Keywords="$2"
-                shift 2
-                ;;
-            -m|--StartupWMClass)
-                local StartupWMClass="$2"
-                shift 2
-                ;;
-            -n|--Name)
-                local Name="$2"
-                shift 2
-                ;;
-            -Name\[*\])
+				shift 2
+				;;
+			-d|--NoDisplay)
+				local NoDisplay="NoDisplay=true"
+				shift
+				;;
+			-D|--Delay)
+				local Delay=$2
+				shift 2
+				;;
+			-e|--Hidden)
+				local Hidden="Hidden=true"
+				shift
+				;;
+			-g|--Categories)
+				local Categories="$2"
+				shift 2
+				;;
+			-H|--GenericName)
+				local GenericName="$2"
+				shift 2
+				;;
+			-i|--Icon)
+				local Icon="$2"
+				shift 2
+				;;
+			-k|--Keywords)
+				local Keywords="$2"
+				shift 2
+				;;
+			-m|--StartupWMClass)
+				local StartupWMClass="$2"
+				shift 2
+				;;
+			-n|--Name)
+				local Name="$2"
+				shift 2
+				;;
+			-Name\[*\])
 				#valid_option "-Name[*]" $2 "" #the possible translation options
 				[[ -n $name ]] && name+=$(echo "\n")
 				local name+=$(echo "$1=$2")
-                shift 2
-                ;;
-            -o|--OnlyShowIn)
+				shift 2
+				;;
+			-o|--OnlyShowIn)
 				valid_option $1 $2 $ShowIn; [[ $? -eq 2 ]] && return || local OnlyShowIn="$2"
-                shift 2
-                ;;
-            -r|--TryExec)
-                local TryExec="$2"
-                shift 2
-                ;;
+				shift 2
+				;;
+			-r|--TryExec)
+				local TryExec="$2"
+				shift 2
+				;;
 			-R|--Remove)
 				sudo rm -f "$save_path/$2.desktop"
 				echo "$2.desktop has been removed from the startup directory"
-                return
-                ;;
-            -s|--StartupNotify)
-                local StartupNotify="StartupNotify=true"
-                shift
-                ;;
-            -t|--Terminal)
-                local Terminal="true"
-                shift
-                ;;
-            -w|--Path)
-                local Path="$2"
-                shift 2
-                ;;
-            -x|--NotShowIn)
-                valid_option $1 $2 $ShowIn; [[ $? -eq 2 ]] && return || local NotShowIn="$2"
-                shift 2
-                ;;
-            -y|--MimeType)
-                local MimeType="$2"
-                shift 2
-                ;;
-            -*)
-                echo "Unknown option: $1"
-                return
-                ;;
-            *)
-                local info+=("$1")
-                shift
-                ;;
-        esac
-    done
+				return
+				;;
+			-s|--StartupNotify)
+				local StartupNotify="StartupNotify=true"
+				shift
+				;;
+			-t|--Terminal)
+				local Terminal="true"
+				shift
+				;;
+			-w|--Path)
+				local Path="$2"
+				shift 2
+				;;
+			-x|--NotShowIn)
+				valid_option $1 $2 $ShowIn; [[ $? -eq 2 ]] && return || local NotShowIn="$2"
+				shift 2
+				;;
+			-y|--MimeType)
+				local MimeType="$2"
+				shift 2
+				;;
+			-*)
+				echo "Unknown option: $1"
+				return
+				;;
+			*)
+				local info+=("$1")
+				shift
+				;;
+		esac
+	done
 	valid_option "Type" ${info[1]} "Application;Link;Directory"; [[ $? -eq 2 ]] && return
 	save_file="$save_path/${info[0]}.desktop"
 	data=$(echo -e "[Desktop Entry]
@@ -838,11 +838,11 @@ EOF"
 	echo "------------------------------------"
 }
 #start_s()
-ssh_key(){
-	if [[ $(pgrep ssh-agent) == "" ]];then
+ssh_key() {
+	if [[ $(pgrep ssh-agent) == "" ]]; then
 		eval "$(ssh-agent -s)"
 	fi
-	for keygen_name in "$@";do
+	for keygen_name in "$@"; do
 		file_path="$HOME/.ssh/$keygen_name"
 		ssh-keygen -t ed25519 -C "$keygen_name" -f "$file_path"
 		ssh-add "$file_path"

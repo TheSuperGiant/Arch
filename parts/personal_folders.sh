@@ -17,10 +17,10 @@ declare -a folder_parameters=(
 	"Videos:-v"
 )
 
-if [ -n "$personal_folder_place" ]; then
+if [[ -n "$personal_folder_place" ]]; then
 	for folders in "${folder_parameters[@]}"; do
 		folder_name="${folders%%:*}"
-		if [ "$(eval echo \$personal_folder__$folder_name)" == "1" ]; then
+		if [[ "$(eval echo \$personal_folder__$folder_name)" == "1" ]]; then
 			parameter="${folders##*:}"
 			folder+=" $parameter"
 		fi
