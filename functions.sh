@@ -153,7 +153,7 @@ Clean_Folder() {
 }
 alias dco="dconf dump /"
 dcoa() {
-	if [[ "$2" != *[[\[[\ ]]* ]]; then
+		if [[ "$2" != *[\[\]]* ]]; then
 		echo "['$1']"
 	else
 		echo "${2%]}, '$1']"
@@ -175,7 +175,7 @@ ext4setup() {
 	label_check() {
 		while :; do
 			printf "Enter label for the partition: "; read label
-			if [[ "$label" =~ ^("root"|"home"|"swap"|"boot") || ! "$label" =~ ^[[A-Za-z0-9_- ]]{1,16}$ ]]; then
+			if [[ "$label" =~ ^("root"|"home"|"swap"|"boot") || ! "$label" =~ ^[A-Za-z0-9_-]{1,16}$ ]];then
 				clear
 				error "$label: is not allowed! \nAllowed: 1–16 letters, numbers, - or _ (no spaces or special characters)\nnot allowed names: root home swap boot\n\n"
 			else
@@ -198,7 +198,7 @@ ext4setup() {
 			echo "--------------------------------------------------"
 
 			printf "Enter disk (e.g., 'a-z' for /dev/sdX or '0,1,..' for /dev/nvmeXn1): "; read disk_letter; disk_letter=$(echo "$disk_letter" | tr '[:upper:]' '[:lower:]')
-			if [[ $disk_letter =~ ^[[a-z ]]$ ]]; then
+            if [[ $disk_letter =~ ^[a-z]$ ]];then
 			    DISK="/dev/sd${disk_letter}"
 			else
 				DISK="/dev/nvme${disk_letter}n1"
@@ -243,7 +243,7 @@ ext4setup() {
 	done
 	printf "g\nn\n\n\n\nw" | sudo fdisk "$DISK"
 
-	if [[ $disk_letter =~ ^[[0-9 ]]$ ]]; then
+    if [[ $disk_letter =~ ^[0-9]$ ]];then
 		DISK="${DISK}p"
 	fi
 
@@ -256,7 +256,7 @@ ext4setup() {
 git_config() {
 	while :; do
 		printf "Enter global github push email: ";read email
-		if [[ "$email" =~ ^[[A-Za-z0-9._%+- ]]+@[[A-Za-z0-9.- ]]+\.[[A-Za-z ]]{2,}$ ]]; then
+		if [[ "$email" =~ ^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$ ]]; then
 			break
 		fi
 	done
@@ -592,7 +592,7 @@ ${FUNCNAME[1]} /mnt/Data $download_name $documents_name -v -t banana -y"
 					local err=1
 					break
 				elif echo "$line" | grep "differ" > /dev/null; then
-					if [[ "$(echo "$line" | grep -oP '/[[^ ]]+' | sed -n '2p')" != "$(ls -lt $(echo "$line" | grep -oP '/[[^ ]]+') | head -n 1 | grep -oP '/[[^ ]]+')" ]]; then
+					if [[ "$(echo "$line" | grep -oP '/[^ ]+' | sed -n '2p')" != "$(ls -lt $(echo "$line" | grep -oP '/[^ ]+') | head -n 1 | grep -oP '/[^ ]+')" ]]; then
 						((sync_error++))
 						local err=1
 						break
@@ -700,7 +700,7 @@ ${FUNCNAME[1]} -R --Remove \"filename\"
 		local VO_splits=(${2//;/ })
 		local VO_valid=(${3//;/ })
 		for VO_split in ${VO_splits[@]}; do
-			if ! [[ " ${VO_valid[[@ ]]} " == *" $VO_split "* ]]; then
+			if ! [[ " ${VO_valid[@]} " == *" $VO_split "* ]]; then
 				echo -e "\n\nNo valid option for $1; the only valid options are: ($3)"
 				return 2
 			fi

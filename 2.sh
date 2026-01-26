@@ -583,7 +583,7 @@ for default in "${Default_category[@]}"; do
 		file_association_type=$(echo "${default##*:}" | sed -E 's/^[[:space:]]+//')
 		if [[ "$file_association_type" == */* ]]; then
 			for asso in $file_association_type; do
-				if [[ -n $(declare -n list="$category"; printf "%s\n" "${list[[@ ]]}" | grep -x "^$default_app") ]]; then
+				if [[ -n $(declare -n list="$category"; printf "%s\n" "${list[@]}" | grep -x "^$default_app") ]]; then
 					default_app "$program_install_name" "$asso"
 				fi
 			done
