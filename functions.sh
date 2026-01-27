@@ -153,7 +153,7 @@ Clean_Folder() {
 }
 alias dco="dconf dump /"
 dcoa() {
-	if [[ "$2" != *[[\[[\ ]]* ]]; then
+	if [[ "$2" != *[\[\]]* ]]; then
 		echo "['$1']"
 	else
 		echo "${2%]}, '$1']"
