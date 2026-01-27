@@ -175,7 +175,7 @@ ext4setup() {
 	label_check() {
 		while :; do
 			printf "Enter label for the partition: "; read label
-			if [[ "$label" =~ ^("root"|"home"|"swap"|"boot") || ! "$label" =~ ^[A-Za-z0-9.-]{1,16}$ ]]; then
+			if [[ "$label" =~ ^("root"|"home"|"swap"|"boot") || ! "$label" =~ ^[A-Za-z0-9_-]{1,16}$ ]]; then
 				clear
 				error "$label: is not allowed! \nAllowed: 1–16 letters, numbers, - or _ (no spaces or special characters)\nnot allowed names: root home swap boot\n\n"
 			else
