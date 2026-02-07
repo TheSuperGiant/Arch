@@ -124,36 +124,40 @@ fi
 box_part "Updating settings"
 
 for Setting in "${Setting__[@]}"; do
-	dco_wr() {
-		if [[ "$2" != "-r" ]]; then
-			dcow $1 "$2"
-		else
-			dcor $1
-		fi
-	}
+	#dco_wr() {
+		#echo "1 $1" #temp
+		#echo "2 $2" #temp
+		#if [[ "$2" != "-r" ]]; then
+			#dcow $1 "$2"
+		#else
+			#dcor $1
+		#fi
+	#}
 	key="${Setting%%:*}"
 	value=$(echo "${Setting##*:}" | cut -d';' -f1 | sed -E 's/^[[:space:]]+//')
-	#if [[ "$value" == "-r" ]]; then
-		#dcor $value
-		#continue
-	#fi
+	desired_value="$(eval echo \${Setting__$key})"
+	if [[ "$desired_value" == "-r" ]]; then
+		dcor $value
+		continue
+	fi
 	type=$(echo "${Setting##*;}")
 	if [[ "$type" == "b" ]]; then
 		if [[ " 0 1 " == *" $(eval echo \$Setting__$key) "* ]]; then
-			desired_value=$(bool "$(eval echo \${Setting__$key})")
-			#dcow $value "$desired_value"
-			dco_wr $value "$desired_value"
+			#desired_value=$(bool "$(eval echo \${Setting__$key})")
+			desired_value=$(bool "$desired_value")
+			dcow $value "$desired_value"
+			#dco_wr $value "$desired_value"
 		fi
 	elif [[ -n "$(eval echo \${Setting__$key})" ]]; then
 		if [[ "$type" == "u" ]]; then
-			desired_value="uint32 $(eval echo \${Setting__$key})"
+			desired_value="uint32 $desired_value"
 		elif [[ "$type" == "'" ]]; then
-			desired_value="'$(eval echo \${Setting__$key})'"
-		else
-			desired_value="$(eval echo \${Setting__$key})"
+			desired_value="'$desired_value'"
+		#else
+			#desired_value="$(eval echo \${Setting__$key})"
 		fi
-		#dcow $value "$desired_value"
-		dco_wr $value "$desired_value"
+		dcow $value "$desired_value"
+		#dco_wr $value "$desired_value"
 	fi
 done
 if [[ "$XDG_CURRENT_DESKTOP" == "X-Cinnamon" ]]; then
