@@ -152,10 +152,6 @@ Clean_Folder() {
 	find $1/* -mtime $2 -exec rm -f {} \; && find -L "$1" -type d -empty -delete
 }
 alias dco="dconf dump /"
-dco_value() {
-	#current_value=$(dconf read $1)
-	echo $(dconf read $1)
-}
 dcoa() {
 	if [[ "$2" != *[\[\]]* ]]; then
 		echo "['$1']"
@@ -166,21 +162,8 @@ dcoa() {
 dcod() {
 	list="${2//\'$1\'/}"; list="${list//, , /, }"; echo "$list"
 }
-dcor() {
-	#current_value=$(dconf read $1)
-	#current_value=$(dco_value $1)
-	local current_value=$(dco_value $1)
-	if [[ -n "$current_value" ]]; then
-		dconf reset $1 && echo "$1 - removed"
-	else
-		echo "$1 - already removed"
-	fi
-	echo "------------------------------------"
-}
 dcow() {
-	#current_value=$(dconf read $1)
-	#current_value=$(dco_value $1)
-	local current_value=$(dco_value $1)
+	current_value=$(dconf read $1)
 	if [[ "$2" != "$current_value" ]]; then
 		dconf write $1 "$2" && echo "$1 $2 - updated"
 	else

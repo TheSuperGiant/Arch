@@ -9,9 +9,6 @@ declare -a Setting__=()
 
 
 if [[ "$XDG_CURRENT_DESKTOP" == "X-Cinnamon" ]]; then
-	if [[ $Setting__background_color_type == "none" ]]; then
-		Setting__background_color_type="solid"
-	fi
 	if [[ $Setting__background_image == "none" ]]; then
 		Setting__background_options="none"
 		#testing witch setting working in writing in the dconf file
@@ -30,7 +27,6 @@ if [[ "$XDG_CURRENT_DESKTOP" == "X-Cinnamon" ]]; then
 	Setting__+=(
 		"autorun:	/org/cinnamon/desktop/media-handling/autorun-never;b"
 		"background_color:	/org/cinnamon/desktop/background/primary-color;'"
-		"background_color_type:	/org/cinnamon/desktop/background/color-shading-type;'"
 		"background_image_total:	/org/cinnamon/desktop/background/picture-uri;'"
 		"background_options:	/org/cinnamon/desktop/background/picture-options;'"
 		"clock__show_date:	/org/cinnamon/desktop/interface/clock-show-date;b"
@@ -126,10 +122,6 @@ box_part "Updating settings"
 for Setting in "${Setting__[@]}"; do
 	key="${Setting%%:*}"
 	value=$(echo "${Setting##*:}" | cut -d';' -f1 | sed -E 's/^[[:space:]]+//')
-	if [[ "$value" == "-r" ]]; then
-		dcor
-		continue
-	fi
 	type=$(echo "${Setting##*;}")
 	if [[ "$type" == "b" ]]; then
 		if [[ " 0 1 " == *" $(eval echo \$Setting__$key) "* ]]; then
