@@ -124,17 +124,25 @@ fi
 box_part "Updating settings"
 
 for Setting in "${Setting__[@]}"; do
+	dco_wr() {
+		if [[ "$2" =! "-r" ]]; then
+			dcow $1 "$2"
+		else
+			dcor $1
+		fi
+	}
 	key="${Setting%%:*}"
 	value=$(echo "${Setting##*:}" | cut -d';' -f1 | sed -E 's/^[[:space:]]+//')
-	if [[ "$value" == "-r" ]]; then
-		dcor $value
-		continue
-	fi
+	#if [[ "$value" == "-r" ]]; then
+		#dcor $value
+		#continue
+	#fi
 	type=$(echo "${Setting##*;}")
 	if [[ "$type" == "b" ]]; then
 		if [[ " 0 1 " == *" $(eval echo \$Setting__$key) "* ]]; then
 			desired_value=$(bool "$(eval echo \${Setting__$key})")
-			dcow $value "$desired_value"
+			#dcow $value "$desired_value"
+			dco_wr $value "$desired_value"
 		fi
 	elif [[ -n "$(eval echo \${Setting__$key})" ]]; then
 		if [[ "$type" == "u" ]]; then
@@ -144,7 +152,8 @@ for Setting in "${Setting__[@]}"; do
 		else
 			desired_value="$(eval echo \${Setting__$key})"
 		fi
-		dcow $value "$desired_value"
+		#dcow $value "$desired_value"
+		dco_wr $value "$desired_value"
 	fi
 done
 if [[ "$XDG_CURRENT_DESKTOP" == "X-Cinnamon" ]]; then
