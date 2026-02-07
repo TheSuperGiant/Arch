@@ -127,7 +127,7 @@ for Setting in "${Setting__[@]}"; do
 	key="${Setting%%:*}"
 	value=$(echo "${Setting##*:}" | cut -d';' -f1 | sed -E 's/^[[:space:]]+//')
 	if [[ "$value" == "-r" ]]; then
-		dcor
+		dcor $value
 		continue
 	fi
 	type=$(echo "${Setting##*;}")
