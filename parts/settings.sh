@@ -148,7 +148,8 @@ for Setting in "${Setting__[@]}"; do
 			dcow $value "$desired_value"
 			#dco_wr $value "$desired_value"
 		fi
-	elif [[ -n "$(eval echo \${Setting__$key})" ]]; then
+	#elif [[ -n "$(eval echo \${Setting__$key})" ]]; then
+	elif [[ -n "$desired_value" ]]; then
 		if [[ "$type" == "u" ]]; then
 			desired_value="uint32 $desired_value"
 		elif [[ "$type" == "'" ]]; then
