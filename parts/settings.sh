@@ -125,7 +125,7 @@ box_part "Updating settings"
 
 for Setting in "${Setting__[@]}"; do
 	dco_wr() {
-		if [[ "$2" =! "-r" ]]; then
+		if [[ "$2" != "-r" ]]; then
 			dcow $1 "$2"
 		else
 			dcor $1
