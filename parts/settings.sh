@@ -238,7 +238,7 @@ if [[ "$IPv6_hardening" == 1 ]]; then
 	secret=$(openssl rand -hex 8)
 	CONFIG_FILE="/etc/sysctl.d/99-ipv6-privacy.conf"
 	for ipV6 in "net.ipv6.conf.all.use_tempaddr = 2net.ipv6.conf.default.use_tempaddr = 2" "net.ipv6.conf.default.use_tempaddr = 2" "net.ipv6.conf.all.stable_secret = $secret"; do
-		if ! sudo grep -q "^$ipV6" $CONFIG_FILE; then
+		if { [[ "$ipV6" != net.ipv6.conf.all.stable_secret* ]] && ! grep -q "^$ipV6$" "$CONFIG_FILE"; } || { [[ "$ipV6" == net.ipv6.conf.all.stable_secret* ]] && ! grep -q "^net.ipv6.conf.all.stable_secret\s*=" "$CONFIG_FILE"; }; then
 			echo -e "$ipV6" | sudo tee -a $CONFIG_FILE
 			network_restart=1
 		fi
