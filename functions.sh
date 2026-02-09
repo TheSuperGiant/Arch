@@ -414,6 +414,7 @@ ${FUNCNAME[1]} -b \"main\" -g \"git@github.com:username/respetory.git\" -p \"/pa
 		#fi
 	done
 	cd ~
+	#test
 }
 git_update() {
 	#$1 path
