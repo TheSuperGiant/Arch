@@ -351,12 +351,12 @@ ${FUNCNAME[1]} -b \"main\" -g \"git@github.com:username/respetory.git\" -p \"/pa
 		error "$path - not found"
 		return
 	fi
-	#if [[ $(pgrep ssh-agent) == "" ]]; then
-		#eval "$(ssh-agent -s)"
-	#fi
-	#if [[ -n $ssh ]]; then
-		#ssh-add ~/.ssh/"$ssh"
-	#fi
+	if [[ $(pgrep ssh-agent) == "" ]]; then
+		eval "$(ssh-agent -s)"
+	fi
+	if [[ -n $ssh ]]; then
+		ssh-add ~/.ssh/"$ssh"
+	fi
 	cd "$path"
 	if ! [[ -e ".git" ]]; then
 		git init
