@@ -351,12 +351,12 @@ ${FUNCNAME[1]} -b \"main\" -g \"git@github.com:username/respetory.git\" -p \"/pa
 		error "$path - not found"
 		return
 	fi
-	if [[ $(pgrep ssh-agent) == "" ]]; then
-		eval "$(ssh-agent -s)"
-	fi
-	if [[ -n $ssh ]]; then
-		ssh-add ~/.ssh/"$ssh"
-	fi
+	#if [[ $(pgrep ssh-agent) == "" ]]; then
+		#eval "$(ssh-agent -s)"
+	#fi
+	#if [[ -n $ssh ]]; then
+		#ssh-add ~/.ssh/"$ssh"
+	#fi
 	cd "$path"
 	if ! [[ -e ".git" ]]; then
 		git init
@@ -374,22 +374,44 @@ ${FUNCNAME[1]} -b \"main\" -g \"git@github.com:username/respetory.git\" -p \"/pa
 	git add .
 	git commit --allow-empty-message -m "$message"
 	git branch -M "$branch"
-	while [[ $folder_sync != "0" ]]; do
+	push_error() {
 		local folder_sync=0
 		while IFS= read -r line1; do
 			if echo "$line1" | grep -qE "error: failed to push some refs to"; then
 				local folder_sync=1
 			fi
-		done < <( git push origin "$branch" --porcelain 2>&1)
+		done < <($2 git push origin "$1" --porcelain 2>&1)
 		if [[ "$folder_sync" == "1" ]]; then
 			mkdir -p "/tmp/$path"
 			cp -r . "/tmp/$path"
 			git fetch origin
-			git reset --hard origin/"$branch"
-			git merge origin/"$branch"
+			git reset --hard origin/"$1"
+			git merge origin/"$1"
 		else
 			local folder_sync=0
 		fi
+	}
+	while [[ $folder_sync != "0" ]]; do
+		local folder_sync=0
+		if [[ -n $ssh ]]; then
+			push_error "$branch" "GIT_SSH_COMMAND='ssh -i ~/.ssh/$ssh -o IdentitiesOnly=yes' "
+		else
+			push_error "$branch"
+		fi
+		#while IFS= read -r line1; do
+			#if echo "$line1" | grep -qE "error: failed to push some refs to"; then
+				#local folder_sync=1
+			#fi
+		#done < <( git push origin "$branch" --porcelain 2>&1)
+		#if [[ "$folder_sync" == "1" ]]; then
+			#mkdir -p "/tmp/$path"
+			#cp -r . "/tmp/$path"
+			#git fetch origin
+			#git reset --hard origin/"$branch"
+			#git merge origin/"$branch"
+		#else
+			#local folder_sync=0
+		#fi
 	done
 	cd ~
 }
