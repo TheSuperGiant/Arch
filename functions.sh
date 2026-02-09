@@ -402,7 +402,9 @@ ${FUNCNAME[1]} -b \"main\" -g \"git@github.com:username/respetory.git\" -p \"/pa
 			if echo "$line1" | grep -qE "error: failed to push some refs to"; then
 				local folder_sync=1
 			fi
-		done < <(GIT_SSH_COMMAND='ssh -i ~/.ssh/$ssh -o IdentitiesOnly=yes -T git@github.com' git push origin "$branch" --porcelain 2>&1)
+
+		#done < <(git push origin "$branch" --porcelain 2>&1)
+		done < <(GIT_SSH_COMMAND='ssh -i ~/.ssh/$ssh -o IdentitiesOnly=yes -T git@github.com' git push --porcelain 2>&1)
 		if [[ "$folder_sync" == "1" ]]; then
 			mkdir -p "/tmp/$path"
 			cp -r . "/tmp/$path"
