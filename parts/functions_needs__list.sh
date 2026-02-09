@@ -2,6 +2,8 @@ declare -a required=(
 	#1
 	"function__ext4setup:	error"
 	"function__git_u:	error"
+	"function__dcor:	dco_value"
+	"function__dcow:	dco_value"
 	#2
 	"function__box_sub:	box"
 )

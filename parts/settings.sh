@@ -90,7 +90,6 @@ if [[ "$XDG_CURRENT_DESKTOP" == *"GNOME"* || "$XDG_CURRENT_DESKTOP" == "X-Cinnam
 		"clock__show_date:	/org/gnome/desktop/interface/clock-show-date;b"
 		"font__default:	/org/gnome/desktop/interface/font-name;'"
 		"font__document:	/org/gnome/desktop/interface/document-font-name;'"
-		"font__explorer:	/org/nemo/desktop/font;'"
 		"font__monospace:	/org/gnome/desktop/interface/monospace-font-name;'"
 		"font__titlebar:	/org/gnome/desktop/wm/preferences/titlebar-font;'"
 		"mouse__size:	/org/gnome/desktop/interface/cursor-size"
@@ -113,6 +112,7 @@ if [[ "$(xdg-mime query default inode/directory)" == "nemo.desktop" ]]; then
 		"explorer__date_format:	/org/nemo/preferences/date-format;'"
 		"explorer__folder_viewer:	/org/nemo/preferences/default-folder-viewer;'"
 		"explorer__show_hiden_files:	/org/nemo/preferences/show-hidden-files;b"
+		"font__explorer:	/org/nemo/desktop/font;'"
 	)
 fi
 if [[ "$(xdg-mime query default inode/directory)" == "thunar.desktop" ]]; then
@@ -124,15 +124,6 @@ fi
 box_part "Updating settings"
 
 for Setting in "${Setting__[@]}"; do
-	#dco_wr() {
-		#echo "1 $1" #temp
-		#echo "2 $2" #temp
-		#if [[ "$2" != "-r" ]]; then
-			#dcow $1 "$2"
-		#else
-			#dcor $1
-		#fi
-	#}
 	key="${Setting%%:*}"
 	value=$(echo "${Setting##*:}" | cut -d';' -f1 | sed -E 's/^[[:space:]]+//')
 	desired_value="$(eval echo \${Setting__$key})"
@@ -143,22 +134,16 @@ for Setting in "${Setting__[@]}"; do
 	type=$(echo "${Setting##*;}")
 	if [[ "$type" == "b" ]]; then
 		if [[ " 0 1 " == *" $(eval echo \$Setting__$key) "* ]]; then
-			#desired_value=$(bool "$(eval echo \${Setting__$key})")
 			desired_value=$(bool "$desired_value")
 			dcow $value "$desired_value"
-			#dco_wr $value "$desired_value"
 		fi
-	#elif [[ -n "$(eval echo \${Setting__$key})" ]]; then
 	elif [[ -n "$desired_value" ]]; then
 		if [[ "$type" == "u" ]]; then
 			desired_value="uint32 $desired_value"
 		elif [[ "$type" == "'" ]]; then
 			desired_value="'$desired_value'"
-		#else
-			#desired_value="$(eval echo \${Setting__$key})"
 		fi
 		dcow $value "$desired_value"
-		#dco_wr $value "$desired_value"
 	fi
 done
 if [[ "$XDG_CURRENT_DESKTOP" == "X-Cinnamon" ]]; then
@@ -248,10 +233,11 @@ if [[ "$XDG_CURRENT_DESKTOP" == "X-Cinnamon" ]]; then
 	done
 fi
 
-if [[ "$ipV6_disable" == 1 ]]; then
-	echo "IPv6 disabled"
-	CONFIG_FILE="/etc/sysctl.d/99-disable-ipv6.conf"
-	for ipV6 in "net.ipv6.conf.all.disable_ipv6 = 1" "net.ipv6.conf.default.disable_ipv6 = 1" "net.ipv6.conf.lo.disable_ipv6 = 1"; do
+if [[ "$IPv6_hardening" == 1 ]]; then
+	echo "IPv6 hardening"
+	secret=$(openssl rand -hex 8)
+	CONFIG_FILE="/etc/sysctl.d/99-ipv6-privacy.conf"
+	for ipV6 in "net.ipv6.conf.all.use_tempaddr = 2net.ipv6.conf.default.use_tempaddr = 2" "net.ipv6.conf.default.use_tempaddr = 2" "net.ipv6.conf.all.stable_secret = $secret"; do
 		if ! sudo grep -q "^$ipV6" $CONFIG_FILE; then
 			echo -e "$ipV6" | sudo tee -a $CONFIG_FILE
 			network_restart=1
@@ -261,3 +247,8 @@ if [[ "$ipV6_disable" == 1 ]]; then
 		sudo sysctl --system
 	fi
 fi
+
+#if [[ "$network_check_on_boot" == 1 ]]; then
+	#sudo systemctl disable NetworkManager-wait-online.service
+	#sudo systemctl mask NetworkManager-wait-online.service
+#fi
