@@ -8,7 +8,7 @@
 error() {
 	printf "\e[1;91m$1\e[0m\n"
 }
-test
+
 add_alias() {
 	if ! grep -q "^alias $1=" ~/.bashrc; then
 		code="alias $1=\"$2\""
@@ -295,6 +295,7 @@ parameters (optional)
 	-e --email			email
 	-u --user			username
 	-m --message			message
+	-o --onetime			one-time ssh key usage. (-s/--ssh) required
 
 
 example:
@@ -323,6 +324,10 @@ ${FUNCNAME[1]} -b \"main\" -g \"git@github.com:username/respetory.git\" -p \"/pa
 				local message="$2"
 				shift 2
 				;;
+			-o|--onetime)
+				local one_time="1"
+				shift
+				;;
 			-p|--path)
 				local path="$2"
 				shift 2
@@ -344,18 +349,25 @@ ${FUNCNAME[1]} -b \"main\" -g \"git@github.com:username/respetory.git\" -p \"/pa
 	done
 	if [[ -z "$branch" || -z "$git" || -z "$path" ]]; then
 		help_text
-		error_default "paramers reqired: -b/--branch -g/--git -p/--path"
+		error_default "parameters required: -b/--branch -g/--git -p/--path"
 		return
 	fi
 	if ! [[ -e "$path" ]]; then
 		error "$path - not found"
 		return
 	fi
-	if [[ $(pgrep ssh-agent) == "" ]]; then
-		eval "$(ssh-agent -s)"
+	if [[ -n "$one_time" && -z "$ssh" ]]; then
+		help_text
+		error_default "parameters reqired with -o/--onetime: -s/--ssh"
+		return
 	fi
-	if [[ -n $ssh ]]; then
-		ssh-add ~/.ssh/"$ssh"
+	if [[ -z "$one_time" ]]; then
+		if [[ $(pgrep ssh-agent) == "" ]]; then
+			eval "$(ssh-agent -s)"
+		fi
+		if [[ -n $ssh ]]; then
+			ssh-add ~/.ssh/"$ssh"
+		fi
 	fi
 	cd "$path"
 	if ! [[ -e ".git" ]]; then
@@ -370,31 +382,39 @@ ${FUNCNAME[1]} -b \"main\" -g \"git@github.com:username/respetory.git\" -p \"/pa
 		if [[ -n "$email" ]]; then
 			git config user.email "$email"
 		fi
-		#if [[ -n $ssh ]]; then
-
-		#fi
 	fi
 	git add .
 	git commit --allow-empty-message -m "$message"
 	git branch -M "$branch"
-	while [[ $folder_sync != "0" ]]; do
-		local folder_sync=0
-		#if [[ -n $ssh ]]; then
-			#push_error "$branch" "GIT_SSH_COMMAND='ssh -i ~/.ssh/$ssh -o IdentitiesOnly=yes' "
-		#else
-			#push_error "$branch"
-		#fi
+	push_error() {
 		while IFS= read -r line1; do
 			if echo "$line1" | grep -qE "error: failed to push some refs to"; then
 				local folder_sync=1
 			fi
-		done < <(git push origin "$branch" --porcelain 2>&1)
+		done < <($2 git push origin "$1" --porcelain 2>&1)
+	}
+	while [[ $folder_sync != "0" ]]; do
+		local folder_sync=0
+		if [[ -n $ssh ]]; then
+			push_error "$branch" "GIT_SSH_COMMAND='ssh -i ~/.ssh/$ssh -o IdentitiesOnly=yes' "
+		else
+			push_error "$branch"
+		fi
+
+		#while IFS= read -r line1; do
+			#if echo "$line1" | grep -qE "error: failed to push some refs to"; then
+				#local folder_sync=1
+			#fi
+		#done < <(git push origin "$branch" --porcelain 2>&1)
 		#done < <(GIT_SSH_COMMAND="ssh -i ~/.ssh/$ssh -o IdentitiesOnly=yes" git push origin "$branch" --porcelain 2>&1)
 		if [[ "$folder_sync" == "1" ]]; then
 			mkdir -p "/tmp/$path"
 			cp -r . "/tmp/$path"
-			git fetch origin
-			#GIT_SSH_COMMAND="ssh -i ~/.ssh/$ssh -o IdentitiesOnly=yes" git fetch origin
+			if [[ -z "$one_time" ]]; then
+				git fetch origin
+			else
+				GIT_SSH_COMMAND="ssh -i ~/.ssh/$ssh -o IdentitiesOnly=yes" git fetch origin
+			fi
 			git reset --hard origin/"$branch"
 			git merge origin/"$branch"
 		else
