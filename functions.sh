@@ -395,10 +395,10 @@ ${FUNCNAME[1]} -b \"main\" -g \"git@github.com:username/respetory.git\" -p \"/pa
 	}
 	while [[ $folder_sync != "0" ]]; do
 		local folder_sync=0
-		if [[ -n $ssh ]]; then
-			push_error "$branch" "GIT_SSH_COMMAND='ssh -i ~/.ssh/$ssh -o IdentitiesOnly=yes' "
-		else
+		if [[ -z "$one_time" ]]; then
 			push_error "$branch"
+		else
+			push_error "$branch" "GIT_SSH_COMMAND='ssh -i ~/.ssh/$ssh -o IdentitiesOnly=yes' "
 		fi
 
 		#while IFS= read -r line1; do
