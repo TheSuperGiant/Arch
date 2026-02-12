@@ -324,6 +324,10 @@ ${FUNCNAME[1]} -b \"main\" -g \"git@github.com:username/respetory.git\" -p \"/pa
 				local message="$2"
 				shift 2
 				;;
+			-o|--onetime)
+				local one_time="1"
+				shift
+				;;
 			-p|--path)
 				local path="$2"
 				shift 2
@@ -352,11 +356,18 @@ ${FUNCNAME[1]} -b \"main\" -g \"git@github.com:username/respetory.git\" -p \"/pa
 		error "$path - not found"
 		return
 	fi
-	if [[ $(pgrep ssh-agent) == "" ]]; then
-		eval "$(ssh-agent -s)"
+	if [[ -n "$one_time" && -z "$ssh" ]]; then
+		help_text
+		error_default "parameters reqired with -o/--onetime: -s/--ssh"
+		return
 	fi
-	if [[ -n $ssh ]]; then
-		ssh-add ~/.ssh/"$ssh"
+	if [[ -z "$one_time" ]]; then
+		if [[ $(pgrep ssh-agent) == "" ]]; then
+			eval "$(ssh-agent -s)"
+		fi
+		if [[ -n $ssh ]]; then
+			ssh-add ~/.ssh/"$ssh"
+		fi
 	fi
 	cd "$path"
 	if ! [[ -e ".git" ]]; then
