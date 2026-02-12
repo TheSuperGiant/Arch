@@ -412,6 +412,7 @@ ${FUNCNAME[1]} -b \"main\" -g \"git@github.com:username/respetory.git\" -p \"/pa
 			cp -r . "/tmp/$path"
 			if [[ -z "$one_time" ]]; then
 				git fetch origin
+				echo hello
 			else
 				GIT_SSH_COMMAND="ssh -i \"$HOME/.ssh/$ssh -o IdentitiesOnly=yes\"" git fetch origin
 				echo test #temp
