@@ -397,6 +397,7 @@ ${FUNCNAME[1]} -b \"main\" -g \"git@github.com:username/respetory.git\" -p \"/pa
 			fi
 		#done < <(if [[ 1 == 1 ]]; then echo "test 2"; else echo "test 3"; fi )
 		#done < <(if [[ 1 == 1 ]]; then echo "test 2"; else echo "test 3"; fi )
+		#done < <(if [[ 1 == 1 ]]; then echo "test 2"; else echo "test 3"; fi )
 		done < <(if [[ "$one_time" == 1 ]]; then git push origin "$branch" --porcelain 2>&1; else GIT_SSH_COMMAND="ssh -i $HOME/.ssh/$ssh -o IdentitiesOnly=yes" git push origin "$branch" --porcelain 2>&1; fi)
 		#done < <(git push origin "$branch" --porcelain 2>&1)
 		if [[ "$folder_sync" == "1" ]]; then
