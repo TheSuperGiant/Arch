@@ -363,6 +363,7 @@ ${FUNCNAME[1]} -b \"main\" -g \"git@github.com:username/respetory.git\" -p \"/pa
 	fi
 	#ssh_loaded_in=1
 	ssh_path="$HOME/.ssh/$ssh"
+	echo "$ssh_path" #temp
 	if [[ -z "$one_time" ]]; then
 		if [[ $(pgrep ssh-agent) == "" ]]; then
 			eval "$(ssh-agent -s)"
@@ -372,7 +373,7 @@ ${FUNCNAME[1]} -b \"main\" -g \"git@github.com:username/respetory.git\" -p \"/pa
 
 			while IFS= read -r line1; do
 				if [[ "$line1" == "$(ssh-keygen -lf "$ssh_path.pub")" ]]; then
-					echo test
+					echo test #temp
 					local ssh_loaded_in=1
 					break
 					#local folder_sync=1
