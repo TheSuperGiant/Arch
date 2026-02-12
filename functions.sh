@@ -386,13 +386,18 @@ ${FUNCNAME[1]} -b \"main\" -g \"git@github.com:username/respetory.git\" -p \"/pa
 	git add .
 	git commit --allow-empty-message -m "$message"
 	git branch -M "$branch"
+	pushing=" git push orig in $branch --porcelain 2>&1"
+	if [[ -n "$one_time" ]]; then
+		pushing="GIT_SSH_COMMAND=ssh -i $HOME/.ssh/$ssh -o IdentitiesOnly=yes $pushing"
+	fi
 	while [[ $folder_sync != "0" ]]; do
 		local folder_sync=0
 		while IFS= read -r line1; do
 			if echo "$line1" | grep -qE "error: failed to push some refs to"; then
 				local folder_sync=1
 			fi
-		done < <(git push origin "$branch" --porcelain 2>&1)
+		#done < <(git push origin "$branch" --porcelain 2>&1)
+		done < <(eval "$pushing")
 		if [[ "$folder_sync" == "1" ]]; then
 			mkdir -p "/tmp/$path"
 			cp -r . "/tmp/$path"
