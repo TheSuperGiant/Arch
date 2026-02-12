@@ -324,6 +324,10 @@ ${FUNCNAME[1]} -b \"main\" -g \"git@github.com:username/respetory.git\" -p \"/pa
 				local message="$2"
 				shift 2
 				;;
+			-o|--onetime)
+				local one_time="1"
+				shift
+				;;
 			-p|--path)
 				local path="$2"
 				shift 2
@@ -345,18 +349,25 @@ ${FUNCNAME[1]} -b \"main\" -g \"git@github.com:username/respetory.git\" -p \"/pa
 	done
 	if [[ -z "$branch" || -z "$git" || -z "$path" ]]; then
 		help_text
-		error_default "paramers reqired: -b/--branch -g/--git -p/--path"
+		error_default "parameters required: -b/--branch -g/--git -p/--path"
 		return
 	fi
 	if ! [[ -e "$path" ]]; then
 		error "$path - not found"
 		return
 	fi
-	if [[ $(pgrep ssh-agent) == "" ]]; then
-		eval "$(ssh-agent -s)"
+	if [[ -n "$one_time" && -z "$ssh" ]]; then
+		help_text
+		error_default "parameters reqired with -o/--onetime: -s/--ssh"
+		return
 	fi
-	if [[ -n $ssh ]]; then
-		ssh-add ~/.ssh/"$ssh"
+	if [[ -z "$one_time" ]]; then
+		if [[ $(pgrep ssh-agent) == "" ]]; then
+			eval "$(ssh-agent -s)"
+		fi
+		if [[ -n $ssh ]]; then
+			ssh-add ~/.ssh/"$ssh"
+		fi
 	fi
 	cd "$path"
 	if ! [[ -e ".git" ]]; then
@@ -375,17 +386,39 @@ ${FUNCNAME[1]} -b \"main\" -g \"git@github.com:username/respetory.git\" -p \"/pa
 	git add .
 	git commit --allow-empty-message -m "$message"
 	git branch -M "$branch"
+	#pushing=" git push orig in $branch --porcelain 2>&1"
+	#if [[ -n "$one_time" ]]; then
+		#pushing="GIT_SSH_COMMAND=ssh -i $HOME/.ssh/$ssh -o IdentitiesOnly=yes $pushing"
+	#fi
+	#push_error() {
+	#}
 	while [[ $folder_sync != "0" ]]; do
 		local folder_sync=0
+		#if [[ -z "$one_time" ]]; then
+			#push_error "$branch"
+		#else
+			#echo "2. test" #temp
+			#push_error "$branch" "GIT_SSH_COMMAND=ssh -i $HOME/.ssh/$ssh -o IdentitiesOnly=yes "
+		#fi
 		while IFS= read -r line1; do
 			if echo "$line1" | grep -qE "error: failed to push some refs to"; then
 				local folder_sync=1
 			fi
 		done < <(git push origin "$branch" --porcelain 2>&1)
+		#done < <(git push origin "$1" --porcelain 2>&1)
+		#done < <("${2:-}" git push origin "$1" --porcelain 2>&1)
+		#done < <(eval "$pushing")
 		if [[ "$folder_sync" == "1" ]]; then
 			mkdir -p "/tmp/$path"
 			cp -r . "/tmp/$path"
-			git fetch origin
+			if [[ -z "$one_time" ]]; then
+				git fetch origin
+				echo hello #temp
+			else
+				#GIT_SSH_COMMAND="ssh -i \"$HOME/.ssh/$ssh -o IdentitiesOnly=yes\"" git fetch origin
+				GIT_SSH_COMMAND="ssh -i $HOME/.ssh/$ssh -o IdentitiesOnly=yes" git fetch origin
+				echo test #temp
+			fi
 			git reset --hard origin/"$branch"
 			git merge origin/"$branch"
 		else
