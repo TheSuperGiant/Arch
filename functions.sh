@@ -393,7 +393,7 @@ ${FUNCNAME[1]} -b \"main\" -g \"git@github.com:username/respetory.git\" -p \"/pa
 		fi
 		while IFS= read -r line1; do
 			if echo "$line1" | grep -qE "error: failed to push some refs to"; then
-				local folder_sync=1
+				folder_sync=1
 			fi
 		#done < <(git push origin "$1" --porcelain 2>&1)
 		#done < <("${2:-}" git push origin "$1" --porcelain 2>&1)
