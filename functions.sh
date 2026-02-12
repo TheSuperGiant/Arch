@@ -400,7 +400,7 @@ ${FUNCNAME[1]} -b \"main\" -g \"git@github.com:username/respetory.git\" -p \"/pa
 		done < <(eval "$pushing")
 	}
 	while [[ $folder_sync != "0" ]]; do
-		local folder_sync=0
+		folder_sync=0
 		if [[ -z "$one_time" ]]; then
 			push_error "$branch"
 		else
