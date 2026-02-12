@@ -386,10 +386,10 @@ ${FUNCNAME[1]} -b \"main\" -g \"git@github.com:username/respetory.git\" -p \"/pa
 	git add .
 	git commit --allow-empty-message -m "$message"
 	git branch -M "$branch"
-	pushing=" git push origin $branch --porcelain 2>&1"
-	if [[ -n "$one_time" ]]; then
-		pushing="GIT_SSH_COMMAND=ssh -i $HOME/.ssh/$ssh -o IdentitiesOnly=yes $pushing"
-	fi
+	#pushing=" git push origin $branch --porcelain 2>&1"
+	#if [[ -n "$one_time" ]]; then
+		#pushing="GIT_SSH_COMMAND=ssh -i $HOME/.ssh/$ssh -o IdentitiesOnly=yes $pushing"
+	#fi
 	#push_error() {
 	#}
 	while [[ $folder_sync != "0" ]]; do
