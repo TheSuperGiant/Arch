@@ -387,7 +387,7 @@ ${FUNCNAME[1]} -b \"main\" -g \"git@github.com:username/respetory.git\" -p \"/pa
 	git commit --allow-empty-message -m "$message"
 	git branch -M "$branch"
 	push_error() {
-		pushing="git push origin $1 --porcelain 2>&1"
+		pushing=" git push origin $1 --porcelain 2>&1"
 		if [[ -n "$2" ]]; then
 			pushing="GIT_SSH_COMMAND=ssh -i $HOME/.ssh/$ssh -o IdentitiesOnly=yes $pushing"
 		fi
