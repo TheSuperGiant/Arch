@@ -286,15 +286,15 @@ git_u() {
 github project upload with ssh
 
 parameters
-	-b --branch			branch
-	-g --git			ssh project url
-	-p --path			local path
+	-b --branch			[text]  branch
+	-g --git			[text]  ssh project url
+	-p --path			[text]  local path
 
 parameters (optional)
-	-s --ssh			ssh file
-	-e --email			email
-	-u --user			username
-	-m --message			message
+	-s --ssh			[text]  ssh file
+	-e --email			[text]  email
+	-u --user			[text]  username
+	-m --message			[text]  message
 	-o --onetime			one-time ssh key usage. (-s/--ssh) required
 
 
@@ -407,6 +407,7 @@ ${FUNCNAME[1]} -b \"main\" -g \"git@github.com:username/respetory.git\" -p \"/pa
 				git fetch origin
 			else
 				GIT_SSH_COMMAND="ssh -i ~/.ssh/$ssh -o IdentitiesOnly=yes" git fetch origin
+				echo test #temp
 			fi
 			git reset --hard origin/"$branch"
 			git merge origin/"$branch"
@@ -695,7 +696,7 @@ parameters (optional)
     -t --Terminal		run in a visual terminal
     -s --StartupNotify		startup animation
     -b --DBusActivatable	if supports DBus activation
-    -D --Delay			[text] autostartdelay (seconds, digits only)
+    -D --Delay			[text]  autostartdelay (seconds, digits only)
     -n --Name			[text]	explorer name
     -c --Comment		[text]	comment
     -H --GenericName		[text]	hoverover name - (work in some environments)
