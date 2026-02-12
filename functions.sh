@@ -386,10 +386,9 @@ ${FUNCNAME[1]} -b \"main\" -g \"git@github.com:username/respetory.git\" -p \"/pa
 	git add .
 	git commit --allow-empty-message -m "$message"
 	git branch -M "$branch"
-	#local pushing=" git push orig in $branch --porcelain 2>&1"
-	if [[ -n "$one_time" ]]; then
-		local pushing="GIT_SSH_COMMAND=ssh -i $HOME/.ssh/$ssh -o IdentitiesOnly=yes $pushing"
-	fi
+	#if [[ -n "$one_time" ]]; then
+		#local pushing="GIT_SSH_COMMAND=ssh -i $HOME/.ssh/$ssh -o IdentitiesOnly=yes $pushing"
+	#fi
 	while [[ $folder_sync != "0" ]]; do
 		local folder_sync=0
 		while IFS= read -r line1; do
@@ -397,19 +396,13 @@ ${FUNCNAME[1]} -b \"main\" -g \"git@github.com:username/respetory.git\" -p \"/pa
 				local folder_sync=1
 			fi
 		done < <(git push origin "$branch" --porcelain 2>&1)
-		#done < <("$pushing" git push origin "$branch" --porcelain 2>&1)
-		#done < <("{$pushing:-}" git push origin "$branch" --porcelain 2>&1)
-		#done < <(eval "$pushing")
 		if [[ "$folder_sync" == "1" ]]; then
 			mkdir -p "/tmp/$path"
 			cp -r . "/tmp/$path"
 			if [[ -z "$one_time" ]]; then
 				git fetch origin
-				echo hello #temp
 			else
-				#GIT_SSH_COMMAND="ssh -i \"$HOME/.ssh/$ssh -o IdentitiesOnly=yes\"" git fetch origin
 				GIT_SSH_COMMAND="ssh -i $HOME/.ssh/$ssh -o IdentitiesOnly=yes" git fetch origin
-				echo test #temp
 			fi
 			git reset --hard origin/"$branch"
 			git merge origin/"$branch"
