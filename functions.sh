@@ -361,27 +361,19 @@ ${FUNCNAME[1]} -b \"main\" -g \"git@github.com:username/respetory.git\" -p \"/pa
 		error_default "parameters reqired with -o/--onetime: -s/--ssh"
 		return
 	fi
-	#ssh_loaded_in=1
 	ssh_path="$HOME/.ssh/$ssh"
-	echo "$ssh_path" #temp
 	if [[ -z "$one_time" ]]; then
 		if [[ $(pgrep ssh-agent) == "" ]]; then
 			eval "$(ssh-agent -s)"
 		fi
 		if [[ -n $ssh ]]; then
-			#ssh-add ~/.ssh/"$ssh"
-
 			while IFS= read -r line1; do
 				if [[ "$line1" == "$(ssh-keygen -lf "$ssh_path.pub")" ]]; then
-					echo test #temp
 					local ssh_loaded_in=1
 					break
-					#local folder_sync=1
 				fi
 			done < <(ssh-add -l)
-			#ssh_loaded_in=$(ssh-keygen.pub -lf "$ssh_path.pub")
 			if [[ "$ssh_loaded_in" != "1" ]]; then
-				echo testing #temp
 				ssh-add "$ssh_path"
 			fi
 		fi
