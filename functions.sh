@@ -373,13 +373,13 @@ ${FUNCNAME[1]} -b \"main\" -g \"git@github.com:username/respetory.git\" -p \"/pa
 			while IFS= read -r line1; do
 				if [[ "$line1" == "$(ssh-keygen -lf "$ssh_path.pub")" ]]; then
 					echo test
-					local ssh_loaded_in=0
+					local ssh_loaded_in=1
 					break
 					#local folder_sync=1
 				fi
 			done < <(ssh-add -l)
 			#ssh_loaded_in=$(ssh-keygen.pub -lf "$ssh_path.pub")
-			if [[ "$ssh_loaded_in" == "0" ]]; then
+			if [[ "$ssh_loaded_in" == "1" ]]; then
 				ssh-add "$ssh_path"
 			fi
 		fi
