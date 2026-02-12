@@ -397,7 +397,7 @@ ${FUNCNAME[1]} -b \"main\" -g \"git@github.com:username/respetory.git\" -p \"/pa
 		#if [[ -z "$one_time" ]]; then
 			#push_error "$branch"
 		#else
-			#echo "2. test"
+			#echo "2. test" #temp
 			#push_error "$branch" "GIT_SSH_COMMAND=ssh -i $HOME/.ssh/$ssh -o IdentitiesOnly=yes "
 		#fi
 		while IFS= read -r line1; do
@@ -413,7 +413,7 @@ ${FUNCNAME[1]} -b \"main\" -g \"git@github.com:username/respetory.git\" -p \"/pa
 			cp -r . "/tmp/$path"
 			if [[ -z "$one_time" ]]; then
 				git fetch origin
-				echo hello
+				echo hello #temp
 			else
 				GIT_SSH_COMMAND="ssh -i \"$HOME/.ssh/$ssh -o IdentitiesOnly=yes\"" git fetch origin
 				echo test #temp
