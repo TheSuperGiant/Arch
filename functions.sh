@@ -396,7 +396,14 @@ ${FUNCNAME[1]} -b \"main\" -g \"git@github.com:username/respetory.git\" -p \"/pa
 		if [[ "$folder_sync" == "1" ]]; then
 			mkdir -p "/tmp/$path"
 			cp -r . "/tmp/$path"
-			git fetch origin
+			if [[ -z "$one_time" ]]; then
+				git fetch origin
+				echo hello #temp
+			else
+				#GIT_SSH_COMMAND="ssh -i \"$HOME/.ssh/$ssh -o IdentitiesOnly=yes\"" git fetch origin
+				GIT_SSH_COMMAND="ssh -i $HOME/.ssh/$ssh -o IdentitiesOnly=yes" git fetch origin
+				echo test #temp
+			fi
 			git reset --hard origin/"$branch"
 			git merge origin/"$branch"
 		else
