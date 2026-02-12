@@ -386,7 +386,7 @@ ${FUNCNAME[1]} -b \"main\" -g \"git@github.com:username/respetory.git\" -p \"/pa
 	git add .
 	git commit --allow-empty-message -m "$message"
 	git branch -M "$branch"
-	local pushing=" git push orig in $branch --porcelain 2>&1"
+	#local pushing=" git push orig in $branch --porcelain 2>&1"
 	if [[ -n "$one_time" ]]; then
 		local pushing="GIT_SSH_COMMAND=ssh -i $HOME/.ssh/$ssh -o IdentitiesOnly=yes $pushing"
 	fi
@@ -396,7 +396,8 @@ ${FUNCNAME[1]} -b \"main\" -g \"git@github.com:username/respetory.git\" -p \"/pa
 			if echo "$line1" | grep -qE "error: failed to push some refs to"; then
 				local folder_sync=1
 			fi
-		done < <(git push origin "$branch" --porcelain 2>&1)
+		#done < <(git push origin "$branch" --porcelain 2>&1)
+		done < <($pushing git push origin "$branch" --porcelain 2>&1)
 		#done < <("{$pushing:-}" git push origin "$branch" --porcelain 2>&1)
 		#done < <(eval "$pushing")
 		if [[ "$folder_sync" == "1" ]]; then
