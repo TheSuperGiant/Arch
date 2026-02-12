@@ -399,7 +399,7 @@ ${FUNCNAME[1]} -b \"main\" -g \"git@github.com:username/respetory.git\" -p \"/pa
 			push_error "$branch"
 		else
 			echo "2. test"
-			push_error "$branch" "GIT_SSH_COMMAND=ssh -i $HOME/.ssh/$ssh -o IdentitiesOnly=yes "
+			push_error "$branch" "GIT_SSH_COMMAND=ssh -i \"$HOME/.ssh/$ssh -o IdentitiesOnly=yes \""
 		fi
 		if [[ "$folder_sync" == "1" ]]; then
 			mkdir -p "/tmp/$path"
