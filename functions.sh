@@ -361,6 +361,7 @@ ${FUNCNAME[1]} -b \"main\" -g \"git@github.com:username/respetory.git\" -p \"/pa
 		error_default "parameters reqired with -o/--onetime: -s/--ssh"
 		return
 	fi
+	#ssh_loaded_in=1
 	ssh_path="$HOME/.ssh/$ssh"
 	if [[ -z "$one_time" ]]; then
 		if [[ $(pgrep ssh-agent) == "" ]]; then
@@ -372,7 +373,7 @@ ${FUNCNAME[1]} -b \"main\" -g \"git@github.com:username/respetory.git\" -p \"/pa
 			while IFS= read -r line1; do
 				if [[ "$line1" == "$(ssh-keygen -lf "$ssh_path.pub")" ]]; then
 					echo test
-					ssh_loaded_in=0
+					local ssh_loaded_in=0
 					break
 					#local folder_sync=1
 				fi
