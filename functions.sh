@@ -386,27 +386,27 @@ ${FUNCNAME[1]} -b \"main\" -g \"git@github.com:username/respetory.git\" -p \"/pa
 	git add .
 	git commit --allow-empty-message -m "$message"
 	git branch -M "$branch"
-	push_error() {
-		pushing=" git push origin $1 --porcelain 2>&1"
-		if [[ -n "$2" ]]; then
-			pushing="GIT_SSH_COMMAND=ssh -i $HOME/.ssh/$ssh -o IdentitiesOnly=yes $pushing"
-		fi
+	pushing=" git push origin $1 --porcelain 2>&1"
+	if [[ -n "$one_time" ]]; then
+		pushing="GIT_SSH_COMMAND=ssh -i $HOME/.ssh/$ssh -o IdentitiesOnly=yes $pushing"
+	fi
+	#push_error() {
+	#}
+	while [[ $folder_sync != "0" ]]; do
+		local folder_sync=0
+		#if [[ -z "$one_time" ]]; then
+			#push_error "$branch"
+		#else
+			#echo "2. test"
+			#push_error "$branch" "GIT_SSH_COMMAND=ssh -i $HOME/.ssh/$ssh -o IdentitiesOnly=yes "
+		#fi
 		while IFS= read -r line1; do
 			if echo "$line1" | grep -qE "error: failed to push some refs to"; then
-				folder_sync=1
+				local folder_sync=1
 			fi
 		#done < <(git push origin "$1" --porcelain 2>&1)
 		#done < <("${2:-}" git push origin "$1" --porcelain 2>&1)
 		done < <(eval "$pushing")
-	}
-	while [[ $folder_sync != "0" ]]; do
-		folder_sync=0
-		if [[ -z "$one_time" ]]; then
-			push_error "$branch"
-		else
-			echo "2. test"
-			push_error "$branch" "GIT_SSH_COMMAND=ssh -i $HOME/.ssh/$ssh -o IdentitiesOnly=yes "
-		fi
 		if [[ "$folder_sync" == "1" ]]; then
 			mkdir -p "/tmp/$path"
 			cp -r . "/tmp/$path"
