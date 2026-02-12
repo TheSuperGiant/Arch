@@ -398,7 +398,8 @@ ${FUNCNAME[1]} -b \"main\" -g \"git@github.com:username/respetory.git\" -p \"/pa
 		if [[ -z "$one_time" ]]; then
 			push_error "$branch"
 		else
-			push_error "$branch" "GIT_SSH_COMMAND='ssh -i ~/.ssh/$ssh -o IdentitiesOnly=yes' "
+			echo "2. test"
+			push_error "$branch" "GIT_SSH_COMMAND=ssh -i $HOME/.ssh/$ssh -o IdentitiesOnly=yes "
 		fi
 		if [[ "$folder_sync" == "1" ]]; then
 			mkdir -p "/tmp/$path"
