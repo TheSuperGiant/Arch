@@ -407,7 +407,7 @@ ${FUNCNAME[1]} -b \"main\" -g \"git@github.com:username/respetory.git\" -p \"/pa
 			if [[ -z "$one_time" ]]; then
 				git fetch origin
 			else
-				GIT_SSH_COMMAND="ssh -i ~/.ssh/$ssh -o IdentitiesOnly=yes" git fetch origin
+				GIT_SSH_COMMAND="ssh -i \"$HOME/.ssh/$ssh -o IdentitiesOnly=yes\"" git fetch origin
 				echo test #temp
 			fi
 			git reset --hard origin/"$branch"
