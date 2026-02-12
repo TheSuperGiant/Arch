@@ -372,7 +372,7 @@ ${FUNCNAME[1]} -b \"main\" -g \"git@github.com:username/respetory.git\" -p \"/pa
 			while IFS= read -r line1; do
 				if [[ "$line1" == "$(ssh-keygen -lf "$ssh_path.pub")" ]]; then
 					echo test
-					ssh_loif [[ "$line1" == "$(ssh-keygen -lf "$ssh_path.pub")" ]]; thenaded_in=0
+					ssh_loaded_in=0
 					break
 					#local folder_sync=1
 				fi
