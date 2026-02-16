@@ -19,7 +19,7 @@ else
 	echo "BIOS"
 fi
 
-echo -e "\n\nupdating keyrings"
+printf "\n\n\nupdating keyrings"
 #disable RCU messeges output
 dmesg -n 1
 systemctl default >/dev/null 2>&1

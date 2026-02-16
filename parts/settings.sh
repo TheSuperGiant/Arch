@@ -14,13 +14,9 @@ if [[ "$XDG_CURRENT_DESKTOP" == "X-Cinnamon" ]]; then
 	fi
 	if [[ $Setting__background_image == "none" ]]; then
 		Setting__background_options="none"
-		#testing witch setting working in writing in the dconf file
-		#unset Setting__background_image
-		#Setting__background_image_total=""
 		Setting__background_image_total="-r"
-		#Setting__background_image_total=" "
 	elif [[ -n $Setting__background_image ]]; then
-		Setting__background_image_total="file://$Setting__background_image"
+		Setting__background_image_total="file:///${Setting__background_image// /%20}"
 	fi
 	if [[ $Setting__first_day_of_the_weak == "sunday" ]]; then
 		Setting__first_day_of_the_weak="0"

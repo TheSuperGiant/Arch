@@ -662,6 +662,8 @@ ${FUNCNAME[1]} /mnt/Data $download_name $documents_name -v -t banana -y"
 	sudo chattr +i $userfolder_file
 }
 s_link() {
+	#help text
+	#${FUNCNAME[1]} "target_location" "link_location"
 	if [[ "$2" != $(readlink "$2") ]]; then
 		if [[ $3 == "-f" ]]; then
 			rm -r "$2"
