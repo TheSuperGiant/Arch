@@ -11,22 +11,8 @@ source <(curl -s -L https://raw.githubusercontent.com/TheSuperGiant/Arch/refs/he
 source <(curl -s -L https://raw.githubusercontent.com/TheSuperGiant/Arch/refs/heads/main/parts/variable.sh)
 
 
-#if file not exists then create this file and overwrite it with -force|--force|-f. this are the default setting but with variables creating none default settings.
-fail2ban_creation() {
-#maby auto install the firewall and the fail2ban if not exists.
-#if
-sudo cp -n /etc/fail2ban/jail.conf /etc/fail2ban/jail.local
-cat << EOF > /etc/fail2ban/jail.local
-[DEFAULT]
-bantime  = 1h
-findtime = 10m
-maxretry = 5
-backend  = systemd
-ignoreip = 127.0.0.1/8 ::1
-EOF
-sudo systemctl restart fail2ban
-#fi
-}
+
+
 
 http_check() {
 	if [[ "$1" == *"http"* ]]; then
