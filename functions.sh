@@ -20,10 +20,10 @@ add_device_label() {
 	help_text() {
 		echo "mounting paritions add boot
 
-add_device_label <label name>
+${FUNCNAME[1]} <label name>
 
 example:
-add_device_label \"data\" \"games\""
+${FUNCNAME[1]} \"data\" \"games\""
 	}
 	if [[ $# == 0 ]] || printf '%s\n' "$@" | grep -qE '^-(h|help)$|^--help$'; then
 		help_text
@@ -263,6 +263,72 @@ ext4setup() {
 		sudo mkfs.ext4 -F -c -L $label "${DISK}1"
 	elif [[ "$disk_type" == "0" ]]; then #flash drives
 		sudo mkfs.ext4 -F -L $label "${DISK}1"
+	fi
+}
+flat() {
+	error_default() {
+		error "\n\n$1"
+	}
+	help_text() {
+		echo "flatpak adding folders
+
+Adds the folder when the folder isnot added yet.
+
+parameters (optional)
+	-l --list		list installed apps
+	-r --reset		reset premissions for app
+	-s --show		show premissions for app
+
+${FUNCNAME[1]} <app id> <folder> [folder...]
+
+example:
+${FUNCNAME[1]} \"\mnt\data\car\"
+${FUNCNAME[1]} \"\mnt\data\car\" \"\mnt\data\banana\""
+	}
+	existing_folder() {
+		flatpak info --show-permissions "$1" | grep filesystem | cut -d '=' -f2-
+	}
+	if [[ $# == 0 ]] || printf '%s\n' "$@" | grep -qE '^-(h|help)$|^--help$'; then
+		help_text
+		return
+	elif printf '%s\n' "$@" | grep -qE '^-(l|list)$|^--list$'; then
+		flatpak list --app --columns=name,application
+		return
+	elif printf '%s\n' "$@" | grep -qE '^-(r|reset)$|^--reset$'; then
+		flatpak override --user --reset "$2"
+		return
+	elif printf '%s\n' "$@" | grep -qE '^-(s|show)$|^--show$'; then
+		existing_folder "$2" | awk -F';' '{for(i=1;i<=NF;i++) print $i}'
+		return
+	elif [[ $# == 1 ]]; then
+		help_text
+		error_default "Needs at least 'App id' and 'folder'"
+		return
+	fi
+	local app="$1"
+	local installed_apps=$(flatpak list --app --columns=application)
+	for installed_app in $installed_apps; do
+		if [[ "$app" == "$installed_app" ]]; then
+			local found=1
+		fi
+	done
+	if [[ "$found" != 1 ]]; then
+		error "app '$app' is not installed"
+		return
+	fi
+	shift
+	local folders=$(existing_folder "$app")
+	IFS=';' read -ra parts <<< "$folders"
+	for adding in "$@"; do
+		for folder in "${parts[@]}"; do
+			if [[ "$adding" == "$folder" ]]; then
+				continue 2
+			fi
+		done
+		local filesystem+="--filesystem=$adding "
+	done
+	if [[ "$filesystem" != "" ]]; then
+		flatpak override --user $filesystem $app && echo "added folder(s) '$(echo "${filesystem//--filesystem=/}" | sed s/[[:space:]]*$//)' to app '$app'"
 	fi
 }
 git_config() {
@@ -662,16 +728,50 @@ ${FUNCNAME[1]} /mnt/Data $download_name $documents_name -v -t banana -y"
 	sudo chattr +i $userfolder_file
 }
 s_link() {
-	#help text
-	#${FUNCNAME[1]} "target_location" "link_location"
-	if [[ "$2" != $(readlink "$2") ]]; then
-		if [[ $3 == "-f" ]]; then
-			rm -r "$2"
-		else
-			rm "$2"
+	error_default() {
+		error "\n\n$1"
+	}
+	help_text() {
+		echo "Special link creation
+
+If the special link doesn’t exist, it creates it. If it exists, it checks the location and creates a new one if needed.
+
+parameters (optional)
+	-f			force
+
+${FUNCNAME[1]} <target_location> <link_location>
+
+example:
+${FUNCNAME[1]} \"\mnt\data\car\" \"\mnt\data\banana\"
+${FUNCNAME[1]} \"\mnt\data\car\" \"\mnt\data\banana\" -f"
+	}
+	if [[ $# == 0 ]] || printf '%s\n' "$@" | grep -qE '^-(h|help)$|^--help$'; then
+		help_text
+		return
+	elif [[ $# != 2 ]] || [[ $# == 3 ]] && ! printf '%s\n' "$@" | grep -qE '^-(f)$'; then
+		help_text
+		error_default "$FUNCNAME needs 'target location' and 'link location'"
+		return
+	fi
+	if [[ "$1" != $(readlink "$2") ]]; then
+		if [[ -e "$2" || ( -L "$2" && ! -e "$2" ) ]]; then
+			if [[ $3 == "-f" ]]; then
+				rm -r "$2"
+			elif [[ -L "$2" ]]; then
+				rm "$2"
+			fi
 		fi
-		mkdir -p ${2%/*}
-		ln -s "$1" "$2"
+		local upper_path=${2%/*}
+		if ! mkdir -p "$upper_path" 2>/dev/null; then
+			error "Path '$upper_path' cannot be created."
+			return
+		fi
+		if ! [[ -e "$2" ]]; then
+			ln -s "$1" "$2" 2>/dev/null && echo "Special link created: $2 --> $1" || error "Special link cannot be created. Permission denied."
+		else
+			error "Special link cannot be created because the path points to an existing file or folder."
+			echo "Use -f to force create the special link and remove the existing file or folder."
+		fi
 	fi
 }
 sp() {
