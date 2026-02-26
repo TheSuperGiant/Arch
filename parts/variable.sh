@@ -1,3 +1,2 @@
 distro=$(grep '^NAME=' /etc/os-release | cut -d'"' -f2)
-total_ram=$(grep MemTotal /proc/meminfo | grep -o '[[:digit:]]*')
-ram=$(echo $total_ram / 1000 | bc) #in mb
+ram=$(awk '/MemTotal/ {print int($2/1000)}' /proc/meminfo) #in mb
