@@ -323,8 +323,7 @@ ext4setup() {
 	clear
 	label_check
 
-	partitions=$(ls ${DISK}* | grep -E 
-			echo $DISK"^${DISK}[0-9]$")
+	partitions=$(ls ${DISK}* | grep -E "^${DISK}[0-9]$")
 	partitions_count=$(echo "$partitions" | wc -l)
 
 	for partion in $partitions; do
