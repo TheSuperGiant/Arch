@@ -203,7 +203,7 @@ ext4setup() {
 		fi
 	}
 	lsblk_outputs(){
-		lsblk -o NAME,TYPE,SIZE,LABEL,MODEL
+		lsblk -o NAME,TYPE,SIZE,LABEL,MODEL ${1:-}
 	}
 	label_check() {
 		while :; do
@@ -241,13 +241,13 @@ ext4setup() {
 					fi
 				done
 				if [[ "$dev_type" == "m" ]];then
-					dev_type="mmcblk"
+					local dev_type="mmcblk"
 				elif [[ "$dev_type" == "n" ]];then
-					dev_type="nvme"
+					local dev_type="nvme"
 				elif [[ "$dev_type" == "v" ]];then
-					dev_type="vd"
+					local dev_type="vd"
 				elif [[ "$dev_type" == "s" ]];then
-					dev_type="sd"
+					local dev_type="sd"
 				fi
 				if ls /dev/$dev_type*  >/dev/null 2>&1;then 
 					break
@@ -261,19 +261,21 @@ ext4setup() {
 			clear
 			lsblk_outputs | grep -E "^NAME|$dev_type|├─$dev_type|└─$dev_type" | disk_print
 			disk_text; read disk_letter; disk_letter=$(echo "$disk_letter" | tr '[:upper:]' '[:lower:]')
-			DIS="${dev_type}${disk_letter}"
-			DISK="/dev/$DIS"
+			local DIS="${dev_type}${disk_letter}"
+			local DISK="/dev/$DIS"
+			echo 
 			if [[ "$dev_type" == "nvme" ]];then
 				clear
+				local nmve_disks=$(lsblk_outputs | grep -E "^$DIS" | awk '{print $1}')
 				if [[ $(set -- $nmve_disks; echo $#) == "1" ]];then
-					DISK="${DISK}${nmve_disks: -2}"
+					local DISK="${DISK}${nmve_disks: -2}"
 				else
 					while :; do
 						lsblk_outputs | grep -E "^NAME|$DIS|├─$DIS|└─$DIS" | disk_print
 						disk_txt "0-9" "${DIS}nX"; read nmve_number; DISK2="${DISK}n${nmve_number}"
 						echo $DISK2
 						if ls $DISK2  >/dev/null 2>&1;then 
-							DISK="$DISK2"
+							local DISK="$DISK2"
 							break
 						else
 							clear
@@ -299,14 +301,14 @@ ext4setup() {
 		while :; do
 			echo "Disk information for $DISK:"
 			echo "----------------------------------"
-			lsblk -o NAME,TYPE,SIZE,LABEL,MODEL $DISK
+			lsblk_outputs $DISK
 
 			echo
 			echo
 			#printf "Format disk $DISK? Type 'y' to continue or 'n' to cancel: "; read confirm; confirm=$(echo "$confirm" | tr '[:upper:]' '[:lower:]')
 			printf "Are you sure you want to format disk $DISK? Type 'y' to proceed, 'n' to cancel: "; read confirm; confirm=$(echo "$confirm" | tr '[:upper:]' '[:lower:]')
 			if [[ $confirm =~ ^("y"|"yes") ]]; then
-				disk_type=$(lsblk -d -o ROTA -n "$DISK" | xargs)
+				local disk_type=$(lsblk -d -o ROTA -n "$DISK" | xargs)
 				break 2
 			elif [[ $confirm =~ ^("n"|"no") ]]; then
 				clear
@@ -323,8 +325,8 @@ ext4setup() {
 	clear
 	label_check
 
-	partitions=$(ls ${DISK}* | grep -E "^${DISK}[0-9]$")
-	partitions_count=$(echo "$partitions" | wc -l)
+	local partitions=$(ls ${DISK}* | grep -E "^${DISK}[0-9]$")
+	local partitions_count=$(echo "$partitions" | wc -l)
 
 	for partion in $partitions; do
 		echo "$partion"
@@ -337,7 +339,7 @@ ext4setup() {
 	printf "g\nn\n\n\n\nw" | sudo fdisk "$DISK"
 
 	if [[ $disk_letter =~ ^[0-9]$ ]]; then
-		DISK="${DISK}p"
+		local DISK="${DISK}p"
 	fi
 
 	if [[ "$disk_type" == "1" ]]; then #hdd
