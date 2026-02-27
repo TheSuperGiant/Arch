@@ -305,8 +305,7 @@ ext4setup() {
 
 			echo
 			echo
-			#printf "Format disk $DISK? Type 'y' to continue or 'n' to cancel: "; read confirm; confirm=$(echo "$confirm" | tr '[:upper:]' '[:lower:]')
-			printf "Are you sure you want to format disk $DISK? Type 'y' to proceed, 'n' to cancel: "; read confirm; confirm=$(echo "$confirm" | tr '[:upper:]' '[:lower:]')
+			printf "Format disk $DISK? Type 'y' to continue or 'n' to cancel: "; read confirm; confirm=$(echo "$confirm" | tr '[:upper:]' '[:lower:]')
 			if [[ $confirm =~ ^("y"|"yes") ]]; then
 				local disk_type=$(lsblk -d -o ROTA -n "$DISK" | xargs)
 				break 2
