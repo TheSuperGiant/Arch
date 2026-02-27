@@ -184,25 +184,25 @@ dcow() {
 	echo "------------------------------------"
 }
 ext4setup() {
-	disk_print(){
+	disk_print() {
 		awk 'NR==1{print;next} $2=="disk" && NR>1{print "--------------------------------------------------"} $2=="disk" || $2=="part"{print}'
 		echo "--------------------------------------------------"
 	}
-	disk_txt(){
+	disk_txt() {
 		printf "Enter disk (e.g., '$1' for /dev/$2 ''): "
 	}
-	disk_text(){
-		if [[ "$dev_type" == "mmcblk" ]];then
+	disk_text() {
+		if [[ "$dev_type" == "mmcblk" ]]; then
 			disk_txt "0-9" "${dev_type}X"
-		elif [[ "$dev_type" == "nvme" ]];then
+		elif [[ "$dev_type" == "nvme" ]]; then
 			disk_txt "0-9" "${dev_type}Xn1"
-		elif [[ "$dev_type" == "vd" ]];then
+		elif [[ "$dev_type" == "vd" ]]; then
 			disk_txt "a-z" "${dev_type}X"
-		elif [[ "$dev_type" == "sd" ]];then
+		elif [[ "$dev_type" == "sd" ]]; then
 			disk_txt "a-z" "${dev_type}X"
 		fi
 	}
-	lsblk_outputs(){
+	lsblk_outputs() {
 		lsblk -o NAME,TYPE,SIZE,LABEL,MODEL ${1:-}
 	}
 	label_check() {
@@ -231,7 +231,7 @@ ext4setup() {
 				while :; do
 					lsblk_outputs | disk_print
 					printf "Enter 's' for sd*, 'n' for nvme*, 'v' for vd*, 'm' for mmcblk*: "; read dev_type; dev_type=$(echo "$dev_type" | tr '[:upper:]' '[:lower:]')
-					if [[ "$dev_type" =~ ^(m|n|s|v)$ ]];then
+					if [[ "$dev_type" =~ ^(m|n|s|v)$ ]]; then
 						break
 					else
 						clear
@@ -240,16 +240,16 @@ ext4setup() {
 						echo
 					fi
 				done
-				if [[ "$dev_type" == "m" ]];then
+				if [[ "$dev_type" == "m" ]]; then
 					local dev_type="mmcblk"
-				elif [[ "$dev_type" == "n" ]];then
+				elif [[ "$dev_type" == "n" ]]; then
 					local dev_type="nvme"
-				elif [[ "$dev_type" == "v" ]];then
+				elif [[ "$dev_type" == "v" ]]; then
 					local dev_type="vd"
-				elif [[ "$dev_type" == "s" ]];then
+				elif [[ "$dev_type" == "s" ]]; then
 					local dev_type="sd"
 				fi
-				if ls /dev/$dev_type*  >/dev/null 2>&1;then 
+				if ls /dev/$dev_type*  >/dev/null 2>&1; then
 					break
 				else
 					clear
@@ -263,18 +263,18 @@ ext4setup() {
 			disk_text; read disk_letter; disk_letter=$(echo "$disk_letter" | tr '[:upper:]' '[:lower:]')
 			local DIS="${dev_type}${disk_letter}"
 			local DISK="/dev/$DIS"
-			echo 
-			if [[ "$dev_type" == "nvme" ]];then
+			echo
+			if [[ "$dev_type" == "nvme" ]]; then
 				clear
 				local nmve_disks=$(lsblk_outputs | grep -E "^$DIS" | awk '{print $1}')
-				if [[ $(set -- $nmve_disks; echo $#) == "1" ]];then
+				if [[ $(set -- $nmve_disks; echo $#) == "1" ]]; then
 					local DISK="${DISK}${nmve_disks: -2}"
 				else
 					while :; do
 						lsblk_outputs | grep -E "^NAME|$DIS|├─$DIS|└─$DIS" | disk_print
 						disk_txt "0-9" "${DIS}nX"; read nmve_number; DISK2="${DISK}n${nmve_number}"
 						echo $DISK2
-						if ls $DISK2  >/dev/null 2>&1;then 
+						if ls $DISK2  >/dev/null 2>&1; then
 							local DISK="$DISK2"
 							break
 						else
@@ -297,7 +297,7 @@ ext4setup() {
 		done
 
 		clear
-		
+
 		while :; do
 			echo "Disk information for $DISK:"
 			echo "----------------------------------"
