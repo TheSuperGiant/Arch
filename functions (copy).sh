@@ -184,27 +184,6 @@ dcow() {
 	echo "------------------------------------"
 }
 ext4setup() {
-	disk_print(){
-		awk 'NR==1{print;next} $2=="disk" && NR>1{print "--------------------------------------------------"} $2=="disk" || $2=="part"{print}'
-		echo "--------------------------------------------------"
-	}
-	disk_txt(){
-		printf "Enter disk (e.g., '$1' for /dev/$2 ''): "
-	}
-	disk_text(){
-		if [[ "$dev_type" == "mmcblk" ]];then
-			disk_txt "0-9" "${dev_type}X"
-		elif [[ "$dev_type" == "nvme" ]];then
-			disk_txt "0-9" "${dev_type}Xn1"
-		elif [[ "$dev_type" == "vd" ]];then
-			disk_txt "a-z" "${dev_type}X"
-		elif [[ "$dev_type" == "sd" ]];then
-			disk_txt "a-z" "${dev_type}X"
-		fi
-	}
-	lsblk_outputs(){
-		lsblk -o NAME,TYPE,SIZE,LABEL,MODEL
-	}
 	label_check() {
 		while :; do
 			printf "Enter label for the partition: "; read label
@@ -227,62 +206,14 @@ ext4setup() {
 
 	while :; do
 		while :; do
-			while :; do
-				while :; do
-					lsblk_outputs | disk_print
-					printf "Enter 's' for sd*, 'n' for nvme*, 'v' for vd*, 'm' for mmcblk*: "; read dev_type; dev_type=$(echo "$dev_type" | tr '[:upper:]' '[:lower:]')
-					if [[ "$dev_type" =~ ^(m|n|s|v)$ ]];then
-						break
-					else
-						clear
-						echo "no good option given only be possible :m,n,s,v. Try again."
-						echo
-						echo
-					fi
-				done
-				if [[ "$dev_type" == "m" ]];then
-					dev_type="mmcblk"
-				elif [[ "$dev_type" == "n" ]];then
-					dev_type="nvme"
-				elif [[ "$dev_type" == "v" ]];then
-					dev_type="vd"
-				elif [[ "$dev_type" == "s" ]];then
-					dev_type="sd"
-				fi
-				if ls /dev/$dev_type*  >/dev/null 2>&1;then 
-					break
-				else
-					clear
-					echo "Disks not found for '/dev/$dev_type*'. Try again."
-					echo
-					echo
-				fi
-			done
-			clear
-			lsblk_outputs | grep -E "^NAME|$dev_type|├─$dev_type|└─$dev_type" | disk_print
-			disk_text; read disk_letter; disk_letter=$(echo "$disk_letter" | tr '[:upper:]' '[:lower:]')
-			DIS="${dev_type}${disk_letter}"
-			DISK="/dev/$DIS"
-			if [[ "$dev_type" == "nvme" ]];then
-				clear
-				if [[ $(set -- $nmve_disks; echo $#) == "1" ]];then
-					DISK="${DISK}${nmve_disks: -2}"
-				else
-					while :; do
-						lsblk_outputs | grep -E "^NAME|$DIS|├─$DIS|└─$DIS" | disk_print
-						disk_txt "0-9" "${DIS}nX"; read nmve_number; DISK2="${DISK}n${nmve_number}"
-						echo $DISK2
-						if ls $DISK2  >/dev/null 2>&1;then 
-							DISK="$DISK2"
-							break
-						else
-							clear
-							echo "Disks not found '$DISK2'. Try again."
-							echo
-							echo
-						fi
-					done
-				fi
+			lsblk -o NAME,TYPE,SIZE,LABEL,MODEL | awk 'NR==1{print;next} $2=="disk" && NR>1{print "--------------------------------------------------"} $2=="disk" || $2=="part"{print}'
+			echo "--------------------------------------------------"
+
+			printf "Enter disk (e.g., 'a-z' for /dev/sdX or '0,1,..' for /dev/nvmeXn1): "; read disk_letter; disk_letter=$(echo "$disk_letter" | tr '[:upper:]' '[:lower:]')
+			if [[ $disk_letter =~ ^[a-z]$ ]]; then
+			    DISK="/dev/sd${disk_letter}"
+			else
+				DISK="/dev/nvme${disk_letter}n1"
 			fi
 			if [[ ! -e "$DISK" ]]; then
 				clear
@@ -295,36 +226,23 @@ ext4setup() {
 		done
 
 		clear
-		
-		while :; do
-			echo "Disk information for $DISK:"
-			echo "----------------------------------"
-			lsblk -o NAME,TYPE,SIZE,LABEL,MODEL $DISK
+		echo "Disk information for $DISK:"
+		echo "----------------------------------"
+		lsblk -o NAME,TYPE,SIZE,LABEL,MODEL $DISK
 
-			echo
-			echo
-			#printf "Format disk $DISK? Type 'y' to continue or 'n' to cancel: "; read confirm; confirm=$(echo "$confirm" | tr '[:upper:]' '[:lower:]')
-			printf "Are you sure you want to format disk $DISK? Type 'y' to proceed, 'n' to cancel: "; read confirm; confirm=$(echo "$confirm" | tr '[:upper:]' '[:lower:]')
-			if [[ $confirm =~ ^("y"|"yes") ]]; then
-				disk_type=$(lsblk -d -o ROTA -n "$DISK" | xargs)
-				break 2
-			elif [[ $confirm =~ ^("n"|"no") ]]; then
-				clear
-				break
-			else
-				clear
-				echo "Invalid choice. Type 'y' or 'n'"
-				echo
-				echo
-			fi
-		done
+		echo
+		echo
+		printf "Are you sure you want to format disk $DISK? Type 'y' to proceed: "; read confirm; confirm=$(echo "$confirm" | tr '[:upper:]' '[:lower:]')
+		if [[ $confirm = "y" ]]; then
+			disk_type=$(lsblk -d -o ROTA -n "$DISK" | xargs)
+			break
+		fi
 	done
 
 	clear
 	label_check
 
-	partitions=$(ls ${DISK}* | grep -E 
-			echo $DISK"^${DISK}[0-9]$")
+	partitions=$(ls ${DISK}* | grep -E "^${DISK}[0-9]$")
 	partitions_count=$(echo "$partitions" | wc -l)
 
 	for partion in $partitions; do
