@@ -84,41 +84,16 @@ if [[ "$sudo_reboot" == "1" ]]; then
 	add_sudo "$USER ALL=(ALL) NOPASSWD: /usr/bin/reboot, /usr/bin/shutdown, /usr/bin/poweroff"
 fi
 
-#echo "------------------------------------"
-#echo "|   Adding mounted partitions...   |"
-#echo "------------------------------------"
-
-#if [ -n "$add_device_labels" ]; then
-	#for label in "${add_device_labels[@]}"; do
-		#add_device_label $label
-		#add_device_label $add_device_labels
-		#add_device_label ${add_device_labels[@]}
-	#done
-#fi
-
 #add_device_label
 source <(curl -s -L https://raw.githubusercontent.com/TheSuperGiant/Arch/refs/heads/main/parts/add_device_label.sh)
 
 #personal folders
 source <(curl -s -L https://raw.githubusercontent.com/TheSuperGiant/Arch/refs/heads/main/parts/personal_folders.sh)
 
-#box_part "Moving personal folders"
-#echo "------------------------------------"
-#echo "|    Moving personal folders...    |"
-#echo "------------------------------------"
-
-#if [ -n "$personal_folder_place" ]; then
-	#for folders in Desktop Documents Downloads Music Pictures Public Templates Videos; do
-		#if [ "$(eval echo \$personal_folder__$folders)" == "1" ]; then
-			#echo
-			#folder+=" $folders"
-		#fi
-	#done
-	#pf $personal_folder_place $folder
-#fi
-
 box_part "System update"
+#box_part "updating"
 
+#function update later
 sudo pacman -Syu --noconfirm
 
 if [[ "$numlock_startup" == "on" || "$numlock_startup" == "off" ]]; then
@@ -139,7 +114,7 @@ if [[ "$Firewall__Default" == "1" ]]; then
 	fi
 fi
 
-source <(curl -s -L https://raw.githubusercontent.com/TheSuperGiant/Arch/refs/heads/main/program_install_list.sh)
+box_part "Install AUR helper"
 
 declare -a AUR_Helpers=(
 	"paru:	base-devel rust git; par"
@@ -152,7 +127,7 @@ for AUR_Helper in "${AUR_Helpers[@]}"; do
 	AUR_installer=$(echo "${AUR_Helper##*;}")
 	cd ~
 	if ! command -v $AUR >/dev/null; then
-		box_part "$AUR installing"
+		box_sub "$AUR installing"
 		sudo pacman -S --needed $pacman_packages --noconfirm
 		rm -rf $AUR
 		git clone https://aur.archlinux.org/$AUR.git
@@ -169,13 +144,27 @@ for AUR_Helper in "${AUR_Helpers[@]}"; do
 done
 cd ~
 
+box_part "Installing programs"
+
+if [[ "$App_Install__virt_viewer" == 1 ]] && systemd-detect-virt | grep -q "kvm\|qemu"; then
+	sudo pacman -S --noconfirm spice-vdagent
+	sudo systemctl enable spice-vdagentd
+	sudo systemctl start spice-vdagentd
+fi
+
+#aur helper/pacman install
+source <(curl -s -L https://raw.githubusercontent.com/TheSuperGiant/Arch/refs/heads/main/program_install_list.sh)
+
 for app in "${App_Install__[@]}"; do
 	key="${app%%:*}"
 	if [[ "$(eval echo \$App_Install__$key)" == "1" ]]; then
+		box_sub "$key"
 		value=$(echo "${app##*:}" | sed -E 's/^[[:space:]]+//')
 		$function --needed --noconfirm $value <<< 1
 	fi
 done
+
+box_part "Secutity settings"
 
 if [[ "$Firewall__Default" == "1" ]]; then
 	sudo ufw enable
