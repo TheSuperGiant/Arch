@@ -266,7 +266,7 @@ ext4setup() {
 			echo
 			if [[ "$dev_type" == "nvme" ]]; then
 				clear
-				local nmve_disks=$(lsblk_outputs | grep -E "^$DIS" | awk '{print $1}')
+				local nmve_disks=$( | grep -v fdk_outputs | grep -E "^$DIS" | awk '{print $1}')
 				if [[ $(set -- $nmve_disks; echo $#) == "1" ]]; then
 					local DISK="${DISK}${nmve_disks: -2}"
 				else
