@@ -203,7 +203,7 @@ ext4setup() {
 		fi
 	}
 	lsblk_outputs() {
-		lsblk -o NAME,TYPE,SIZE,LABEL,MODEL ${1:-}
+		lsblk -o NAME,TYPE,SIZE,LABEL,MODEL ${1:-} | grep -v fd
 	}
 	label_check() {
 		while :; do
