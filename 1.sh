@@ -86,4 +86,4 @@ Exec=/bin/bash -c "nm-online -q && sleep 1 && bash <(curl -fsSL $2); exec bash"
 Terminal=true
 EOF
 
-reboot
+#reboot
