@@ -746,28 +746,21 @@ ${FUNCNAME[1]} /mnt/Data $download_name $documents_name -v -t banana -y"
 	for userfolder in "${folders[@]}"; do
 		echo $userfolder
 		local old_location_dir=$(printf "%s\n" "${old_location[@]}" | grep "$userfolder" | awk -F':' '{print $2}' | sed -E 's/^[[:space:]]+//')
-		echo "old: $old_location_dir" #temp
-		#if [[ -z $old_location_dir ]]; then
 		if [[ -z "$old_location_dir" ]]; then
-			echo "old 1" #temp
 			local old_locationd_found=0
 			local old_location_dir=${userfolder^^}
 			local old_user_path="$HOME/$userfolder"
 			if [[ -d "$old_user_path" ]]; then
 				local old_location_path="$old_user_path"
-				echo "old 2" #temp
 			else
 				local userfolder_found=0
-				echo "old 3" #temp
 			fi
 		else
-			echo "old 4" #temp
-			local old_locationd_found=1 #maby needed
+			local old_locationd_found=1
 			local old_location_path=$(grep "^XDG_${old_location_dir}_DIR=" $userfolder_file | sed -n 's/.*"\([^"]*\)".*/\1/p')
 			local old_location_path=$(echo "$old_location_path" | envsubst)
 		fi
 		local new_path_userfolder="$new_path/$userfolder"
-		echo "old_locationd_found: $old_locationd_found" #temp
 		if [[ $(grep "^XDG_${old_location_dir}_DIR=" $userfolder_file | awk -F'=' '{print $2}' | sed 's/"//g') == "$new_path_userfolder" ]]; then
 			echo "$new_path_userfolder: is already set to this location"
 			echo "------------------------------------"
@@ -798,17 +791,13 @@ ${FUNCNAME[1]} /mnt/Data $download_name $documents_name -v -t banana -y"
 			fi
 			if [[ (( $err = 0 )) ]]; then
 				if [[ -n $old_location_path ]]; then
-					#if [[ $old_locationd_found == 0 ]]; then
 					if [[ "$old_locationd_found" == "0" ]]; then
-						echo 1 #temp
 						sudo echo "XDG_${old_location_dir}_DIR=\"$new_path_userfolder\"" >> $userfolder_file
 					else
-						echo 2 #temp
 						sudo sed -i "/^XDG_${old_location_dir}_DIR=/c\XDG_${old_location_dir}_DIR=\"$new_path_userfolder\"" $userfolder_file
 					fi
 					sudo rm -rf $old_location_path
 				else
-					echo 3 #temp
 					sudo echo "XDG_${old_location_dir}_DIR=\"$new_path_userfolder\"" >> $userfolder_file
 					sudo mkdir -p $new_path_userfolder
 					sudo chown $USER:$USER $new_path_userfolder
