@@ -761,10 +761,12 @@ ${FUNCNAME[1]} /mnt/Data $download_name $documents_name -v -t banana -y"
 			fi
 		else
 			echo "old 4" #temp
+			#local old_locationd_found=1 #maby needed
 			local old_location_path=$(grep "^XDG_${old_location_dir}_DIR=" $userfolder_file | sed -n 's/.*"\([^"]*\)".*/\1/p')
 			local old_location_path=$(echo "$old_location_path" | envsubst)
 		fi
 		local new_path_userfolder="$new_path/$userfolder"
+		echo "old_locationd_found: $old_locationd_found" #temp
 		if [[ $(grep "^XDG_${old_location_dir}_DIR=" $userfolder_file | awk -F'=' '{print $2}' | sed 's/"//g') == "$new_path_userfolder" ]]; then
 			echo "$new_path_userfolder: is already set to this location"
 			echo "------------------------------------"
