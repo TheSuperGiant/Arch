@@ -57,6 +57,7 @@ declare -a App_Install__=(
 	"signal:				signal-desktop"
 	"smplayer:				smplayer"
 	"steam:					steam"
+	"syncthing:				syncthing"
 	"teamviewer:			teamviewer"
 	"thorium:				thorium-browser-bin"
 	"thunar:				thunar"

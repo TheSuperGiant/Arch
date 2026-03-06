@@ -791,12 +791,15 @@ ${FUNCNAME[1]} /mnt/Data $download_name $documents_name -v -t banana -y"
 			if [[ (( $err = 0 )) ]]; then
 				if [[ -n $old_location_path ]]; then
 					if [[ $old_locationd_found == 0 ]]; then
+						echo 1 #temp
 						sudo echo "XDG_${old_location_dir}_DIR=\"$new_path_userfolder\"" >> $userfolder_file
 					else
+						echo 2 #temp
 						sudo sed -i "/^XDG_${old_location_dir}_DIR=/c\XDG_${old_location_dir}_DIR=\"$new_path_userfolder\"" $userfolder_file
 					fi
 					sudo rm -rf $old_location_path
 				else
+					echo 3 #temp
 					sudo echo "XDG_${old_location_dir}_DIR=\"$new_path_userfolder\"" >> $userfolder_file
 					sudo mkdir -p $new_path_userfolder
 					sudo chown $USER:$USER $new_path_userfolder
