@@ -746,6 +746,7 @@ ${FUNCNAME[1]} /mnt/Data $download_name $documents_name -v -t banana -y"
 	for userfolder in "${folders[@]}"; do
 		echo $userfolder
 		local old_location_dir=$(printf "%s\n" "${old_location[@]}" | grep "$userfolder" | awk -F':' '{print $2}' | sed -E 's/^[[:space:]]+//')
+		echo "old: $old_location_dir" #temp
 		if [[ -z $old_location_dir ]]; then
 			local old_locationd_found=0
 			local old_location_dir=${userfolder^^}
