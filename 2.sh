@@ -101,9 +101,8 @@ sudo pacman -Syu --noconfirm
 
 if [[ "$numlock_startup" == "on" || "$numlock_startup" == "off" ]]; then
 	App_Install__numlockx=1
-	add_lightdm e "[Seat:*]" "\[Seat:\*\]"
-	add_lightdm "greeter-setup-script=/usr/bin/numlockx $numlock_startup" "/^\[Seat:\*\]/a"
-	echo "NumLock $numlock_startup configuration added to [Seat:*] section."
+	#add_lightdm e "[Seat:*]" "\[Seat:\*\]"
+	#add_lightdm "greeter-setup-script=/usr/bin/numlockx $numlock_startup" "/^\[Seat:\*\]/a" && echo "NumLock $numlock_startup configuration added to [Seat:*] section."
 fi
 
 if [[ "$App_Install__notepadPlusPlus" == "1" ]]; then
