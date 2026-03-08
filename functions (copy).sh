@@ -746,6 +746,7 @@ ${FUNCNAME[1]} /mnt/Data $download_name $documents_name -v -t banana -y"
 	for userfolder in "${folders[@]}"; do
 		echo $userfolder
 		local old_location_dir=$(printf "%s\n" "${old_location[@]}" | grep "$userfolder" | awk -F':' '{print $2}' | sed -E 's/^[[:space:]]+//')
+		echo "old_location_dir: $old_location_dir"
 		if [[ -z "$old_location_dir" ]]; then
 			local old_locationd_found=0
 			local old_location_dir=${userfolder^^}
@@ -754,10 +755,10 @@ ${FUNCNAME[1]} /mnt/Data $download_name $documents_name -v -t banana -y"
 				local old_location_path="$old_user_path"
 			else
 				local userfolder_found=0
-				unset old_location_path
 			fi
 		else
-			local old_locationd_found=1
+			#local userfolder_found=1
+			local userfolder_found=1
 			local old_location_path=$(grep "^XDG_${old_location_dir}_DIR=" $userfolder_file | sed -n 's/.*"\([^"]*\)".*/\1/p')
 			local old_location_path=$(echo "$old_location_path" | envsubst)
 		fi

@@ -246,6 +246,7 @@ if [[ "$IPv6_hardening" == 1 ]]; then
 	done
 	if [[ "$network_restart" == 1 ]]; then
 		sudo sysctl --system
+		echo "IPv6 hardening added"
 	fi
 fi
 
