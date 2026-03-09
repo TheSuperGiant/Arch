@@ -33,7 +33,7 @@ if [[ "$linutil__christitus" == "1" ]]; then
 	curl -fsSL https://christitus.com/linux | sh
 fi
 
-function_sh=$(curl -s https://raw.githubusercontent.com/TheSuperGiant/Arch/refs/heads/main/functions.sh)
+#function_sh=$(curl -s https://raw.githubusercontent.com/TheSuperGiant/Arch/refs/heads/main/functions.sh)
 
 while IFS= read -r line; do
 	if [[ "$line" == alias* ]]; then
