@@ -5,6 +5,7 @@ declare -a required=(
 	"function__dcor:	dco_value"
 	"function__dcow:	dco_value"
 	"function__flat:	error"
+	"function__pf:	error"
 	"function__s_link:	error"
 	#2
 	"function__box_sub:	box"

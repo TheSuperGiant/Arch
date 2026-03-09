@@ -664,12 +664,12 @@ pf() {
 
 moving to new location
 
-${FUNCNAME[1]} <path to new location> <personal folder(s)>
-${FUNCNAME[1]} <path to new location> <parameters>
-${FUNCNAME[1]} <path to new location> <personal folder(s)> <parameters>
+${FUNCNAME[1]} <destination path> <personal folder(s)>
+${FUNCNAME[1]} <destination path> <parameters>
+${FUNCNAME[1]} <destination path> <personal folder(s)> <parameters>
 
 parameters
-	${FUNCNAME[1]} -y	Create non-default user folders automatically. Skips the yes/no confirmation.
+	${FUNCNAME[1]} -y -f	create non-default user folders without yes/no prompt.
 
 parameters folders
 	${FUNCNAME[1]} -d	$download_name
@@ -688,14 +688,18 @@ ${FUNCNAME[1]} /mnt/Data banana
 ${FUNCNAME[1]} /mnt/Data banana -y
 ${FUNCNAME[1]} /mnt/Data $download_name $documents_name -v -t banana -y"
 	}
-	if [[ $# == 0 ]] || printf '%s\n' "$@" | grep -qE '^-(h|help)$|^--help$'; then
+	if [[ $# == 0 ]] || [[ "$@" =~ ^(-h|-help|--help)$ ]]; then
 		help_text
+		return
+	elif [[ $# == 1 ]]; then
+		help_text
+		error "\n\n\nUsage: <destination path> <personal folder(s)>"
 		return
 	else
 		new_path="$1"
 		shift
 	fi
-	if [[ " $* " == *" -y "* ]]; then
+	if [[ " $* " =~ [[:space:]](-y|-f)[[:space:]] ]]; then
 		local yes_force="1"
 	fi
 	while [[ $# -gt 0 ]]; do
@@ -733,7 +737,8 @@ ${FUNCNAME[1]} /mnt/Data $download_name $documents_name -v -t banana -y"
 				local folders+=("$videos_name")
 				shift
 				;;
-			-y)
+			#-y)
+			-f|-y)
 				shift
 				;;
 			-*)
