@@ -25,7 +25,7 @@ ${FUNCNAME[1]} <label name>
 example:
 ${FUNCNAME[1]} \"data\" \"games\""
 	}
-	if [[ $# == 0 ]] || printf '%s\n' "$@" | grep -qE '^-(h|help)$|^--help$'; then
+	if [[ $# == 0 ]] || [[ " $* " =~ [[:space:]](-h|-help|--help)[[:space:]] ]]; then
 		help_text
 		return
 	fi
@@ -370,23 +370,24 @@ ${FUNCNAME[1]} \"\mnt\data\car\" \"\mnt\data\banana\""
 	existing_folder() {
 		flatpak info --show-permissions "$1" | grep filesystem | cut -d '=' -f2-
 	}
-	if [[ $# == 0 ]] || printf '%s\n' "$@" | grep -qE '^-(h|help)$|^--help$'; then
+	if [[ $# == 0 ]] || [[ " $* " =~ [[:space:]](-h|-help|--help)[[:space:]] ]]; then
 		help_text
 		return
-	elif printf '%s\n' "$@" | grep -qE '^-(l|list)$|^--list$'; then
+	elif [[ "$@" =~ ^(-l|-list|--list)$ ]]; then
 		flatpak list --app --columns=name,application
 		return
-	elif printf '%s\n' "$@" | grep -qE '^-(r|reset)$|^--reset$'; then
+	elif [[ " $* " =~ ^[[:space:]](-r|-reset|--reset)[[:space:]] ]]; then
 		flatpak override --user --reset "$2"
 		return
-	elif printf '%s\n' "$@" | grep -qE '^-(s|show)$|^--show$'; then
+	elif [[ " $* " =~ ^[[:space:]](-s|-show|--show)[[:space:]] ]]; then
 		existing_folder "$2" | awk -F';' '{for(i=1;i<=NF;i++) print $i}'
 		return
 	elif [[ $# == 1 ]]; then
 		help_text
-		error_default "Needs at least 'App id' and 'folder'"
+		error_default "Usage: <app id> <folder>"
 		return
 	fi
+	pause
 	local app="$1"
 	local installed_apps=$(flatpak list --app --columns=application)
 	for installed_app in $installed_apps; do
@@ -450,7 +451,7 @@ example:
 ${FUNCNAME[1]} -b \"main\" -g \"git@github.com:username/respetory.git\" -p \"/path/to/local/project\"
 ${FUNCNAME[1]} -b \"main\" -g \"git@github.com:username/respetory.git\" -p \"/path/to/local/project\" -s \"filename\" -u \"username\" -m \"message\""
 	}
-	if [[ $# == 0 ]] || printf '%s\n' "$@" | grep -qE '^-(h|help)$|^--help$'; then
+	if [[ $# == 0 ]] || [[ " $* " =~ [[:space:]](-h|-help|--help)[[:space:]] ]]; then
 		help_text
 		return
 	fi
@@ -613,52 +614,15 @@ paru_clean() {
 }
 alias pause="read -p \"Press [Enter] to continue...\""
 pf() {
+	error_default() {
+		error "\n\n$1"
+	}
 	printf "⚠️ WARNING: Using this function will lock the userfolders file. If you want to make changes to the file, you must first give it root write privileges again.⚠️\n\n\n"
-	#local desktop_name=$(xdg-user-dir "DESKTOP" 2>/dev/null | awk -F'/' '{print $NF}')
-	#local download_name=$(xdg-user-dir "DOWNLOAD" 2>/dev/null | awk -F'/' '{print $NF}')
-	#local music_name=$(xdg-user-dir "MUSIC" 2>/dev/null | awk -F'/' '{print $NF}')
-	#local documents_name=$(xdg-user-dir "DOCUMENTS" 2>/dev/null | awk -F'/' '{print $NF}')
-	#local pictures_name=$(xdg-user-dir "PICTURES" 2>/dev/null | awk -F'/' '{print $NF}')
-	#local templates_name=$(xdg-user-dir "TEMPLATES" 2>/dev/null | awk -F'/' '{print $NF}')
-	#local public_name=$(xdg-user-dir "PUBLICSHARE" 2>/dev/null | awk -F'/' '{print $NF}')
-	#local videos_name=$(xdg-user-dir "VIDEOS" 2>/dev/null | awk -F'/' '{print $NF}')
-	#pause
-
-	#unset music_name videos_name
-
-	#echo "MUSIC: $music_name"   # localized name
-	#echo "VIDEOS: $videos_name"
 	userfolder_file="$HOME/.config/user-dirs.dirs"
-	#source ~/.config/user-dirs.dirs
-	#time source "$userfolder_file" 2>/dev/null
 	source "$userfolder_file" 2>/dev/null
-
-	#time music_name="${XDG_MUSIC_DIR##*/}"
-	#music_name="${XDG_MUSIC_DIR##*/}"
-	#videos_name="${XDG_VIDEOS_DIR##*/}"
 	for dir in DESKTOP DOWNLOAD DOCUMENTS MUSIC PICTURES PUBLICSHARE TEMPLATES VIDEOS; do
 		eval "local ${dir,,}_name=\${XDG_${dir}_DIR##*/}"
-		#eval "${dir}_name=\${XDG_${dir}_DIR##*/}"
-		#eval "dir_name=\${XDG_${dir}_DIR##*/}"
-		#eval "_name=${XDG_${dir}_DIR##*/}"
-		#eval "_name=${XDG_${dir}_DIR##*/}"
-		#xdg_var="${XDG_${dir}_DIR##*/}"
-		#printf "%s -> %s\n" "$dir" "$(xdg-user-dir "$dir")"
 	done
-	#echo "MUSIC: $music_name"   # localized name
-	#echo "dir_name: $dir_name"   # localized name
-	#echo "MUSIC: $MUSIC_name"   # localized name
-
-
-	#echo "DESKTOP: $desktop_name"   # localized name
-	#echo "DOWNLOAD: $download_name"   # localized name
-	#echo "MUSIC: $music_name"   # localized name
-	#echo "DOCUMENTS: $documents_name"   # localized name
-	#echo "PICTURES: $pictures_name"   # localized name
-	#echo "TEMPLATES: $templates_name"   # localized name
-	#echo "PUBLICSHARE: $publicshare_name"   # localized name
-	#echo "VIDEOS: $videos_name"
-	#pause
 	help_text() {
 		echo "personal folders
 
@@ -688,12 +652,12 @@ ${FUNCNAME[1]} /mnt/Data banana
 ${FUNCNAME[1]} /mnt/Data banana -y
 ${FUNCNAME[1]} /mnt/Data $download_name $documents_name -v -t banana -y"
 	}
-	if [[ $# == 0 ]] || [[ "$@" =~ ^(-h|-help|--help)$ ]]; then
+	if [[ $# == 0 ]] || [[ " $* " =~ [[:space:]](-h|-help|--help)[[:space:]] ]]; then
 		help_text
 		return
 	elif [[ $# == 1 ]]; then
 		help_text
-		error "\n\n\nUsage: <destination path> <personal folder(s)>"
+		error_default "Usage: <destination path> <personal folder(s)>"
 		return
 	else
 		new_path="$1"
@@ -729,7 +693,6 @@ ${FUNCNAME[1]} /mnt/Data $download_name $documents_name -v -t banana -y"
 				shift
 				;;
 			-u)
-				#local folders+=("$public_name")
 				local folders+=("$publicshare_name")
 				shift
 				;;
@@ -737,17 +700,16 @@ ${FUNCNAME[1]} /mnt/Data $download_name $documents_name -v -t banana -y"
 				local folders+=("$videos_name")
 				shift
 				;;
-			#-y)
 			-f|-y)
 				shift
 				;;
 			-*)
-				echo "Unknown option: $1"
+				help_text
+				error_default "Unknown option: $1"
 				return
 				;;
 			*)
 				folder="${1,,}"; folder="${folder^}"
-				#if [[ " $folder " =~ $download_name|$desktop_name|$music_name|$documents_name|$pictures_name|$templates_name|$public_name|$videos_name ]]; then
 				if [[ " $folder " =~ $download_name|$desktop_name|$music_name|$documents_name|$pictures_name|$templates_name|$publicshare_name|$videos_name ]]; then
 					local folders+=("$folder")
 					shift
@@ -761,7 +723,8 @@ ${FUNCNAME[1]} /mnt/Data $download_name $documents_name -v -t banana -y"
 							local folders+=("$folder")
 							shift
 						else
-							echo "Unknown Folder: $folder"
+							help_text
+							error_default "Unknown Folder: $folder"
 							return
 						fi
 					fi
@@ -781,11 +744,9 @@ ${FUNCNAME[1]} /mnt/Data $download_name $documents_name -v -t banana -y"
 		"$videos_name:		VIDEOS"
 		"$music_name:			MUSIC"
 		"$desktop_name:		DESKTOP"
-		#"$public_name:		PUBLICSHARE"
 		"$publicshare_name:		PUBLICSHARE"
 		"$templates_name:		TEMPLATES"
 	)
-	#userfolder_file="$HOME/.config/user-dirs.dirs"
 	folders=($(printf "%s\n" "${folders[@]}" | awk '!seen[$0]++'))
 	sudo chattr -i $userfolder_file
 	for userfolder in "${folders[@]}"; do
@@ -874,12 +835,12 @@ example:
 ${FUNCNAME[1]} \"\mnt\data\car\" \"\mnt\data\banana\"
 ${FUNCNAME[1]} \"\mnt\data\car\" \"\mnt\data\banana\" -f"
 	}
-	if [[ $# == 0 ]] || printf '%s\n' "$@" | grep -qE '^-(h|help)$|^--help$'; then
+	if [[ $# == 0 ]] || [[ " $* " =~ [[:space:]](-h|-help|--help)[[:space:]] ]]; then
 		help_text
 		return
-	elif [[ $# != 2 ]] || [[ $# == 3 ]] && ! printf '%s\n' "$@" | grep -qE '^-(f)$'; then
+	elif [[ $# != 2 ]] || [[ $# == 3 ]] && ! [[ " $* " =~ [[:space:]](-f)[[:space:]] ]]; then
 		help_text
-		error_default "$FUNCNAME needs 'target location' and 'link location'"
+		error_default "Usage: <target location> <link location>"
 		return
 	fi
 	if [[ "$1" != $(readlink "$2") ]]; then
