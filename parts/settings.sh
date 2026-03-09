@@ -229,7 +229,7 @@ if [[ "$XDG_CURRENT_DESKTOP" == "X-Cinnamon" ]]; then
 	done
 fi
 
-if [[ "$numlock_startup" == "on" || "$numlock_startup" == "off" ]]; then
+if [[ "$numlock_startup" =~ ^(on|off)$ ]]; then
 	add_lightdm e "[Seat:*]" "\[Seat:\*\]"
 	add_lightdm "greeter-setup-script=/usr/bin/numlockx $numlock_startup" "/^\[Seat:\*\]/a" && echo "NumLock $numlock_startup configuration added to [Seat:*] section."
 fi

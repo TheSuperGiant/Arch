@@ -614,14 +614,51 @@ paru_clean() {
 alias pause="read -p \"Press [Enter] to continue...\""
 pf() {
 	printf "⚠️ WARNING: Using this function will lock the userfolders file. If you want to make changes to the file, you must first give it root write privileges again.⚠️\n\n\n"
-	local desktop_name=$(xdg-user-dir "DESKTOP" 2>/dev/null | awk -F'/' '{print $NF}')
-	local download_name=$(xdg-user-dir "DOWNLOAD" 2>/dev/null | awk -F'/' '{print $NF}')
-	local music_name=$(xdg-user-dir "MUSIC" 2>/dev/null | awk -F'/' '{print $NF}')
-	local documents_name=$(xdg-user-dir "DOCUMENTS" 2>/dev/null | awk -F'/' '{print $NF}')
-	local pictures_name=$(xdg-user-dir "PICTURES" 2>/dev/null | awk -F'/' '{print $NF}')
-	local templates_name=$(xdg-user-dir "TEMPLATES" 2>/dev/null | awk -F'/' '{print $NF}')
-	local public_name=$(xdg-user-dir "PUBLICSHARE" 2>/dev/null | awk -F'/' '{print $NF}')
-	local videos_name=$(xdg-user-dir "VIDEOS" 2>/dev/null | awk -F'/' '{print $NF}')
+	#local desktop_name=$(xdg-user-dir "DESKTOP" 2>/dev/null | awk -F'/' '{print $NF}')
+	#local download_name=$(xdg-user-dir "DOWNLOAD" 2>/dev/null | awk -F'/' '{print $NF}')
+	#local music_name=$(xdg-user-dir "MUSIC" 2>/dev/null | awk -F'/' '{print $NF}')
+	#local documents_name=$(xdg-user-dir "DOCUMENTS" 2>/dev/null | awk -F'/' '{print $NF}')
+	#local pictures_name=$(xdg-user-dir "PICTURES" 2>/dev/null | awk -F'/' '{print $NF}')
+	#local templates_name=$(xdg-user-dir "TEMPLATES" 2>/dev/null | awk -F'/' '{print $NF}')
+	#local public_name=$(xdg-user-dir "PUBLICSHARE" 2>/dev/null | awk -F'/' '{print $NF}')
+	#local videos_name=$(xdg-user-dir "VIDEOS" 2>/dev/null | awk -F'/' '{print $NF}')
+	#pause
+
+	#unset music_name videos_name
+
+	#echo "MUSIC: $music_name"   # localized name
+	#echo "VIDEOS: $videos_name"
+	userfolder_file="$HOME/.config/user-dirs.dirs"
+	#source ~/.config/user-dirs.dirs
+	#time source "$userfolder_file" 2>/dev/null
+	source "$userfolder_file" 2>/dev/null
+
+	#time music_name="${XDG_MUSIC_DIR##*/}"
+	#music_name="${XDG_MUSIC_DIR##*/}"
+	#videos_name="${XDG_VIDEOS_DIR##*/}"
+	for dir in DESKTOP DOWNLOAD DOCUMENTS MUSIC PICTURES PUBLICSHARE TEMPLATES VIDEOS; do
+		eval "local ${dir,,}_name=\${XDG_${dir}_DIR##*/}"
+		#eval "${dir}_name=\${XDG_${dir}_DIR##*/}"
+		#eval "dir_name=\${XDG_${dir}_DIR##*/}"
+		#eval "_name=${XDG_${dir}_DIR##*/}"
+		#eval "_name=${XDG_${dir}_DIR##*/}"
+		#xdg_var="${XDG_${dir}_DIR##*/}"
+		#printf "%s -> %s\n" "$dir" "$(xdg-user-dir "$dir")"
+	done
+	#echo "MUSIC: $music_name"   # localized name
+	#echo "dir_name: $dir_name"   # localized name
+	#echo "MUSIC: $MUSIC_name"   # localized name
+
+
+	#echo "DESKTOP: $desktop_name"   # localized name
+	#echo "DOWNLOAD: $download_name"   # localized name
+	#echo "MUSIC: $music_name"   # localized name
+	#echo "DOCUMENTS: $documents_name"   # localized name
+	#echo "PICTURES: $pictures_name"   # localized name
+	#echo "TEMPLATES: $templates_name"   # localized name
+	#echo "PUBLICSHARE: $publicshare_name"   # localized name
+	#echo "VIDEOS: $videos_name"
+	#pause
 	help_text() {
 		echo "personal folders
 
@@ -641,7 +678,7 @@ parameters folders
 	${FUNCNAME[1]} -o	$documents_name
 	${FUNCNAME[1]} -p	$pictures_name
 	${FUNCNAME[1]} -t	$templates_name
-	${FUNCNAME[1]} -u	$public_name
+	${FUNCNAME[1]} -u	$publicshare_name
 	${FUNCNAME[1]} -v	$videos_name
 
 example:
@@ -688,7 +725,8 @@ ${FUNCNAME[1]} /mnt/Data $download_name $documents_name -v -t banana -y"
 				shift
 				;;
 			-u)
-				local folders+=("$public_name")
+				#local folders+=("$public_name")
+				local folders+=("$publicshare_name")
 				shift
 				;;
 			-v)
@@ -704,7 +742,8 @@ ${FUNCNAME[1]} /mnt/Data $download_name $documents_name -v -t banana -y"
 				;;
 			*)
 				folder="${1,,}"; folder="${folder^}"
-				if [[ " $folder " =~ $download_name|$desktop_name|$music_name|$documents_name|$pictures_name|$templates_name|$public_name|$videos_name ]]; then
+				#if [[ " $folder " =~ $download_name|$desktop_name|$music_name|$documents_name|$pictures_name|$templates_name|$public_name|$videos_name ]]; then
+				if [[ " $folder " =~ $download_name|$desktop_name|$music_name|$documents_name|$pictures_name|$templates_name|$publicshare_name|$videos_name ]]; then
 					local folders+=("$folder")
 					shift
 				else
@@ -737,10 +776,11 @@ ${FUNCNAME[1]} /mnt/Data $download_name $documents_name -v -t banana -y"
 		"$videos_name:		VIDEOS"
 		"$music_name:			MUSIC"
 		"$desktop_name:		DESKTOP"
-		"$public_name:		PUBLICSHARE"
+		#"$public_name:		PUBLICSHARE"
+		"$publicshare_name:		PUBLICSHARE"
 		"$templates_name:		TEMPLATES"
 	)
-	userfolder_file="$HOME/.config/user-dirs.dirs"
+	#userfolder_file="$HOME/.config/user-dirs.dirs"
 	folders=($(printf "%s\n" "${folders[@]}" | awk '!seen[$0]++'))
 	sudo chattr -i $userfolder_file
 	for userfolder in "${folders[@]}"; do
