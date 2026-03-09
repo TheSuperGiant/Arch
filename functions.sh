@@ -387,7 +387,6 @@ ${FUNCNAME[1]} \"\mnt\data\car\" \"\mnt\data\banana\""
 		error_default "Usage: <app id> <folder>"
 		return
 	fi
-	pause
 	local app="$1"
 	local installed_apps=$(flatpak list --app --columns=application)
 	for installed_app in $installed_apps; do
