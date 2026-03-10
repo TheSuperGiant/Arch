@@ -4,8 +4,10 @@
 distro=$(source /etc/os-release; echo "$NAME")
 distro_family=$(source /etc/os-release; echo "${ID_LIKE##* }"); distro_family="${distro_family:=${distro%% *}}"; distro_family="${distro_family,,}"
 function_sh=$(curl -s https://raw.githubusercontent.com/TheSuperGiant/Arch/refs/heads/main/functions.sh)
+#local if internet isnt availble
 if [[ "$distro_family" == "debian" ]]; then
 	function_sh_mint=$(curl -s "https://raw.githubusercontent.com/TheSuperGiant/Linux-Mint/refs/heads/main/functions.sh")
+	#local if internet isnt availble
 fi
 
 #ram

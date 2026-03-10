@@ -235,17 +235,49 @@ if [[ "$numlock_startup" =~ ^(on|off)$ ]]; then
 fi
 
 if [[ "$IPv6_hardening" == 1 ]]; then
-	box_sub "IPv6 hardening"
-	secret=$(openssl rand -hex 8)
 	CONFIG_FILE="/etc/sysctl.d/99-ipv6-privacy.conf"
-	for ipV6 in "net.ipv6.conf.all.use_tempaddr = 2net.ipv6.conf.default.use_tempaddr = 2" "net.ipv6.conf.default.use_tempaddr = 2" "net.ipv6.conf.all.stable_secret = $secret"; do
-		if { [[ "$ipV6" != net.ipv6.conf.all.stable_secret* ]] && ! grep -q "^$ipV6$" "$CONFIG_FILE"; } || { [[ "$ipV6" == net.ipv6.conf.all.stable_secret* ]] && ! grep -q "^net.ipv6.conf.all.stable_secret\s*=" "$CONFIG_FILE"; }; then
-			echo -e "$ipV6" | sudo tee -a $CONFIG_FILE
-			network_restart=1
+	adding() {
+		#echo -e "$ipV6" | sudo tee -a $CONFIG_FILE #temp
+
+		#echo ${1##* } #temp
+		if grep -q ${1##* } "$CONFIG_FILE"; then
+			sudo sed -i "/^${1##* }/d" "$CONFIG_FILE"
+		fi
+		echo -e "$1" | sudo tee -a $CONFIG_FILE
+		network_restart=1
+	}
+	box_sub "IPv6 hardening"
+	#secret=$(openssl rand -hex 16 | sed 's/\(....\)/\1:/g;s/:$//')
+	for ipV6 in "net.ipv6.conf.all.use_tempaddr = 2" "net.ipv6.conf.default.use_tempaddr = 2"; do
+		if ! grep -q "^$ipV6" "$CONFIG_FILE"; then
+			#echo -e "$ipV6" | sudo tee -a $CONFIG_FILE
+			#network_restart=1
+			adding "$ipV6"
+		fi
+	done
+	for iface in /sys/class/net/*; do
+		if [[ -d "$iface/device" ]]; then
+			secret=$(openssl rand -hex 16 | sed 's/\(....\)/\1:/g;s/:$//')
+			#echo "${iface##*/} $secret"
+			iface_txt=net.ipv6.conf.${iface##*/}.stable_secret
+			#echo "$iface_txt"
+			#echo "$iface_txt $secret"
+			#pause
+			if ! grep -q "^$iface_txt" "$CONFIG_FILE"; then
+				#adding ""
+				#echo test
+				#echo "$iface_txt"
+				#echo "$iface_txt = $secret"
+				adding "$iface_txt = $secret"
+				pause
+			fi
+			#net.ipv6.conf.eth0.stable_secret
+			#net.ipv6.conf.$iface.stable_secret =
+			#""
 		fi
 	done
 	if [[ "$network_restart" == 1 ]]; then
-		sudo sysctl --system
+		sudo sysctl --system > /dev/null
 		echo "IPv6 hardening added"
 	fi
 fi
