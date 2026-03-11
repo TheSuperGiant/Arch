@@ -41,6 +41,10 @@ while IFS= read -r line; do
 done < <(echo "$function_sh")
 source <(echo "$function_sh" | sed -E '/^alias / s/\\"/"/g' | sed -E 's/^alias ([^=]+)=["](.*)["]$/\1() {\n  \2\n}/')
 
+#variable function needs
+source <(curl -s -L https://raw.githubusercontent.com/TheSuperGiant/Arch/refs/heads/main/parts/variable_function_needs.sh)
+echo "$display_manager" #temp
+
 ssu
 
 #special links
