@@ -4,14 +4,15 @@
 # By using this script, you acknowledge that you do so at your own risk.
 # I am not responsible for any damage, data loss, or other issues that may result from the use of this script.
 
-exec > >(tee -a 2.sh.log) 2>&1
+#exec > >(tee -a 2.sh.log) 2>&1
 
 
 #sudo without password
 source <(curl -s -L https://raw.githubusercontent.com/TheSuperGiant/Arch/refs/heads/main/parts/without_password_startup.sh)
 
 #variable
-source <(curl -s -L https://raw.githubusercontent.com/TheSuperGiant/Arch/refs/heads/main/parts/variable.sh)
+#source <(curl -s -L https://raw.githubusercontent.com/TheSuperGiant/Arch/refs/heads/main/parts/variable.sh)
+source <(curl -s -L https://raw.githubusercontent.com/TheSuperGiant/Arch/refs/heads/main/parts/pre_2.sh)
 
 
 
@@ -33,17 +34,24 @@ if [[ "$linutil__christitus" == "1" ]]; then
 	curl -fsSL https://christitus.com/linux | sh
 fi
 
-while IFS= read -r line; do
-	if [[ "$line" == alias* ]]; then
-		alias=$(echo "$line" | cut -d' ' -f2 | cut -d'=' -f1)
-		unalias -a "$alias"
-	fi
-done < <(echo "$function_sh")
-source <(echo "$function_sh" | sed -E '/^alias / s/\\"/"/g' | sed -E 's/^alias ([^=]+)=["](.*)["]$/\1() {\n  \2\n}/')
+#while IFS= read -r line; do
+	#if [[ "$line" == alias* ]]; then
+		#alias=$(echo "$line" | cut -d' ' -f2 | cut -d'=' -f1)
+		#unalias -a "$alias"
+	#fi
+#done < <(echo "$function_sh")
+#source <(echo "$function_sh" | sed -E '/^alias / s/\\"/"/g' | sed -E 's/^alias ([^=]+)=["](.*)["]$/\1() {\n  \2\n}/')
 
 #variable function needs
-source <(curl -s -L https://raw.githubusercontent.com/TheSuperGiant/Arch/refs/heads/main/parts/variable_function_needs.sh)
-echo "$display_manager" #temp
+#source <(curl -s -L https://raw.githubusercontent.com/TheSuperGiant/Arch/refs/heads/main/parts/variable_function_needs.sh)
+#echo "$display_manager" #temp
+
+echo "-------add_device_label---------"
+add_device_label
+echo "-------github_program_updater---------"
+github_program_updater
+echo "-------display_manager--------"
+echo "$display_manager"
 
 ssu
 
