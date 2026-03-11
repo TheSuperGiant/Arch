@@ -25,7 +25,7 @@ ${FUNCNAME[1]} <label name>
 example:
 ${FUNCNAME[1]} \"data\" \"games\""
 	}
-	if [[ $# == 0 ]] || [[ " $* " =~ [[:space: ]](-h|-help|--help)[[:space: ]] ]]; then
+	if [[ $# == 0 ]] || [[ " $* " =~ [[:space:]](-h|-help|--help)[[:space:]] ]]; then
 		help_text
 		return
 	fi
@@ -370,16 +370,16 @@ ${FUNCNAME[1]} \"\mnt\data\car\" \"\mnt\data\banana\""
 	existing_folder() {
 		flatpak info --show-permissions "$1" | grep filesystem | cut -d '=' -f2-
 	}
-	if [[ $# == 0 ]] || [[ " $* " =~ [[:space: ]](-h|-help|--help)[[:space: ]] ]]; then
+	if [[ $# == 0 ]] || [[ " $* " =~ [[:space:]](-h|-help|--help)[[:space:]] ]]; then
 		help_text
 		return
 	elif [[ "$@" =~ ^(-l|-list|--list)$ ]]; then
 		flatpak list --app --columns=name,application
 		return
-	elif [[ " $* " =~ ^[[:space: ]](-r|-reset|--reset)[[:space: ]] ]]; then
+	elif [[ " $* " =~ ^[[:space:]](-r|-reset|--reset)[[:space:]] ]]; then
 		flatpak override --user --reset "$2"
 		return
-	elif [[ " $* " =~ ^[[:space: ]](-s|-show|--show)[[:space: ]] ]]; then
+	elif [[ " $* " =~ ^[[:space:]](-s|-show|--show)[[:space:]] ]]; then
 		existing_folder "$2" | awk -F';' '{for(i=1;i<=NF;i++) print $i}'
 		return
 	elif [[ $# == 1 ]]; then
@@ -451,7 +451,7 @@ example:
 ${FUNCNAME[1]} -b \"main\" -g \"git@github.com:username/respetory.git\" -p \"/path/to/local/project\"
 ${FUNCNAME[1]} -b \"main\" -g \"git@github.com:username/respetory.git\" -p \"/path/to/local/project\" -s \"filename\" -u \"username\" -m \"message\""
 	}
-	if [[ $# == 0 ]] || [[ " $* " =~ [[:space: ]](-h|-help|--help)[[:space: ]] ]]; then
+	if [[ $# == 0 ]] || [[ " $* " =~ [[:space:]](-h|-help|--help)[[:space:]] ]]; then
 		help_text
 		return
 	fi
@@ -594,7 +594,7 @@ arguments
 ${FUNCNAME[1]} $usage
 "
 	}
-	if [[ $# == 0 ]] || [[ " $* " =~ [[:space: ]](-h|-help|--help)[[:space: ]] ]]; then
+	if [[ $# == 0 ]] || [[ " $* " =~ [[:space:]](-h|-help|--help)[[:space:]] ]]; then
 		help_text
 		return
 	elif [[ $# -lt 4 ]]; then
@@ -683,7 +683,7 @@ ${FUNCNAME[1]} /mnt/Data banana
 ${FUNCNAME[1]} /mnt/Data banana -y
 ${FUNCNAME[1]} /mnt/Data $download_name $documents_name -v -t banana -y"
 	}
-	if [[ $# == 0 ]] || [[ " $* " =~ [[:space: ]](-h|-help|--help)[[:space: ]] ]]; then
+	if [[ $# == 0 ]] || [[ " $* " =~ [[:space:]](-h|-help|--help)[[:space:]] ]]; then
 		help_text
 		return
 	elif [[ $# == 1 ]]; then
@@ -694,7 +694,7 @@ ${FUNCNAME[1]} /mnt/Data $download_name $documents_name -v -t banana -y"
 		new_path="$1"
 		shift
 	fi
-	if [[ " $* " =~ [[:space: ]](-y|-f)[[:space: ]] ]]; then
+	if [[ " $* " =~ [[:space:]](-y|-f)[[:space:]] ]]; then
 		local yes_force="1"
 	fi
 	while [[ $# -gt 0 ]]; do
@@ -866,10 +866,10 @@ example:
 ${FUNCNAME[1]} \"\mnt\data\car\" \"\mnt\data\banana\"
 ${FUNCNAME[1]} \"\mnt\data\car\" \"\mnt\data\banana\" -f"
 	}
-	if [[ $# == 0 ]] || [[ " $* " =~ [[:space: ]](-h|-help|--help)[[:space: ]] ]]; then
+	if [[ $# == 0 ]] || [[ " $* " =~ [[:space:]](-h|-help|--help)[[:space:]] ]]; then
 		help_text
 		return
-	elif [[ $# != 2 ]] || [[ $# == 3 ]] && ! [[ " $* " =~ [[:space: ]](-f)[[:space: ]] ]]; then
+	elif [[ $# != 2 ]] || [[ $# == 3 ]] && ! [[ " $* " =~ [[:space:]](-f)[[:space:]] ]]; then
 		help_text
 		error_default "Usage: <target location> <link location>"
 		return
