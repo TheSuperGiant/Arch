@@ -250,7 +250,9 @@ if [[ "$IPv6_hardening" == 1 ]]; then
 		#echo -e "$1" | sudo tee -a $CONFIG_FILE
 		#update_row "$1" ${1##* } "$CONFIG_FILE"
 		update_row "$1" "$2" ${1##* } "$CONFIG_FILE"
-		network_restart=1
+		if ! grep -q "^$2" "$CONFIG_FILE"; then
+			network_restart=1
+		fi
 	}
 	box_sub "IPv6 hardening"
 	for ipV6 in "net.ipv6.conf.all.use_tempaddr = 2" "net.ipv6.conf.default.use_tempaddr = 2"; do
