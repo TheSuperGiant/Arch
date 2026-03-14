@@ -249,7 +249,9 @@ if [[ "$IPv6_hardening" == 1 ]]; then
 		#fi
 		#echo -e "$1" | sudo tee -a $CONFIG_FILE
 		#update_row "$1" ${1##* } "$CONFIG_FILE"
-		update_row "$1" "$2" ${1##* } "$CONFIG_FILE"
+		#echo "$1"
+		#echo "${1%% *}"
+		update_row "$1" "$2" "${1%% *}" "$CONFIG_FILE"
 		if ! grep -q "^$2" "$CONFIG_FILE"; then
 			network_restart=1
 		fi

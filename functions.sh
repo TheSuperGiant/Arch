@@ -1126,7 +1126,8 @@ update_row() {
 		#pause
 		if grep -q "$3" "$4"; then
 			#sudo sed -i "/^${1}/d" "$2"
-			echo "im here"
+			#echo "im here"
+			#echo "3. $3"
 			#pause
 			sudo sed -i "/^${3}/d" "$4"
 		fi
