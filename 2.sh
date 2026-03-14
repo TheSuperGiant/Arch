@@ -4,14 +4,11 @@
 # By using this script, you acknowledge that you do so at your own risk.
 # I am not responsible for any damage, data loss, or other issues that may result from the use of this script.
 
-#exec > >(tee -a 2.sh.log) 2>&1
-
 
 #sudo without password
 source <(curl -s -L https://raw.githubusercontent.com/TheSuperGiant/Arch/refs/heads/main/parts/without_password_startup.sh)
 
-#variable
-#source <(curl -s -L https://raw.githubusercontent.com/TheSuperGiant/Arch/refs/heads/main/parts/variable.sh)
+#pre_2
 source <(curl -s -L https://raw.githubusercontent.com/TheSuperGiant/Arch/refs/heads/main/parts/pre_2.sh)
 
 
@@ -33,25 +30,6 @@ if [[ "$linutil__christitus" == "1" ]]; then
 	#https://github.com/ChrisTitusTech/linutil
 	curl -fsSL https://christitus.com/linux | sh
 fi
-
-#while IFS= read -r line; do
-	#if [[ "$line" == alias* ]]; then
-		#alias=$(echo "$line" | cut -d' ' -f2 | cut -d'=' -f1)
-		#unalias -a "$alias"
-	#fi
-#done < <(echo "$function_sh")
-#source <(echo "$function_sh" | sed -E '/^alias / s/\\"/"/g' | sed -E 's/^alias ([^=]+)=["](.*)["]$/\1() {\n  \2\n}/')
-
-#variable function needs
-#source <(curl -s -L https://raw.githubusercontent.com/TheSuperGiant/Arch/refs/heads/main/parts/variable_function_needs.sh)
-#echo "$display_manager" #temp
-
-echo "-------add_device_label---------"
-add_device_label
-echo "-------github_program_updater---------"
-github_program_updater
-echo "-------display_manager--------"
-echo "$display_manager"
 
 ssu
 
@@ -109,11 +87,8 @@ box_part "System update"
 #function update later
 sudo pacman -Syu --noconfirm
 
-#if [[ "$numlock_startup" == "on" || "$numlock_startup" == "off" ]]; then
 if [[ "$numlock_startup" =~ ^(on|off)$ ]]; then
 	App_Install__numlockx=1
-	#add_lightdm e "[Seat:*]" "\[Seat:\*\]"
-	#add_lightdm "greeter-setup-script=/usr/bin/numlockx $numlock_startup" "/^\[Seat:\*\]/a" && echo "NumLock $numlock_startup configuration added to [Seat:*] section."
 fi
 
 if [[ "$App_Install__notepadPlusPlus" == "1" ]]; then

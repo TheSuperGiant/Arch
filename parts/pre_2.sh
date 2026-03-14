@@ -21,25 +21,6 @@ for function in "$function_sh" "$function_sh_mint"; do
 	source <(echo "$function" | sed -E '/^alias / s/\\"/"/g' | sed -E 's/^alias ([^=]+)=["](.*)["]$/\1() {\n  \2\n}/')
 done
 
-#declare -a function_list_needs=(
-	#"Arch Linux:	$function_sh"
-	#"Linux Mint:	$function_sh $function_sh_mint"
-#)
-#for function_list_need in "${function_list_needs[@]}"; do
-	#distro_f_list="${function_list_need%%:*}"
-	#echo "$distro_f_list" #temp
-	#if [[ "$distro_f_list" == "$distro" ]]; then
-		#echo "this one"
-		#time apt_name=$(echo "${function_list_need##*:}" | sed -E 's/^[[:space:]]+//')
-		#echo "1."
-		#printf '%s\n' "$apt_name"
-		#time kaas=$(function_list_need##*:); kaas=${kaas#"${kaas%%[![:space:]]*}"}
-		#time kaas=$(v=${function_list_need##*:}; printf '%s' "${v#"${v%%[![:space:]]*}"}")
-		#echo "2."
-		#printf '%s\n' "$kaas"
-	#fi
-#done
-
 
 #ram
 while IFS=' ' read -r key value unit; do

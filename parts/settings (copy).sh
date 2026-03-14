@@ -244,28 +244,25 @@ fi
 if [[ "$IPv6_hardening" == 1 ]]; then
 	CONFIG_FILE="/etc/sysctl.d/99-ipv6-privacy.conf"
 	adding() {
-		#if grep -q ${1##* } "$CONFIG_FILE"; then
-			#sudo sed -i "/^${1##* }/d" "$CONFIG_FILE"
-		#fi
-		#echo -e "$1" | sudo tee -a $CONFIG_FILE
-		#update_row "$1" ${1##* } "$CONFIG_FILE"
-		update_row "$1" "$2" ${1##* } "$CONFIG_FILE"
+		if grep -q ${1##* } "$CONFIG_FILE"; then
+			sudo sed -i "/^${1##* }/d" "$CONFIG_FILE"
+		fi
+		echo -e "$1" | sudo tee -a $CONFIG_FILE
 		network_restart=1
 	}
 	box_sub "IPv6 hardening"
 	for ipV6 in "net.ipv6.conf.all.use_tempaddr = 2" "net.ipv6.conf.default.use_tempaddr = 2"; do
-		#if ! grep -q "^$ipV6" "$CONFIG_FILE"; then
-			adding "$ipV6" "$ipV6"
-		#fi
+		if ! grep -q "^$ipV6" "$CONFIG_FILE"; then
+			adding "$ipV6"
+		fi
 	done
 	for iface in /sys/class/net/*; do
 		if [[ -d "$iface/device" ]]; then
 			secret=$(openssl rand -hex 16 | sed 's/\(....\)/\1:/g;s/:$//')
 			iface_txt=net.ipv6.conf.${iface##*/}.stable_secret
-			#if ! grep -q "^$iface_txt" "$CONFIG_FILE"; then
-				#adding "$iface_txt = $secret"
-				adding "$iface_txt = $secret" "$iface_txt"
-			#fi
+			if ! grep -q "^$iface_txt" "$CONFIG_FILE"; then
+				adding "$iface_txt = $secret"
+			fi
 		fi
 	done
 	if [[ "$network_restart" == 1 ]]; then
