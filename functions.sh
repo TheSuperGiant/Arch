@@ -1121,8 +1121,10 @@ update_row() {
 	#2. must been checked what is standing in file???
 	#2/3. string for removing old row
 	#3/4. paht of the file
-	if ! grep -q "^$1" "$4"; then
-		if grep -q "$2" "$4"; then
+	if ! grep -q "^$2" "$4"; then
+		#echo "$2"
+		#pause
+		if grep -q "$3" "$4"; then
 			#sudo sed -i "/^${1}/d" "$2"
 			sudo sed -i "/^$3/d" "$4"
 		fi
