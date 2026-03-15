@@ -1117,21 +1117,32 @@ ssu() {
 	done &
 }
 update_row() {
-	#1. must in file
-	#2. must been checked what is standing in file???
-	#2/3. string for removing old row
-	#3/4. paht of the file
+	usage="<Text to update> <Check if line exists> <Text to remove> <File path>"
+	help_text() {
+		echo "update row
+
+Update or add a line in a file.
+
+arguments
+	1.	Text to add or update in the file
+	2.	Check if the line exists in the file
+	3.	String to remove from the file
+	4.	File path
+
+${FUNCNAME[1]} $usage
+"
+	}
+	if [[ $# != "4" ]]; then
+		help_text
+		error "\n\nUsage: $usage"
+		return
+	fi
 	if ! grep -q "^$2" "$4"; then
-		#echo "$2"
-		#pause
 		if grep -q "$3" "$4"; then
-			#sudo sed -i "/^${1}/d" "$2"
-			#echo "im here"
-			#echo "3. $3"
-			#pause
 			sudo sed -i "/^${3}/d" "$4"
 		fi
-		echo -e "$1" | sudo tee -a "$4"
+		printf "%s\n" "$1" >> "$4" && printf "%s\n" "Added '$1' to '$4'" || printf "%s\n" "Failed to add '$1' to '$4'"
+		#echo -e "$1" | sudo tee -a "$4"
 	fi
 }
 

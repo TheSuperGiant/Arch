@@ -8,6 +8,7 @@ declare -a required=(
 	"function__nested_expension:	error"
 	"function__pf:	error"
 	"function__s_link:	error"
+	"function__update_row:	error"
 	#2
 	"function__box_sub:	box"
 )
