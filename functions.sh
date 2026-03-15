@@ -1141,7 +1141,8 @@ ${FUNCNAME[1]} $usage
 		if grep -q "$3" "$4"; then
 			sudo sed -i "/^${3}/d" "$4"
 		fi
-		printf "%s\n" "$1" >> "$4" && printf "%s\n" "Added '$1' to '$4'" || printf "%s\n" "Failed to add '$1' to '$4'"
+		sudo bash -c "printf \"%s\n\" \"$1\" >> \"$4\" && printf \"%s\n\" \"Added '$1' to '$4'\" || printf \"%s\n\" \"Failed to add '$1' to '$4'\""
+		#printf "%s\n" "$1" >> "$4" && printf "%s\n" "Added '$1' to '$4'" || printf "%s\n" "Failed to add '$1' to '$4'"
 		#echo -e "$1" | sudo tee -a "$4"
 	fi
 }
