@@ -111,9 +111,10 @@ add_lightdm() {
 	fi
 }
 add_sudo() {
-	if ! sudo grep -q "^$1$" /etc/sudoers; then
-		echo "$1" | sudo tee -a /etc/sudoers
-	fi
+	#if ! sudo grep -q "^$1$" /etc/sudoers; then
+		#echo "$1" | sudo tee -a /etc/sudoers
+	#fi
+	update_row "$1" "$1" "${1%%:*}" "/etc/sudoers"
 }
 #add_wirless_network() {
 #	echo -e "network={\n	ssid=\"$1\"\n	psk=\"$2\"\n	scan_ssid=1\n}" | sudo tee -a "/etc/wpa_supplicant/multi_networks.conf"
@@ -1141,9 +1142,8 @@ ${FUNCNAME[1]} $usage
 		if grep -q "$3" "$4"; then
 			sudo sed -i "/^${3}/d" "$4"
 		fi
-		sudo bash -c "printf \"%s\n\" \"$1\" 2>/dev/null >> \"$4\" && printf \"%s\n\" \"Added '$1' to '$4'\" || printf \"%s\n\" \"Failed to add '$1' to '$4'\""
-		#	printf "%s\n" "$1" >> "$4" && printf "%s\n" "Added '$1' to '$4'" || printf "%s\n" "Failed to add '$1' to '$4'"
-		#echo -e "$1" | sudo tee -a "$4"
+		#sudo bash -c "printf \"%s\n\" \"$1\" 2>/dev/null >> \"$4\" && printf \"%s\n\" \"Added '$1' to '$4'\" || printf \"%s\n\" \"Failed to add '$1' to '$4'\""
+		printf "%s\n" "$1" | sudo tee -a "$4" >/dev/null 2>&1 && printf "%s\n" "Added '$1' to '$4'" || error "Failed to add '$1' to '$4'"
 	fi
 }
 

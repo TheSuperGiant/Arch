@@ -72,7 +72,8 @@ done
 
 
 if [[ "$sudo_reboot" == "1" ]]; then
-	add_sudo "$USER ALL=(ALL) NOPASSWD: /usr/bin/reboot, /usr/bin/shutdown, /usr/bin/poweroff"
+	#add_sudo "$USER ALL=(ALL) NOPASSWD: /usr/bin/reboot, /usr/bin/shutdown, /usr/bin/poweroff"
+	add_sudo "$SUDO_USER ALL=(ALL) NOPASSWD: /usr/bin/reboot, /usr/bin/shutdown, /usr/bin/poweroff"
 fi
 
 #add_device_label
