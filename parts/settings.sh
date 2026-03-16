@@ -271,4 +271,6 @@ fi
 	#sudo systemctl mask NetworkManager-wait-online.service
 #fi
 
+box_sub "sudoers adding"
+echo "sudoers string: $sudoers_adding" #temp
 add_sudo "$sudoers_adding"
