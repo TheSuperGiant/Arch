@@ -114,12 +114,14 @@ add_sudo() {
 	#if ! sudo grep -q "^$1$" /etc/sudoers; then
 		#echo "$1" | sudo tee -a /etc/sudoers
 	#fi
-	echo "add_sudo" #temp
-	echo "before: $1" #temp
-	filtered="${1%,*}"
-	echo "after: $filtered" #temp
-	update_row "$filtered" "$filtered" "${filtered%%:*}" "/etc/sudoers"
-	#update_row "$1" "$1" "${1%%:*}" "/etc/sudoers"
+	if [[ $1 != "" ]]; then
+		echo "add_sudo" #temp
+		echo "before: $1" #temp
+		filtered="${1%,*}"
+		echo "after: $filtered" #temp
+		update_row "$filtered" "$filtered" "${filtered%%:*}" "/etc/sudoers"
+		#update_row "$1" "$1" "${1%%:*}" "/etc/sudoers"
+	fi
 }
 add_to_row() {
 	#1. varable output
@@ -1139,7 +1141,7 @@ ssh_key() {
 		cat "$file_path.pub"
 	done
 }
-ssu() {
+sud() {
 	sudo -v
 	while :; do
 		sudo -n true
@@ -1168,13 +1170,13 @@ ${FUNCNAME[1]} $usage
 		return
 	fi
 	#if ! grep -q "^$2" "$4"; then
-	#if ! sudo grep -q "^$2" "$4"; then
+	if ! sudo grep -q "^$2" "$4"; then
 		#if grep -q "$3" "$4"; then
 		if sudo grep -q "$3" "$4"; then
 			sudo sed -i "/^${3}/d" "$4"
 		fi
 		printf "%s\n" "$1" | sudo tee -a "$4" >/dev/null 2>&1 && printf "%s\n" "Added '$1' to '$4'" || error "Failed to add '$1' to '$4'"
-	#fi
+	fi
 }
 
 alias md="mkdir -p $1"
