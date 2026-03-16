@@ -31,7 +31,7 @@ if [[ "$linutil__christitus" == "1" ]]; then
 	curl -fsSL https://christitus.com/linux | sh
 fi
 
-ssu
+sud
 
 #special links
 source <(curl -s -L https://raw.githubusercontent.com/TheSuperGiant/Arch/refs/heads/main/parts/dns.sh)
