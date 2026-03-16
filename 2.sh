@@ -176,9 +176,6 @@ if [[ "$theme__pack__Windows_10_Dark" == "1" ]]; then
 	sudo cp -r "$theme" /usr/share/themes/
 fi
 
-#settings
-source <(curl -s -L https://raw.githubusercontent.com/TheSuperGiant/Arch/refs/heads/main/parts/settings.sh)
-
 #time_converd + Setting__night_light__schedule_from not in settings file
 #test run remove: declare -a,     Setting__ dcow,     for Setting in "${Setting__[@]}"; do,     declare -a applet__=(,   if [ "$ipV6_disable" == 1 ]; then
 
@@ -486,6 +483,9 @@ for App_Startup in "${App_Startup___[@]}"; do
 		sp $name_string "${type[@]: -1}" "${name_app[@]}"
 	fi
 done
+
+#settings
+source <(curl -s -L https://raw.githubusercontent.com/TheSuperGiant/Arch/refs/heads/main/parts/settings.sh)
 
 #github repos
 if [[ "$script_main" == 1 || "$script_startup" == 1 ]]; then

@@ -116,6 +116,30 @@ add_sudo() {
 	#fi
 	update_row "$1" "$1" "${1%%:*}" "/etc/sudoers"
 }
+add_to_row() {
+	#1. varable output
+	#2. data sting --> $'string data'
+	#3. the row where the data must added
+	#4. string to add on row.
+	result=""
+	local data found=0 line result
+	if [[ -v $2 ]]; then
+		data="${!2}"
+	else
+		data="$2"
+	fi
+	while IFS= read -r line; do
+		if [[ $line == "$3"* ]]; then
+			line="$line$4"
+			found=1
+		fi
+		result+="$line"$'\n'
+	done <<< "$data"
+	if (( found == 0 )); then
+		result+="$3$4"$'\n'
+	fi
+	declare -g "$1=$result"
+}
 #add_wirless_network() {
 #	echo -e "network={\n	ssid=\"$1\"\n	psk=\"$2\"\n	scan_ssid=1\n}" | sudo tee -a "/etc/wpa_supplicant/multi_networks.conf"
 #}
@@ -1142,7 +1166,6 @@ ${FUNCNAME[1]} $usage
 		if grep -q "$3" "$4"; then
 			sudo sed -i "/^${3}/d" "$4"
 		fi
-		#sudo bash -c "printf \"%s\n\" \"$1\" 2>/dev/null >> \"$4\" && printf \"%s\n\" \"Added '$1' to '$4'\" || printf \"%s\n\" \"Failed to add '$1' to '$4'\""
 		printf "%s\n" "$1" | sudo tee -a "$4" >/dev/null 2>&1 && printf "%s\n" "Added '$1' to '$4'" || error "Failed to add '$1' to '$4'"
 	fi
 }

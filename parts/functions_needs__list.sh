@@ -1,5 +1,6 @@
 declare -a required=(
 	#1
+	"function__add_sudo:	update_row"
 	"function__ext4setup:	error"
 	"function__git_u:	error"
 	"function__dcor:	dco_value"
@@ -8,9 +9,9 @@ declare -a required=(
 	"function__nested_expension:	error"
 	"function__pf:	error"
 	"function__s_link:	error"
-	"function__update_row:	error"
 	#2
 	"function__box_sub:	box"
+	"function__update_row:	error"
 )
 
 source <(curl -s -L https://raw.githubusercontent.com/TheSuperGiant/Arch/refs/heads/main/parts/functions_needs__require_loop.sh)

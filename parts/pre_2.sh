@@ -1,5 +1,7 @@
 exec > >(tee -a 2.sh.log) 2>&1
 
+unset git_repo_files
+
 #pre function for if local exists else use curl
 
 

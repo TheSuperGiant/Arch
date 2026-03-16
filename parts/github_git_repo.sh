@@ -1,3 +1,7 @@
+
+add_to_row "sudoers_adding" $'sudoers_adding' "$SUDO_USER ALL=(ALL) NOPASSWD:" " test," #temp
+
+
 box_part "Github repo updating"
 
 user="thesupergiant"
@@ -55,13 +59,16 @@ for re in "${repos[@]}"; do
 		if [[ "$distro" == "$dis" ]]; then
 			files=$(printf '%s\n' "${sudo_scripts[@]}" | grep "^$repo_name" | cut -d: -f2- | sed 's/^[[:space:]]*//')
 			for file in ${files[@]}; do
-				git_repo_files+="$git_repo_files $github_repo_location/$file,"
+				#git_repo_files+="$git_repo_files $github_repo_location/$file,"
+				#sudoers_adding+="$SUDO_USER ALL=(ALL) NOPASSWD: $github_repo_location/$file,"
 				#add_sudo "$SUDO_USER ALL=(ALL) NOPASSWD: $github_repo_location/$file"
+				add_to_row "sudoers_adding" $'sudoers_adding' "$SUDO_USER ALL=(ALL) NOPASSWD:" " $github_repo_location/$file,"
 			done
-			git_repo_files="${audio__disable_enable%,*}"
-			add_sudo "$SUDO_USER ALL=(ALL) NOPASSWD: $git_repo_files"
+			#git_repo_files="${audio__disable_enable%,*}"
+			#add_sudo "$SUDO_USER ALL=(ALL) NOPASSWD: $git_repo_files"
 			#add_sudo "$SUDO_USER ALL=(ALL) NOPASSWD: $github_repo_location/$file"
-
+			#sudoers_adding+="$SUDO_USER ALL=(ALL) NOPASSWD: test2," #temp
+			add_to_row "sudoers_adding" $'sudoers_adding' "$SUDO_USER ALL=(ALL) NOPASSWD:" " test2," #temp
 		fi
 	fi
 done

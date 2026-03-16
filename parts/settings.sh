@@ -270,3 +270,5 @@ fi
 	#sudo systemctl disable NetworkManager-wait-online.service
 	#sudo systemctl mask NetworkManager-wait-online.service
 #fi
+
+add_sudo "$sudoers_adding"
