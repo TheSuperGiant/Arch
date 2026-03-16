@@ -1157,8 +1157,7 @@ arguments
 ${FUNCNAME[1]} $usage
 "
 	}
-	#if [[ $# != "4" ]]; then
-	if [[ $# != "4" && -n "$1" && -n "$4" ]]; then
+	if [[ $# != "4" ]] || [[ -z "$1" || -z "$4" ]]; then
 		help_text
 		error "\n\nUsage: $usage"
 		return
