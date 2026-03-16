@@ -114,13 +114,13 @@ add_sudo() {
 	#if ! sudo grep -q "^$1$" /etc/sudoers; then
 		#echo "$1" | sudo tee -a /etc/sudoers
 	#fi
+	#help text
 	if [[ $1 != "" ]]; then
 		echo "add_sudo" #temp
 		echo "before: $1" #temp
 		filtered="${1%,*}"
 		echo "after: $filtered" #temp
 		update_row "$filtered" "$filtered" "${filtered%%:*}" "/etc/sudoers"
-		#update_row "$1" "$1" "${1%%:*}" "/etc/sudoers"
 	fi
 }
 add_to_row() {
@@ -128,6 +128,7 @@ add_to_row() {
 	#2. data sting --> $'string data'
 	#3. the row where the data must added
 	#4. string to add on row.
+	#help text
 	result=""
 	local data found=0 line result
 	if [[ -v $2 ]]; then
@@ -1169,9 +1170,7 @@ ${FUNCNAME[1]} $usage
 		error "\n\nUsage: $usage"
 		return
 	fi
-	#if ! grep -q "^$2" "$4"; then
 	if ! sudo grep -q "^$2" "$4"; then
-		#if grep -q "$3" "$4"; then
 		if sudo grep -q "$3" "$4"; then
 			sudo sed -i "/^${3}/d" "$4"
 		fi
