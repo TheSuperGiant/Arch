@@ -1,6 +1,6 @@
 exec > >(tee -a 2.sh.log) 2>&1
 
-unset add_to_row
+unset sudoers_adding
 
 #pre function for if local exists else use curl
 

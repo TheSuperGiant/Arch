@@ -114,7 +114,12 @@ add_sudo() {
 	#if ! sudo grep -q "^$1$" /etc/sudoers; then
 		#echo "$1" | sudo tee -a /etc/sudoers
 	#fi
-	update_row "$1" "$1" "${1%%:*}" "/etc/sudoers"
+	echo "add_sudo" #temp
+	echo "before: $1" #temp
+	filtered="${1%,*}"
+	echo "after: $filtered" #temp
+	update_row "$filtered" "$filtered" "${filtered%%:*}" "/etc/sudoers"
+	#update_row "$1" "$1" "${1%%:*}" "/etc/sudoers"
 }
 add_to_row() {
 	#1. varable output

@@ -1,5 +1,5 @@
 
-add_to_row "sudoers_adding" $'sudoers_adding' "$SUDO_USER ALL=(ALL) NOPASSWD:" " test," #temp
+add_to_row "sudoers_adding" $'sudoers_adding' "$SUDO_USER ALL=(ALL) NOPASSWD:" " /usr/bin/poweroff," #temp
 
 
 box_part "Github repo updating"
@@ -68,7 +68,7 @@ for re in "${repos[@]}"; do
 			#add_sudo "$SUDO_USER ALL=(ALL) NOPASSWD: $git_repo_files"
 			#add_sudo "$SUDO_USER ALL=(ALL) NOPASSWD: $github_repo_location/$file"
 			#sudoers_adding+="$SUDO_USER ALL=(ALL) NOPASSWD: test2," #temp
-			add_to_row "sudoers_adding" $'sudoers_adding' "$SUDO_USER ALL=(ALL) NOPASSWD:" " test2," #temp
+			add_to_row "sudoers_adding" $'sudoers_adding' "$SUDO_USER ALL=(ALL) NOPASSWD:" " /usr/bin/reboot," #temp
 		fi
 	fi
 done
