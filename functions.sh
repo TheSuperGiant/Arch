@@ -113,17 +113,38 @@ add_lightdm() {
 add_sudo() {
 	#help text
 	if [[ $1 != "" ]]; then
-		filtered="${1%,*}"
+		nested_expension "filtered" "$t5" '%%+([[:space:]])' '%,'
 		update_row "$filtered" "$filtered" "${filtered%%:*}" "/etc/sudoers"
 	fi
 }
 add_to_row() {
-	#1. varable output
-	#2. data sting --> $'string data'
-	#2. data sting --> variable name
-	#3. the row where the data must added
-	#4. string to add on row.
-	#help text
+	usage="<output variable name> <Input text> <Text to insert> <Text to add>"
+	help_text() {
+		echo "add text to row
+
+add text to a row in a variable.
+
+arguments
+	1.	Name of the output variable
+	2.	Input text (e.g. $'string data' or variable name)
+	3.	Insert text for exact phrase match
+	4.	Text to add
+
+example
+	2. For direct input use: $'line1\nline2\n...' (\n = new line)
+	2. Variable name (without $), e.g. myVar
+
+${FUNCNAME[1]} $usage
+"
+	}
+	if [[ $# == 0 ]] || [[ " $* " =~ [[:space:]](-h|-help|--help)[[:space:]] ]]; then
+		help_text
+		return
+	elif [[ $# != 4 || -z "$1" || -z "$2" || -z "$3" || -z "$4" ]]; then
+		help_text
+		error "Usage: $usage"
+		return
+	fi
 	result=""
 	local data found=0 line result
 	if declare -p "$2" >/dev/null 2>&1; then
@@ -625,7 +646,7 @@ ${FUNCNAME[1]} $usage
 	if [[ $# == 0 ]] || [[ " $* " =~ [[:space:]](-h|-help|--help)[[:space:]] ]]; then
 		help_text
 		return
-	elif [[ $# -lt 4 ]]; then
+	elif [[ $# -lt 3 ]]; then
 		help_text
 		error "Usage: $usage"
 		return
