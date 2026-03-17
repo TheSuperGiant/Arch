@@ -131,12 +131,7 @@ add_to_row() {
 	#4. string to add on row.
 	#help text
 	result=""
-	local data found=0 line result
-	if declare -p "$1" >/dev/null 2>&1; then
-		out="$1"
-	else
-		out=""
-	fi
+	local data found=0 out line result
 	if declare -p "$2" >/dev/null 2>&1; then
 		data="${!2}"
 	else
@@ -152,8 +147,13 @@ add_to_row() {
 	if (( found == 0 )); then
 		result+="$3$4"$'\n'
 	fi
-	#declare -g "$1=$result"
-	declare -g "$out=$result"
+	if ! declare -p "$1" >/dev/null 2>&1; then
+		out=""
+		declare -g "$out=$result"
+	else
+		#out="$1"
+		declare -g "$1=$result"
+	fi
 }
 #add_wirless_network() {
 #	echo -e "network={\n	ssid=\"$1\"\n	psk=\"$2\"\n	scan_ssid=1\n}" | sudo tee -a "/etc/wpa_supplicant/multi_networks.conf"
