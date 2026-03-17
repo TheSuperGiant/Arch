@@ -126,13 +126,15 @@ add_to_row() {
 	#help text
 	result=""
 	local data found=0 line result
-	if ! declare -p "$1" >/dev/null 2>&1; then
+	#if ! declare -p "$1" >/dev/null 2>&1; then
 		#eval "${!1}=\"\""
 		#data=""
 		:
-	elif declare -p "$2" >/dev/null 2>&1; then
+	#elif declare -p "$2" >/dev/null 2>&1; then
+	if declare -p "$2" >/dev/null 2>&1; then
 		data="${!2}"
-	else
+	#else
+	elif declare -p "$1" >/dev/null 2>&1; then
 		data="$2"
 	fi
 	while IFS= read -r line; do
