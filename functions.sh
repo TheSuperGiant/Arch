@@ -125,10 +125,11 @@ add_to_row() {
 	#4. string to add on row.
 	#help text
 	result=""
-	local data found=0 out line result
+	local data found=0 line result
 	if ! declare -p "$1" >/dev/null 2>&1; then
-		eval "${!1}=\"\""
-		data=""
+		#eval "${!1}=\"\""
+		#data=""
+		:
 	elif declare -p "$2" >/dev/null 2>&1; then
 		data="${!2}"
 	else
