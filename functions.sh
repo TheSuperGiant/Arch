@@ -136,7 +136,7 @@ add_to_row() {
 		#out=""
 		eval "${!1}=\"\""
 		#declare -g "$out=$result"
-	else
+	#else
 		#out="$1"
 	fi
 	if declare -p "$2" >/dev/null 2>&1; then
