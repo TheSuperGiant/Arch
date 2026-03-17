@@ -111,15 +111,9 @@ add_lightdm() {
 	fi
 }
 add_sudo() {
-	#if ! sudo grep -q "^$1$" /etc/sudoers; then
-		#echo "$1" | sudo tee -a /etc/sudoers
-	#fi
 	#help text
 	if [[ $1 != "" ]]; then
-		echo "add_sudo" #temp
-		echo "before: $1" #temp
 		filtered="${1%,*}"
-		echo "after: $filtered" #temp
 		update_row "$filtered" "$filtered" "${filtered%%:*}" "/etc/sudoers"
 	fi
 }
@@ -133,14 +127,8 @@ add_to_row() {
 	result=""
 	local data found=0 out line result
 	if ! declare -p "$1" >/dev/null 2>&1; then
-		#out=""
 		eval "${!1}=\"\""
 		data=""
-		#declare -g "$out=$result"
-	#else
-		#out="$1"
-	#fi
-	#if declare -p "$2" >/dev/null 2>&1; then
 	elif declare -p "$2" >/dev/null 2>&1; then
 		data="${!2}"
 	else
