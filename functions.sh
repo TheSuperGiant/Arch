@@ -138,8 +138,9 @@ add_to_row() {
 		#declare -g "$out=$result"
 	#else
 		#out="$1"
-	fi
-	if declare -p "$2" >/dev/null 2>&1; then
+	#fi
+	#if declare -p "$2" >/dev/null 2>&1; then
+	elif declare -p "$2" >/dev/null 2>&1; then
 		data="${!2}"
 	else
 		data="$2"
