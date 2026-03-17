@@ -126,16 +126,23 @@ add_sudo() {
 add_to_row() {
 	#1. varable output
 	#2. data sting --> $'string data'
+	#2. data sting --> variable name
 	#3. the row where the data must added
 	#4. string to add on row.
 	#help text
 	result=""
 	local data found=0 line result
-	if [[ -v $2 ]]; then
-		data="${!2}"
+	if declare -p "$2" >/dev/null 2>&1; then
+		data="${!2}"      # read variable
 	else
-		data="$2"
+		data="$2"         # treat as direct input
 	fi
+	#if [[ -v $2 ]]; then
+		#data="${!2}"
+	#else
+		#data="$2"
+		#data=""
+	#fi
 	while IFS= read -r line; do
 		if [[ $line == "$3"* ]]; then
 			line="$line$4"
