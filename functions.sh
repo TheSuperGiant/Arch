@@ -134,10 +134,11 @@ ${FUNCNAME[1]} $usage
 		#if [[ "$adding" != "" ]]; then
 			#nested_expension "filtered" "$t5" '%%+([[:space:]])' '%,'
 			#nested_expension "filtered" "$adding" '%%+([[:space:]])' '%,'
-			nested_expension "filtered" "$1" '%%+([[:space:]])' '%,'
+			#nested_expension "filtered" "$1" '%%+([[:space:]])' '%,'
 			#var="hello	world  test" #temp
-			printf "%s\n" "$filtered" | sed -e 's/ /·/g' -e $'s/\t/→/g' #temp
-			update_row "$filtered" "$filtered" "${filtered%%:*}" "/etc/sudoers"
+			#printf "%s\n" "$filtered" | sed -e 's/ /·/g' -e $'s/\t/→/g' #temp
+			#update_row "$filtered" "$filtered" "${filtered%%:*}" "/etc/sudoers"
+			update_row "$1" "$1" "${1%%:*}" "/etc/sudoers"
 		fi
 	#done
 }
