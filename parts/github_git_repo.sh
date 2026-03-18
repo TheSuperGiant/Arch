@@ -1,4 +1,4 @@
-add_to_row "sudoers_adding" $'sudoers_adding' "katrien ALL=(ALL) NOPASSWD:" " /usr/bin/poweroff," #temp
+#add_to_row "sudoers_adding" $'sudoers_adding' "katrien ALL=(ALL) NOPASSWD:" " /usr/bin/poweroff," #temp
 
 add_to_row "sudoers_adding" $'sudoers_adding' "$SUDO_USER ALL=(ALL) NOPASSWD:" " /usr/bin/poweroff," #temp
 
@@ -63,7 +63,7 @@ for re in "${repos[@]}"; do
 				add_to_row "sudoers_adding" sudoers_adding "$SUDO_USER ALL=(ALL) NOPASSWD:" " $github_repo_location/$file,"
 			done
 			add_to_row "sudoers_adding" $'sudoers_adding' "$SUDO_USER ALL=(ALL) NOPASSWD:" " /usr/bin/reboot," #temp
-			add_to_row "sudoers_adding" $'sudoers_adding' "truus ALL=(ALL) NOPASSWD:" " /usr/bin/reboot," #temp
+			#add_to_row "sudoers_adding" $'sudoers_adding' "truus ALL=(ALL) NOPASSWD:" " /usr/bin/reboot," #temp
 		fi
 	fi
 done
