@@ -135,6 +135,8 @@ ${FUNCNAME[1]} $usage
 			#nested_expension "filtered" "$t5" '%%+([[:space:]])' '%,'
 			#nested_expension "filtered" "$adding" '%%+([[:space:]])' '%,'
 			nested_expension "filtered" "$1" '%%+([[:space:]])' '%,'
+			#var="hello	world  test" #temp
+			printf "%s\n" "$filtered" | sed -e 's/ /·/g' -e $'s/\t/→/g' #temp
 			update_row "$filtered" "$filtered" "${filtered%%:*}" "/etc/sudoers"
 		fi
 	#done
