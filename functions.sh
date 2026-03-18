@@ -132,7 +132,8 @@ ${FUNCNAME[1]} $usage
 	for adding in "$@"; do
 		#if [[ $1 != "" ]]; then
 		if [[ "$adding" != "" ]]; then
-			nested_expension "filtered" "$t5" '%%+([[:space:]])' '%,'
+			#nested_expension "filtered" "$t5" '%%+([[:space:]])' '%,'
+			nested_expension "filtered" "$adding" '%%+([[:space:]])' '%,'
 			update_row "$filtered" "$filtered" "${filtered%%:*}" "/etc/sudoers"
 		fi
 	done
