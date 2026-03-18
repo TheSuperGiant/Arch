@@ -129,7 +129,7 @@ ${FUNCNAME[1]} $usage
 		help_text
 		return
 	fi
-	#for adding in "$@"; do
+	for adding in "$@"; do
 		if [[ $1 != "" ]]; then
 		#if [[ "$adding" != "" ]]; then
 			#nested_expension "filtered" "$t5" '%%+([[:space:]])' '%,'
@@ -140,7 +140,7 @@ ${FUNCNAME[1]} $usage
 			#update_row "$filtered" "$filtered" "${filtered%%:*}" "/etc/sudoers"
 			update_row "$1" "$1" "${1%%:*}" "/etc/sudoers"
 		fi
-	#done
+	done
 }
 add_to_row() {
 	usage="<output variable name> <Input text> <Text to insert> <Text to add>"
