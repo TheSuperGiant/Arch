@@ -111,11 +111,31 @@ add_lightdm() {
 	fi
 }
 add_sudo() {
-	#help text
-	if [[ $1 != "" ]]; then
-		nested_expension "filtered" "$t5" '%%+([[:space:]])' '%,'
-		update_row "$filtered" "$filtered" "${filtered%%:*}" "/etc/sudoers"
+	usage="<Text to add> [<Text to add> ...]"
+	help_text() {
+		echo "add sudoers
+
+Text to add to the sudoers file.
+
+Use commas for multiple entries (same user). Duplicate user lines will be removed.
+
+arguments
+	1..	String to add to the sudoers file
+
+${FUNCNAME[1]} $usage
+"
+	}
+	if [[ $# == 0 ]] || [[ " $* " =~ [[:space:]](-h|-help|--help)[[:space:]] ]]; then
+		help_text
+		return
 	fi
+	for adding in "$@"; do
+		#if [[ $1 != "" ]]; then
+		if [[ "$adding" != "" ]]; then
+			nested_expension "filtered" "$t5" '%%+([[:space:]])' '%,'
+			update_row "$filtered" "$filtered" "${filtered%%:*}" "/etc/sudoers"
+		fi
+	done
 }
 add_to_row() {
 	usage="<output variable name> <Input text> <Text to insert> <Text to add>"
