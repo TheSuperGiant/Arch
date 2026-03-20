@@ -127,16 +127,14 @@ box_part "Updating settings"
 for Setting in "${Setting__[@]}"; do
 	key="${Setting%%:*}"
 	value=$(echo "${Setting##*:}" | cut -d';' -f1 | sed -E 's/^[[:space:]]+//')
-	#desired_value="$(eval echo \${Setting__$key})"
-	desired_value="$(var_val Setting__$key)"
+	desired_value="$(eval echo \${Setting__$key})"
 	if [[ "$desired_value" == "-r" ]]; then
 		dcor $value
 		continue
 	fi
 	type=$(echo "${Setting##*;}")
 	if [[ "$type" == "b" ]]; then
-		#if [[ " 0 1 " == *" $(eval echo \$Setting__$key) "* ]]; then
-		if [[ " 0 1 " == *" $(var_val Setting__$key) "* ]]; then
+		if [[ " 0 1 " == *" $(eval echo \$Setting__$key) "* ]]; then
 			desired_value=$(bool "$desired_value")
 			dcow $value "$desired_value"
 		fi
@@ -160,8 +158,7 @@ if [[ "$XDG_CURRENT_DESKTOP" == "X-Cinnamon" ]]; then
 	for app in "${app_list[@]}"; do
 		program="${app%%:*}"
 		program_install_name=$(echo "${app##*:}" | sed -E 's/^[[:space:]]+//')
-		#order=$(eval echo \${start_munu__favorite_app__$program})
-		order=$(var_val start_munu__favorite_app__$program)
+		order=$(eval echo \${start_munu__favorite_app__$program})
 		if [[ "$order" != "0" && -n "$order" ]]; then
 			favorite_order+="$order:$program_install_name|"
 		elif [[ "$order" == "0" ]]; then
@@ -198,8 +195,7 @@ if [[ "$XDG_CURRENT_DESKTOP" == "X-Cinnamon" ]]; then
 	updated_applets=$(dconf read $path)
 	for applet in "${applet__[@]}"; do
 		name="${applet%%:*}"
-		#if [[ "$(var_val {applet__$name})" == "1" ]]; then
-		if [[ "$(var_val applet__$name)" == "1" ]]; then
+		if [[ "$(eval echo \${applet__$name})" == "1" ]]; then
 			key=$(echo "${applet##*:}" | sed -E 's/^[[:space:]]+//')
 			updated_applets=$(echo "$updated_applets" | sed "s/'[^']*$key[^']*',\?//g" | sed -E 's/\[ *,/\[/; s/, *\]/\]/')
 		fi
@@ -215,8 +211,7 @@ if [[ "$XDG_CURRENT_DESKTOP" == "X-Cinnamon" ]]; then
 	for menu in "${cinnamon_menu[@]}"; do
 		program_name="${menu%%:*}"
 		block_name=$(echo "${menu##*:}" | cut -d';' -f1 | sed -E 's/^[[:space:]]+//')
-		#user_value="$(eval echo   \$Setting__menu__$program_name)"
-		user_value="$(var_val Setting__menu__$program_name)"
+		user_value="$(eval echo   \$Setting__menu__$program_name)"
 		if [[ -n "$user_value" ]]; then
 			type=$(echo "${menu##*;}")
 			if [[ "$type" == "b" ]]; then

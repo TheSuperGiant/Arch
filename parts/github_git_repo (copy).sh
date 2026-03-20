@@ -33,8 +33,7 @@ declare -a distro_list=(
 
 for needs in "${needed[@]}"; do
 	need="${needs%%:*}"
-	#if [[ "$(var_val {git_repo__$need})" == "1" ]]; then
-	if [[ "$(var_val git_repo__$need)" == "1" ]]; then
+	if [[ "$(eval echo \${git_repo__$need})" == "1" ]]; then
 		repo=$(echo "${needs##*:}" | sed -E 's/^[[:space:]]+//')
 		for r in $repo; do
 			declare "git_repo__$r=1"
@@ -52,8 +51,7 @@ fi
 
 for re in "${repos[@]}"; do
 	repo_name="${re%%:*}"
-	#if [[ "$(var_val {git_repo__$repo_name})" == "1" ]]; then
-	if [[ "$(var_val git_repo__$repo_name)" == "1" ]]; then
+	if [[ "$(eval echo \${git_repo__$repo_name})" == "1" ]]; then
 		box_sub "$repo_name"
 		repo_user=$(echo "${re##*:}" | awk '{print $1}')
 		repo=$(echo "${re##*:}" | awk '{print $2}')

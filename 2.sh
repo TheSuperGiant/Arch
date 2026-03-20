@@ -146,7 +146,7 @@ source <(curl -s -L https://raw.githubusercontent.com/TheSuperGiant/Arch/refs/he
 
 for app in "${App_Install__[@]}"; do
 	key="${app%%:*}"
-	if [[ "$(eval echo \$App_Install__$key)" == "1" ]]; then
+	if [[ "$(var_val App_Install__$key)" == "1" ]]; then
 		box_sub "$key"
 		value=$(echo "${app##*:}" | sed -E 's/^[[:space:]]+//')
 		$function --needed --noconfirm $value <<< 1
@@ -476,7 +476,7 @@ declare -a App_Startup___=(
 
 for App_Startup in "${App_Startup___[@]}"; do
 	name_string="${App_Startup%%:*}"
-	if [[ "$(eval echo \$App_Startup__$name_string)" == "1" ]]; then
+	if [[ "$(var_val App_Startup__$name_string)" == "1" ]]; then
 		application=$(echo "${App_Startup##*:}" | cut -d';' -f1 | sed -E 's/^[[:space:]]+//')
 		name_app=($application); unset name_app[-1]
 		read -ra type <<< "$application"
