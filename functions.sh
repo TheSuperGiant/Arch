@@ -670,6 +670,9 @@ arguments
 ${FUNCNAME[1]} $usage
 "
 	}
+	#echo "1: $1" #temp
+	#echo "2: $2" #temp
+	#echo "3: $3" #temp
 	if [[ $# == 0 ]] || [[ " $* " =~ [[:space:]](-h|-help|--help)[[:space:]] ]]; then
 		help_text
 		return
@@ -682,9 +685,17 @@ ${FUNCNAME[1]} $usage
 	temp="$2"
 	shift 2
 	for nes in $@; do
-		eval "temp=\${temp${nes}}"
+		#name="temp$nes"
+		#temp="${!name}"
+		#temp="${temp${nes}}"
+		temp="$temp$nes"
+		temp="${temp}"
+		#temp="${temp//$nes/}"
+		#eval "temp=\${temp${nes}}"
+		#declare -g "temp=\${temp${nes}}"
 	done
-	eval "$out_var_name=$temp"
+	#eval "$out_var_name=$temp"
+	declare -g "$out_var_name=$temp"
 }
 pa() {
 	sudo pacman -Syu --noconfirm
@@ -1219,6 +1230,9 @@ ${FUNCNAME[1]} $usage
 		fi
 		printf "%s\n" "$1" | sudo tee -a "$4" >/dev/null 2>&1 && printf "%s\n" "Added '$1' to '$4'" || error "Failed to add '$1' to '$4'"
 	fi
+}
+var_val() {
+	echo "${!1}"
 }
 
 alias md="mkdir -p $1"

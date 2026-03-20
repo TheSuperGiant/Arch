@@ -1,4 +1,4 @@
-add_to_row "sudoers_adding" $'sudoers_adding' "katrien ALL=(ALL) NOPASSWD:" " /usr/bin/poweroff," #temp
+add_to_row "sudoers_adding" $'sudoers_adding' "katrien ALL=(ALL) NOPASSWD:" " /usr/bin/poweroff, " #temp
 
 add_to_row "sudoers_adding" $'sudoers_adding' "$SUDO_USER ALL=(ALL) NOPASSWD:" " /usr/bin/poweroff," #temp
 

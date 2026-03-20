@@ -32,4 +32,13 @@ while IFS=' ' read -r key value unit; do
 	fi
 done < /proc/meminfo
 
-nested_expension "display_manager" $(readlink -f /etc/systemd/system/display-manager.service) '##*/' '%%.*'
+time display_manager=$(readlink -f /etc/systemd/system/display-manager.service | sed 's|.*/||' | sed 's|\..*$||')
+
+time ( display_manager=$(readlink -f /etc/systemd/system/display-manager.service);  display_manager="${display_manager##*/}" ;display_manager="${display_manager%.*}" )
+
+#zsh -c 'echo "${${display_manager##*/}%.*}"'
+time zsh -c -f 'echo "${${$(readlink -f /etc/systemd/system/display-manager.service)##*/}%.*}"'
+time zsh -c 'echo "${(U)${${$(readlink -f /etc/systemd/system/display-manager.service)##*/}%.*}}"'
+#display_manager="/usr/local/bin/gdm3.desktop"
+zsh -c -f 'echo "${${/usr/local/bin/gdm3.desktop##*/}%.*}"'
+#nested_expension "display_manager" $(readlink -f /etc/systemd/system/display-manager.service) '##*/' '%%.*'
