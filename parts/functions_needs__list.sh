@@ -1,6 +1,6 @@
 declare -a required=(
 	#1
-	"function__add_sudo:	update_row nested_expension"
+	"function__add_sudo:	update_row"
 	"function__dcor:	dco_value"
 	"function__dcow:	dco_value"
 	"function__ext4setup:	error"
@@ -11,7 +11,6 @@ declare -a required=(
 	"function__ssh_key:	ssh_agt"
 	#2
 	"function__box_sub:	box"
-	"function__nested_expension:	error"
 	"function__update_row:	error"
 )
 

@@ -128,14 +128,15 @@ ${FUNCNAME[1]} $usage
 		return
 	fi
 	for adding in "$@"; do
-		if [[ $1 != "" ]]; then
-		#if [[ "$adding" != "" ]]; then
+		#if [[ $1 != "" ]]; then
+		if [[ "$adding" != "" ]]; then
 			#nested_expension "filtered" "$t5" '%%+([[:space:]])' '%,'
 			#nested_expension "filtered" "$adding" '%%+([[:space:]])' '%,'
 			#nested_expension "filtered" "$1" '%%+([[:space:]])' '%,'
 			#var="hello	world  test" #temp
-			#printf "%s\n" "$filtered" | sed -e 's/ /·/g' -e $'s/\t/→/g' #temp
-			#update_row "$filtered" "$filtered" "${filtered%%:*}" "/etc/sudoers"
+			printf "%s\n" "$filtered" | sed -e 's/ /·/g' -e $'s/\t/→/g' #temp
+			filtered="$adding%%+([[:space:]])"; filtered="$filtered%,"
+			update_row "$filtered" "$filtered" "${filtered%%:*}" "/etc/sudoers"
 			#removing traling space and , ad the end adding.
 			update_row "$1" "$1" "${1%%:*}" "/etc/sudoers"
 		fi
