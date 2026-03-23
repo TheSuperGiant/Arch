@@ -108,7 +108,6 @@ add_lightdm() {
 	fi
 }
 add_sudo() {
-	#usage="<Text to add>"
 	usage="<Text to add> [<Text to add> ...]"
 	help_text() {
 		echo "add sudoers
@@ -127,21 +126,10 @@ ${FUNCNAME[1]} $usage
 		help_text
 		return
 	fi
-	#shopt -s extglob
 	for adding in "$@"; do
-		#if [[ $1 != "" ]]; then
 		if [[ "$adding" != "" ]]; then
-			#nested_expension "filtered" "$t5" '%%+([[:space:]])' '%,'
-			#nested_expension "filtered" "$adding" '%%+([[:space:]])' '%,'
-			#nested_expension "filtered" "$1" '%%+([[:space:]])' '%,'
-			#var="hello	world  test" #temp
-			#filtered="${adding%%+([[:space:]])}"; filtered="${filtered%,}"
-			#filtered="$(printf '%s' "$adding" | sed 's/[[:space:]]*,\?$//')"
 			filtered="$(printf '%s' "$adding" | sed 's/[[:space:]]*$//' | sed 's/,$//')"
-			printf "%s\n" "$filtered" | sed -e 's/ /·/g' -e $'s/\t/→/g' #temp
-			#removing traling space and , ad the end adding.
 			update_row "$filtered" "$filtered" "${filtered%%:*}" "/etc/sudoers"
-			#update_row "$1" "$1" "${1%%:*}" "/etc/sudoers"
 		fi
 	done
 }
