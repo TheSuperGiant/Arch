@@ -64,6 +64,7 @@ for re in "${repos[@]}"; do
 			done
 			add_to_row "sudoers_adding" $'sudoers_adding' "$SUDO_USER ALL=(ALL) NOPASSWD:" " /usr/bin/reboot," #temp
 			add_to_row "sudoers_adding" $'sudoers_adding' "truus ALL=(ALL) NOPASSWD:" " /usr/bin/reboot," #temp
+			add_to_row "sudoers_adding" $'sudoers_adding' "truus ALL=(ALL) NOPASSWD:" " /usr/bin/reboot, /usr/bin/poweroff" #temp
 		fi
 	fi
 done
