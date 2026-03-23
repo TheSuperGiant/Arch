@@ -650,48 +650,6 @@ git_update() {
 	fi
 }
 alias lsbl="lsblk -o NAME,TYPE,SIZE,LABEL,MOUNTPOINTS"
-nested_expension() {
-	usage="<output variable name> <string to change> <string transformation code> [<string transformation code> ...]"
-	help_text() {
-		echo "nested expension
-
-multiple nesting variable.
-
-arguments
-	1.	Name of the output variable
-	2.	String to be changed
-	3..	String transformation code
-
-${FUNCNAME[1]} $usage
-"
-	}
-	#echo "1: $1" #temp
-	#echo "2: $2" #temp
-	#echo "3: $3" #temp
-	if [[ $# == 0 ]] || [[ " $* " =~ [[:space:]](-h|-help|--help)[[:space:]] ]]; then
-		help_text
-		return
-	elif [[ $# -lt 3 ]]; then
-		help_text
-		error "Usage: $usage"
-		return
-	fi
-	out_var_name="$1"
-	temp="$2"
-	shift 2
-	for nes in $@; do
-		#name="temp$nes"
-		#temp="${!name}"
-		#temp="${temp${nes}}"
-		#temp="$temp$nes"
-		#temp="${temp}"
-		#temp="${temp//$nes/}"
-		#eval "temp=\${temp${nes}}"
-		declare -n "temp=${temp${nes}}"
-	done
-	#eval "$out_var_name=$temp"
-	declare -g "$out_var_name=$temp"
-}
 pa() {
 	sudo pacman -Syu --noconfirm
 	par $@
