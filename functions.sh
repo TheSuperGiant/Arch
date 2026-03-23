@@ -12,9 +12,7 @@ error() {
 add_alias() {
 	if ! grep -q "^alias $1=" ~/.bashrc; then
 		code="alias $1=\"$2\""
-		#eval $code && echo $code >> ~/.bashrc
-		eval $code && echo $code >> ~/.bashrc && echo "Alias '$1' added and saved to ~/.bashrc."
-		#echo "Alias '$1' added and saved to ~/.bashrc."
+		eval $code && echo $code >> ~/.bashrc && echo "Alias '$1' added and is now available."
 	fi
 }
 add_device_label() {
@@ -88,12 +86,9 @@ add_dns() {
 }
 add_function() {
 	if ! grep -q "^$1()" ~/.bashrc; then
-		#echo -e "$1() {\n\t$2\n}" >> ~/.bashrc
-		echo -e "$1() {\n\t$2\n}" >> ~/.bashrc && echo "Function '$1' added and is now available."
-		eval "$1() {
+		echo -e "$1() {\n\t$2\n}" >> ~/.bashrc && eval "$1() {
 			$2
-		}"
-		#echo "Function '$1' added and is now available."
+		}" && echo "Function '$1' added and is now available."
 	fi
 }
 add_lightdm() {
@@ -590,10 +585,7 @@ ${FUNCNAME[1]} -b \"main\" -g \"git@github.com:username/respetory.git\" -p \"/pa
 	fi
 	ssh_path="$HOME/.ssh/$ssh"
 	if [[ -z "$one_time" ]]; then
-		#if [[ $(pgrep ssh-agent) == "" ]]; then
-			#eval "$(ssh-agent -s)"
-			ssh_agt
-		#fi
+		ssh_agt
 		if [[ -n $ssh ]]; then
 			while IFS= read -r line1; do
 				if [[ "$line1" == "$(ssh-keygen -lf "$ssh_path.pub")" ]]; then
@@ -691,11 +683,11 @@ ${FUNCNAME[1]} $usage
 		#name="temp$nes"
 		#temp="${!name}"
 		#temp="${temp${nes}}"
-		temp="$temp$nes"
-		temp="${temp}"
+		#temp="$temp$nes"
+		#temp="${temp}"
 		#temp="${temp//$nes/}"
 		#eval "temp=\${temp${nes}}"
-		#declare -g "temp=\${temp${nes}}"
+		declare -n "temp=${temp${nes}}"
 	done
 	#eval "$out_var_name=$temp"
 	declare -g "$out_var_name=$temp"
@@ -742,8 +734,8 @@ pf() {
 	userfolder_file="$HOME/.config/user-dirs.dirs"
 	source "$userfolder_file" 2>/dev/null
 	for dir in DESKTOP DOWNLOAD DOCUMENTS MUSIC PICTURES PUBLICSHARE TEMPLATES VIDEOS; do
-		#eval "local ${dir,,}_name=\${XDG_${dir}_DIR##*/}"
-		declare "${dir,,}_name=\${XDG_${dir}_DIR##*/}"
+		fol="XDG_${dir}_DIR"
+		declare "${dir,,}_name=${!fol##*/}"
 	done
 	help_text() {
 		echo "personal folders
@@ -1199,10 +1191,7 @@ ssh_agt() {
 	fi
 }
 ssh_key() {
-	#if [[ $(pgrep ssh-agent) == "" ]]; then
-		#eval "$(ssh-agent -s)"
-		ssh_agt
-	#fi
+	ssh_agt
 	for keygen_name in "$@"; do
 		file_path="$HOME/.ssh/$keygen_name"
 		ssh-keygen -t ed25519 -C "$keygen_name" -f "$file_path"
