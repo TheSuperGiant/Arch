@@ -140,7 +140,7 @@ ${FUNCNAME[1]} $usage
 			filtered="$(printf '%s' "$adding" | sed 's/[[:space:]]*$//' | sed 's/,$//')"
 			printf "%s\n" "$filtered" | sed -e 's/ /·/g' -e $'s/\t/→/g' #temp
 			#removing traling space and , ad the end adding.
-			#update_row "$filtered" "$filtered" "${filtered%%:*}" "/etc/sudoers"
+			update_row "$filtered" "$filtered" "${filtered%%:*}" "/etc/sudoers"
 			#update_row "$1" "$1" "${1%%:*}" "/etc/sudoers"
 		fi
 	done
