@@ -136,7 +136,8 @@ ${FUNCNAME[1]} $usage
 			#nested_expension "filtered" "$1" '%%+([[:space:]])' '%,'
 			#var="hello	world  test" #temp
 			#filtered="${adding%%+([[:space:]])}"; filtered="${filtered%,}"
-			filtered="$(printf '%s' "$adding" | sed 's/[[:space:]]*,\?$//')"
+			#filtered="$(printf '%s' "$adding" | sed 's/[[:space:]]*,\?$//')"
+			filtered="$(printf '%s' "$adding" | sed 's/[[:space:]]*$//' | sed 's/,$//')"
 			printf "%s\n" "$filtered" | sed -e 's/ /·/g' -e $'s/\t/→/g' #temp
 			#removing traling space and , ad the end adding.
 			#update_row "$filtered" "$filtered" "${filtered%%:*}" "/etc/sudoers"
