@@ -13,7 +13,7 @@ add_alias() {
 	if ! grep -q "^alias $1=" ~/.bashrc; then
 		code="alias $1=\"$2\""
 		#eval $code && echo $code >> ~/.bashrc
-		eval $code && echo $code >> ~/.bashrc &&echo "Alias '$1' added and saved to ~/.bashrc."
+		eval $code && echo $code >> ~/.bashrc && echo "Alias '$1' added and saved to ~/.bashrc."
 		#echo "Alias '$1' added and saved to ~/.bashrc."
 	fi
 }
