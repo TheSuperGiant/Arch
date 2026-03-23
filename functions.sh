@@ -127,7 +127,7 @@ ${FUNCNAME[1]} $usage
 		help_text
 		return
 	fi
-	#shopt -s option
+	#shopt -s extglob
 	for adding in "$@"; do
 		#if [[ $1 != "" ]]; then
 		if [[ "$adding" != "" ]]; then
@@ -136,7 +136,8 @@ ${FUNCNAME[1]} $usage
 			#nested_expension "filtered" "$1" '%%+([[:space:]])' '%,'
 			#var="hello	world  test" #temp
 			printf "%s\n" "$filtered" | sed -e 's/ /·/g' -e $'s/\t/→/g' #temp
-			filtered="${adding%%+([[:space:]])}"; filtered="$filtered%,"
+			filtered="${adding%%+([[:space:]])}"; filtered="${filtered%,}"
+			#filtered="$(printf '%s' "$adding" | sed 's/[[:space:]]*,\?$//')"
 			update_row "$filtered" "$filtered" "${filtered%%:*}" "/etc/sudoers"
 			#removing traling space and , ad the end adding.
 			update_row "$1" "$1" "${1%%:*}" "/etc/sudoers"
