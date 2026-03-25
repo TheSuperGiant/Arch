@@ -266,6 +266,13 @@ if [[ "$IPv6_hardening" == 1 ]]; then
 	fi
 fi
 
+box_part "services toggle"
+
+box_sub "rustdesk"
+if [[ "$app_service_startup__rustdesk" =~ ^(0|1)$ ]]; then
+	service_toggle "rustdesk" "$app_service_startup__rustdesk"
+fi
+
 #if [[ "$network_check_on_boot" == 1 ]]; then
 	#sudo systemctl disable NetworkManager-wait-online.service
 	#sudo systemctl mask NetworkManager-wait-online.service

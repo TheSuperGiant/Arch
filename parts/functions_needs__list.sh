@@ -8,6 +8,7 @@ declare -a required=(
 	"function__git_u:	error ssh_agt"
 	"function__pf:	error"
 	"function__s_link:	error"
+	"function__service_toggle:	error"
 	"function__ssh_key:	ssh_agt"
 	#2
 	"function__box_sub:	box"
