@@ -267,9 +267,9 @@ if [[ "$IPv6_hardening" == 1 ]]; then
 fi
 
 box_part "services toggle"
-
-box_sub "rustdesk"
+#mabry later an services declare -a list
 if [[ "$app_service_startup__rustdesk" =~ ^(0|1)$ ]]; then
+	box_sub "rustdesk"
 	service_toggle "rustdesk" "$app_service_startup__rustdesk"
 fi
 

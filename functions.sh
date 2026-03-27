@@ -928,6 +928,58 @@ ${FUNCNAME[1]} \"\mnt\data\car\" \"\mnt\data\banana\" -f"
 		fi
 	fi
 }
+service_toggle() {
+	usage="<servince name> <service value>"
+	error_default() {
+		error "\n\n$1"
+	}
+	help_text() {
+		echo "Special toggle
+
+toggle service on or off.
+
+arguments
+	1.	service name
+	2.	service value. (0 = disable, 1 = enable)
+
+${FUNCNAME[1]} $usage
+"
+	}
+	if [[ $# == 0 ]] || [[ " $* " =~ [[:space:]](-h|-help|--help)[[:space:]] ]]; then
+		help_text
+		return
+	elif [[ $# != 2 ]]; then
+		help_text
+		error "Usage: $usage"
+		return
+	fi
+	local service_name="$1"
+	text_notfound() {
+		printf '%s\n' "Service '$service_name' not found"
+	}
+	text_already_set() {
+		printf '%s\n' "service '$service_name' is already '$status'"
+	}
+	text_service_enabled() {
+		printf '%s\n' "service '$service_name' 'enabled'"
+	}
+	text_service_disabled() {
+		printf '%s\n' "service '$service_name' 'disabled'"
+	}
+	local service_manager=$(ps -p 1 -o comm=)
+	if [[ "$service_manager" == "systemd" ]]; then
+		local status=$(systemctl is-enabled $service_name)
+		if [[ "$status" == "enabled" && "$2" == "0" ]]; then
+			sudo systemctl disable "$service_name" && text_service_disabled
+		elif [[ "$status" == "disabled" && "$2" == "1" ]]; then
+			sudo systemctl enable "$service_name" && text_service_enabled
+		elif [[ "$status" == "not-found" ]]; then
+			text_notfound
+		else
+			text_already_set
+		fi
+	fi
+}
 sp() {
 	local ShowIn="Budgie;Deepin;Enlightenment;GNOME;KDE;LXDE;LXQt;MATE;Old;Pantheon;ROX;Sugar;TDE;Unity;X-Cinnamon;XFCE;"
 	help_text() {
@@ -1129,58 +1181,6 @@ EOF"
 		echo "${info[0]} - startup already has the value"
 	fi
 	echo "------------------------------------"
-}
-service_toggle() {
-	usage="<servince name> <service value>"
-	error_default() {
-		error "\n\n$1"
-	}
-	help_text() {
-		echo "Special toggle
-
-toggle service on or off.
-
-arguments
-	1.	service name
-	2.	service value. (0 = disable, 1 = enable)
-
-${FUNCNAME[1]} $usage
-"
-	}
-	if [[ $# == 0 ]] || [[ " $* " =~ [[:space:]](-h|-help|--help)[[:space:]] ]]; then
-		help_text
-		return
-	elif [[ $# != 2 ]]; then
-		help_text
-		error "Usage: $usage"
-		return
-	fi
-	local service_name="$1"
-	text_notfound() {
-		printf '%s\n' "Service '$service_name' not found"
-	}
-	text_already_set() {
-		printf '%s\n' "service '$service_name' is already '$status'"
-	}
-	text_service_enabled() {
-		printf '%s\n' "service '$service_name' 'enabled'"
-	}
-	text_service_disabled() {
-		printf '%s\n' "service '$service_name' 'disabled'"
-	}
-	local service_manager=$(ps -p 1 -o comm=)
-	if [[ "$service_manager" == "systemd" ]]; then
-		local status=$(systemctl is-enabled $service_name)
-		if [[ "$status" == "enabled" && "$2" == "0" ]]; then
-			sudo systemctl disable "$service_name" && text_service_disabled
-		elif [[ "$status" == "disabled" && "$2" == "1" ]]; then
-			sudo systemctl enable "$service_name" && text_service_enabled
-		elif [[ "$status" == "not-found" ]]; then
-			text_notfound
-		else
-			text_already_set
-		fi
-	fi
 }
 #start_s()
 ssh_agt() {
