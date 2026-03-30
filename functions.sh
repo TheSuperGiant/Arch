@@ -130,7 +130,6 @@ ${FUNCNAME[1]} $usage
 		if [[ "$adding" != "" ]]; then
 			filtered="$(printf '%s' "$adding" | sed 's/[[:space:]]*$//' | sed 's/,$//')"
 			update_row "$filtered" "$filtered" "${filtered%%:*}" "/etc/sudoers"
-			return 1
 		fi
 	done
 }
@@ -1235,6 +1234,7 @@ ${FUNCNAME[1]} $usage
 			sudo sed -i "/^${3}/d" "$4"
 		fi
 		printf "%s\n" "$1" | sudo tee -a "$4" >/dev/null 2>&1 && printf "%s\n" "Added '$1' to '$4'" || error "Failed to add '$1' to '$4'"
+		return 1
 	fi
 }
 var_val() {
