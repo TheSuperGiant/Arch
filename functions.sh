@@ -130,6 +130,7 @@ ${FUNCNAME[1]} $usage
 		if [[ "$adding" != "" ]]; then
 			filtered="$(printf '%s' "$adding" | sed 's/[[:space:]]*$//' | sed 's/,$//')"
 			update_row "$filtered" "$filtered" "${filtered%%:*}" "/etc/sudoers"
+			return 1
 		fi
 	done
 }
