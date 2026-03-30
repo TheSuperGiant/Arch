@@ -260,6 +260,7 @@ if [[ "$Setting__audio__hdmi_dp" =~ ^(0|1)$ ]]; then
 		}' /proc/asound/cards)
 	echo "$audio__toggle" #temp
 	if [[ -z "$audio__toggle" ]]; then
+		echo test
 		audio__toggle="${audio__toggle%,*}"
 		#echo "$audio__toggle" #temp
 		hda_intel="options snd_hda_intel enable="
