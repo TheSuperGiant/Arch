@@ -269,7 +269,7 @@ if [[ "$Setting__audio__hdmi_dp" =~ ^(0|1)$ ]]; then
 		#echo "$audio__toggle" #temp
 		#/etc/modprobe.d/no-hdmi-audio.conf
 		#options snd_hda_intel enable="$audio__toggle"
-		update_row "$audio__toggle" "$audio__toggle" "${filtered%%=*}" "/etc/modprobe.d/no-hdmi-audio.conf"; [[ $? -eq 2 ]] && restart=1; echo "t7" #temp
+		update_row "$audio__toggle" "$audio__toggle" "${filtered%%=*}" "/etc/modprobe.d/no-hdmi-audio.conf"; [[ $? -eq 1 ]] && restart=1; echo "t7" #temp
 		#if [[ $? -eq 1 ]]; then
 			#echo t5 #temp
 			#restart=1
