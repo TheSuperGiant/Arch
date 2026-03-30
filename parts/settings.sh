@@ -234,8 +234,45 @@ if [[ "$XDG_CURRENT_DESKTOP" == "X-Cinnamon" ]]; then
 	done
 fi
 
-if [[ "$display_manager" == "lightdm" ]]; then
-	if [[ "$numlock_startup" =~ ^(on|off)$ ]]; then
+if [[ "$Setting__audio__hdmi_dp" =~ ^(0|1)$ ]]; then
+	box_sub "audio - hdmi dp - toggle"
+	unset audio__toggle
+	while read -r num name; do
+		#echo "$num" #temp
+		#echo "$num $name" #temp
+		if ( [[ "$Setting__audio__hdmi_dp" == "0" ]] && [[ "$num" == "GPU" ]] ) || ( [[ "$Setting__audio__hdmi_dp" == "1" ]] && [[ "$num" == "motherboard" ]] ); then
+			audio__toggle+="0,"
+		else
+			audio__toggle+="1,"
+		fi
+	done < <(awk -F'[][]' '
+		/\[/{
+			split($3,a," - ")
+			gsub(/^: /,"",a[1])
+			sub(/-.*/,"",a[1])
+
+			if (a[1] == "HDA") {
+				if ($2 ~ /NVidia|AMD|Intel/)
+					print "GPU audio :" $1 " (" $2 ")"
+				else
+					print "motherboard audio :" $1 " (" $2 ")"
+			}
+		}' /proc/asound/cards)
+	audio__toggle="${audio__toggle%,*}"
+	#echo "$audio__toggle" #temp
+	hda_intel="options snd_hda_intel enable="
+	#echo "$hda_intel" #temp
+	audio__toggle="${hda_intel}${audio__toggle}"
+	#echo "$audio__toggle" #temp
+	#/etc/modprobe.d/no-hdmi-audio.conf
+	#options snd_hda_intel enable="$audio__toggle"
+	update_row "$audio__toggle" "$audio__toggle" "${filtered%%=*}" "/etc/modprobe.d/no-hdmi-audio.conf" && printf '%s/n' "Updated with the value '$audio__toggle'"
+	#update_row "$audio__toggle" "$audio__toggle" "${filtered%%=*}" "/etc/modprobe.d/no-hdmi-audio.conf"
+fi
+
+if [[ "$numlock_startup" =~ ^(on|off)$ ]]; then
+	box_sub "numlock startup"
+	if [[ "$display_manager" == "lightdm" ]]; then
 		add_lightdm e "[Seat:*]" "\[Seat:\*\]"
 		add_lightdm "greeter-setup-script=/usr/bin/numlockx $numlock_startup" "/^\[Seat:\*\]/a" && echo "NumLock $numlock_startup configuration added to [Seat:*] section."
 	fi
