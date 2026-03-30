@@ -1230,8 +1230,8 @@ ${FUNCNAME[1]} $usage
 		error "\n\nUsage: $usage"
 		return
 	fi
-	if ! sudo grep -q "^$2" "$4"; then
-		if sudo grep -q "$3" "$4"; then
+	if ! sudo grep -q -s "^$2" "$4"; then
+		if sudo grep -q -s "$3" "$4"; then
 			sudo sed -i "/^${3}/d" "$4"
 		fi
 		printf "%s\n" "$1" | sudo tee -a "$4" >/dev/null 2>&1 && printf "%s\n" "Added '$1' to '$4'" || error "Failed to add '$1' to '$4'"
