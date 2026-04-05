@@ -4,12 +4,14 @@ user="thesupergiant"
 
 declare -a needed=(
 	"${user}__arch:	${user}__arch"
+	"${user}__casyos:	${user}__arch ${user}__casyos"
 	"${user}__linux_mint:	${user}__arch ${user}__linux_mint"
 )
 
 declare -a repos=(
 	"${user}__arch:	$user Arch"
 	"${user}__archtitus:	$user ArchTitus"
+	"${user}__casyos:	$user Casyos"
 	"${user}__GTA_V:	$user GTA-V"
 	"${user}__GTA_V__Macro:	$user GTA-V---Macro"
 	"${user}__linux_mint:	$user Linux-Mint"
@@ -18,11 +20,13 @@ declare -a repos=(
 
 declare -a sudo_scripts=(
 	"${user}__arch:	Arch/2.sh"
+	"${user}__casyos:	Linux-Mint/casyos_2.sh"
 	"${user}__linux_mint:	Linux-Mint/mint_2.sh"
 )
 
 declare -a distro_list=(
 	"${user}__arch:	Arch Linux"
+	"${user}__casyos:	CachyOS Linux"
 	"${user}__linux_mint:	Linux Mint"
 )
 

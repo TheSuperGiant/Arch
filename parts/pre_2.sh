@@ -1,5 +1,8 @@
 exec > >(tee -a 2.sh.log) 2>&1
 
+#sudo without password
+source <(curl -s -L https://raw.githubusercontent.com/TheSuperGiant/Arch/refs/heads/main/parts/without_password_startup.sh)
+
 unset sudoers_adding
 
 #pre function for if local exists else use curl

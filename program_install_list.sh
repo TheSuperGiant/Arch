@@ -1,6 +1,7 @@
 declare -a App_Install__=(
 	"wine:					wine"
 	"wine_mono:				wine-mono"
+	"winetricks:			winetricks"
 	"7_zip:					7zip"
 	"adwaita_theme:			adwaita-icon-theme"
 	"anydesk:				anydesk-bin"
