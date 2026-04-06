@@ -1,3 +1,5 @@
+source <(curl -s -L $TheSuperGiant_Arch_repo_uri__parts/install_need.sh)
+
 declare -a install_needs=(
 	"App_Install__keepass:	xdotool"
 	"App_Install__notepadPlusPlus:	wine winetricks"
@@ -6,4 +8,4 @@ declare -a install_needs=(
 )
 
 #install needs loops
-source <(curl -s -L https://raw.githubusercontent.com/TheSuperGiant/Arch/refs/heads/main/parts/install_needs__loop.sh)
+source <(curl -s -L $TheSuperGiant_Arch_repo_uri__parts/install_needs__loop.sh)
