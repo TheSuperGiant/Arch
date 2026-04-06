@@ -14,7 +14,7 @@ if [[ "$XDG_CURRENT_DESKTOP" == "X-Cinnamon" ]]; then
 		M="${1##*:}" && M=$(( (M * 100) / 60 ))
 		echo "$H.$M"
 	}
-	if [[ "$Setting__autorun" == "0"  ]]; then
+	if [[ "$Setting__autorun" == "0" ]]; then
 		Setting__autorun=1
 	elif [[ "$Setting__autorun" == "1"  ]]; then
 		Setting__autorun=0
@@ -406,7 +406,7 @@ if [[ -n "$XDG_CURRENT_DESKTOP" ]]; then
 fi
 
 box_part "Updating default program"
-if command -v xdg-open;
+if command -v xdg-open; then
 	default_app () {
 		if [[ "$1" == $(ls /usr/share/applications/ | grep -i $1) ]] && ! [[ "$1" == $(xdg-mime query default "$2") ]]; then
 			xdg-mime default "$1" "$2"

@@ -1,7 +1,3 @@
-if [[ "$numlock_startup" =~ ^(on|off)$ ]]; then
-	App_Install__numlockx=1
-fi
-
 declare -a install_needs=(
 	"App_Install__keepass:	xdotool"
 	"App_Install__notepadPlusPlus:	wine winetricks"

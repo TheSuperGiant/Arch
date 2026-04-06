@@ -9,7 +9,7 @@ declare -a Setting__=()
 
 
 if [[ "$XDG_CURRENT_DESKTOP" == "X-Cinnamon" ]]; then
-	if [[ "$Setting__autorun" == "0"  ]]; then
+	if [[ "$Setting__autorun" == "0" ]]; then
 		Setting__autorun=1
 	elif [[ "$Setting__autorun" == "1"  ]]; then
 		Setting__autorun=0

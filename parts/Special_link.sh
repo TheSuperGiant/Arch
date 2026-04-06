@@ -4,7 +4,7 @@ if [[ ${s_links%% *} == "-f" ]]; then
 	s_links=("${s_links[@]:1}")
 fi
 if [[ -n "$s_links" ]]; then
-	for s_li in "${s_links[@]}" ; do
+	for s_li in "${s_links[@]}"; do
 		s_link ${s_li[@]} ${force:-}
 	done
 fi
