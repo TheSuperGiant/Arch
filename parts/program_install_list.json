@@ -1551,6 +1551,10 @@
 			"flatpak": "com.mojang.Minecraft",
 			"additional_code_run": {
 				"enabled": false
+			},
+			"additional_packages": {
+				"enabled": true
+				"java": "jre-openjdk"
 			}
 		},
 		"minecraft_server": {
@@ -1562,6 +1566,16 @@
 			"apt": "na",
 			"flatpak": "com.mojang.Minecraft",
 			"additional_code_run": {
+				"enabled": false
+			},
+			"additional_packages": {
+				"enabled": true
+				"arch": {
+					"java": "jre-openjdk"
+				},
+				"debian": {
+					"java": "jre-openjdk-headless"
+				}
 			}
 		}
 	},
