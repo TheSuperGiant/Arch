@@ -207,6 +207,9 @@ box() {
 	printf "$begin_end%*s%s%*s$begin_end\n" "$fill" '' "$text" "$((width - 2 - ${#text} - fill))" ''
 	line
 }
+box_betwean() {
+	box "$1..." "~"
+}
 box_part() {
 	box "$1..." "="
 }
@@ -1202,7 +1205,9 @@ ssh_key() {
 	done
 }
 sud() {
-	sudo -v
+	until sudo -v 2>/dev/null; do
+		sleep 1
+	done
 	while :; do
 		sudo -n true
 		sleep 60

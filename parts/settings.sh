@@ -316,18 +316,42 @@ if [[ "$IPv6_hardening" == 1 ]]; then
 	fi
 fi
 
+if [[ "$App_Install__virtualbox" == "1" ]]; then
+	#sudo systemctl stop libvirtd
+	service_boot_toggle__libvirtd=0
+	sudo modprobe -r kvm_amd
+	echo "blacklist kvm_amd" | sudo tee /etc/modprobe.d/blacklist-kvm.conf
+fi
+declare -a service_needs___=(
+	"qemu:	libvirtd"
+)
+for service_needs in "${service_needs___[@]}"; do
+	name="${service_needs%%:*}"
+	#echo "$name" #temp
+	if [[ "$(var_val App_Install__$name)" == "1" ]]; then
+		#echo test #temp
+		for service in $(echo "${service_needs##*:}" | sed -E 's/^[[:space:]]+//'); do
+			#echo "$service" #temp
+			declare "service_boot_toggle__$service=1"
+		done
+	fi
+done
+
 box_part "services boot toggle"
 declare -a service_boot_toggle___=(
 	"bluetooth:	bluetooth"
+	"cups:	cups"
+	"libvirtd:	libvirtd"
 	"rustdesk:	rustdesk"
 )
-
 for service_boot_toggle in "${service_boot_toggle___[@]}"; do
-	name_string="${service_boot_toggle%%:*}"
+	#name_string="${service_boot_toggle%%:*}"
+	name="${service_boot_toggle%%:*}"
 	#echo "$name_string" #temp
-	value="$(var_val service_boot_toggle__$name_string)"
+	value="$(var_val service_boot_toggle__$name)"
 	if [[ "$value" =~ ^(0|1)$ ]]; then
-		box_sub "$service"
+		#box_sub "$service"
+		box_sub "$name"
 		service_toggle "$(echo "${service_boot_toggle##*:}" | cut -d';' -f1 | sed -E 's/^[[:space:]]+//')" "$value"
 		#service=$(echo "${service_boot_toggle##*:}" | cut -d';' -f1 | sed -E 's/^[[:space:]]+//')
 		#printf '%s\n' "$service" #temp
@@ -336,6 +360,43 @@ for service_boot_toggle in "${service_boot_toggle___[@]}"; do
 		#sp $name_string "${type[@]: -1}" "${name_app[@]}"
 	fi
 done
+
+
+box_part "adding usersrights to groups"
+declare -a adding_usersrights___=(
+	"qemu: $SUDO_USER	libvirt kvm"
+	#"qemu: cola	libvirt kvm" #temp
+	"docker:  $SUDO_USER	docker"
+	#"docker:  cola	docker" #temp
+)
+text__user_added_to_group() {
+	printf '%s\n' "added '$1' to '$2'"
+}
+text__user_added_to_group__error() {
+	error "faild to add '$1' to '$2'"
+}
+for adding_usersrights in "${adding_usersrights___[@]}"; do
+	name="${adding_usersrights%%:*}"
+	if [[ "$(var_val App_Install__$name)" == "1" ]]; then
+		box_sub "$name"
+		user=$(echo "$adding_usersrights" | awk '{print $2}')
+		#printf '%s\n' "$user" #temp
+		groups=$(echo "$adding_usersrights" | awk '{for(i=3;i<=NF;i++) printf "%s ", $i; print ""}')
+	#	printf '%s\n' "$groups" #temp
+		for group in $groups; do
+			if id -nG "$user" >/dev/null 2>&1 | grep -qw "$name"; then
+				printf '%s\n' "$user is already in $group"
+			else
+				if command -v usermod > /dev/null; then
+					sudo usermod -aG "$group" "$user" && echo text__user_added_to_group "$user" "$group" || text__user_added_to_group__error "$user" "$group"
+					#echo "$group" #temp
+				fi
+				restart=1
+			fi
+		done
+	fi
+done
+
 
 #if [[ "$app_service_startup__rustdesk" =~ ^(0|1)$ ]]; then
 	#box_sub "rustdesk"
@@ -406,7 +467,7 @@ if [[ -n "$XDG_CURRENT_DESKTOP" ]]; then
 fi
 
 box_part "Updating default program"
-if command -v xdg-open; then
+if command -v xdg-open > /dev/null; then
 	default_app () {
 		if [[ "$1" == $(ls /usr/share/applications/ | grep -i $1) ]] && ! [[ "$1" == $(xdg-mime query default "$2") ]]; then
 			xdg-mime default "$1" "$2"

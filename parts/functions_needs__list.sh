@@ -11,6 +11,8 @@ declare -a required=(
 	"function__service_toggle:	error"
 	"function__ssh_key:	ssh_agt"
 	#2
+	"function__box_betwean:	box"
+	"function__box_part:	box"
 	"function__box_sub:	box"
 	"function__update_row:	error"
 )

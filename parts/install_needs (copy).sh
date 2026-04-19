@@ -1,9 +1,7 @@
 source <(curl -s -L $TheSuperGiant_Arch_repo_uri__parts/install_need.sh)
 
-declare -a install_needs+=(
+declare -a install_needs=(
 	"App_Install__keepass:	xdotool"
-	"App_Install__minecraft:	openjdk_jre"
-	"App_Install__minecraft_server:	openjdk_jre"
 	"App_Install__notepadPlusPlus:	wine winetricks"
 	#"App_Install__winboat:	docker flatpak"
 	"script_main:	git"

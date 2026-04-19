@@ -1,0 +1,1604 @@
+{
+	"apps": {
+		"flatpak": {
+			"category": "",
+			"default-manager": "default",
+			"wine": null,
+			"pacman": "flatpak",
+			"aur": "flatpak",
+			"apt": "flatpak",
+			"flatpak": null,	
+			"additional_code_run": {
+				"enabled": true,
+				"command": [
+					"flatpak",
+					"remote-add",
+					"--if-not-exists",
+					"flathub",
+					"https://flathub.org/repo/flathub.flatpakrepo"
+				]
+			}
+		},
+		"7_zip": {
+			"category": "",
+			"default-manager": "default",
+			"wine": null,
+			"pacman": "7zip",
+			"aur": "7zip",
+			"apt": "p7zip-full",
+			"flatpak": "na",
+			"additional_code_run": {
+				"enabled": false
+			}
+		},
+		"adwaita_theme": {
+			"category": "",
+			"default-manager": "default",
+			"wine": null,
+			"pacman": "adwaita-icon-theme",
+			"aur": "adwaita-icon-theme",
+			"apt": "adwaita-icon-theme",
+			"flatpak": "org.kde.KStyle.Adwaita",
+			"additional_code_run": {
+				"enabled": false
+			}
+		},
+		"anydesk": {
+			"category": "",
+			"default-manager": "default",
+			"wine": null,
+			"pacman": "na",
+			"aur": "anydesk-bin",
+			"apt": "na",
+			"flatpak": "com.anydesk.Anydesk",
+			"additional_code_run": {
+				"enabled": false
+			}
+		},
+		"audacity": {
+			"category": "",
+			"default-manager": "default",
+			"wine": null,
+			"pacman": "audacity",
+			"aur": "audacity",
+			"apt": "audacity",
+			"flatpak": "org.audacityteam.Audacity",
+			"additional_code_run": {
+				"enabled": false
+			}
+		},
+		"backup_tool": {
+			"category": "",
+			"default-manager": "",
+			"wine": null,
+			"pacman": "na",
+			"aur": "na",
+			"apt": "mintbackup",
+			"flatpak": "na",
+			"additional_code_run": {
+				"enabled": false
+			}
+		},
+		"biglybt": {
+			"category": "",
+			"default-manager": "",
+			"wine": null,
+			"pacman": "na",
+			"aur": "biglybt",
+			"apt": "biglybt",
+			"flatpak": "com.biglybt.BiglyBT",
+			"additional_code_run": {
+				"enabled": false
+			}
+		},
+		"bleachbit": {
+			"category": "",
+			"default-manager": "default",
+			"wine": null,
+			"pacman": "bleachbit",
+			"aur": "bleachbit",
+			"apt": "bleachbit",
+			"flatpak": "org.bleachbit.BleachBit",
+			"additional_code_run": {
+				"enabled": false
+			}
+		},
+		"bluetooth": {
+			"category": "",
+			"default-manager": "default",
+			"wine": null,
+			"pacman": ["bluez", "bluez-utils", "blueman"],
+			"aur": ["bluez", "bluez-utils", "blueman"],
+			"apt": ["blueman", "bluetooth", "bluez", "bluez-tools", "linux-firmware", "pipewire", "pipewire-pulse", "pipewire-audio-client-libraries", "libspa-0.2-bluetooth"],
+			"flatpak": "na",
+			"additional_code_run": {
+				"enabled": false
+			}
+		},
+		"brave": {
+			"category": "browser",
+			"default-manager": "default",
+			"wine": null,
+			"pacman": "na",
+			"aur": "brave-bin",
+			"apt": "brave-browser",
+			"flatpak": "com.brave.Browser",
+			"additional_code_run": {
+				"enabled": false
+			}
+		},
+		"bulky": {
+			"category": "browser",
+			"default-manager": "default",
+			"wine": null,
+			"pacman": "bulky",
+			"aur": "bulky",
+			"apt": "bulky",
+			"flatpak": "na",
+			"additional_code_run": {
+				"enabled": false
+			}
+		},
+		"btop": {
+			"category": "",
+			"default-manager": "default",
+			"wine": null,
+			"pacman": "btop",
+			"aur": "btop",
+			"apt": "btop",
+			"flatpak": null,
+			"additional_code_run": {
+				"enabled": false
+			}
+		},
+		"calibre": {
+			"category": "",
+			"default-manager": "default",
+			"wine": null,
+			"pacman": "calibre",
+			"aur": "calibre",
+			"apt": "calibre",
+			"flatpak": "com.calibre_ebook.calibre",
+			"additional_code_run": {
+				"enabled": false
+			}
+		},
+		"celluloid": {
+			"category": "",
+			"default-manager": "default",
+			"wine": null,
+			"pacman": "celluloid",
+			"aur": "celluloid",
+			"apt": "celluloid",
+			"flatpak": "io.github.celluloid_player.Celluloid",
+			"additional_code_run": {
+				"enabled": false
+			}
+		},
+		"discord": {
+			"category": "",
+			"default-manager": "flatpak",
+			"wine": null,
+			"pacman": "discord",
+			"aur": "discord",
+			"apt": "na",
+			"flatpak": "com.discordapp.Discord",
+			"additional_code_run": {
+				"enabled": false
+			}
+		},
+		"disk_usage_analyzer": {
+			"category": "",
+			"default-manager": "default",
+			"wine": null,
+			"pacman": "baobab",
+			"aur": "baobab",
+			"apt": "baobab",
+			"flatpak": null,
+			"additional_code_run": {
+				"enabled": false
+			}
+		},
+		"disks": {
+			"category": "",
+			"default-manager": "default",
+			"wine": null,
+			"pacman": "gnome-disk-utility",
+			"aur": "gnome-disk-utility",
+			"apt": "gnome-disk-utility",
+			"flatpak": null,
+			"additional_code_run": {
+				"enabled": false
+			}
+		},
+		"docker": {
+			"category": "",
+			"default-manager": "default",
+			"wine": null,
+			"pacman": "docker",
+			"aur": "docker",
+			"apt": "docker-ce docker-ce-cli containerd.io docker-compose-plugin",
+			"flatpak": null,
+			"additional_code_run": {
+				"enabled": false
+			}
+		},
+		"drawing": {
+			"category": "",
+			"default-manager": "default",
+			"wine": null,
+			"pacman": "drawing",
+			"aur": "drawing",
+			"apt": "drawing",
+			"flatpak": "com.github.maoschanz.drawing",
+			"additional_code_run": {
+				"enabled": false
+			}
+		},
+		"dropbox": {
+			"category": "",
+			"default-manager": "default",
+			"wine": null,
+			"pacman": "na",
+			"aur": "dropbox",
+			"apt": "dropbox",
+			"flatpak": "com.dropbox.Client",
+			"additional_code_run": {
+				"enabled": false
+			}
+		},
+		"element": {
+			"category": "",
+			"default-manager": "default",
+			"wine": null,
+			"pacman": "element-desktop",
+			"aur": "element-desktop",
+			"apt": "element-desktop",
+			"flatpak": "im.riot.Riot",
+			"additional_code_run": {
+				"enabled": false
+			}
+		},
+		"eye_of_gnome": {
+			"category": "",
+			"default-manager": "default",
+			"wine": null,
+			"pacman": "eog",
+			"aur": "eog",
+			"apt": "eog",
+			"flatpak": "org.gnome.eog",
+			"additional_code_run": {
+				"enabled": false
+			}
+		},
+		"fail2ban": {
+			"category": "",
+			"default-manager": "default",
+			"wine": null,
+			"pacman": "fail2ban",
+			"aur": "fail2ban",
+			"apt": "fail2ban",
+			"flatpak": null,
+			"additional_code_run": {
+				"enabled": false
+			}
+		},
+		"filezilla": {
+			"category": "",
+			"default-manager": "default",
+			"wine": null,
+			"pacman": "filezilla",
+			"aur": "filezilla",
+			"apt": "filezilla",
+			"flatpak": "org.filezillaproject.Filezilla",
+			"additional_code_run": {
+				"enabled": false
+			}
+		},
+		"fingerprints": {
+			"category": "",
+			"default-manager": "default",
+			"wine": null,
+			"pacman": "na",
+			"aur": "fingwit",
+			"apt": "fingwit",
+			"flatpak": null,
+			"additional_code_run": {
+				"enabled": false
+			}
+		},
+		"firefox": {
+			"category": "browser",
+			"default-manager": "default",
+			"wine": null,
+			"pacman": "firefox",
+			"aur": "firefox",
+			"apt": "firefox",
+			"flatpak": "org.mozilla.firefox",
+			"additional_code_run": {
+				"enabled": false
+			}
+		},
+		"flameshot": {
+			"category": "",
+			"default-manager": "default",
+			"wine": null,
+			"pacman": "flameshot",
+			"aur": "flameshot",
+			"apt": "flameshot",
+			"flatpak": "org.flameshot.Flameshot",
+			"additional_code_run": {
+				"enabled": false
+			}
+		},
+		"font_dejavu": {
+			"category": "",
+			"default-manager": "default",
+			"wine": null,
+			"pacman": "ttf-dejavu",
+			"aur": "ttf-dejavu",
+			"apt": "fonts-dejavu",
+			"flatpak": null,
+			"additional_code_run": {
+				"enabled": false
+			}
+		},
+		"gawk": {
+			"category": "",
+			"default-manager": "default",
+			"wine": null,
+			"pacman": "gawk",
+			"aur": "gawk",
+			"apt": "gawk",
+			"flatpak": null,
+			"additional_code_run": {
+				"enabled": false
+			}
+		},
+		"git": {
+			"category": "",
+			"default-manager": "default",
+			"wine": null,
+			"pacman": "git",
+			"aur": "git",
+			"apt": "git",
+			"flatpak": null,
+			"additional_code_run": {
+				"enabled": false
+			}
+		},
+		"gimp": {
+			"category": "",
+			"default-manager": "default",
+			"wine": null,
+			"pacman": "gimp",
+			"aur": "gimp",
+			"apt": "gimp",
+			"flatpak": "org.gimp.GIMP",
+			"additional_code_run": {
+				"enabled": false
+			}
+		},
+		"gnome_calculator": {
+			"category": "",
+			"default-manager": "default",
+			"wine": null,
+			"pacman": "gnome-calculator",
+			"aur": "gnome-calculator",
+			"apt": "gnome-calculator",
+			"flatpak": "org.gnome.Calculator",
+			"additional_code_run": {
+				"enabled": false
+			}
+		},
+		"gnome_calendar": {
+			"category": "",
+			"default-manager": "default",
+			"wine": null,
+			"pacman": "gnome-calendar",
+			"aur": "gnome-calendar",
+			"apt": "gnome-calendar",
+			"flatpak": "org.gnome.Calendar",
+			"additional_code_run": {
+				"enabled": false
+			}
+		},
+		"gnome_power_manager": {
+			"category": "",
+			"default-manager": "default",
+			"wine": null,
+			"pacman": "gnome-power-manager",
+			"aur": "gnome-power-manager",
+			"apt": "gnome-power-manager",
+			"flatpak": null,
+			"additional_code_run": {
+				"enabled": false
+			}
+		},
+		"gnome_screenshot": {
+			"category": "",
+			"default-manager": "default",
+			"wine": null,
+			"pacman": "gnome-screenshot",
+			"aur": "gnome-screenshot",
+			"apt": "gnome-screenshot",
+			"flatpak": "na",
+			"additional_code_run": {
+				"enabled": false
+			}
+		},
+		"gnome_system_monitor": {
+			"category": "",
+			"default-manager": "default",
+			"wine": null,
+			"pacman": "gnome-system-monitor",
+			"aur": "gnome-system-monitor",
+			"apt": "gnome-system-monitor",
+			"flatpak": null,
+			"additional_code_run": {
+				"enabled": false
+			}
+		},
+		"gnome_terminal": {
+			"category": "",
+			"default-manager": "default",
+			"wine": null,
+			"pacman": "gnome-terminal",
+			"aur": "gnome-terminal",
+			"apt": "gnome-terminal",
+			"flatpak": null,
+			"additional_code_run": {
+				"enabled": false
+			}
+		},
+		"google_chrome": {
+			"category": "browser",
+			"default-manager": "flatpak",
+			"wine": null,
+			"pacman": "na",
+			"aur": "google-chrome",
+			"apt": "google-chrome",
+			"flatpak": "com.google.Chrome",
+			"additional_code_run": {
+				"enabled": false
+			}
+		},
+		"gramps": {
+			"category": "image_viewer",
+			"default-manager": "default",
+			"wine": null,
+			"pacman": "gramps",
+			"aur": "gramps",
+			"apt": "gramps",
+			"flatpak": "org.gramps_project.Gramps",
+			"additional_code_run": {
+				"enabled": false
+			}
+		},
+		"grayjay": {
+			"category": "image_viewer",
+			"default-manager": "default",
+			"wine": null,
+			"pacman": "na",
+			"aur": "grayjay",
+			"apt": "na",
+			"flatpak": "app.grayjay.Grayjay",
+			"additional_code_run": {
+				"enabled": false
+			}
+		},
+		"gthumb": {
+			"category": "image_viewer",
+			"default-manager": "default",
+			"wine": null,
+			"pacman": "gthumb",
+			"aur": "gthumb",
+			"apt": "gthumb",
+			"flatpak": "org.gnome.gThumb",
+			"additional_code_run": {
+				"enabled": false
+			}
+		},
+		"handbrake": {
+			"category": "",
+			"default-manager": "default",
+			"wine": null,
+			"pacman": "handbrake",
+			"aur": "handbrake",
+			"apt": "handbrake",
+			"flatpak": "fr.handbrake.ghb",
+			"additional_code_run": {
+				"enabled": false
+			}
+		},
+		"heroic_launcher": {
+			"category": "",
+			"default-manager": "default",
+			"wine": null,
+			"pacman": "na",
+			"aur": "heroic-games-launcher-bin",
+			"apt": "na",
+			"flatpak": "com.heroicgameslauncher.hgl",
+			"additional_code_run": {
+				"enabled": false
+			}
+		},
+		"hp_printer": {
+			"category": "",
+			"default-manager": "default",
+			"wine": null,
+			"pacman": ["hplip", "cups"],
+			"aur": ["hplip", "cups"],
+			"apt": ["hplip", "cups"],
+			"flatpak": null,
+			"additional_code_run": {
+				"enabled": true,
+				"command": {
+					"service_boot_toggle__cups": 1
+				}
+			}
+		},
+		"hypnotix": {
+			"category": "",
+			"default-manager": "default",
+			"wine": null,
+			"pacman": "hypnotix",
+			"aur": "hypnotix",
+			"apt": "hypnotix",
+			"flatpak": "na",
+			"additional_code_run": {
+				"enabled": false
+			}
+		},
+		"image_viewer": {
+			"category": "image_viewer",
+			"default-manager": "default",
+			"wine": null,
+			"pacman": "xviewer",
+			"aur": "xviewer",
+			"apt": "xviewer",
+			"flatpak": "na",
+			"additional_code_run": {
+				"enabled": false
+			}
+		},
+		"imagemagick": {
+			"category": "",
+			"default-manager": "default",
+			"wine": null,
+			"pacman": "imagemagick",
+			"aur": "imagemagick",
+			"apt": "imagemagick",
+			"flatpak": "na",
+			"additional_code_run": {
+				"enabled": false
+			}
+		},
+		"jitsi_meet": {
+			"category": "",
+			"default-manager": "default",
+			"wine": null,
+			"pacman": "na",
+			"aur": "jitsi-meet-desktop-bin",
+			"apt": "na",
+			"flatpak": "org.jitsi.jitsi-meet",
+			"additional_code_run": {
+				"enabled": false
+			}
+		},
+		"jq": {
+			"category": "",
+			"default-manager": "default",
+			"wine": null,
+			"pacman": "jq",
+			"aur": "jq",
+			"apt": "jq",
+			"flatpak": null,
+			"additional_code_run": {
+				"enabled": false
+			}
+		},
+		"kcalc": {
+			"category": "caclulator",
+			"default-manager": "default",
+			"wine": null,
+			"pacman": "kcalc",
+			"aur": "kcalc",
+			"apt": "kcalc",
+			"flatpak": "org.kde.kcalc",
+			"additional_code_run": {
+				"enabled": false
+			}
+		},
+		"keepass": {
+			"category": "password_manager",
+			"default-manager": "default",
+			"wine": null,
+			"pacman": "keepass",
+			"aur": "keepass",
+			"apt": "keepass2",
+			"flatpak": "na",
+			"additional_code_run": {
+				"enabled": false
+			}
+		},
+		"keepassxc": {
+			"category": "password_manager",
+			"default-manager": "default",
+			"wine": null,
+			"pacman": "keepassxc",
+			"aur": "keepassxc",
+			"apt": "keepassxc",
+			"flatpak": "org.keepassxc.KeePassXC",
+			"additional_code_run": {
+				"enabled": false
+			}
+		},
+		"kleopatra": {
+			"category": "",
+			"default-manager": "default",
+			"wine": null,
+			"pacman": "kleopatra",
+			"aur": "kleopatra",
+			"apt": "kleopatra",
+			"flatpak": "org.kde.kleopatra",
+			"additional_code_run": {
+				"enabled": false
+			}
+		},
+		"krita": {
+			"category": "",
+			"default-manager": "default",
+			"wine": null,
+			"pacman": "krita",
+			"aur": "krita",
+			"apt": "krita",
+			"flatpak": "org.kde.krita",
+			"additional_code_run": {
+				"enabled": false
+			}
+		},
+		"leafpad": {
+			"category": "",
+			"default-manager": "default",
+			"wine": null,
+			"pacman": "na",
+			"aur": "leafpad",
+			"apt": "na",
+			"flatpak": "na",
+			"additional_code_run": {
+				"enabled": false
+			}
+		},
+		"libreoffice": {
+			"category": "",
+			"default-manager": "default",
+			"wine": null,
+			"pacman": "libreoffice",
+			"aur": "libreoffice",
+			"apt": "libreoffice",
+			"flatpak": "org.libreoffice.LibreOffice",
+			"additional_code_run": {
+				"enabled": false
+			}
+		},
+		"librewolf": {
+			"category": "",
+			"default-manager": "default",
+			"wine": null,
+			"pacman": "na",
+			"aur": "librewolf-bin",
+			"apt": "librewolf",
+			"flatpak": "io.gitlab.librewolf-community",
+			"additional_code_run": {
+				"enabled": false
+			}
+		},
+		"losslesscut": {
+			"category": "",
+			"default-manager": "default",
+			"wine": null,
+			"pacman": "na",
+			"aur": "losslesscut",
+			"apt": "na",
+			"flatpak": "no.mifi.losslesscut",
+			"additional_code_run": {
+				"enabled": false
+			}
+		},
+		"makemkv": {
+			"category": "",
+			"default-manager": "default",
+			"wine": null,
+			"pacman": "na",
+			"aur": "makemkv",
+			"apt": "na",
+			"flatpak": "com.makemkv.MakeMKV",
+			"additional_code_run": {
+				"enabled": false
+			}
+		},
+		"megasync": {
+			"category": "",
+			"default-manager": "default",
+			"wine": null,
+			"pacman": "na",
+			"aur": "megasync-bin",
+			"apt": "megasync",
+			"flatpak": "na",
+			"additional_code_run": {
+				"enabled": false
+			}
+		},
+		"mintchat": {
+			"category": "",
+			"default-manager": "default",
+			"wine": null,
+			"pacman": "na",
+			"aur":  "na",
+			"apt": "mintchat",
+			"flatpak": "na",
+			"additional_code_run": {
+				"enabled": false
+			}
+		},
+		"mousepad": {
+			"category": "",
+			"default-manager": "default",
+			"wine": null,
+			"pacman": "mousepad",
+			"aur":  "mousepad",
+			"apt": "mousepad",
+			"flatpak": "org.xfce.mousepad",
+			"additional_code_run": {
+				"enabled": false
+			}
+		},
+		"mpv_Media_player": {
+			"category": "video_player",
+			"default-manager": "default",
+			"wine": null,
+			"pacman": "mpv",
+			"aur":  "mpv",
+			"apt": "mpv",
+			"flatpak": "io.mpv.Mpv",
+			"additional_code_run": {
+				"enabled": false
+			}
+		},
+		"mtpaint": {
+			"category": "",
+			"default-manager": "default",
+			"wine": null,
+			"pacman": "mtpaint",
+			"aur":  "mtpaint",
+			"apt": "mtpaint",
+			"flatpak": "na",
+			"additional_code_run": {
+				"enabled": false
+			}
+		},
+		"mullvad_browser": {
+			"category": "browser",
+			"default-manager": "default",
+			"wine": null,
+			"pacman": "na",
+			"aur":  "mullvad-browser-bin",
+			"apt": "mullvad-browser",
+			"flatpak": "net.mullvad.MullvadBrowser",
+			"additional_code_run": {
+				"enabled": false
+			}
+		},
+		"mullvad_vpn": {
+			"category": "vpn",
+			"default-manager": "default",
+			"wine": null,
+			"pacman": "mullvad-vpn",
+			"aur":  "mullvad-vpn",
+			"apt": "mullvad-vpn",
+			"flatpak": null,
+			"additional_code_run": {
+				"enabled": false
+			}
+		},
+		"mypaint": {
+			"category": "",
+			"default-manager": "default",
+			"wine": null,
+			"pacman": "mypaint",
+			"aur":  "mypaint",
+			"apt": "mypaint",
+			"flatpak": "org.mypaint.MyPaint",
+			"additional_code_run": {
+				"enabled": false
+			}
+		},
+		"nautilus": {
+			"category": "file_manager",
+			"default-manager": "default",
+			"wine": null,
+			"pacman": "nautilus",
+			"aur":  "nautilus",
+			"apt": "nautilus",
+			"flatpak": null,
+			"additional_code_run": {
+				"enabled": false
+			}
+		},
+		"ncdu": {
+			"category": "disk_usage_analyzer",
+			"default-manager": "default",
+			"wine": null,
+			"pacman": "ncdu",
+			"aur":  "ncdu",
+			"apt": "ncdu",
+			"flatpak": null,
+			"additional_code_run": {
+				"enabled": false
+			}
+		},
+		"nomacs": {
+			"category": "image_viewer",
+			"default-manager": "default",
+			"wine": null,
+			"pacman": "na",
+			"aur":  "nomacs",
+			"apt": "nomacs",
+			"flatpak": "org.nomacs.ImageLounge",
+			"additional_code_run": {
+				"enabled": false
+			}
+		},
+		"notepadminusminus": {
+			"category": "",
+			"default-manager": "default",
+			"wine": null,
+			"pacman": "na",
+			"aur":  "notepad--",
+			"apt": "na",
+			"flatpak": "na",
+			"additional_code_run": {
+				"enabled": false
+			}
+		},
+		"notepadnext": {
+			"category": "",
+			"default-manager": "default",
+			"wine": null,
+			"pacman": "na",
+			"aur":  "notepadnext",
+			"apt": "na",
+			"flatpak": "com.github.dail8859.NotepadNext",
+			"additional_code_run": {
+				"enabled": false
+			}
+		},
+		"notepadPlusPlus": {
+			"category": "",
+			"default-manager": "default",
+			"_requires": "wine-stack",
+			"requires": {
+				"arch": null,
+				"debian": "wine-stack"
+			},
+			"_wine": ["wine", "winetricks"],
+			"pacman": "na",
+			"aur":  "notepad++",
+			"apt": "na",
+			"flatpak": "na",
+			"additional_code_run": {
+				"enabled": false
+			}
+		},
+		"notepadqq": {
+			"category": "",
+			"default-manager": "default",
+			"wine": null,
+			"pacman": "na",
+			"aur":  "notepadqq",
+			"apt": "notepadqq",
+			"flatpak": "com.notepadqq.Notepadqq",
+			"additional_code_run": {
+				"enabled": false
+			}
+		},
+		"numlockx": {
+			"category": "",
+			"default-manager": "default",
+			"wine": null,
+			"pacman": "numlockx",
+			"aur":  "numlockx",
+			"apt": "numlockx",
+			"flatpak": null,
+			"additional_code_run": {
+				"enabled": false
+			}
+		},
+		"obs_studio": {
+			"category": "",
+			"default-manager": "default",
+			"wine": null,
+			"pacman": "obs-studio",
+			"aur":  "obs-studio",
+			"apt": "obs-studio",
+			"flatpak": null,
+			"additional_code_run": {
+				"enabled": false
+			}
+		},
+		"onboard": {
+			"category": "",
+			"default-manager": "default",
+			"wine": null,
+			"pacman": "onboard",
+			"aur":  "onboard",
+			"apt": "onboard",
+			"flatpak": null,
+			"additional_code_run": {
+				"enabled": false
+			}
+		},
+		"online_accounts": {
+			"category": "",
+			"default-manager": "default",
+			"wine": null,
+			"pacman": "gnome-online-accounts-gtk",
+			"aur":  "gnome-online-accounts-gtk",
+			"apt": "gnome-online-accounts-gtk",
+			"flatpak": null,
+			"additional_code_run": {
+				"enabled": false
+			}
+		},
+		"opera": {
+			"category": "",
+			"default-manager": "default",
+			"wine": null,
+			"pacman": "na",
+			"aur":  "opera",
+			"apt": "na",
+			"flatpak": "com.opera.Opera",
+			"additional_code_run": {
+				"enabled": false
+			}
+		},
+		"paradox_launcher": {
+			"category": "",
+			"default-manager": "default",
+			"wine": null,
+			"pacman": "na",
+			"aur":  "paradox-launcher",
+			"apt": "na",
+			"flatpak": "na",
+			"additional_code_run": {
+				"enabled": false
+			}
+		},
+		"pcloud": {
+			"category": "",
+			"default-manager": "default",
+			"wine": null,
+			"pacman": "na",
+			"aur":  "pcloud-drive",
+			"apt": "na",
+			"flatpak": "na",
+			"additional_code_run": {
+				"enabled": false
+			}
+		},
+		"peazip": {
+			"category": "",
+			"default-manager": "default",
+			"wine": null,
+			"pacman": "na",
+			"aur":  "peazip",
+			"apt": "na",
+			"flatpak": "io.github.peazip.PeaZip",
+			"additional_code_run": {
+				"enabled": false
+			}
+		},
+		"pidgin": {
+			"category": "",
+			"default-manager": "default",
+			"wine": null,
+			"pacman": "na",
+			"aur":  "pidgin",
+			"apt": "pidgin",
+			"flatpak": "im.pidgin.Pidgin",
+			"additional_code_run": {
+				"enabled": false
+			}
+		},
+		"pinta": {
+			"category": "",
+			"default-manager": "default",
+			"wine": null,
+			"pacman": "na",
+			"aur":  "pinta",
+			"apt": "na",
+			"flatpak": "com.github.PintaProject.Pinta",
+			"additional_code_run": {
+				"enabled": false
+			}
+		},
+		"pix": {
+			"category": "",
+			"default-manager": "default",
+			"wine": null,
+			"pacman": "na",
+			"aur":  "pix",
+			"apt": "pix",
+			"flatpak": "org.kde.pix",
+			"additional_code_run": {
+				"enabled": false
+			}
+		},
+		"proton_vpn": {
+			"category": "",
+			"default-manager": "default",
+			"wine": null,
+			"pacman": "na",
+			"aur":  "proton-vpn-qt-app",
+			"apt": "na",
+			"flatpak": null,
+			"additional_code_run": {
+				"enabled": false
+			}
+		},
+		"qbittorrent": {
+			"category": "",
+			"default-manager": "default",
+			"wine": null,
+			"pacman": "qbittorrent",
+			"aur":  "qbittorrent",
+			"apt": "qbittorrent",
+			"flatpak": "org.qbittorrent.qBittorrent",
+			"additional_code_run": {
+				"enabled": false
+			}
+		},
+		"qemu": {
+			"category": "",
+			"default-manager": "default",
+			"wine": null,
+			"pacman": "qemu-full",
+			"aur":  "qemu-full",
+			"apt": ["qemu-kvm", "qemu-system-x86", "libvirt-daemon-system", "libvirt-clients"],
+			"flatpak": null,
+			"additional_code_run": {
+				"enabled": false
+			}
+		},
+		"rhythmbox": {
+			"category": "",
+			"default-manager": "default",
+			"wine": null,
+			"pacman": "rhythmbox",
+			"aur":  "rhythmbox",
+			"apt": "rhythmbox",
+			"flatpak": "org.gnome.Rhythmbox3",
+			"additional_code_run": {
+				"enabled": false
+			}
+		},
+		"rustdesk": {
+			"category": "",
+			"default-manager": "default",
+			"wine": null,
+			"pacman": "na",
+			"aur":  "rustdesk",
+			"apt": "na",
+			"flatpak": "com.rustdesk.RustDesk",
+			"additional_code_run": {
+				"enabled": false
+			}
+		},
+		"scrcpy": {
+			"category": "",
+			"default-manager": "default",
+			"wine": null,
+			"pacman": "scrcpy",
+			"aur":  "scrcpy",
+			"apt": "scrcpy",
+			"flatpak": "na",
+			"additional_code_run": {
+				"enabled": false
+			}
+		},
+		"seahorse": {
+			"category": "",
+			"default-manager": "default",
+			"wine": null,
+			"pacman": "seahorse",
+			"aur":  "seahorse",
+			"apt": "seahorse",
+			"flatpak": null,
+			"additional_code_run": {
+				"enabled": false
+			}
+		},
+		"session": {
+			"category": "",
+			"default-manager": "default",
+			"wine": null,
+			"pacman": "na",
+			"aur":  "session-desktop-bin",
+			"apt": "na",
+			"flatpak": "network.loki.Session",
+			"additional_code_run": {
+				"enabled": false
+			}
+		},
+		"shutter": {
+			"category": "screenshot",
+			"default-manager": "default",
+			"wine": null,
+			"pacman": "shutter",
+			"aur":  "shutter",
+			"apt": "shutter",
+			"flatpak": "na",
+			"additional_code_run": {
+				"enabled": false
+			}
+		},
+		"signal": {
+			"category": "",
+			"default-manager": "default",
+			"wine": null,
+			"pacman": "signal-desktop",
+			"aur":  "signal-desktop",
+			"apt": "na",
+			"flatpak": "org.signal.Signal",
+			"additional_code_run": {
+				"enabled": false
+			}
+		},
+		"smplayer": {
+			"category": "",
+			"default-manager": "default",
+			"wine": null,
+			"pacman": "smplayer",
+			"aur":  "smplayer",
+			"apt": "smplayer",
+			"flatpak": "info.smplayer.SMPlayer",
+			"additional_code_run": {
+				"enabled": false
+			}
+		},
+		"spectacle": {
+			"category": "screenshot",
+			"default-manager": "default",
+			"wine": null,
+			"pacman": "spectacle",
+			"aur":  "spectacle",
+			"apt": "kde-spectacle",
+			"flatpak": "na",
+			"additional_code_run": {
+				"enabled": false
+			}
+		},
+		"steam": {
+			"category": "",
+			"default-manager": "default",
+			"wine": null,
+			"pacman": "steam",
+			"aur":  "steam",
+			"apt": "steam",
+			"flatpak": "com.valvesoftware.Steam",
+			"additional_code_run": {
+				"enabled": false
+			}
+		},
+		"sticky": {
+			"category": "notes",
+			"default-manager": "default",
+			"wine": null,
+			"pacman": "sticky",
+			"aur":  "sticky",
+			"apt": "sticky",
+			"flatpak": "com.vixalien.sticky",
+			"additional_code_run": {
+				"enabled": false
+			}
+		},
+		"syncthing": {
+			"category": "",
+			"default-manager": "default",
+			"wine": null,
+			"pacman": "syncthing",
+			"aur":  "syncthing",
+			"apt": "syncthing",
+			"flatpak": "na",
+			"additional_code_run": {
+				"enabled": false
+			}
+		},
+		"teamspeak": {
+			"category": "",
+			"default-manager": "default",
+			"wine": null,
+			"pacman": "teamspeak3",
+			"aur":  "teamspeak3",
+			"apt": "na",
+			"flatpak": "com.teamspeak.TeamSpeak3",
+			"additional_code_run": {
+				"enabled": false
+			}
+		},
+		"teamspeak_server": {
+			"category": "",
+			"default-manager": "default",
+			"wine": null,
+			"pacman": "teamspeak3-server",
+			"aur":  "teamspeak3-server",
+			"apt": "na",
+			"flatpak": "na",
+			"additional_code_run": {
+				"enabled": false
+			}
+		},
+		"thorium": {
+			"category": "browser",
+			"default-manager": "default",
+			"wine": null,
+			"pacman": "na",
+			"aur":  "thorium",
+			"apt": "na",
+			"flatpak": "na",
+			"additional_code_run": {
+				"enabled": false
+			}
+		},
+		"thunar": {
+			"category": "file_manager",
+			"default-manager": "default",
+			"wine": null,
+			"pacman": "thunar",
+			"aur":  "thunar",
+			"apt": "thunar",
+			"flatpak": null,
+			"additional_code_run": {
+				"enabled": false
+			}
+		},
+		"thunderbird": {
+			"category": "",
+			"default-manager": "default",
+			"wine": null,
+			"pacman": "thunderbird",
+			"aur":  "thunderbird",
+			"apt": "thunderbird",
+			"flatpak": "org.mozilla.Thunderbird",
+			"additional_code_run": {
+				"enabled": false
+			}
+		},
+		"tigervnc": {
+			"category": "",
+			"default-manager": "default",
+			"wine": null,
+			"pacman": "tigervnc",
+			"aur":  "tigervnc",
+			"apt": "tigervnc-viewer",
+			"flatpak": "org.tigervnc.vncviewer",
+			"additional_code_run": {
+				"enabled": false
+			}
+		},
+		"torbrowser": {
+			"category": "",
+			"default-manager": "default",
+			"wine": null,
+			"pacman": "torbrowser-launcher",
+			"aur":  "torbrowser-launcher",
+			"apt": "torbrowser-launcher",
+			"flatpak": "org.torproject.torbrowser-launcher",
+			"additional_code_run": {
+				"enabled": false
+			}
+		},
+		"transmission": {
+			"category": "",
+			"default-manager": "default",
+			"wine": null,
+			"pacman": "transmission-gtk",
+			"aur":  "transmission-gtk",
+			"apt": "transmission-gtk",
+			"flatpak": "com.transmissionbt.Transmission",
+			"additional_code_run": {
+				"enabled": false
+			}
+		},
+		"ufw": {
+			"category": "firewall",
+			"default-manager": "default",
+			"wine": null,
+			"pacman": "ufw",
+			"aur":  "ufw",
+			"apt": "ufw",
+			"flatpak": null,
+			"additional_code_run": {
+				"enabled": false
+			}
+		},
+		"unison": {
+			"category": "syncing",
+			"default-manager": "default",
+			"wine": null,
+			"pacman": "unison",
+			"aur":  "unison",
+			"apt": "unison",
+			"flatpak": null,
+			"additional_code_run": {
+				"enabled": false
+			}
+		},
+		"vim": {
+			"category": "",
+			"default-manager": "default",
+			"wine": null,
+			"pacman": "vim",
+			"aur":  "vim",
+			"apt": "vim",
+			"flatpak": "org.vim.Vim",
+			"additional_code_run": {
+				"enabled": false
+			}
+		},
+		"virt_viewer": {
+			"category": "",
+			"default-manager": "default",
+			"wine": null,
+			"pacman": "virt-viewer",
+			"aur":  "virt-viewer",
+			"apt": "virt-viewer",
+			"flatpak": null,
+			"additional_code_run": {
+				"enabled": false
+			}
+		},
+		"virtualbox": {
+			"category": "",
+			"default-manager": "default",
+			"wine": null,
+			"pacman": ["virtualbox", "virtualbox-guest-iso"],
+			"aur":  ["virtualbox", "virtualbox-guest-iso"],
+			"apt":  ["virtualbox", "virtualbox-guest-additions-iso"],
+			"flatpak": null,
+			"additional_code_run": {
+				"enabled": false
+			}
+		},
+		"visual_studio_code": {
+			"category": "",
+			"default-manager": "default",
+			"wine": null,
+			"pacman": "na",
+			"aur":  "visual-studio-code-bin",
+			"apt":  "na",
+			"flatpak": "com.visualstudio.code",
+			"additional_code_run": {
+				"enabled": false
+			}
+		},
+		"vivaldi": {
+			"category": "",
+			"default-manager": "default",
+			"wine": null,
+			"pacman": "vivaldi",
+			"aur":  "vivaldi",
+			"apt":  "vivaldi-stable",
+			"flatpak": "com.vivaldi.Vivaldi",
+			"additional_code_run": {
+				"enabled": false
+			}
+		},
+		"vlc": {
+			"category": "",
+			"default-manager": "default",
+			"wine": null,
+			"pacman": "vlc",
+			"aur": "vlc",
+			"apt": "vlc",
+			"flatpak": "org.videolan.VLC",
+			"additional_code_run": {
+				"enabled": false
+			}
+		},
+		"vuze": {
+			"category": "",
+			"default-manager": "default",
+			"wine": null,
+			"pacman": "na",
+			"aur": "vuze",
+			"apt": "vuze",
+			"flatpak": "na",
+			"additional_code_run": {
+				"enabled": false
+			}
+		},
+		"warpinator": {
+			"category": "",
+			"default-manager": "default",
+			"wine": null,
+			"pacman": "warpinator",
+			"aur": "warpinator",
+			"apt": "warpinator",
+			"flatpak": "org.x.Warpinator",
+			"additional_code_run": {
+				"enabled": false
+			}
+		},
+		"waterfox": {
+			"category": "",
+			"default-manager": "default",
+			"wine": null,
+			"pacman": "na",
+			"aur": "waterfox-bin",
+			"apt": "na",
+			"flatpak": "net.waterfox.waterfox",
+			"additional_code_run": {
+				"enabled": false
+			}
+		},
+		"waydroid": {
+			"category": "",
+			"default-manager": "default",
+			"wine": null,
+			"pacman": "",
+			"aur": "",
+			"apt": ["waydroid", "weston", "curl", "ca-certificates", "lxc", "lxc-utils", "python3-lxc"],
+			"flatpak": null,
+			"additional_code_run": {
+				"enabled": false
+			}
+		},
+		"web_apps": {
+			"category": "",
+			"default-manager": "default",
+			"wine": null,
+			"pacman": "webapp-manager",
+			"aur": "webapp-manager",
+			"apt": "webapp-manager",
+			"flatpak": null,
+			"additional_code_run": {
+				"enabled": false
+			}
+		},
+		"winboat": {
+			"category": "",
+			"default-manager": "default",
+			"wine": null,
+			"pacman": "na",
+			"aur": "winboat-bin",
+			"apt": "na",
+			"flatpak": null,
+			"additional_code_run": {
+				"enabled": false
+			}
+		},
+		"wire": {
+			"category": "",
+			"default-manager": "default",
+			"wine": null,
+			"pacman": "na",
+			"aur": "wire",
+			"apt": "na",
+			"flatpak": "com.wire.WireDesktop",
+			"additional_code_run": {
+				"enabled": false
+			}
+		},
+		"xdotool": {
+			"category": "",
+			"default-manager": "default",
+			"wine": null,
+			"pacman": "xdotool",
+			"aur": "xdotool",
+			"apt": "xdotool",
+			"flatpak": null,
+			"additional_code_run": {
+				"enabled": false
+			}
+		},
+		"xed": {
+			"category": "",
+			"default-manager": "default",
+			"wine": null,
+			"pacman": "xed",
+			"aur": "xed",
+			"apt": "xed",
+			"flatpak": "na",
+			"additional_code_run": {
+				"enabled": false
+			}
+		},
+		"xreader": {
+			"category": "",
+			"default-manager": "default",
+			"wine": null,
+			"pacman": "xreader",
+			"aur": "xreader",
+			"apt": "xreader",
+			"flatpak": "na",
+			"additional_code_run": {
+				"enabled": false
+			}
+		}
+	},
+	"games": {
+		"dungeon_keeper": {
+			"requires": "wine-stack"
+		},
+		"dungeon_keeperfx": {
+			"requires": "wine-stack"
+		},
+		"kam": {
+			"requires": "wine-stack"
+		},
+		"kam_remake": {
+			"requires": "wine-stack"
+		},
+		"minecraft_launcher": {
+			"category": "",
+			"default-manager": "default",
+			"wine": null,
+			"pacman": "na",
+			"aur":  "minecraft-launcher",
+			"apt": "na",
+			"flatpak": "com.mojang.Minecraft",
+			"additional_code_run": {
+				"enabled": false
+			}
+		},
+		"minecraft_server": {
+			"category": "",
+			"default-manager": "default",
+			"wine": null,
+			"pacman": "na",
+			"aur":  "minecraft-launcher",
+			"apt": "na",
+			"flatpak": "com.mojang.Minecraft",
+			"additional_code_run": {
+			}
+		}
+	},
+	"wine-stack": {
+		"wine": {
+			"category": "",
+			"default-manager": "specific",
+			"wine": null,
+			"pacman": "wine",
+			"aur": "wine",
+			"apt": "wine",
+			"flatpak": "org.winehq.Wine",
+			"additional_code_run": {
+				"enabled": false
+			}
+		},
+		"winetricks": {
+			"category": "",
+			"default-manager": "specific",
+			"wine": null,
+			"pacman": "winetricks",
+			"aur": "winetricks",
+			"apt": "winetricks",
+			"flatpak": "na",
+			"additional_code_run": {
+				"enabled": false
+			}
+		}
+	},
+	"wine-game": {
+		"vulkan-dxvk": {
+			"default-manager": "specific",
+			"pacman": "",
+			"aur": "",
+			"apt": "",
+			"flatpak": "",
+			"requires": "wine-stack"
+		}
+	}
+}

@@ -1,7 +1,14 @@
 exec > >(tee -a 2.sh.log) 2>&1
 
+##tools needed
+#jq curl sed awk
+##maby
+#perl
+
 TheSuperGiant_Arch_repo_uri="https://raw.githubusercontent.com/TheSuperGiant/Arch/refs/heads/main"
 TheSuperGiant_Arch_repo_uri__parts="$TheSuperGiant_Arch_repo_uri/parts"
+
+interface_name=$(ip route | awk '/^default/ {print $5}')
 
 #sudo without password
 #source <(curl -s -L https://raw.githubusercontent.com/TheSuperGiant/Arch/refs/heads/main/parts/without_password_startup.sh)
@@ -22,16 +29,22 @@ if [[ "$distro_family" == "debian" ]]; then
 	function_sh_mint=$(curl -s -L "https://raw.githubusercontent.com/TheSuperGiant/Linux-Mint/refs/heads/main/functions.sh")
 	#local if internet isnt availble
 fi
-for function in "$function_sh" "$function_sh_mint"; do
-	while IFS= read -r line; do
-		if [[ "$line" == alias* ]]; then
-			alias=$(echo "$line" | cut -d' ' -f2 | cut -d'=' -f1)
-			unalias -a "$alias"
-		fi
-	done < <(echo "$function")
-	source <(echo "$function" | sed -E '/^alias / s/\\"/"/g' | sed -E 's/^alias ([^=]+)=["](.*)["]$/\1() {\n  \2\n}/')
+while ! command -v sud >/dev/null 2>&1; do
+	for function in "$function_sh" "$function_sh_mint"; do
+		while IFS= read -r line; do
+			if [[ "$line" == alias* ]]; then
+				alias=$(echo "$line" | cut -d' ' -f2 | cut -d'=' -f1)
+				unalias -a "$alias"
+			fi
+		done < <(echo "$function")
+		source <(echo "$function" | sed -E '/^alias / s/\\"/"/g' | sed -E 's/^alias ([^=]+)=["](.*)["]$/\1() {\n  \2\n}/')
+	done
 done
 
+
+#later maby ever linutil of christitus ever needed
+
+sud
 
 #ram
 while IFS=' ' read -r key value unit; do
