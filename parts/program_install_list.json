@@ -1553,7 +1553,7 @@
 				"enabled": false
 			},
 			"additional_packages": {
-				"enabled": true
+				"enabled": true,
 				"java": "jre-openjdk"
 			}
 		},
@@ -1569,7 +1569,7 @@
 				"enabled": false
 			},
 			"additional_packages": {
-				"enabled": true
+				"enabled": true,
 				"arch": {
 					"java": "jre-openjdk"
 				},
@@ -1577,9 +1577,18 @@
 					"java": "jre-openjdk-headless"
 				}
 			}
+		},
+		"tropico_5": {
+			"requires": "wine-stack",
+			"optional_packages": {
+				"enabled": true,
+				"gog": {
+					"network": "heroic_launcher"
+				}
+			}
 		}
 	},
-	"wine-stack": {
+	"wine_stack": {
 		"wine": {
 			"category": "",
 			"default-manager": "specific",
